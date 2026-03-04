@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Begin Your Plan — Matthew Pindoley, SE-AWMA®</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#faf8f4;
+  --cream2:#f4f0e8;
+  --cream3:#ede8dd;
+  --ink:#0c0b09;
+  --ink2:#1a1813;
+  --bronze:#9a7c52;
+  --bronze2:#b8966a;
+  --gold:#c8a46a;
+  --gold2:#ddb878;
+  --dim:rgba(12,11,9,.36);
+  --dimmer:rgba(12,11,9,.16);
+  --border:rgba(154,124,82,.14);
+  --border2:rgba(154,124,82,.26);
+  --ff:'Cormorant Garamond',Georgia,serif;
+  --fb:'DM Sans',system-ui,sans-serif;
+  --e1:cubic-bezier(.16,1,.3,1);
+  --e2:cubic-bezier(.22,.9,.25,1);
+  --e3:cubic-bezier(.34,1.56,.64,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;overflow-x:hidden}
+body{font-family:var(--fb);background:var(--cream);color:var(--ink);
+  -webkit-font-smoothing:antialiased;cursor:none;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+/* ── GRAIN ─────────────────────────────────────── */
+#grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.015;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;animation:grn .07s steps(1) infinite}
+@keyframes grn{0%{transform:translate(0,0)}25%{transform:translate(-5%,-3%)}50%{transform:translate(4%,5%)}75%{transform:translate(-2%,3%)}100%{transform:translate(0,0)}}
+
+/* ── CURSOR ────────────────────────────────────── */
+#cur{position:fixed;top:0;left:0;width:5px;height:5px;border-radius:50%;
+  background:var(--bronze);pointer-events:none;z-index:10000;
+  transform:translate(-50%,-50%);
+  transition:width .28s var(--e1),height .28s var(--e1),opacity .18s}
+#cur-r{position:fixed;top:0;left:0;width:32px;height:32px;border-radius:50%;
+  border:1px solid rgba(154,124,82,.38);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .38s var(--e1),height .38s var(--e1),border-color .28s}
+body.hov #cur{width:44px;height:44px;opacity:.06}
+body.hov #cur-r{width:64px;height:64px;border-color:var(--bronze)}
+body.pressing #cur{width:16px;height:16px}
+@media(pointer:coarse){#cur,#cur-r{display:none}body{cursor:auto}
+  a,button,input,select,textarea{cursor:pointer}}
+
+/* ══════════════════════════════════════════════════
+   NAV — 3-col grid so links sit truly centered
+   ══════════════════════════════════════════════════ */
+#nav{position:fixed;top:0;left:0;right:0;z-index:800;
+  display:grid;grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  padding:2rem 5rem;
+  transition:padding .45s var(--e2),background .4s,border-color .4s;
+  border-bottom:1px solid transparent}
+#nav.stk{padding:1rem 5rem;
+  background:rgba(250,248,244,.94);
+  backdrop-filter:blur(18px);
+  border-bottom-color:rgba(154,124,82,.1)}
+
+/* Logo — left col */
+.nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;
+  letter-spacing:.06em;line-height:1.3;color:var(--ink);
+  justify-self:start;transition:opacity .25s}
+.nav-logo:hover{opacity:.7}
+.nav-logo b{color:var(--bronze2);font-weight:400;font-style:italic}
+
+/* Center links */
+.nav-center{display:flex;align-items:center;gap:3.5rem;list-style:none}
+.nav-center a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:500;color:rgba(12,11,9,.36);
+  position:relative;transition:color .25s}
+.nav-center a::after{content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--bronze);transition:width .38s var(--e1)}
+.nav-center a:hover{color:var(--ink)}
+.nav-center a:hover::after{width:100%}
+.nav-center a.active{color:var(--bronze2)}
+.nav-center a.active::after{width:100%;background:var(--bronze)}
+
+/* Right spacer — keeps center truly centered */
+.nav-spacer{justify-self:end}
+
+/* hamburger */
+.hbg{display:none;flex-direction:column;gap:5px;
+  cursor:none;padding:6px;background:none;border:none}
+.hbg i{display:block;width:22px;height:1px;background:var(--ink);transition:all .3s}
+
+/* MOBILE DRAWER */
+#mob{position:fixed;inset:0;z-index:850;background:var(--cream2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4rem;
+  clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .7s var(--e1)}
+#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+#mob .mob-link{font-family:var(--ff);font-size:clamp(3rem,10vw,6rem);
+  font-weight:300;color:var(--ink);letter-spacing:-.02em;transition:color .2s}
+#mob .mob-link:hover{color:var(--bronze2)}
+#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
+  cursor:none;font-family:var(--ff);font-size:2rem;color:var(--dim);transition:color .2s}
+#mob-x:hover{color:var(--ink)}
+
+/* ══════════════════════════════════════════════════
+   ORBITAL ARC SYSTEM — light mode: bronze on cream
+   ══════════════════════════════════════════════════ */
+#orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+
+#orb-glow{position:absolute;
+  bottom:-24vw;left:-14vw;
+  width:68vw;height:68vw;border-radius:50%;
+  background:radial-gradient(ellipse at center,
+    rgba(154,124,82,.07) 0%,
+    rgba(154,124,82,.025) 40%,
+    transparent 68%);
+  animation:breathe 9s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+
+#arc-main{position:absolute;bottom:-32vw;left:-22vw;
+  width:94vw;height:94vw;border-radius:50%;
+  border:1px solid rgba(154,124,82,.13);
+  animation:slowspin 180s linear infinite}
+#arc-2{position:absolute;bottom:-46vw;left:-38vw;
+  width:124vw;height:124vw;border-radius:50%;
+  border:1px solid rgba(154,124,82,.06);
+  animation:slowspin 260s linear infinite reverse}
+#arc-3{position:absolute;bottom:-19vw;left:-9vw;
+  width:56vw;height:56vw;border-radius:50%;
+  border:1px dashed rgba(154,124,82,.08);
+  animation:slowspin 110s linear infinite}
+#arc-4{position:absolute;bottom:-62vw;left:-54vw;
+  width:164vw;height:164vw;border-radius:50%;
+  border:1px solid rgba(154,124,82,.03);
+  animation:slowspin 350s linear infinite}
+@keyframes slowspin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+.cdot{position:absolute;border-radius:50%;background:rgba(154,124,82,.2)}
+
+#diag::before{content:'';position:fixed;
+  top:-60%;left:52%;width:1px;height:220%;
+  background:linear-gradient(to bottom,
+    transparent,
+    rgba(154,124,82,.06) 28%,
+    rgba(154,124,82,.09) 50%,
+    rgba(154,124,82,.06) 72%,
+    transparent);
+  transform:rotate(-6deg);pointer-events:none}
+
+/* ══════════════════════════════════════════════════
+   LAYOUT
+   ══════════════════════════════════════════════════ */
+#wrap{position:relative;z-index:1;min-height:100svh;
+  display:grid;grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr auto}
+
+/* Vertical seam */
+#wrap::before{content:'';position:absolute;top:0;left:50%;bottom:0;
+  width:1px;
+  background:linear-gradient(to bottom,
+    transparent 0%,
+    rgba(154,124,82,.14) 12%,
+    rgba(154,124,82,.2) 50%,
+    rgba(154,124,82,.14) 88%,
+    transparent 100%);
+  z-index:2;pointer-events:none}
+
+/* ── LEFT ──────────────────────────────────────── */
+#left{grid-column:1;grid-row:1;
+  padding:clamp(6rem,12vh,10rem) 5vw clamp(4rem,8vh,6rem) 5rem;
+  display:flex;flex-direction:column;justify-content:space-between;
+  position:relative;overflow:hidden}
+
+/* Ghost "Hello." — very faint bronze on cream */
+.ghost{position:absolute;bottom:-4rem;left:-2rem;
+  font-family:var(--ff);font-weight:300;
+  font-size:clamp(14rem,28vw,36rem);
+  line-height:.85;letter-spacing:-.08em;
+  color:rgba(154,124,82,.055);
+  pointer-events:none;user-select:none;
+  white-space:nowrap;will-change:transform}
+
+.left-top{position:relative;z-index:1}
+
+.eyebrow{font-size:.54rem;letter-spacing:.3em;text-transform:uppercase;
+  font-weight:600;color:rgba(154,124,82,.6);
+  display:inline-flex;align-items:center;gap:1rem;
+  margin-bottom:2.5rem;
+  opacity:0;animation:fadeUp .7s var(--e1) .6s forwards}
+.eyebrow::before{content:'';width:28px;height:1px;background:rgba(154,124,82,.5)}
+
+.headline{font-family:var(--ff);font-weight:300;
+  font-size:clamp(5rem,10vw,12.5rem);line-height:.8;letter-spacing:-.065em;
+  color:var(--ink)}
+.headline .row{display:block;overflow:hidden}
+.headline .row .word{display:block;
+  opacity:0;transform:translateY(105%);
+  animation:slideUp .95s var(--e1) forwards}
+.headline .row:nth-child(1) .word{animation-delay:.7s}
+.headline .row:nth-child(2) .word{animation-delay:.88s}
+.headline .row:nth-child(3) .word{animation-delay:1.06s}
+.headline em{font-style:italic;color:var(--bronze2)}
+@keyframes slideUp{to{opacity:1;transform:translateY(0)}}
+
+.subline{margin-top:3.5rem;font-size:.88rem;line-height:1.95;
+  color:rgba(12,11,9,.38);font-weight:300;max-width:34ch;
+  border-top:1px solid rgba(154,124,82,.12);padding-top:2.2rem;
+  opacity:0;animation:fadeUp .8s var(--e1) 1.6s forwards}
+.subline strong{color:rgba(12,11,9,.72);font-weight:400}
+
+.left-bottom{position:relative;z-index:1;
+  opacity:0;animation:fadeUp .7s var(--e1) 1.9s forwards}
+.threads{display:flex;gap:0;
+  border-top:1px solid rgba(154,124,82,.1);padding-top:2rem}
+.thread{flex:1;padding-right:2rem}
+.thread-label{font-size:.48rem;letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(154,124,82,.55);font-weight:600;margin-bottom:.55rem}
+.thread-value{font-family:var(--ff);font-size:.95rem;font-weight:300;
+  color:rgba(12,11,9,.6);letter-spacing:-.01em;line-height:1.45;
+  transition:color .22s}
+a.thread-value:hover{color:var(--bronze2)}
+.thread-sub{font-size:.62rem;color:rgba(12,11,9,.28);
+  font-family:var(--fb);margin-top:.2rem;font-weight:300}
+
+/* ── RIGHT ─────────────────────────────────────── */
+#right{grid-column:2;grid-row:1;
+  padding:clamp(6rem,12vh,10rem) 5rem clamp(4rem,8vh,6rem) 5vw;
+  display:flex;flex-direction:column;justify-content:center;
+  background:var(--cream2);position:relative}
+
+#form-wrap{opacity:0;animation:fadeUp .85s var(--e1) .9s forwards}
+
+.form-title{font-family:var(--ff);font-size:clamp(1.6rem,2.8vw,2.8rem);
+  font-weight:300;color:rgba(12,11,9,.45);letter-spacing:-.03em;
+  margin-bottom:3rem;line-height:1.1}
+.form-title em{font-style:italic;color:var(--bronze)}
+
+/* Fields */
+.field{margin-bottom:2.2rem;position:relative}
+.field-pair{display:grid;grid-template-columns:1fr 1fr;gap:0 3rem}
+.field-label{display:block;font-size:.48rem;letter-spacing:.24em;
+  text-transform:uppercase;font-weight:600;
+  color:rgba(12,11,9,.22);margin-bottom:.65rem;
+  transition:color .28s}
+.field:focus-within .field-label{color:var(--bronze)}
+.fi{width:100%;background:none;border:none;
+  border-bottom:1px solid rgba(12,11,9,.1);
+  padding:.5rem 0;
+  font-family:var(--ff);font-size:1.05rem;font-weight:300;
+  color:var(--ink);outline:none;
+  transition:border-color .3s;
+  border-radius:0;-webkit-appearance:none}
+.fi::placeholder{color:rgba(12,11,9,.18);font-style:italic}
+.fi:focus{border-bottom-color:rgba(154,124,82,.35)}
+.fi-line{position:absolute;bottom:0;left:0;
+  height:1px;width:0;background:var(--bronze);
+  transition:width .55s var(--e1)}
+.fi:focus ~ .fi-line{width:100%}
+select.fi{cursor:none}
+select.fi option{background:var(--cream2);color:var(--ink)}
+textarea.fi{resize:none;height:80px;line-height:1.75}
+
+.submit-row{display:flex;align-items:center;justify-content:space-between;
+  gap:2rem;margin-top:2.8rem;flex-wrap:wrap}
+.submit-btn{display:inline-flex;align-items:center;gap:.75rem;
+  background:none;border:none;cursor:none;
+  font-family:var(--fb);font-size:.62rem;font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:rgba(154,124,82,.7);
+  padding:0;position:relative;transition:color .3s}
+.submit-btn:hover{color:var(--bronze)}
+.submit-btn-line{position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--bronze);
+  transition:width .4s var(--e1)}
+.submit-btn:hover .submit-btn-line{width:100%}
+.submit-btn svg{width:18px;height:18px;transition:transform .35s var(--e1)}
+.submit-btn:hover svg{transform:translateX(5px)}
+.submit-note{font-size:.65rem;color:rgba(12,11,9,.22);
+  line-height:1.7;max-width:24ch;text-align:right}
+
+/* SUCCESS */
+#success{display:none;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .8s var(--e1),transform .8s var(--e1)}
+#success.visible{opacity:1;transform:translateY(0)}
+.check-ring{width:52px;height:52px;border-radius:50%;
+  border:1px solid rgba(154,124,82,.3);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:2.8rem;
+  animation:ringIn .7s var(--e3)}
+@keyframes ringIn{from{transform:scale(0) rotate(-30deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.check-ring svg{width:18px;height:18px;color:var(--bronze)}
+.success-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3rem,5vw,6rem);line-height:.82;letter-spacing:-.06em;
+  color:var(--ink);margin-bottom:2rem}
+.success-h em{font-style:italic;color:var(--bronze2)}
+.success-p{font-size:.88rem;line-height:1.95;
+  color:rgba(12,11,9,.38);font-weight:300;max-width:36ch}
+.success-p strong{color:rgba(12,11,9,.68);font-weight:400}
+.success-thread{display:flex;align-items:center;gap:.85rem;
+  margin-top:2.8rem;padding-top:2.5rem;
+  border-top:1px solid rgba(154,124,82,.12);
+  font-size:.68rem;color:rgba(12,11,9,.28);letter-spacing:.06em}
+.s-dot{width:5px;height:5px;border-radius:50%;
+  background:rgba(154,124,82,.45);flex-shrink:0}
+
+/* ── TRUST STRIP ───────────────────────────────── */
+#trust{grid-column:1/-1;grid-row:2;
+  position:relative;z-index:1;
+  display:flex;
+  border-top:1px solid rgba(154,124,82,.1);
+  background:var(--cream2)}
+.trust-item{flex:1;padding:2.4rem 3.2rem;
+  border-right:1px solid rgba(154,124,82,.08);
+  display:flex;align-items:center;gap:1.5rem;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .8s var(--e1),transform .8s var(--e1)}
+.trust-item.vis{opacity:1;transform:translateY(0)}
+.trust-item:last-child{border-right:none}
+.trust-n{font-family:var(--ff);font-size:clamp(1.4rem,2.2vw,2.2rem);
+  font-weight:300;color:rgba(12,11,9,.72);
+  letter-spacing:-.04em;line-height:1;white-space:nowrap}
+.trust-n em{font-style:italic;color:var(--bronze2)}
+.trust-divider{width:1px;height:26px;
+  background:rgba(154,124,82,.18);flex-shrink:0}
+.trust-label{font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(12,11,9,.28);font-weight:600;line-height:1.55;max-width:16ch}
+
+/* ── FOOTER ────────────────────────────────────── */
+footer{position:relative;z-index:1;
+  border-top:1px solid rgba(154,124,82,.08);
+  background:var(--cream3);
+  padding:2rem 5rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.ft-logo-sm{font-family:var(--ff);font-size:.82rem;font-weight:300;
+  color:rgba(12,11,9,.28)}
+.ft-logo-sm b{color:rgba(154,124,82,.55);font-style:italic;font-weight:400}
+.ft-links-sm{display:flex;gap:2.5rem}
+.ft-links-sm a{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:500;color:rgba(12,11,9,.22);transition:color .2s}
+.ft-links-sm a:hover{color:var(--ink)}
+.ft-disc-sm{font-size:.58rem;color:rgba(12,11,9,.18);
+  max-width:54ch;text-align:right;line-height:1.6}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── RESPONSIVE ─────────────────────────────────── */
+@media(max-width:1100px){
+  #nav,#nav.stk{padding-left:2.5rem;padding-right:2.5rem}
+  #wrap{grid-template-columns:1fr;grid-template-rows:auto auto auto}
+  #wrap::before{display:none}
+  #left{grid-column:1;grid-row:1;padding:7rem 2.5rem 4rem;overflow:visible}
+  #right{grid-column:1;grid-row:2;padding:4rem 2.5rem 5rem}
+  #trust{grid-column:1;grid-row:3;flex-wrap:wrap}
+  .trust-item{flex:1 0 40%;border-bottom:1px solid rgba(154,124,82,.07)}
+  footer{padding:2rem 2.5rem}
+  .ft-disc-sm{text-align:left;max-width:none}
+}
+@media(max-width:768px){
+  .nav-center,.nav-spacer{display:none}.hbg{display:flex}
+  .field-pair{grid-template-columns:1fr}
+  .trust-item{flex:1 0 100%}
+  footer{flex-direction:column;align-items:flex-start;gap:1rem}
+  .ft-disc-sm{text-align:left;max-width:none}
+}
+</style>
+</head>
+<body>
+<div id="grain"></div>
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- ORBITALS -->
+<div id="orbs" aria-hidden="true">
+  <div id="orb-glow"></div>
+  <div id="arc-main"></div>
+  <div id="arc-2"></div>
+  <div id="arc-3"></div>
+  <div id="arc-4"></div>
+  <div id="diag"></div>
+</div>
+
+<!-- ═══ NAV ═══════════════════════════════════════ -->
+<nav id="nav">
+  <a href="index_new.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
+
+  <ul class="nav-center">
+    <li><a href="index_new.html">Home</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+
+  <div class="nav-spacer">
+    <button class="hbg" id="hbg" aria-label="Menu"><i></i><i></i><i></i></button>
+  </div>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div id="mob">
+  <button id="mob-x">✕</button>
+  <a href="index_new.html" class="mob-link">Home</a>
+  <a href="contact.html" class="mob-link">Contact</a>
+</div>
+
+<!-- ═══ MAIN ════════════════════════════════════════ -->
+<div id="wrap">
+
+  <!-- LEFT: INVITATION -->
+  <div id="left">
+    <div class="ghost" id="ghost" aria-hidden="true">Hello.</div>
+
+    <div class="left-top">
+      <div class="eyebrow">The White Glove Experience</div>
+      <h1 class="headline">
+        <span class="row"><span class="word">Let's</span></span>
+        <span class="row"><span class="word">begin</span></span>
+        <span class="row"><span class="word"><em>together.</em></span></span>
+      </h1>
+      <p class="subline">
+        Every extraordinary financial life starts with
+        <strong>a single conversation.</strong>
+        There's no pitch here — no pressure, no agenda.
+        Just an honest discussion about where you are,
+        where you want to go, and whether I'm the right
+        person to help you get there.
+      </p>
+    </div>
+
+    <div class="left-bottom">
+      <div class="threads">
+        <div class="thread">
+          <div class="thread-label">Phone</div>
+          <a href="tel:4198871002" class="thread-value">(419) 887-1002
+            <div class="thread-sub">Direct line</div>
+          </a>
+        </div>
+        <div class="thread">
+          <div class="thread-label">Email</div>
+          <a href="mailto:mpindoley@yourfirm.com" class="thread-value">mpindoley@<br>yourfirm.com
+            <div class="thread-sub">Response within hours</div>
+          </a>
+        </div>
+        <div class="thread">
+          <div class="thread-label">Office</div>
+          <div class="thread-value">Maumee, OH
+            <div class="thread-sub">1340 Arrowhead Dr.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div id="right">
+    <div id="form-wrap">
+      <h2 class="form-title">Begin the<br><em>conversation.</em></h2>
+      <form id="contact-form" novalidate>
+        <div class="field-pair">
+          <div class="field">
+            <label class="field-label" for="f-first">First Name</label>
+            <input class="fi" id="f-first" type="text" placeholder="Your first name" autocomplete="given-name" required>
+            <div class="fi-line"></div>
+          </div>
+          <div class="field">
+            <label class="field-label" for="f-last">Last Name</label>
+            <input class="fi" id="f-last" type="text" placeholder="Your last name" autocomplete="family-name">
+            <div class="fi-line"></div>
+          </div>
+        </div>
+        <div class="field-pair">
+          <div class="field">
+            <label class="field-label" for="f-email">Email Address</label>
+            <input class="fi" id="f-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+            <div class="fi-line"></div>
+          </div>
+          <div class="field">
+            <label class="field-label" for="f-phone">Phone
+              <span style="opacity:.38;font-style:italic;text-transform:none;letter-spacing:0;font-size:.9em">(optional)</span>
+            </label>
+            <input class="fi" id="f-phone" type="tel" placeholder="(000) 000-0000" autocomplete="tel">
+            <div class="fi-line"></div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="f-topic">What brings you here?</label>
+          <select class="fi" id="f-topic" required>
+            <option value="" disabled selected>Select what's most relevant…</option>
+            <option value="retirement">Retirement Planning</option>
+            <option value="investment">Investment Management</option>
+            <option value="estate">Estate &amp; Legacy Planning</option>
+            <option value="tax">Tax Strategy</option>
+            <option value="insurance">Insurance Review</option>
+            <option value="lifestyle">Lifestyle &amp; Spending Plan</option>
+            <option value="general">General Inquiry / Not Sure Yet</option>
+          </select>
+          <div class="fi-line"></div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="f-message">Tell me a little about where you are</label>
+          <textarea class="fi" id="f-message"
+            placeholder="A few lines about your situation and what you're hoping to achieve…"
+            rows="4"></textarea>
+          <div class="fi-line"></div>
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="submit-btn">
+            <span>Send Your Message</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 10h12M10 4l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="submit-btn-line"></div>
+          </button>
+          <p class="submit-note">I respond personally to every message — typically same business day.</p>
+        </div>
+      </form>
+    </div>
+
+    <!-- SUCCESS -->
+    <div id="success">
+      <div class="check-ring">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="success-h">Message<br><em>received.</em></h2>
+      <p class="success-p">
+        Thank you for reaching out. I've personally received your message
+        and will be in touch <strong>within one business day</strong> —
+        usually much sooner.<br><br>
+        In the meantime, feel free to explore the resource library or
+        call me directly if it's more convenient.
+      </p>
+      <div class="success-thread">
+        <div class="s-dot"></div>
+        <a href="tel:4198871002"
+          style="transition:color .2s"
+          onmouseenter="this.style.color='var(--bronze2)'"
+          onmouseleave="this.style.color=''">
+          (419) 887-1002 &nbsp;&middot;&nbsp; Direct Line
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRUST STRIP -->
+  <div id="trust">
+    <div class="trust-item">
+      <div class="trust-n">SE&#8209;<em>AWMA®</em></div>
+      <div class="trust-divider"></div>
+      <div class="trust-label">Senior Exec. Accredited Wealth Mgmt. Advisor</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-n"><em>Same Day</em></div>
+      <div class="trust-divider"></div>
+      <div class="trust-label">Response to Every Personal Inquiry</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-n">100<em>%</em></div>
+      <div class="trust-divider"></div>
+      <div class="trust-label">Personalized — No Templates, No Scripts</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-n"><em>One</em></div>
+      <div class="trust-divider"></div>
+      <div class="trust-label">Dedicated Advisor From Day One to Legacy</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-logo-sm">Matthew Pindoley &nbsp;<b>SE-AWMA®</b></div>
+  <div class="ft-links-sm">
+    <a href="index_new.html">Home</a>
+    <a href="resources.html">Resources</a>
+    <a href="service.html">Services</a>
+    <a href="about-firm.html">About</a>
+  </div>
+  <p class="ft-disc-sm">Investment advisory services. Not a guarantee of future results. © 2025 Matthew Pindoley Financial Advisory.</p>
+</footer>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
+let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function loop(){
+  rx+=(mx-rx)*.09;ry+=(my-ry)*.09;
+  curR.style.left=rx+'px';curR.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,input,select,textarea').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+document.addEventListener('mousedown',()=>document.body.classList.add('pressing'));
+document.addEventListener('mouseup',()=>document.body.classList.remove('pressing'));
+
+/* NAV */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('stk',scrollY>50),{passive:true});
+
+/* MOBILE */
+document.getElementById('hbg').addEventListener('click',()=>
+  document.getElementById('mob').classList.add('open'));
+document.getElementById('mob-x').addEventListener('click',()=>
+  document.getElementById('mob').classList.remove('open'));
+
+/* GHOST PARALLAX */
+const ghost=document.getElementById('ghost');
+let tX=0,tY=0,cX=0,cY=0;
+window.addEventListener('mousemove',e=>{
+  tX=(e.clientX/window.innerWidth-.5)*20;
+  tY=(e.clientY/window.innerHeight-.5)*10;
+},{passive:true});
+(function glide(){
+  cX+=(tX-cX)*.05;cY+=(tY-cY)*.05;
+  if(ghost)ghost.style.transform=`translate(${cX}px,${cY}px)`;
+  requestAnimationFrame(glide);
+})();
+
+/* CONSTELLATION DOTS */
+(()=>{
+  const orbs=document.getElementById('orbs');
+  [[28,62,2.5,.18],[58,45,1.5,.15],[68,80,2,.13],[15,22,1,.11],
+   [82,18,1.5,.12],[42,88,1,.09],[92,55,2,.15],[35,8,1.5,.1],
+   [76,38,1,.1],[12,72,2,.14]].forEach(([x,y,s,o])=>{
+    const d=document.createElement('div');
+    d.className='cdot';
+    d.style.cssText=`left:${x}%;top:${y}%;width:${s}px;height:${s}px;opacity:${o}`;
+    orbs.appendChild(d);
+  });
+})();
+
+/* TRUST REVEAL */
+const trustItems=document.querySelectorAll('.trust-item');
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const i=Array.from(trustItems).indexOf(e.target);
+      setTimeout(()=>e.target.classList.add('vis'),i*100);
+      ro.unobserve(e.target);
+    }
+  });
+},{threshold:.15});
+trustItems.forEach(el=>ro.observe(el));
+
+/* FORM */
+document.getElementById('contact-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  const first=document.getElementById('f-first').value.trim();
+  const email=document.getElementById('f-email').value.trim();
+  const topic=document.getElementById('f-topic').value;
+  if(!first){pulse('f-first');return}
+  if(!email||!email.includes('@')){pulse('f-email');return}
+  if(!topic){pulse('f-topic');return}
+  const fw=document.getElementById('form-wrap');
+  fw.style.transition='opacity .5s ease,transform .5s ease';
+  fw.style.opacity='0';fw.style.transform='translateY(-10px)';
+  setTimeout(()=>{
+    fw.style.display='none';
+    const s=document.getElementById('success');
+    s.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.add('visible')));
+  },520);
+});
+
+function pulse(id){
+  const el=document.getElementById(id);
+  el.style.borderBottomColor='rgba(200,70,50,.45)';
+  let t=0;const sh=[5,-5,4,-3,2,-1,0];
+  const go=()=>{
+    if(t>=sh.length){el.style.transform='';return}
+    el.style.transform=`translateX(${sh[t++]}px)`;
+    setTimeout(go,52);
+  };
+  go();
+  setTimeout(()=>el.style.borderBottomColor='',1400);
+  el.focus();
+}
+</script>
+</body>
+</html>

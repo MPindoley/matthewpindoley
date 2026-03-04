@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Matthew Pindoley, SE-AWMA® — Wealth Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#09090c;--ink2:#111318;--ink3:#191c24;
+  --paper:#f2ece0;
+  --gold:#c8a46a;--gold2:#ddb878;--gold3:rgba(200,164,106,.12);
+  --muted:rgba(242,236,224,.38);--border:rgba(200,164,106,.15);--border2:rgba(200,164,106,.28);
+  --ff:'Cormorant Garamond',Georgia,serif;
+  --fb:'DM Sans',system-ui,sans-serif;
+  --e1:cubic-bezier(.16,1,.3,1);--e2:cubic-bezier(.22,.9,.25,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;overflow-x:hidden}
+body{font-family:var(--fb);background:var(--ink);color:var(--paper);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;cursor:none}
+a{color:inherit;text-decoration:none}
+
+/* GRAIN */
+#grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px;animation:grn .08s steps(1) infinite}
+@keyframes grn{0%{transform:translate(0,0)}20%{transform:translate(-4%,-3%)}40%{transform:translate(3%,5%)}60%{transform:translate(-2%,2%)}80%{transform:translate(5%,-4%)}100%{transform:translate(0,0)}}
+
+/* CURSOR */
+#cur{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;
+  background:var(--gold);pointer-events:none;z-index:10000;
+  transform:translate(-50%,-50%);mix-blend-mode:difference;
+  transition:width .3s var(--e1),height .3s var(--e1)}
+#cur-r{position:fixed;top:0;left:0;width:42px;height:42px;border-radius:50%;
+  border:1px solid rgba(200,164,106,.45);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .35s var(--e1),height .35s var(--e1),border-color .25s,opacity .25s}
+#cur-lbl{position:fixed;top:0;left:0;pointer-events:none;z-index:10001;
+  transform:translate(-50%,-50%) translateY(32px);
+  font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;opacity:0;
+  transition:opacity .2s;white-space:nowrap;font-family:var(--fb)}
+body.hov #cur{width:64px;height:64px;opacity:.12}
+body.hov #cur-r{width:84px;height:84px;border-color:var(--gold);opacity:.35}
+body.hov #cur-lbl{opacity:1}
+body.pressing #cur{width:28px;height:28px}
+
+/* LOADER */
+#ld{position:fixed;inset:0;z-index:9997;background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center}
+#ld.out{clip-path:polygon(0 0,100% 0,100% 0,0 0);
+  transition:clip-path .95s var(--e1)}
+.ld-label{font-family:var(--fb);font-size:.68rem;letter-spacing:.24em;
+  text-transform:uppercase;color:rgba(242,236,224,.28);margin-bottom:4rem;font-weight:500}
+.ld-pct{font-family:var(--ff);font-weight:300;
+  font-size:clamp(7rem,20vw,18rem);color:var(--paper);
+  line-height:1;letter-spacing:-.05em;position:relative}
+.ld-pct sup{font-size:.18em;vertical-align:top;margin-top:.65em;color:var(--gold)}
+.ld-track{width:260px;height:1px;background:var(--border);margin-top:4rem}
+.ld-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0}
+.ld-sub{font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(242,236,224,.22);margin-top:1.2rem;font-weight:500;font-family:var(--fb)}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:2.2rem 4.5rem;
+  transition:padding .45s var(--e2),background .4s,backdrop-filter .4s,border-color .4s;
+  border-bottom:1px solid transparent}
+#nav.stk{padding:1.1rem 4.5rem;background:rgba(9,9,12,.85);
+  backdrop-filter:blur(22px);border-bottom-color:var(--border)}
+.nav-logo{font-family:var(--ff);font-size:1rem;font-weight:300;
+  letter-spacing:.06em;line-height:1.3;color:var(--paper)}
+.nav-logo b{color:var(--gold);font-weight:400;font-style:italic}
+.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
+.nav-links a{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:500;color:var(--muted);position:relative;transition:color .25s}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--gold);transition:width .38s var(--e1)}
+.nav-links a:hover{color:var(--paper)}
+.nav-links a:hover::after{width:100%}
+.nav-btn{display:inline-flex;align-items:center;gap:.6rem;
+  padding:.68rem 1.65rem;border:1px solid var(--border2);border-radius:9999px;
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:600;color:var(--gold);position:relative;overflow:hidden;
+  transition:color .3s,border-color .3s}
+.nav-btn::before{content:'';position:absolute;inset:0;background:var(--gold);
+  transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
+.nav-btn:hover::before{transform:scaleX(1)}
+.nav-btn:hover{color:var(--ink);border-color:var(--gold)}
+.nav-btn span{position:relative;z-index:1}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px}
+.hbg i{display:block;width:22px;height:1px;background:var(--paper);transition:all .3s}
+
+/* MOBILE DRAWER */
+#mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;
+  clip-path:polygon(0 0,100% 0,100% 0,0 0);
+  transition:clip-path .75s var(--e1)}
+#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+#mob a{font-family:var(--ff);font-size:clamp(2.5rem,9vw,5.5rem);font-weight:300;
+  color:var(--paper);letter-spacing:-.02em;transition:color .2s,letter-spacing .35s var(--e1)}
+#mob a:hover{color:var(--gold);letter-spacing:.01em}
+#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
+  cursor:none;font-family:var(--ff);font-size:1.8rem;color:var(--muted);
+  transition:color .2s}
+#mob-x:hover{color:var(--paper)}
+
+/* HERO */
+#hero{min-height:100svh;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:0 4.5rem 6rem;
+  position:relative;overflow:hidden}
+#hero-video{position:absolute;inset:0;z-index:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  opacity:0;transition:opacity 1.8s ease;
+  filter:saturate(0.55) brightness(0.62)}
+#hero-video.loaded{opacity:1}
+.h-video-overlay{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(
+    to bottom,
+    rgba(9,9,12,0.45) 0%,
+    rgba(9,9,12,0.25) 40%,
+    rgba(9,9,12,0.55) 80%,
+    rgba(9,9,12,0.88) 100%
+  )}
+#hc{position:absolute;inset:0;z-index:2;mix-blend-mode:screen;opacity:0.55}
+.h-grid{position:absolute;inset:0;z-index:3;
+  background-image:linear-gradient(rgba(200,164,106,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(200,164,106,.022) 1px,transparent 1px);
+  background-size:88px 88px;
+  mask-image:linear-gradient(to bottom,transparent 0%,black 25%,black 75%,transparent 100%)}
+.h-vig{position:absolute;inset:0;z-index:4;
+  background:radial-gradient(ellipse at 60% 50%,transparent 35%,rgba(9,9,12,.65) 100%)}
+.h-content{position:relative;z-index:5}
+.h-tag{display:inline-flex;align-items:center;gap:.8rem;
+  font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:2.8rem;
+  opacity:0;animation:rUp .9s var(--e1) .5s forwards}
+.h-tag::before{content:'';width:32px;height:1px;background:var(--gold)}
+.h1{font-family:var(--ff);font-weight:300;
+  font-size:clamp(4.5rem,11.5vw,13rem);
+  line-height:.87;letter-spacing:-.04em;color:var(--paper)}
+.h1 .ln{overflow:hidden;display:block}
+.h1 .wd{display:block;transform:translateY(115%);
+  transition:transform 1.1s var(--e1)}
+.h1 .wd.vis{transform:translateY(0)}
+.h1 em{font-style:italic;color:var(--gold2)}
+.h1 .ln:nth-child(2) .wd{transition-delay:.1s}
+.h1 .ln:nth-child(3) .wd{transition-delay:.2s}
+.h1 .ln:nth-child(4) .wd{transition-delay:.3s}
+.h-bot{display:flex;align-items:flex-end;justify-content:space-between;
+  margin-top:5rem;gap:3rem;flex-wrap:wrap;
+  opacity:0;animation:rUp .9s var(--e1) 1.6s forwards}
+.h-desc{font-size:.94rem;line-height:1.75;color:var(--muted);
+  max-width:40ch;font-weight:300}
+.h-desc strong{color:var(--paper);font-weight:500}
+.h-ctas{display:flex;gap:1.1rem;align-items:center;flex-shrink:0}
+.h-scroll{position:absolute;bottom:3.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.65rem;z-index:3;
+  color:var(--muted);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
+  opacity:0;animation:fadeIn .9s ease 2.2s forwards;z-index:5}
+.h-scroll-ring{width:30px;height:30px;border:1px solid var(--border2);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  animation:bob 2.2s ease infinite}
+.h-scroll-ring svg{width:10px;height:10px;color:var(--gold)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:.65rem;
+  border-radius:9999px;font-size:.75rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  transition:transform .2s var(--e1),box-shadow .25s;
+  position:relative;overflow:hidden;cursor:none}
+.btn-gold{padding:.95rem 2.4rem;background:var(--gold);color:var(--ink);border:none}
+.btn-gold:hover{box-shadow:0 24px 55px rgba(200,164,106,.32)}
+.btn-outline{padding:.95rem 2.4rem;background:transparent;color:var(--paper);
+  border:1px solid rgba(242,236,224,.2)}
+.btn-outline:hover{border-color:var(--gold);background:rgba(200,164,106,.07)}
+.btn-outline-dk{padding:.95rem 2.4rem;background:transparent;color:var(--ink);
+  border:1px solid rgba(9,9,12,.18)}
+.btn-outline-dk:hover{border-color:var(--gold);background:rgba(200,164,106,.07)}
+
+/* TICKER */
+.ticker{border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:1rem 0;overflow:hidden;background:var(--ink2)}
+.ticker-t{display:inline-flex;animation:tick 30s linear infinite;white-space:nowrap}
+.ticker-t:hover{animation-play-state:paused}
+.tk{display:inline-flex;align-items:center;gap:2rem;padding:0 2.5rem;
+  font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);font-weight:500}
+.tk-dot{width:3px;height:3px;border-radius:50%;background:var(--gold);flex-shrink:0}
+
+/* STATS */
+#stats{padding:9rem 4.5rem;background:var(--ink2);position:relative;overflow:hidden}
+#stats::before{content:'';position:absolute;left:-15%;top:-20%;
+  width:55%;height:140%;
+  background:radial-gradient(ellipse,rgba(200,164,106,.045) 0%,transparent 65%);
+  pointer-events:none}
+.s-ey{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:5.5rem;
+  display:inline-flex;align-items:center;gap:.85rem}
+.s-ey::before{content:'';width:28px;height:1px;background:var(--gold)}
+.s-row{display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--border);border-radius:2px;overflow:hidden}
+.stat{padding:4.5rem 3.5rem;border-right:1px solid var(--border);
+  position:relative;overflow:hidden;transition:background .4s}
+.stat:last-child{border-right:none}
+.stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .55s var(--e1)}
+.stat:hover{background:rgba(200,164,106,.04)}
+.stat:hover::after{transform:scaleX(1)}
+.stat-i{position:absolute;top:2rem;right:2.5rem;
+  font-family:var(--ff);font-size:.88rem;color:var(--border2);letter-spacing:.05em}
+.stat-n{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3.5rem,6vw,7rem);color:var(--paper);
+  line-height:1;letter-spacing:-.04em;
+  display:flex;align-items:flex-start;gap:.12em;
+  transition:transform .4s var(--e1)}
+.stat:hover .stat-n{transform:scale(1.04)}
+.suf{color:var(--gold);font-size:.62em;margin-top:.15em}
+.pre{color:var(--gold);font-size:.55em;margin-top:.2em}
+.stat-l{margin-top:1.3rem;font-size:.8rem;line-height:1.65;
+  color:var(--muted);font-weight:300;max-width:24ch}
+
+/* ABOUT */
+#about{padding:11rem 4.5rem;background:var(--ink);
+  display:grid;grid-template-columns:1fr 1fr;gap:9rem;align-items:center}
+.ab-ky{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:2.2rem;
+  display:inline-flex;align-items:center;gap:.85rem}
+.ab-ky::before{content:'';width:28px;height:1px;background:var(--gold)}
+.ab-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3rem,5vw,6rem);line-height:1.0;
+  letter-spacing:-.035em;color:var(--paper);margin-bottom:3.5rem}
+.ab-h em{font-style:italic;color:var(--gold2)}
+.ab-p{font-size:.9rem;line-height:1.8;color:var(--muted);
+  font-weight:300;margin-bottom:1.5rem}
+.ab-p strong{color:var(--paper);font-weight:500}
+.ab-creds{list-style:none;margin-top:2.8rem;display:flex;flex-direction:column;gap:.75rem}
+.ab-creds li{display:flex;align-items:center;gap:.9rem;
+  font-size:.78rem;color:var(--muted);letter-spacing:.03em}
+.ab-creds li::before{content:'';width:20px;height:1px;background:var(--gold);flex-shrink:0}
+.ab-vis{position:relative}
+.ab-card{position:relative;aspect-ratio:4/5;border:1px solid var(--border);
+  border-radius:2px;overflow:hidden;background:var(--ink2);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:2.8rem;
+  transition:transform .5s var(--e1),box-shadow .5s}
+.ab-card:hover{box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.ab-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(200,164,106,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(200,164,106,.06) 1px,transparent 1px);
+  background-size:44px 44px}
+.ab-veil{position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(9,9,12,.95) 0%,rgba(9,9,12,.25) 60%,transparent 100%)}
+.ab-info{position:relative;z-index:2}
+.ab-nm{font-family:var(--ff);font-size:2.8rem;font-weight:300;
+  color:var(--paper);letter-spacing:-.025em;line-height:1.1}
+.ab-ttl{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);margin-top:.65rem;font-weight:600}
+.ab-badge{position:absolute;top:2.5rem;right:-2.8rem;
+  background:var(--ink3);border:1px solid var(--border2);
+  border-radius:2px;padding:1.8rem 2.2rem;
+  box-shadow:0 30px 60px rgba(0,0,0,.45);
+  transition:transform .4s var(--e1)}
+.ab-badge:hover{transform:translateY(-5px)}
+.ab-bv{font-family:var(--ff);font-size:2.2rem;font-weight:300;
+  color:var(--paper);line-height:1}
+.ab-bv sup{font-size:.38em;color:var(--gold)}
+.ab-bl{font-size:.63rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);margin-top:.4rem;font-weight:600}
+
+/* SERVICES */
+#services{padding:11rem 4.5rem;background:var(--paper);color:var(--ink)}
+.sv-hd{display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:end;margin-bottom:7rem}
+.sv-ky{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:2rem;
+  display:inline-flex;align-items:center;gap:.85rem}
+.sv-ky::before{content:'';width:28px;height:1px;background:var(--gold)}
+.sv-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3.2rem,6vw,6.5rem);line-height:.93;letter-spacing:-.04em;color:var(--ink)}
+.sv-h em{font-style:italic;color:#7a5a28}
+.sv-sub{max-width:26ch;font-size:.86rem;line-height:1.72;
+  color:rgba(9,9,12,.45);text-align:right;align-self:flex-end}
+/* List & rows */
+.sv-list{border-top:1px solid rgba(9,9,12,.1)}
+.sv-row{display:flex;flex-direction:column;border-bottom:1px solid rgba(9,9,12,.07);
+  cursor:none;position:relative;overflow:visible}
+.sv-row::before{content:'';position:absolute;left:0;top:0;bottom:0;
+  width:2px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;
+  transition:transform .42s var(--e1);z-index:1}
+.sv-row:hover::before,.sv-row.open::before{transform:scaleY(1)}
+/* Row header */
+.sv-row-head{display:grid;grid-template-columns:3.5rem 1fr max-content max-content;
+  align-items:center;gap:2.5rem;padding:2.2rem 0;
+  transition:padding-left .38s var(--e1)}
+.sv-row:hover .sv-row-head,.sv-row.open .sv-row-head{padding-left:1.5rem}
+.sv-num{font-family:var(--ff);font-size:.88rem;color:rgba(9,9,12,.25);font-weight:300}
+.sv-nm{font-family:var(--ff);font-weight:300;
+  font-size:clamp(1.9rem,3.5vw,3.2rem);letter-spacing:-.03em;color:var(--ink);
+  transition:letter-spacing .38s var(--e1),color .25s}
+.sv-row:hover .sv-nm,.sv-row.open .sv-nm{letter-spacing:.005em;color:#5a3c10}
+.sv-tag{font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(9,9,12,.32);font-weight:600;border:1px solid rgba(9,9,12,.12);
+  border-radius:9999px;padding:.28rem .75rem;
+  opacity:0;transform:translateX(-10px);
+  transition:opacity .32s,transform .32s var(--e1)}
+.sv-row:hover .sv-tag,.sv-row.open .sv-tag{opacity:1;transform:translateX(0)}
+.sv-arr{width:48px;height:48px;border-radius:50%;border:1px solid rgba(9,9,12,.14);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:background .28s,border-color .28s,transform .38s var(--e1)}
+.sv-arr svg{width:15px;height:15px;color:var(--ink);transition:color .2s}
+.sv-row:hover .sv-arr,.sv-row.open .sv-arr{background:var(--gold);border-color:var(--gold)}
+.sv-row.open .sv-arr{transform:rotate(45deg)}
+.sv-row:hover .sv-arr{transform:rotate(45deg)}
+.sv-row:hover .sv-arr svg,.sv-row.open .sv-arr svg{color:var(--ink)}
+/* Dropdown panel */
+.sv-panel{overflow:hidden}
+.sv-panel-inner{padding:0 0 3rem 6rem;display:grid;
+  grid-template-columns:1fr 1fr;gap:3.5rem}
+.sv-panel-desc{font-size:.88rem;line-height:1.8;color:rgba(9,9,12,.5);font-weight:300}
+.sv-panel-desc strong{color:var(--ink);font-weight:500}
+.sv-panel-why{border-left:2px solid var(--gold);padding-left:1.6rem}
+.sv-panel-why-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:.65rem}
+.sv-panel-why-text{font-size:.84rem;line-height:1.76;color:rgba(9,9,12,.45);font-weight:300}
+.sv-panel-why-text strong{color:var(--ink);font-weight:500}
+
+/* PROCESS */
+#process{padding:11rem 4.5rem;background:var(--ink3)}
+.pr-hd{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-bottom:7rem;align-items:end}
+.pr-ky{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:2.2rem;
+  display:inline-flex;align-items:center;gap:.85rem}
+.pr-ky::before{content:'';width:28px;height:1px;background:var(--gold)}
+.pr-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.8rem,5vw,5.5rem);line-height:1.0;letter-spacing:-.035em;color:var(--paper)}
+.pr-h em{font-style:italic;color:var(--gold2)}
+.pr-desc{font-size:.88rem;line-height:1.78;color:var(--muted);font-weight:300;align-self:end}
+.pr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);border-radius:2px;overflow:hidden}
+.pr-step{background:var(--ink3);padding:3.5rem 2.5rem;
+  transition:background .38s;position:relative;overflow:hidden}
+.pr-step::after{content:attr(data-n);position:absolute;bottom:-2rem;right:-1rem;
+  font-family:var(--ff);font-size:9rem;font-weight:300;
+  color:rgba(200,164,106,.035);line-height:1;pointer-events:none;letter-spacing:-.05em}
+.pr-step:hover{background:rgba(200,164,106,.045)}
+.pr-sn{font-family:var(--ff);font-size:5rem;font-weight:300;
+  color:rgba(200,164,106,.16);line-height:1;margin-bottom:2.2rem;letter-spacing:-.04em}
+.pr-st{font-family:var(--ff);font-size:1.7rem;font-weight:300;
+  color:var(--paper);margin-bottom:1rem;letter-spacing:-.015em}
+.pr-sb{font-size:.82rem;line-height:1.72;color:var(--muted);font-weight:300}
+
+/* MARQUEE */
+.mq{padding:4.8rem 0;overflow:hidden;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--ink)}
+.mq-t{display:inline-flex;animation:mq 20s linear infinite;white-space:nowrap}
+.mq-t:hover{animation-play-state:paused}
+.mq-i{font-family:var(--ff);font-size:clamp(2.8rem,5.5vw,5.5rem);
+  font-weight:300;letter-spacing:-.025em;padding:0 2.5rem;
+  color:rgba(242,236,224,.07);flex-shrink:0}
+.mq-i.ac{color:var(--gold);opacity:.42;font-style:italic}
+
+/* RESOURCES */
+#resources{padding:11rem 4.5rem;background:var(--ink2)}
+.rs-hd{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:6rem}
+.rs-ky{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:2rem;
+  display:inline-flex;align-items:center;gap:.85rem}
+.rs-ky::before{content:'';width:28px;height:1px;background:var(--gold)}
+.rs-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.8rem,4.5vw,5.2rem);line-height:1.0;letter-spacing:-.035em;color:var(--paper)}
+.rs-h em{font-style:italic;color:var(--gold2)}
+.rs-de{font-size:.88rem;line-height:1.78;color:var(--muted);font-weight:300;align-self:end}
+.rs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);border-radius:2px;overflow:hidden}
+.rs-card{background:var(--ink2);padding:3.2rem 2.8rem;cursor:none;
+  transition:background .38s;position:relative;overflow:hidden}
+.rs-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .5s var(--e1)}
+.rs-card:hover{background:rgba(200,164,106,.05)}
+.rs-card:hover::before{transform:scaleX(1)}
+.rs-ic{width:46px;height:46px;border:1px solid var(--border);border-radius:2px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:2rem;transition:border-color .25s,background .25s}
+.rs-card:hover .rs-ic{border-color:var(--gold);background:var(--gold3)}
+.rs-ic svg{width:18px;height:18px;color:var(--gold)}
+.rs-t{font-family:var(--ff);font-size:1.75rem;font-weight:300;
+  color:var(--paper);margin-bottom:.7rem;letter-spacing:-.015em}
+.rs-b{font-size:.8rem;line-height:1.68;color:var(--muted);font-weight:300;margin-bottom:2.2rem}
+.rs-lk{display:inline-flex;align-items:center;gap:.45rem;
+  font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;transition:gap .28s var(--e1)}
+.rs-card:hover .rs-lk{gap:.85rem}
+.rs-lk svg{width:11px;height:11px}
+
+/* CONTACT */
+#contact{padding:15rem 4.5rem;background:var(--ink);text-align:center;
+  position:relative;overflow:hidden}
+#ct-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  filter:saturate(0.32) brightness(0.42)}
+.ct-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(
+    to bottom,
+    rgba(9,9,12,0.6) 0%,
+    rgba(9,9,12,0.3) 35%,
+    rgba(9,9,12,0.3) 65%,
+    rgba(9,9,12,0.88) 100%
+  )}
+.ct-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%,transparent 38%,rgba(9,9,12,0.68) 100%)}
+#cc{position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:screen;opacity:0.55}
+.ct-i{position:relative;z-index:4}
+.ct-ky{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:2.8rem;
+  display:inline-flex;align-items:center;gap:.85rem}
+.ct-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(4.5rem,11vw,13rem);line-height:.87;letter-spacing:-.05em;
+  color:var(--paper);margin-bottom:4.5rem}
+.ct-h em{font-style:italic;color:var(--gold2)}
+.ct-p{font-size:.95rem;line-height:1.78;color:var(--muted);
+  max-width:44ch;margin:0 auto 4.5rem;font-weight:300}
+.ct-dets{display:flex;justify-content:center;gap:5.5rem;margin-top:5.5rem;flex-wrap:wrap}
+.ct-d{text-align:left}
+.ct-dl{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:.5rem}
+.ct-dv{font-family:var(--ff);font-size:1.35rem;font-weight:300;color:var(--paper)}
+.ct-dv a{transition:color .2s}.ct-dv a:hover{color:var(--gold)}
+
+/* FOOTER */
+footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 4.5rem 3.5rem}
+.ft-top{display:flex;justify-content:space-between;align-items:flex-start;
+  gap:3rem;margin-bottom:4rem;padding-bottom:4rem;border-bottom:1px solid var(--border)}
+.ft-logo{font-family:var(--ff);font-size:1.5rem;font-weight:300;color:var(--paper)}
+.ft-logo b{color:var(--gold);font-weight:400;font-style:italic}
+.ft-tg{font-size:.78rem;color:var(--muted);margin-top:.55rem;max-width:28ch;line-height:1.6}
+.ft-lks{display:flex;gap:5rem}
+.ft-col h4{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.4rem}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.ft-col ul a{font-size:.8rem;color:var(--muted);transition:color .2s}
+.ft-col ul a:hover{color:var(--paper)}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.ft-cp{font-size:.7rem;color:rgba(242,236,224,.2)}
+.ft-di{font-size:.65rem;color:rgba(242,236,224,.17);max-width:55ch;text-align:right;line-height:1.55}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(38px);transition:opacity .95s var(--e1),transform .95s var(--e1)}
+.rv.vis{opacity:1;transform:translateY(0)}
+.rv-l{opacity:0;transform:translateX(-38px);transition:opacity .95s var(--e1),transform .95s var(--e1)}
+.rv-l.vis{opacity:1;transform:translateX(0)}
+.rv-r{opacity:0;transform:translateX(38px);transition:opacity .95s var(--e1),transform .95s var(--e1)}
+.rv-r.vis{opacity:1;transform:translateX(0)}
+.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}
+.d4{transition-delay:.48s}.d5{transition-delay:.6s}
+
+/* KEYFRAMES */
+@keyframes rUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  #nav,#nav.stk{padding-left:2.5rem;padding-right:2.5rem}
+  #hero,#stats,#about,#services,#process,#resources,#contact,footer{padding-left:2.5rem;padding-right:2.5rem}
+  #about{grid-template-columns:1fr;gap:4rem}.ab-badge{display:none}
+  .pr-grid{grid-template-columns:repeat(2,1fr)}
+  .rs-grid{grid-template-columns:repeat(2,1fr)}
+  .s-row{grid-template-columns:1fr}
+  .stat{border-right:none;border-bottom:1px solid var(--border)}.stat:last-child{border-bottom:none}
+  .sv-hd{grid-template-columns:1fr}.sv-sub{text-align:left}
+}
+@media(max-width:768px){
+  .nav-links,.nav-btn{display:none}.hbg{display:flex}
+  .h1{font-size:clamp(3.5rem,14vw,6.5rem)}
+  .h-bot{flex-direction:column;align-items:flex-start}
+  .pr-hd,.rs-hd{grid-template-columns:1fr}
+  .pr-grid,.rs-grid{grid-template-columns:1fr}
+  .sv-panel-inner{grid-template-columns:1fr;padding-left:2.5rem}
+  .ft-top{flex-direction:column}.ft-lks{flex-direction:column;gap:2rem}
+  .ft-bot{flex-direction:column;align-items:flex-start}.ft-di{text-align:left}
+  .ct-dets{flex-direction:column;gap:2rem;align-items:flex-start}
+}
+@media(hover:none){
+  #cur,#cur-r,#cur-lbl{display:none}
+  body{cursor:auto}
+  .sv-row,.rs-card{cursor:pointer}
+}
+</style>
+</head>
+<body>
+
+<div id="grain" aria-hidden="true"></div>
+<div id="cur" aria-hidden="true"></div>
+<div id="cur-r" aria-hidden="true"></div>
+<div id="cur-lbl" aria-hidden="true">VIEW</div>
+
+<!-- LOADER -->
+<div id="ld" role="status">
+  <div class="ld-label">Matthew Pindoley &mdash; SE-AWMA<sup>®</sup></div>
+  <div class="ld-pct" id="ld-pct">0<sup>%</sup></div>
+  <div class="ld-track"><div class="ld-fill" id="ld-fill"></div></div>
+  <div class="ld-sub" id="ld-sub">Loading experience</div>
+</div>
+
+<!-- MOBILE NAV -->
+<nav id="mob">
+  <button id="mob-x" aria-label="Close">✕</button>
+  <a href="#about" class="mob-a">About</a>
+  <a href="#services" class="mob-a">Services</a>
+  <a href="#process" class="mob-a">Process</a>
+  <a href="#resources" class="mob-a">Resources</a>
+  <a href="contact.html" class="mob-a">Contact</a>
+</nav>
+
+<!-- NAV -->
+<header id="nav">
+  <div class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+  <a href="contact.html" class="nav-btn"><span>Book Consultation</span></a>
+  <div class="hbg" id="hbg" role="button" tabindex="0" aria-label="Open menu">
+    <i></i><i></i><i></i>
+  </div>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="hero">
+  <video id="hero-video" autoplay muted loop playsinline preload="auto"
+    aria-hidden="true"
+    oncanplaythrough="this.classList.add('loaded')">
+    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1772661549/mediahero-video_jpjx6a.mp4" type="video/mp4">
+  </video>
+  <div class="h-video-overlay" aria-hidden="true"></div>
+  <canvas id="hc" aria-hidden="true"></canvas>
+  <div class="h-grid" aria-hidden="true"></div>
+  <div class="h-vig" aria-hidden="true"></div>
+  <div class="h-content">
+    <div class="h-tag">Wealth Management Advisor</div>
+    <h1 class="h1" aria-label="From First Steps to Generational Wealth">
+      <span class="ln"><span class="wd">From First</span></span>
+      <span class="ln"><span class="wd">Steps to</span></span>
+      <span class="ln"><span class="wd"><em>Generational</em></span></span>
+      <span class="ln"><span class="wd">Wealth.</span></span>
+    </h1>
+    <div class="h-bot">
+      <p class="h-desc">
+        <strong>Matthew Pindoley, SE-AWMA®</strong> — A fiduciary approach to building,
+        protecting, and transferring wealth across every chapter of your life.
+      </p>
+      <div class="h-ctas">
+        <a href="contact.html" class="btn btn-gold mag">
+          Book a Consultation
+          <svg viewBox="0 0 20 20" fill="none" width="14" height="14" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg>
+        </a>
+        <a href="#services" class="btn btn-outline mag">Explore Services</a>
+      </div>
+    </div>
+  </div>
+  <div class="h-scroll" aria-hidden="true">
+    <div class="h-scroll-ring">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l5 5 5-5"/></svg>
+    </div>
+    Scroll
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-t">
+    <span class="tk"><span class="tk-dot"></span>Retirement Planning</span>
+    <span class="tk"><span class="tk-dot"></span>Wealth Accumulation</span>
+    <span class="tk"><span class="tk-dot"></span>Estate Planning</span>
+    <span class="tk"><span class="tk-dot"></span>Investment Management</span>
+    <span class="tk"><span class="tk-dot"></span>Tax Strategy</span>
+    <span class="tk"><span class="tk-dot"></span>Insurance Planning</span>
+    <span class="tk"><span class="tk-dot"></span>Legacy Building</span>
+    <span class="tk"><span class="tk-dot"></span>SE-AWMA® Certified</span>
+    <span class="tk"><span class="tk-dot"></span>Retirement Planning</span>
+    <span class="tk"><span class="tk-dot"></span>Wealth Accumulation</span>
+    <span class="tk"><span class="tk-dot"></span>Estate Planning</span>
+    <span class="tk"><span class="tk-dot"></span>Investment Management</span>
+    <span class="tk"><span class="tk-dot"></span>Tax Strategy</span>
+    <span class="tk"><span class="tk-dot"></span>Insurance Planning</span>
+    <span class="tk"><span class="tk-dot"></span>Legacy Building</span>
+    <span class="tk"><span class="tk-dot"></span>SE-AWMA® Certified</span>
+  </div>
+</div>
+
+<!-- ═══════════ STATS ═══════════ -->
+<section id="stats">
+  <div class="s-ey rv">By the Numbers</div>
+  <div class="s-row">
+    <div class="stat rv d1">
+      <span class="stat-i">01</span>
+      <div class="stat-n"><span class="counter" data-t="15">0</span><span class="suf">+</span></div>
+      <div class="stat-l">Years dedicated to wealth management and financial planning excellence</div>
+    </div>
+    <div class="stat rv d2">
+      <span class="stat-i">02</span>
+      <div class="stat-n"><span class="counter" data-t="200">0</span><span class="suf">+</span></div>
+      <div class="stat-l">Families and individuals guided toward lasting financial independence</div>
+    </div>
+    <div class="stat rv d3">
+      <span class="stat-i">03</span>
+      <div class="stat-n"><span class="pre">$</span><span class="counter" data-t="500">0</span><span class="suf">M+</span></div>
+      <div class="stat-l">In assets under advisement across diverse client portfolios</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<section id="about">
+  <div class="rv-l">
+    <div class="ab-ky">Who We Are</div>
+    <h2 class="ab-h">Clarity.<br><em>Precision.</em><br>Purpose.</h2>
+    <p class="ab-p">Matthew Pindoley is a <strong>Senior Equity — Accredited Wealth Management Advisor (SE-AWMA®)</strong>, bringing a fiduciary, client-first philosophy to every engagement.</p>
+    <p class="ab-p">Our mission is to bridge the gap between where you are and where you want to be — helping you <strong>accumulate</strong> wealth intelligently, <strong>preserve</strong> it strategically, and <strong>distribute</strong> it as a lasting legacy.</p>
+    <ul class="ab-creds">
+      <li>SE-AWMA® Certified Advisor</li>
+      <li>Fiduciary Standard of Care</li>
+      <li>Holistic, Comprehensive Planning</li>
+      <li>Independent & Conflict-Free</li>
+      <li>Long-Term Relationship Focus</li>
+    </ul>
+  </div>
+  <div class="ab-vis rv-r">
+    <div class="ab-card" id="tilt">
+	  <img src="https://res.cloudinary.com/dfabtxqiy/image/upload/v1772661877/headshot_ztmhku.jpg" alt="Matthew Pindoley" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;">
+      <div class="ab-grid" aria-hidden="true"></div>
+      <div class="ab-veil" aria-hidden="true"></div>
+      <div class="ab-info">
+        <div class="ab-nm">Matthew<br>Pindoley</div>
+        <div class="ab-ttl">SE-AWMA® — Wealth Management Advisor</div>
+      </div>
+    </div>
+    <div class="ab-badge">
+      <div class="ab-bv">SE-AWMA<sup>®</sup></div>
+      <div class="ab-bl">Certified Advisor</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SERVICES ═══════════ -->
+<section id="services">
+  <div class="sv-hd">
+    <div class="rv-l">
+      <div class="sv-ky">Services & Expertise</div>
+      <h2 class="sv-h">Wealth<br><em>Mastered.</em></h2>
+    </div>
+    <p class="sv-sub rv-r">A comprehensive suite of services designed to meet you at every stage of the wealth journey.</p>
+  </div>
+  <div class="sv-list">
+
+    <!-- 01 Financial Planning -->
+    <div class="sv-row rv" tabindex="0" role="button" aria-expanded="false">
+      <div class="sv-row-head">
+        <span class="sv-num">01</span>
+        <span class="sv-nm">Financial Planning</span>
+        <span class="sv-tag">Holistic</span>
+        <div class="sv-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </div>
+      <div class="sv-panel">
+        <div class="sv-panel-inner">
+          <div class="sv-panel-desc">A comprehensive financial plan serves as the foundation for every other decision you make. We map your full financial picture — income, expenses, assets, liabilities, goals, and timeline — into a single, living roadmap that connects every area of your financial life.</div>
+          <div class="sv-panel-why">
+            <div class="sv-panel-why-label">Why It Matters</div>
+            <div class="sv-panel-why-text">Without a coordinated plan, even smart individual decisions can work against each other. <strong>A holistic plan ensures your savings strategy, tax approach, insurance, and investment decisions all point in the same direction</strong> — eliminating blind spots and maximizing the impact of every dollar.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 Wealth Planning -->
+    <div class="sv-row rv d1" tabindex="0" role="button" aria-expanded="false">
+      <div class="sv-row-head">
+        <span class="sv-num">02</span>
+        <span class="sv-nm">Wealth Planning</span>
+        <span class="sv-tag">Accumulation</span>
+        <div class="sv-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </div>
+      <div class="sv-panel">
+        <div class="sv-panel-inner">
+          <div class="sv-panel-desc">Wealth accumulation is not simply about earning more — it's about structuring what you earn to compound efficiently over time. We work with you to identify the right vehicles, contribution strategies, and asset allocation to build wealth in a way that reflects your risk tolerance and time horizon.</div>
+          <div class="sv-panel-why">
+            <div class="sv-panel-why-label">Why It Matters</div>
+            <div class="sv-panel-why-text">Uncoordinated saving and investing leaves significant opportunity on the table. <strong>A deliberate accumulation strategy leverages tax-advantaged accounts, investment efficiency, and compounding</strong> to build substantially more wealth over the same time period compared to ad hoc approaches.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 Retirement Planning -->
+    <div class="sv-row rv d2" tabindex="0" role="button" aria-expanded="false">
+      <div class="sv-row-head">
+        <span class="sv-num">03</span>
+        <span class="sv-nm">Retirement Planning</span>
+        <span class="sv-tag">Income</span>
+        <div class="sv-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </div>
+      <div class="sv-panel">
+        <div class="sv-panel-inner">
+          <div class="sv-panel-desc">Retirement planning is the art of engineering an income stream that lasts as long as you do. We model Social Security optimization, withdrawal sequencing, Roth conversion windows, and income layering across multiple sources — creating a plan designed to sustain your lifestyle through a retirement that may span 30 or more years.</div>
+          <div class="sv-panel-why">
+            <div class="sv-panel-why-label">Why It Matters</div>
+            <div class="sv-panel-why-text">The transition from accumulation to distribution is the most consequential financial shift of your life. <strong>Without a structured income plan, sequence-of-returns risk, taxes, and healthcare costs can silently erode a portfolio</strong> that took decades to build — often with little warning.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 Investment Management -->
+    <div class="sv-row rv d3" tabindex="0" role="button" aria-expanded="false">
+      <div class="sv-row-head">
+        <span class="sv-num">04</span>
+        <span class="sv-nm">Investment Management</span>
+        <span class="sv-tag">Portfolio</span>
+        <div class="sv-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </div>
+      <div class="sv-panel">
+        <div class="sv-panel-inner">
+          <div class="sv-panel-desc">Disciplined investment management goes beyond selecting securities — it encompasses portfolio construction, asset allocation, tax-loss harvesting, rebalancing, and the ongoing monitoring of how your portfolio serves your broader financial plan. We build evidence-based portfolios aligned with your goals, time horizon, and risk capacity.</div>
+          <div class="sv-panel-why">
+            <div class="sv-panel-why-label">Why It Matters</div>
+            <div class="sv-panel-why-text">Investment returns matter, but so does the cost of getting them. <strong>Unmanaged portfolios drift from their intended risk profile, accumulate unnecessary tax drag, and often underperform through emotional decision-making</strong> — particularly in volatile markets when discipline is hardest to maintain.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 Estate & Legacy -->
+    <div class="sv-row rv d4" tabindex="0" role="button" aria-expanded="false">
+      <div class="sv-row-head">
+        <span class="sv-num">05</span>
+        <span class="sv-nm">Estate &amp; Legacy</span>
+        <span class="sv-tag">Generational</span>
+        <div class="sv-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </div>
+      <div class="sv-panel">
+        <div class="sv-panel-inner">
+          <div class="sv-panel-desc">Estate planning ensures that the wealth you've spent a lifetime building reaches the people and causes you care most about — on your terms, not the government's. We coordinate beneficiary designations, trust structures, power of attorney, healthcare directives, and charitable giving into a cohesive legacy strategy.</div>
+          <div class="sv-panel-why">
+            <div class="sv-panel-why-label">Why It Matters</div>
+            <div class="sv-panel-why-text">Without a current estate plan, your assets are distributed according to state law — regardless of your wishes. <strong>Outdated beneficiary designations, lack of trust structures, and estate tax exposure can quietly reduce or redirect the wealth you intended to leave behind</strong> by tens or hundreds of thousands of dollars.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 Insurance & Tax -->
+    <div class="sv-row rv d5" tabindex="0" role="button" aria-expanded="false">
+      <div class="sv-row-head">
+        <span class="sv-num">06</span>
+        <span class="sv-nm">Insurance &amp; Tax</span>
+        <span class="sv-tag">Protection</span>
+        <div class="sv-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </div>
+      <div class="sv-panel">
+        <div class="sv-panel-inner">
+          <div class="sv-panel-desc">Insurance and tax strategy form the protective infrastructure of a sound financial plan. We evaluate life, disability, long-term care, and liability coverage alongside tax-efficient investment structures, Roth conversion planning, and proactive bracket management — ensuring that what you build is genuinely protected from both risk and unnecessary taxation.</div>
+          <div class="sv-panel-why">
+            <div class="sv-panel-why-label">Why It Matters</div>
+            <div class="sv-panel-why-text">A single uninsured event or unplanned tax liability can undo years of careful wealth building. <strong>Coordinated insurance and tax planning often represents the highest return-on-investment in a financial plan</strong> — not by growing wealth, but by preventing the single largest sources of unplanned loss.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ PROCESS ═══════════ -->
+<section id="process">
+  <div class="pr-hd">
+    <div class="rv-l">
+      <div class="pr-ky">How We Work</div>
+      <h2 class="pr-h">A Process<br>Built on<br><em>Intention.</em></h2>
+    </div>
+    <p class="pr-desc rv-r">Every engagement follows a disciplined four-phase framework that turns complexity into clarity — and goals into actionable financial plans.</p>
+  </div>
+  <div class="pr-grid">
+    <div class="pr-step rv" data-n="01"><div class="pr-sn">01</div><div class="pr-st">Discovery</div><div class="pr-sb">We begin by listening — deeply understanding your goals, values, current financial picture, and what wealth means to you personally.</div></div>
+    <div class="pr-step rv d1" data-n="02"><div class="pr-sn">02</div><div class="pr-st">Analysis</div><div class="pr-sb">A thorough review of your assets, liabilities, income, risk profile, tax situation, and estate needs to identify gaps and opportunities.</div></div>
+    <div class="pr-step rv d2" data-n="03"><div class="pr-sn">03</div><div class="pr-st">Strategy</div><div class="pr-sb">A personalized, integrated financial plan — connecting investment, retirement, tax, and estate strategies into one coherent roadmap.</div></div>
+    <div class="pr-step rv d3" data-n="04"><div class="pr-sn">04</div><div class="pr-st">Partnership</div><div class="pr-sb">Ongoing guidance and proactive adjustments as life evolves. We're a long-term partner committed to your success at every milestone.</div></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq" aria-hidden="true">
+  <div class="mq-t">
+    <span class="mq-i">Accumulate</span><span class="mq-i ac">— Preserve —</span>
+    <span class="mq-i">Distribute</span><span class="mq-i ac">— Grow —</span>
+    <span class="mq-i">Protect</span><span class="mq-i ac">— Legacy —</span>
+    <span class="mq-i">Accumulate</span><span class="mq-i ac">— Preserve —</span>
+    <span class="mq-i">Distribute</span><span class="mq-i ac">— Grow —</span>
+    <span class="mq-i">Protect</span><span class="mq-i ac">— Legacy —</span>
+  </div>
+</div>
+
+<!-- ═══════════ RESOURCES ═══════════ -->
+<section id="resources">
+  <div class="rs-hd">
+    <div class="rv-l">
+      <div class="rs-ky">Resources & Insights</div>
+      <h2 class="rs-h">Knowledge<br>that <em>Moves</em><br>Your Wealth.</h2>
+    </div>
+    <p class="rs-de rv-r">Curated articles, guides, and tools across every dimension of financial planning — from income modeling to estate frameworks and tax efficiency.</p>
+  </div>
+  <div class="rs-grid">
+    <div class="rs-card rv" tabindex="0" onclick="location.href='resource-retirement.html'">
+      <div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg></div>
+      <div class="rs-t">Retirement</div><div class="rs-b">Income modeling, distribution strategies, and retirement readiness frameworks for a secure financial future.</div>
+      <div class="rs-lk">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+    </div>
+    <div class="rs-card rv d1" tabindex="0" onclick="location.href='resource-estate.html'">
+      <div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div class="rs-t">Estate Planning</div><div class="rs-b">Guides on trusts, beneficiary designations, and ensuring your wealth transfers on your terms.</div>
+      <div class="rs-lk">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+    </div>
+    <div class="rs-card rv d2" tabindex="0" onclick="location.href='resource-investment.html'">
+      <div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div class="rs-t">Investment</div><div class="rs-b">Portfolio construction and evidence-based approaches to long-term investment growth.</div>
+      <div class="rs-lk">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+    </div>
+    <div class="rs-card rv d1" tabindex="0" onclick="location.href='resource-insurance.html'">
+      <div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="rs-t">Insurance</div><div class="rs-b">Protection strategies for individuals and business owners — life, disability, and long-term care.</div>
+      <div class="rs-lk">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+    </div>
+    <div class="rs-card rv d2" tabindex="0" onclick="location.href='resource-tax.html'">
+      <div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg></div>
+      <div class="rs-t">Tax Strategy</div><div class="rs-b">Tax-efficient investing and planning strategies to reduce burden across your wealth lifecycle.</div>
+      <div class="rs-lk">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+    </div>
+    <div class="rs-card rv d3" tabindex="0" onclick="location.href='resource-money.html'">
+      <div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+      <div class="rs-t">Money &amp; Lifestyle</div><div class="rs-b">Financial habits, budgeting frameworks, and lifestyle planning to build lasting confidence.</div>
+      <div class="rs-lk">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact">
+  <video id="ct-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1772661524/contact-bg_u0a64u.mp4" type="video/mp4">
+  </video>
+  <div class="ct-overlay" aria-hidden="true"></div>
+  <div class="ct-vignette" aria-hidden="true"></div>
+  <canvas id="cc" aria-hidden="true"></canvas>
+  <div class="ct-i">
+    <div class="ct-ky rv">Let's Talk</div>
+    <h2 class="ct-h rv">Let's Build<br>Your <em>Legacy.</em></h2>
+    <p class="ct-p rv">Ready to start the conversation about your financial future? Book a consultation — no pressure, just clarity about where you are and where you can go.</p>
+    <div class="rv">
+      <a href="contact.html" class="btn btn-gold mag" style="display:inline-flex;margin:0 auto;padding:1.1rem 3rem;font-size:.8rem">
+        Book a Consultation
+        <svg viewBox="0 0 20 20" fill="none" width="14" height="14" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="ct-dets rv">
+      <div class="ct-d"><div class="ct-dl">Email</div><div class="ct-dv"><a href="/cdn-cgi/l/email-protection#305d40595e545f5c55497051544659435f421e535f5d"><span class="__cf_email__" data-cfemail="ea879a83848e85868f93aa8b8e9c83998598c4898587">[email&#160;protected]</span></a></div></div>
+      <div class="ct-d"><div class="ct-dl">Phone</div><div class="ct-dv"><a href="tel:+15551234567">(555) 123-4567</a></div></div>
+      <div class="ct-d"><div class="ct-dl">Availability</div><div class="ct-dv">Nationwide</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <div class="ft-logo">Matthew Pindoley — <b>SE-AWMA®</b></div>
+      <div class="ft-tg">From the first steps of success to the creation of generational wealth.</div>
+    </div>
+    <div class="ft-lks">
+      <div class="ft-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Our Process</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="resource-retirement.html">Retirement</a></li>
+          <li><a href="resource-estate.html">Estate</a></li>
+          <li><a href="resource-investment.html">Investment</a></li>
+          <li><a href="resource-insurance.html">Insurance</a></li>
+          <li><a href="resource-tax.html">Tax Strategy</a></li>
+          <li><a href="resource-money.html">Money &amp; Lifestyle</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <div class="ft-cp">© 2025 Matthew Pindoley Financial Advisory. All rights reserved.</div>
+    <div class="ft-di">Securities offered through [Broker-Dealer]. Investment advisory services offered through [RIA]. This website is for informational purposes only and does not constitute investment advice.</div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ── CURSOR ─────────────────────────────────────── */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-r'),lbl=document.getElementById('cur-lbl');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+  lbl.style.left=mx+'px';lbl.style.top=(my+28)+'px';
+});
+(function loop(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button,.sv-row,.rs-card,.stat,.btn,.hbg').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+document.addEventListener('mousedown',()=>document.body.classList.add('pressing'));
+document.addEventListener('mouseup',()=>document.body.classList.remove('pressing'));
+document.querySelectorAll('.rs-card').forEach(c=>c.addEventListener('mouseenter',()=>lbl.textContent='EXPLORE'));
+document.querySelectorAll('.sv-row').forEach(c=>c.addEventListener('mouseenter',()=>lbl.textContent='VIEW'));
+document.querySelectorAll('.rs-card,.sv-row').forEach(c=>c.addEventListener('mouseleave',()=>lbl.textContent='VIEW'));
+
+/* ── HERO VIDEO FADE-IN ─────────────────────────── */
+(function(){
+  const v = document.getElementById('hero-video');
+  if(!v) return;
+  // If already ready (cached), show immediately
+  if(v.readyState >= 3) v.classList.add('loaded');
+  v.addEventListener('canplaythrough', () => v.classList.add('loaded'), {once:true});
+  // Fallback: show after 2.5s regardless
+  setTimeout(() => v.classList.add('loaded'), 2500);
+})();
+
+/* ── LOADER ─────────────────────────────────────── */
+const ld=document.getElementById('ld'),ldPct=document.getElementById('ld-pct'),ldFill=document.getElementById('ld-fill'),ldSub=document.getElementById('ld-sub');
+const subs=['Loading experience','Crafting your plan','Almost ready','Welcome'];
+let p=0,si=0;
+const ldT=setInterval(()=>{
+  p+=Math.floor(Math.random()*5)+2;if(p>100)p=100;
+  ldPct.innerHTML=p+'<sup>%</sup>';ldFill.style.width=p+'%';
+  if(p>25&&si===0){si=1;ldSub.textContent=subs[1]}
+  if(p>60&&si===1){si=2;ldSub.textContent=subs[2]}
+  if(p>85&&si===2){si=3;ldSub.textContent=subs[3]}
+  if(p>=100){
+    clearInterval(ldT);
+    setTimeout(()=>{
+      ld.classList.add('out');
+      setTimeout(()=>{
+        ld.style.display='none';
+        document.querySelectorAll('.h1 .wd').forEach(el=>el.classList.add('vis'));
+      },950);
+    },350);
+  }
+},38);
+
+/* ── HERO PARTICLE CANVAS ───────────────────────── */
+(function(){
+  const c=document.getElementById('hc');if(!c)return;
+  const ctx=c.getContext('2d');let W,H,pts=[];
+  function sz(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
+  sz();window.addEventListener('resize',()=>{sz();init()});
+  function init(){
+    pts=[];const n=Math.floor((W*H)/14000);
+    for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.3+.3,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,a:Math.random()*.7+.2});
+  }
+  init();
+  let cmx=W/2,cmy=H/2;
+  document.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();cmx=e.clientX-r.left;cmy=e.clientY-r.top});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      const dx=cmx-p.x,dy=cmy-p.y,d=Math.hypot(dx,dy);
+      if(d<200){p.vx+=dx/d*.004;p.vy+=dy/d*.004}
+      p.vx*=.995;p.vy*=.995;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(200,164,106,${p.a*.55})`;ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);
+      if(d<100){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(200,164,106,${(1-d/100)*.14})`;ctx.lineWidth=.5;ctx.stroke()}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── CONTACT CANVAS ─────────────────────────────── */
+(function(){
+  const c=document.getElementById('cc');if(!c)return;
+  const ctx=c.getContext('2d');let W,H,t=0;
+  function sz(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}sz();
+  window.addEventListener('resize',sz);
+  function draw(){
+    t+=.007;ctx.clearRect(0,0,W,H);
+    const x=W/2+Math.sin(t)*W*.15,y=H/2+Math.cos(t*.75)*H*.12;
+    const g=ctx.createRadialGradient(x,y,0,x,y,Math.min(W,H)*.58);
+    g.addColorStop(0,'rgba(200,164,106,0.1)');g.addColorStop(1,'transparent');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    const g2=ctx.createRadialGradient(W-x+W*.1,H-y+H*.1,0,W-x+W*.1,H-y+H*.1,Math.min(W,H)*.4);
+    g2.addColorStop(0,'rgba(200,164,106,0.04)');g2.addColorStop(1,'transparent');
+    ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── NAV ────────────────────────────────────────── */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('stk',scrollY>60),{passive:true});
+
+/* ── MOBILE NAV ─────────────────────────────────── */
+const mob=document.getElementById('mob'),hbg=document.getElementById('hbg'),mobX=document.getElementById('mob-x');
+hbg.addEventListener('click',()=>mob.classList.add('open'));
+mobX.addEventListener('click',()=>mob.classList.remove('open'));
+document.querySelectorAll('.mob-a').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
+
+/* ── REVEAL ─────────────────────────────────────── */
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');io.unobserve(x.target)}})},{threshold:.09,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>io.observe(el));
+
+/* ── COUNTERS ───────────────────────────────────── */
+const cio=new IntersectionObserver(e=>{e.forEach(x=>{
+  if(!x.isIntersecting)return;
+  const el=x.target,target=+el.dataset.t;
+  let v=0;const step=target/65;
+  const t=setInterval(()=>{v=Math.min(v+step,target);el.textContent=Math.floor(v);if(v>=target)clearInterval(t)},16);
+  cio.unobserve(el);
+})},{threshold:.5});
+document.querySelectorAll('.counter').forEach(c=>cio.observe(c));
+
+/* ── PARALLAX ───────────────────────────────────── */
+const hcEl=document.getElementById('hc'),hgrid=document.querySelector('.h-grid');
+window.addEventListener('scroll',()=>{
+  const s=scrollY;
+  if(hcEl)hcEl.style.transform=`translateY(${s*.22}px)`;
+  if(hgrid)hgrid.style.transform=`translateY(${s*.12}px)`;
+},{passive:true});
+
+/* ── MAGNETIC BUTTONS ───────────────────────────── */
+document.querySelectorAll('.mag,.nav-btn').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    const x=(e.clientX-r.left-r.width/2)*.25;
+    const y=(e.clientY-r.top-r.height/2)*.25;
+    btn.style.transform=`translate(${x}px,${y}px)`;
+  });
+  btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
+});
+
+/* ── SERVICE ACCORDION ──────────────────────────── */
+document.querySelectorAll('.sv-row').forEach(row=>{
+  const head=row.querySelector('.sv-row-head');
+  const panel=row.querySelector('.sv-panel');
+  if(!head||!panel)return;
+
+  function openRow(){
+    // close any open sibling first
+    document.querySelectorAll('.sv-row.open').forEach(other=>{
+      if(other!==row){
+        other.classList.remove('open');
+        other.setAttribute('aria-expanded','false');
+        const p=other.querySelector('.sv-panel');
+        if(p){p.style.maxHeight='0';p.style.opacity='0';}
+      }
+    });
+    row.classList.add('open');
+    row.setAttribute('aria-expanded','true');
+    panel.style.maxHeight=panel.scrollHeight+'px';
+    panel.style.opacity='1';
+  }
+  function closeRow(){
+    row.classList.remove('open');
+    row.setAttribute('aria-expanded','false');
+    panel.style.maxHeight='0';
+    panel.style.opacity='0';
+  }
+
+  // init closed
+  panel.style.maxHeight='0';
+  panel.style.opacity='0';
+  panel.style.transition='max-height .52s cubic-bezier(.16,1,.3,1), opacity .35s ease';
+
+  head.addEventListener('click',()=>{
+    row.classList.contains('open')?closeRow():openRow();
+  });
+  row.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();row.classList.contains('open')?closeRow():openRow();}
+  });
+});
+
+/* ── 3D TILT CARD ───────────────────────────────── */
+const tilt=document.getElementById('tilt');
+if(tilt){
+  tilt.addEventListener('mousemove',e=>{
+    const r=tilt.getBoundingClientRect();
+    const x=((e.clientX-r.left)/r.width-.5)*20;
+    const y=((e.clientY-r.top)/r.height-.5)*-20;
+    tilt.style.transform=`perspective(900px) rotateX(${y}deg) rotateY(${x}deg) scale3d(1.03,1.03,1.03)`;
+  });
+  tilt.addEventListener('mouseleave',()=>{
+    tilt.style.transform='perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+  });
+}
+</script>
+</body>
+</html>

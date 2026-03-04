@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Insurance Strategy — Matthew Pindoley, SE-AWMA®</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Insurance palette — deep forest / obsidian with sage accent */
+  --ink:#080c0a;--ink2:#0c100d;--ink3:#101410;
+  --forest:#141d16;--forest2:#182019;
+  --ivory:#f0ede6;--ivory2:#e8e4dc;--ivory3:#dedad0;
+  --sage:#7aaa7e;--sage2:#95c099;--sage3:rgba(122,170,126,.13);
+  --paper:#f3f1eb;--paper2:#ece9e1;
+  --muted:rgba(240,237,230,.36);--border:rgba(122,170,126,.16);--border2:rgba(122,170,126,.3);
+  --im:rgba(8,12,10,.44);--ib:rgba(8,12,10,.09);--ib2:rgba(8,12,10,.05);
+  --ff:'Cormorant Garamond',Georgia,serif;
+  --fb:'DM Sans',system-ui,sans-serif;
+  --e1:cubic-bezier(.16,1,.3,1);--e2:cubic-bezier(.22,.9,.25,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;overflow-x:hidden}
+body{font-family:var(--fb);background:var(--forest);color:var(--ivory);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
+a{color:inherit;text-decoration:none}
+
+/* GRAIN */
+#grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px;animation:grn .08s steps(1) infinite}
+@keyframes grn{0%{transform:translate(0,0)}20%{transform:translate(-4%,-3%)}40%{transform:translate(3%,5%)}60%{transform:translate(-2%,2%)}80%{transform:translate(5%,-4%)}100%{transform:translate(0,0)}}
+
+/* CURSOR */
+#cur{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;
+  background:var(--ivory);pointer-events:none;z-index:10000;
+  transform:translate(-50%,-50%);
+  transition:width .3s var(--e1),height .3s var(--e1),background .3s}
+#cur-r{position:fixed;top:0;left:0;width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(122,170,126,.3);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .35s var(--e1),height .35s var(--e1),border-color .3s}
+body.hov #cur{width:48px;height:48px;opacity:.1}
+body.hov #cur-r{width:68px;height:68px;border-color:var(--sage)}
+body.pressing #cur{width:22px;height:22px}
+
+/* ─── NAV ─────────────────────────────────────────────── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:2rem 5rem;
+  transition:padding .45s var(--e2),background .4s,border-color .4s;
+  border-bottom:1px solid transparent}
+#nav.stk{padding:1rem 5rem;background:rgba(12,16,13,.92);
+  backdrop-filter:blur(20px);border-bottom-color:var(--border)}
+.nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;
+  letter-spacing:.06em;line-height:1.3;color:var(--ivory)}
+.nav-logo b{color:var(--sage2);font-weight:400;font-style:italic}
+.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
+.nav-links a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:500;color:rgba(240,237,230,.35);position:relative;transition:color .25s}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--sage);transition:width .38s var(--e1)}
+.nav-links a:hover,.nav-links a.active{color:var(--ivory)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-drop{position:relative}
+.nav-drop-trigger{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:500;color:rgba(240,237,230,.35);position:relative;
+  display:inline-flex;align-items:center;gap:.45rem;
+  cursor:none;background:none;border:none;padding:0;
+  font-family:var(--fb);transition:color .25s}
+.nav-drop-trigger::after{content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--sage);transition:width .38s var(--e1)}
+.nav-drop.open .nav-drop-trigger,.nav-drop-trigger.active{color:var(--ivory)}
+.nav-drop.open .nav-drop-trigger::after,.nav-drop-trigger.active::after{width:calc(100% - 1.1rem)}
+.nav-drop-trigger svg{transition:transform .3s var(--e1);flex-shrink:0;opacity:.5}
+.nav-drop.open .nav-drop-trigger svg{transform:rotate(180deg);opacity:1}
+.nav-drop-panel{position:absolute;top:calc(100% + 14px);left:50%;
+  transform:translateX(-50%) translateY(-6px);
+  background:var(--forest2);border:1px solid var(--border);
+  min-width:220px;padding:.6rem 0;
+  box-shadow:0 24px 60px rgba(0,0,0,.45),0 4px 12px rgba(0,0,0,.25);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s var(--e1),transform .25s var(--e1)}
+.nav-drop-panel::after{content:'';position:absolute;top:-20px;left:0;right:0;height:20px}
+.nav-drop.open .nav-drop-panel{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.nav-drop-panel::before{content:'';position:absolute;top:-5px;left:50%;
+  transform:translateX(-50%) rotate(45deg);
+  width:9px;height:9px;background:var(--forest2);
+  border-left:1px solid var(--border);border-top:1px solid var(--border)}
+.nav-drop-item{display:flex;align-items:center;gap:.75rem;
+  padding:.72rem 1.4rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  font-weight:600;color:rgba(240,237,230,.38);cursor:none;
+  transition:color .2s,background .2s;white-space:nowrap}
+.nav-drop-item:hover{color:var(--ivory);background:rgba(122,170,126,.07)}
+.nav-drop-item.current{color:var(--sage)}
+.nav-drop-item svg{width:14px;height:14px;flex-shrink:0;opacity:.4;transition:opacity .2s}
+.nav-drop-item:hover svg,.nav-drop-item.current svg{opacity:1}
+.nav-drop-divider{height:1px;background:rgba(122,170,126,.1);margin:.4rem 0}
+.nav-btn{display:inline-flex;align-items:center;
+  padding:.6rem 1.5rem;border:1px solid var(--border2);border-radius:9999px;
+  font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:600;color:var(--sage2);position:relative;overflow:hidden;
+  transition:color .3s,border-color .3s}
+.nav-btn::before{content:'';position:absolute;inset:0;background:var(--sage);
+  transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
+.nav-btn:hover::before{transform:scaleX(1)}
+.nav-btn:hover{color:var(--ink);border-color:var(--sage)}
+.nav-btn span{position:relative;z-index:1}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px}
+.hbg i{display:block;width:22px;height:1px;background:var(--ivory);transition:all .3s}
+
+/* MOBILE DRAWER */
+#mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;
+  clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .75s var(--e1)}
+#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+#mob a{font-family:var(--ff);font-size:clamp(2.5rem,9vw,5.5rem);font-weight:300;
+  color:var(--ivory);letter-spacing:-.02em;transition:color .2s}
+#mob a:hover{color:var(--sage2)}
+#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
+  cursor:none;font-family:var(--ff);font-size:1.8rem;color:var(--muted);transition:color .2s}
+#mob-x:hover{color:var(--ivory)}
+.mob-resources{display:flex;flex-direction:column;gap:0;width:100%;align-items:center}
+.mob-res-label{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--sage);font-weight:600;margin-bottom:1rem}
+.mob-res-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem}
+.mob-res-link{font-family:var(--fb);font-size:.65rem;letter-spacing:.14em;
+  text-transform:uppercase;font-weight:600;color:var(--muted);
+  padding:.45rem 1rem;border:1px solid var(--border);
+  transition:color .2s,border-color .2s}
+.mob-res-link:hover,.mob-res-link.current{color:var(--sage);border-color:var(--border2)}
+
+/* ─── HERO ──────────────────────────────────────────── */
+#hero{min-height:100svh;background:var(--forest);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 5rem 6rem;position:relative;overflow:hidden}
+
+/* Shield geometry bg */
+.hero-geo{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.hero-geo svg{position:absolute;right:-6%;top:8%;width:52%;opacity:.055}
+
+/* Radial glow */
+.hero-glow{position:absolute;top:10%;right:5%;width:55%;height:85%;
+  background:radial-gradient(ellipse at 60% 40%,rgba(122,170,126,.07) 0%,transparent 65%);
+  pointer-events:none;z-index:1}
+
+/* Subtle horizontal lines — blueprint feel */
+.hero-lines{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background-image:linear-gradient(rgba(122,170,126,.03) 1px,transparent 1px);
+  background-size:100% 72px;
+  mask-image:linear-gradient(to bottom,transparent 0%,black 25%,black 75%,transparent 100%)}
+
+.hero-ghost{position:absolute;bottom:-9rem;right:-3rem;
+  font-family:var(--ff);font-size:clamp(18rem,34vw,48rem);font-weight:300;
+  color:rgba(122,170,126,.04);line-height:1;letter-spacing:-.06em;
+  pointer-events:none;user-select:none;
+  opacity:0;animation:fadeIn 1.4s ease .9s forwards}
+
+.hero-content{position:relative;z-index:2}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;
+  gap:3rem;margin-bottom:5rem;
+  opacity:0;animation:rUp .8s var(--e1) .4s forwards}
+.hero-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  font-weight:600;color:var(--sage);display:inline-flex;align-items:center;gap:.75rem}
+.hero-ey::before{content:'';width:24px;height:1px;background:var(--sage)}
+.hero-stats-top{display:flex;gap:4rem}
+.hero-stat-t{text-align:right}
+.hero-stat-tl{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(240,237,230,.3);font-weight:600;margin-bottom:.3rem}
+.hero-stat-tv{font-family:var(--ff);font-size:1.55rem;font-weight:300;color:var(--ivory);line-height:1}
+.hero-stat-tv em{color:var(--sage2);font-style:italic}
+
+.hero-ttl{font-family:var(--ff);font-weight:300;
+  font-size:clamp(5.5rem,12vw,16rem);line-height:.86;letter-spacing:-.055em;color:var(--ivory)}
+.hero-ttl .ln{overflow:hidden;display:block}
+.hero-ttl .wd{display:block;transform:translateY(110%);transition:transform 1.1s var(--e1)}
+.hero-ttl .wd.vis{transform:translateY(0)}
+.hero-ttl em{font-style:italic;color:var(--sage2)}
+.hero-ttl .ln:nth-child(2) .wd{transition-delay:.1s}
+.hero-ttl .ln:nth-child(3) .wd{transition-delay:.2s}
+
+.hero-bot{display:grid;grid-template-columns:1fr 1fr;gap:4rem;
+  align-items:end;margin-top:4.5rem;
+  opacity:0;animation:rUp .8s var(--e1) 1.4s forwards}
+.hero-desc{font-size:.92rem;line-height:1.82;color:rgba(240,237,230,.48);font-weight:300;max-width:44ch}
+.hero-desc strong{color:var(--ivory);font-weight:500}
+.hero-actions{display:flex;gap:.85rem;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+
+.btn-p{display:inline-flex;align-items:center;gap:.55rem;border-radius:9999px;
+  font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  cursor:none;transition:transform .2s var(--e1),box-shadow .25s}
+.btn-solid{padding:.82rem 2rem;background:var(--sage);color:var(--ink);border:none}
+.btn-solid:hover{box-shadow:0 16px 40px rgba(122,170,126,.28)}
+.btn-ghost-p{padding:.82rem 2rem;background:transparent;color:var(--ivory);
+  border:1px solid rgba(240,237,230,.16)}
+.btn-ghost-p:hover{border-color:var(--sage);background:rgba(122,170,126,.07);color:var(--sage2)}
+
+/* ─── COVERAGE STRIPS ─────────────────────────────── */
+#strips{border-top:1px solid var(--ib);border-bottom:1px solid var(--ib);
+  display:grid;grid-template-columns:repeat(4,1fr);background:var(--forest)}
+.strip-item{padding:3rem 3.5rem;border-right:1px solid var(--ib);
+  position:relative;overflow:hidden;transition:background .35s}
+.strip-item:last-child{border-right:none}
+.strip-item:hover{background:rgba(122,170,126,.04)}
+.strip-item::after{content:'';position:absolute;top:0;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,var(--sage),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .5s var(--e1)}
+.strip-item:hover::after{transform:scaleX(1)}
+.strip-icon{width:40px;height:40px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;
+  transition:border-color .3s,background .3s}
+.strip-item:hover .strip-icon{border-color:var(--sage2);background:rgba(122,170,126,.07)}
+.strip-icon svg{width:17px;height:17px;color:rgba(122,170,126,.55)}
+.strip-lbl{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(240,237,230,.3);font-weight:600;margin-bottom:.4rem}
+.strip-val{font-family:var(--ff);font-weight:300;
+  font-size:clamp(1.5rem,2.5vw,2.4rem);color:var(--ivory);
+  line-height:1;letter-spacing:-.04em}
+.strip-val em{color:var(--sage);font-style:normal}
+.strip-note{font-size:.74rem;line-height:1.62;color:rgba(240,237,230,.36);margin-top:.6rem;font-weight:300}
+
+/* ─── COVERAGE TYPES ─────────────────────────────── */
+#coverage{padding:9rem 5rem;background:var(--forest)}
+.cov-hd{display:grid;grid-template-columns:1fr 1.5fr;gap:8rem;align-items:end;margin-bottom:7rem}
+.cov-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--sage);font-weight:600;margin-bottom:1.8rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.cov-ey::before{content:'';width:24px;height:1px;background:var(--sage)}
+.cov-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.8rem,5vw,6rem);line-height:.93;letter-spacing:-.04em;color:var(--ivory)}
+.cov-h em{font-style:italic;color:var(--sage2)}
+.cov-sub{font-size:.87rem;line-height:1.84;color:rgba(240,237,230,.42);font-weight:300;align-self:end}
+.cov-sub strong{color:var(--ivory);font-weight:500}
+
+.cov-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;
+  border:1px solid var(--ib);background:var(--ib);overflow:hidden}
+.cov-card{background:var(--forest2);padding:4rem;position:relative;overflow:hidden;
+  transition:background .35s}
+.cov-card:hover{background:rgba(122,170,126,.04)}
+.cov-card::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;
+  background:linear-gradient(to bottom,var(--sage),transparent);
+  transform:scaleY(0);transform-origin:top;transition:transform .45s var(--e1)}
+.cov-card:hover::before{transform:scaleY(1)}
+.cov-num{font-family:var(--ff);font-size:.8rem;color:rgba(122,170,126,.22);
+  font-weight:300;letter-spacing:.05em;margin-bottom:1.4rem}
+.cov-card-icon{width:44px;height:44px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;
+  transition:border-color .3s,background .3s}
+.cov-card:hover .cov-card-icon{border-color:var(--sage2);background:rgba(122,170,126,.07)}
+.cov-card-icon svg{width:18px;height:18px;color:rgba(122,170,126,.6)}
+.cov-title{font-family:var(--ff);font-weight:300;
+  font-size:clamp(1.6rem,2.5vw,2.2rem);letter-spacing:-.025em;
+  color:var(--ivory);margin-bottom:.35rem;line-height:1}
+.cov-type{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--sage);font-weight:600;margin-bottom:1.2rem}
+.cov-body{font-size:.83rem;line-height:1.84;color:rgba(240,237,230,.42);font-weight:300}
+.cov-body strong{color:var(--ivory);font-weight:500}
+/* Full-width card variant */
+.cov-card.wide{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:4rem}
+.cov-card.wide .cov-body{align-self:start}
+
+/* ─── NEEDS ANALYSIS BAND ─────────────────────────── */
+#needs-band{padding:5rem;border-top:1px solid var(--ib);border-bottom:1px solid var(--ib);
+  background:var(--forest2);display:grid;grid-template-columns:auto 1fr auto;
+  align-items:center;gap:4rem;position:relative;overflow:hidden}
+#needs-band::after{content:'';position:absolute;top:50%;right:0;
+  transform:translateY(-50%);
+  width:35%;height:200%;
+  background:radial-gradient(ellipse at right center,rgba(122,170,126,.05) 0%,transparent 65%);
+  pointer-events:none}
+.nb-icon{width:58px;height:58px;border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1}
+.nb-icon svg{width:24px;height:24px;color:var(--sage)}
+.nb-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sage);font-weight:600;margin-bottom:.5rem;position:relative;z-index:1}
+.nb-title{font-family:var(--ff);font-weight:300;
+  font-size:clamp(1.4rem,2.2vw,2.1rem);letter-spacing:-.02em;color:var(--ivory);line-height:1.15;position:relative;z-index:1}
+.nb-body{font-size:.83rem;line-height:1.75;color:rgba(240,237,230,.44);margin-top:.6rem;font-weight:300;max-width:58ch;position:relative;z-index:1}
+.nb-body strong{color:var(--ivory);font-weight:500}
+.nb-cta{flex-shrink:0;position:relative;z-index:1}
+
+/* ─── LIFE EVENTS ─────────────────────────────────── */
+#events{padding:9rem 5rem;background:var(--forest);border-top:1px solid var(--ib)}
+.ev-hd{margin-bottom:6rem}
+.ev-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--sage);font-weight:600;margin-bottom:1.8rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.ev-ey::before{content:'';width:24px;height:1px;background:var(--sage)}
+.ev-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.5rem,4.5vw,5.5rem);line-height:.95;letter-spacing:-.04em;color:var(--ivory)}
+.ev-h em{font-style:italic;color:var(--sage2)}
+.ev-sub{font-size:.85rem;color:rgba(240,237,230,.4);font-weight:300;
+  margin-top:1.2rem;max-width:48ch;line-height:1.72}
+
+.ev-list{border-top:1px solid var(--ib)}
+.ev-row{display:grid;grid-template-columns:3.5rem 1fr 1.5fr;gap:3rem;
+  padding:3rem 0;border-bottom:1px solid var(--ib);
+  align-items:start;transition:padding-left .35s var(--e1);cursor:default}
+.ev-row:hover{padding-left:1.2rem}
+.ev-n{font-family:var(--ff);font-size:.82rem;color:rgba(122,170,126,.25);font-weight:300;letter-spacing:.05em;padding-top:.25rem}
+.ev-title{font-family:var(--ff);font-weight:300;
+  font-size:clamp(1.6rem,2.8vw,2.6rem);letter-spacing:-.025em;color:var(--ivory);line-height:1}
+.ev-title em{font-style:italic;color:var(--sage2)}
+.ev-body{font-size:.84rem;line-height:1.84;color:rgba(240,237,230,.44);font-weight:300;padding-top:.3rem}
+.ev-body strong{color:var(--ivory);font-weight:500}
+
+/* ─── FAQ ─────────────────────────────────────────── */
+#faq{padding:9rem 5rem;background:var(--forest2);border-top:1px solid var(--ib)}
+.faq-hd{display:grid;grid-template-columns:1fr 1.8fr;gap:5rem;align-items:start;margin-bottom:6rem}
+.faq-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--sage);font-weight:600;margin-bottom:1.8rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.faq-ey::before{content:'';width:24px;height:1px;background:var(--sage)}
+.faq-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.5rem,4.5vw,5.5rem);line-height:.95;letter-spacing:-.04em;color:var(--ivory)}
+.faq-h em{font-style:italic;color:var(--sage2)}
+.faq-side{font-size:.84rem;line-height:1.82;color:rgba(240,237,230,.4);font-weight:300;padding-top:6.5rem}
+.faq-side strong{color:var(--ivory);font-weight:500}
+.faq-list{border-top:1px solid var(--ib)}
+.faq-item{border-bottom:1px solid var(--ib)}
+.faq-q{display:flex;align-items:baseline;justify-content:space-between;
+  width:100%;padding:2rem 0;background:transparent;border:none;cursor:none;
+  text-align:left;font-family:var(--ff);font-size:clamp(1.2rem,2vw,1.75rem);
+  font-weight:300;color:var(--ivory);letter-spacing:-.015em;gap:2rem;transition:color .2s}
+.faq-q:hover{color:var(--sage2)}
+.fq-i{font-size:.65rem;letter-spacing:.12em;color:rgba(240,237,230,.28);font-family:var(--fb);
+  text-transform:uppercase;font-weight:500;flex-shrink:0;width:2.5rem}
+.fq-arr{flex-shrink:0;width:24px;height:24px;border:1px solid rgba(122,170,126,.18);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  transition:transform .35s var(--e1),border-color .25s,background .25s}
+.faq-q[aria-expanded="true"] .fq-arr{transform:rotate(45deg);border-color:var(--sage);background:var(--sage)}
+.faq-q[aria-expanded="true"] .fq-arr svg{color:var(--ink)}
+.fq-arr svg{width:10px;height:10px;color:rgba(122,170,126,.4);transition:color .25s}
+.faq-panel{max-height:0;overflow:hidden;transition:max-height .42s cubic-bezier(.2,.9,.2,1)}
+.faq-panel.open{max-height:500px}
+.faq-ans{padding:.2rem 0 2.5rem 3.5rem;font-size:.84rem;line-height:1.88;
+  color:rgba(240,237,230,.44);font-weight:300;max-width:70ch}
+.faq-ans strong{color:var(--ivory);font-weight:500}
+
+/* ─── CTA ─────────────────────────────────────────── */
+#cta{padding:10rem 5rem;border-top:1px solid var(--ib);
+  background:linear-gradient(135deg,var(--ink2) 0%,var(--forest) 100%);
+  display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;
+  position:relative;overflow:hidden}
+#cta::before{content:'';position:absolute;top:0;right:0;
+  width:50%;height:100%;
+  background:radial-gradient(ellipse at right top,rgba(122,170,126,.06) 0%,transparent 60%);
+  pointer-events:none}
+.cta-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--sage);font-weight:600;margin-bottom:2rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.cta-ey::before{content:'';width:24px;height:1px;background:var(--sage)}
+.cta-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3rem,6vw,7.5rem);line-height:.88;letter-spacing:-.055em;color:var(--ivory)}
+.cta-h em{font-style:italic;color:var(--sage2)}
+.cta-p{font-size:.86rem;line-height:1.82;color:rgba(240,237,230,.44);font-weight:300;
+  margin-top:2rem;max-width:42ch}
+.cta-acts{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:3rem}
+.cta-right{padding:4rem;border:1px solid var(--border);position:relative;overflow:hidden}
+.cta-right::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;
+  background:linear-gradient(to bottom,var(--sage),transparent)}
+.cta-dets{display:flex;flex-direction:column;gap:2.5rem;position:relative;z-index:1}
+.cta-dl{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(240,237,230,.3);font-weight:600;margin-bottom:.35rem}
+.cta-dv{font-family:var(--ff);font-size:1.4rem;font-weight:300;color:var(--ivory)}
+.cta-dv a{transition:color .2s}.cta-dv a:hover{color:var(--sage2)}
+
+/* FOOTER */
+footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5rem 3.5rem}
+.ft-top{display:flex;justify-content:space-between;align-items:flex-start;
+  gap:3rem;margin-bottom:4rem;padding-bottom:4rem;border-bottom:1px solid var(--border)}
+.ft-logo{font-family:var(--ff);font-size:1.5rem;font-weight:300;color:var(--ivory)}
+.ft-logo b{color:var(--sage2);font-weight:400;font-style:italic}
+.ft-tg{font-size:.76rem;color:var(--muted);margin-top:.5rem;max-width:28ch;line-height:1.6}
+.ft-lks{display:flex;gap:5rem}
+.ft-col h4{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sage);font-weight:600;margin-bottom:1.4rem}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.ft-col ul a{font-size:.78rem;color:var(--muted);transition:color .2s}
+.ft-col ul a:hover{color:var(--ivory)}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.ft-cp{font-size:.68rem;color:rgba(240,237,230,.18)}
+.ft-di{font-size:.62rem;color:rgba(240,237,230,.12);max-width:55ch;text-align:right;line-height:1.55}
+
+/* ─── SIDEBAR ─────────────────────────────────────── */
+#sb-trigger{position:fixed;right:2rem;top:50%;transform:translateY(-50%);
+  z-index:600;display:flex;flex-direction:column;align-items:center;gap:0;
+  background:var(--forest2);border:1px solid var(--border);cursor:none;
+  padding:1.2rem .85rem;
+  transition:background .3s,transform .35s var(--e1),border-color .3s}
+#sb-trigger:hover{background:var(--forest);border-color:var(--border2)}
+#sb-trigger.nudge{animation:nudge 2.5s var(--e1) 3s 1}
+@keyframes nudge{0%,100%{transform:translateY(-50%) translateX(0)}30%{transform:translateY(-50%) translateX(-8px)}60%{transform:translateY(-50%) translateX(-4px)}}
+.sb-trig-label{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--sage);font-weight:600;writing-mode:vertical-rl;margin-top:.7rem}
+.sb-trig-icon{display:flex;flex-direction:column;gap:3px}
+.sb-trig-icon span{display:block;width:14px;height:1px;background:var(--ivory2);
+  transition:width .25s var(--e1)}
+#sb-trigger:hover .sb-trig-icon span:nth-child(2){width:10px}
+#sb-trigger:hover .sb-trig-icon span:nth-child(3){width:6px}
+
+#sb-overlay{position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.55);
+  opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(4px)}
+#sb-overlay.open{opacity:1;pointer-events:auto}
+
+#sb-panel{position:fixed;right:0;top:0;bottom:0;z-index:710;
+  width:min(520px,92vw);background:var(--paper);
+  border-left:1px solid rgba(122,170,126,.1);
+  transform:translateX(100%);transition:transform .55s var(--e1);
+  display:flex;flex-direction:column;overflow:hidden}
+#sb-panel.open{transform:translateX(0)}
+
+.sb-head{background:var(--ink2);padding:2.5rem;display:flex;align-items:center;
+  justify-content:space-between;flex-shrink:0;border-bottom:1px solid rgba(122,170,126,.1)}
+.sb-title{font-family:var(--ff);font-size:1.6rem;font-weight:300;color:var(--ivory);letter-spacing:-.025em}
+.sb-title em{font-style:italic;color:var(--sage2)}
+.sb-close{width:36px;height:36px;border:1px solid rgba(122,170,126,.15);
+  background:transparent;cursor:none;display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s,background .2s}
+.sb-close:hover{border-color:var(--sage);background:rgba(122,170,126,.08)}
+.sb-close svg{width:14px;height:14px;color:rgba(240,237,230,.4)}
+
+.sb-tabs{display:flex;border-bottom:1px solid rgba(8,12,10,.08);flex-shrink:0;background:var(--paper)}
+.sb-tab{flex:1;padding:1.1rem;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:600;color:rgba(8,12,10,.38);background:transparent;border:none;cursor:none;
+  border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.sb-tab:hover{color:var(--ink)}
+.sb-tab.active{color:var(--ink);border-bottom-color:var(--sage)}
+
+.sb-body{flex:1;overflow-y:auto;padding:2.5rem;scrollbar-width:thin;scrollbar-color:rgba(8,12,10,.1) transparent}
+.sb-body::-webkit-scrollbar{width:4px}
+.sb-body::-webkit-scrollbar-thumb{background:rgba(8,12,10,.1)}
+.sb-pane{display:none}.sb-pane.active{display:block}
+
+.sb-res-item{display:flex;align-items:center;gap:1rem;
+  padding:1.1rem 0;border-bottom:1px solid rgba(8,12,10,.05);
+  transition:padding-left .3s var(--e1)}
+.sb-res-item:last-child{border-bottom:none}
+.sb-res-item:hover{padding-left:.6rem}
+.sb-res-item.current{opacity:.5;pointer-events:none}
+.sb-res-icon{width:36px;height:36px;border:1px solid rgba(8,12,10,.08);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:border-color .2s,background .2s}
+.sb-res-item:hover .sb-res-icon{border-color:var(--sage);background:rgba(122,170,126,.07)}
+.sb-res-icon svg{width:14px;height:14px;color:rgba(8,12,10,.38)}
+.sb-res-name{font-family:var(--ff);font-size:1.25rem;font-weight:300;color:var(--ink);letter-spacing:-.015em}
+.sb-res-desc{font-size:.72rem;color:rgba(8,12,10,.4);margin-top:.1rem}
+.sb-res-arr{margin-left:auto;opacity:0;transition:opacity .2s;flex-shrink:0}
+.sb-res-arr svg{width:12px;height:12px;color:var(--sage)}
+.sb-res-item:hover .sb-res-arr{opacity:1}
+
+/* Checklist */
+.sb-ck-section{margin-bottom:2.5rem}
+.sb-ck-title{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sage);font-weight:600;margin-bottom:1rem;
+  display:flex;align-items:center;gap:.65rem}
+.sb-ck-title::before{content:'';width:16px;height:1px;background:var(--sage)}
+.sb-ck-item{display:flex;align-items:flex-start;gap:.85rem;
+  padding:.7rem 0;border-bottom:1px solid rgba(8,12,10,.05);cursor:none}
+.sb-ck-item:last-child{border-bottom:none}
+.sb-ck-box{width:18px;height:18px;border:1px solid rgba(8,12,10,.18);
+  flex-shrink:0;margin-top:.1rem;position:relative;transition:border-color .2s,background .2s;cursor:none}
+.sb-ck-item.done .sb-ck-box{border-color:var(--sage);background:var(--sage)}
+.sb-ck-item.done .sb-ck-box::after{content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23080c0a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center/10px no-repeat}
+.sb-ck-text{font-size:.82rem;line-height:1.6;color:rgba(8,12,10,.48);font-weight:300}
+.sb-ck-text strong{color:var(--ink);font-weight:500}
+.sb-ck-item.done .sb-ck-text{color:rgba(8,12,10,.25);text-decoration:line-through;text-decoration-color:rgba(8,12,10,.18)}
+.sb-ck-prog{margin-bottom:2rem}
+.sb-ck-prog-label{display:flex;justify-content:space-between;align-items:center;
+  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(8,12,10,.4);font-weight:500;margin-bottom:.65rem}
+.sb-ck-prog-bar{height:3px;background:rgba(8,12,10,.07);overflow:hidden}
+.sb-ck-prog-fill{height:100%;background:linear-gradient(90deg,var(--sage),var(--sage2));
+  width:0;transition:width .6s var(--e1)}
+
+/* Tools */
+.sb-tool-card{padding:1.6rem;border:1px solid rgba(8,12,10,.09);margin-bottom:1rem;
+  transition:border-color .3s,background .3s;position:relative;overflow:hidden}
+.sb-tool-card:hover{border-color:rgba(122,170,126,.22);background:rgba(122,170,126,.03)}
+.sb-tool-title{font-family:var(--ff);font-size:1.2rem;font-weight:300;color:var(--ink);
+  margin-bottom:.3rem;letter-spacing:-.015em}
+.sb-tool-desc{font-size:.78rem;color:rgba(8,12,10,.44);font-weight:300;line-height:1.65;margin-bottom:1.2rem}
+.sb-tool-btn{display:inline-flex;align-items:center;gap:.5rem;font-size:.65rem;
+  letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  color:var(--ink);border:1px solid rgba(8,12,10,.18);
+  padding:.55rem 1.2rem;background:transparent;cursor:none;
+  transition:border-color .2s,background .2s,color .2s}
+.sb-tool-btn:hover{border-color:var(--sage);background:rgba(122,170,126,.07);color:#2a6b2e}
+.sb-tool-input{width:100%;padding:.65rem .85rem;border:1px solid rgba(8,12,10,.1);
+  background:var(--paper);font-family:var(--fb);font-size:.85rem;color:var(--ink);
+  outline:none;transition:border-color .2s;margin-bottom:.6rem}
+.sb-tool-input:focus{border-color:var(--sage)}
+.sb-tool-select{width:100%;padding:.65rem .85rem;border:1px solid rgba(8,12,10,.1);
+  background:var(--paper);font-family:var(--fb);font-size:.85rem;color:var(--ink);
+  outline:none;transition:border-color .2s;margin-bottom:.6rem;appearance:none}
+.sb-tool-select:focus{border-color:var(--sage)}
+.sb-tool-result{margin-top:1rem;padding:1rem 1.2rem;font-size:.8rem;line-height:1.65;font-weight:300}
+.sb-r-ok{background:rgba(122,170,126,.09);border:1px solid rgba(122,170,126,.24);color:var(--ink)}
+.sb-r-warn{background:rgba(200,80,50,.05);border:1px solid rgba(200,80,50,.18);color:var(--ink)}
+.sb-r-info{background:rgba(8,12,10,.04);border:1px solid rgba(8,12,10,.1);color:var(--ink)}
+.sb-tool-lbl{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(8,12,10,.38);font-weight:600;display:block;margin-bottom:.35rem}
+.sb-tool-section{margin-bottom:1.5rem}
+.sb-tool-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+
+/* ─── REVEAL ─────────────────────────────────────── */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv.vis{opacity:1;transform:translateY(0)}
+.rv-l{opacity:0;transform:translateX(-24px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv-l.vis{opacity:1;transform:translateX(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+@keyframes rUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{to{opacity:1}}
+
+/* ─── RESPONSIVE ──────────────────────────────────── */
+@media(max-width:1100px){
+  #nav,#nav.stk{padding-left:2.5rem;padding-right:2.5rem}
+  #hero,#coverage,#events,#needs-band,#faq,#cta,footer{padding-left:2.5rem;padding-right:2.5rem}
+  #hero{padding-bottom:4rem}
+  .cov-hd{grid-template-columns:1fr;gap:3rem}
+  .cov-grid{grid-template-columns:1fr}
+  .cov-card.wide{grid-template-columns:1fr;gap:2rem}
+  .faq-hd{grid-template-columns:1fr}.faq-side{padding-top:0}
+  #cta{grid-template-columns:1fr}.cta-right{margin-top:0}
+  #needs-band{grid-template-columns:auto 1fr;gap:2rem}.nb-cta{display:none}
+  .ev-row{grid-template-columns:3rem 1fr}
+  .ev-body{display:none}
+  #strips{grid-template-columns:1fr 1fr}
+  .strip-item:nth-child(2){border-right:none}
+  .strip-item:nth-child(3){border-right:1px solid var(--ib);border-top:1px solid var(--ib)}
+  .strip-item:nth-child(4){border-right:none;border-top:1px solid var(--ib)}
+  #sb-trigger{display:none}
+  .ft-top{flex-direction:column}.ft-lks{flex-direction:column;gap:2rem}
+  .ft-bot{flex-direction:column;align-items:flex-start}.ft-di{text-align:left}
+  .hero-stats-top{display:none}
+  .hero-bot{grid-template-columns:1fr}.hero-actions{justify-content:flex-start}
+}
+@media(max-width:768px){
+  .nav-links,.nav-btn{display:none}.hbg{display:flex}
+  #strips{grid-template-columns:1fr}
+  .strip-item{border-right:none;border-bottom:1px solid var(--ib)}
+  .strip-item:last-child{border-bottom:none}
+  .strip-item:nth-child(3){border-right:none}
+}
+@media(hover:none){#cur,#cur-r{display:none}body{cursor:auto}a,button{cursor:pointer}}
+</style>
+</head>
+<body>
+<div id="grain"></div>
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- ─── NAV ─────────────────────────────────────────── -->
+<nav id="nav">
+  <a href="index_new.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
+  <ul class="nav-links">
+    <li><a href="index_new.html">Home</a></li>
+    <li class="nav-drop">
+      <button class="nav-drop-trigger active" aria-haspopup="true" aria-expanded="false">
+        Resources
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M2 4l4 4 4-4"/></svg>
+      </button>
+      <div class="nav-drop-panel" role="menu">
+        <a href="resource-retirement.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement
+        </a>
+        <a href="resource-investment.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment
+        </a>
+        <a href="resource-estate.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning
+        </a>
+        <a href="resource-tax.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy
+        </a>
+        <a href="resource-insurance.html" class="nav-drop-item current" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance
+        </a>
+        <div class="nav-drop-divider"></div>
+        <a href="resource-money.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle
+        </a>
+      </div>
+    </li>
+  </ul>
+  <a href="contact.html" class="nav-btn"><span>Begin Your Plan</span></a>
+  <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div id="mob">
+  <button id="mob-x">✕</button>
+  <a href="index_new.html" class="mob-a">Home</a>
+  <div class="mob-resources">
+    <div class="mob-res-label">Resources</div>
+    <div class="mob-res-links">
+      <a href="resource-retirement.html" class="mob-res-link">Retirement</a>
+      <a href="resource-investment.html" class="mob-res-link">Investment</a>
+      <a href="resource-estate.html" class="mob-res-link">Estate</a>
+      <a href="resource-tax.html" class="mob-res-link">Tax</a>
+      <a href="resource-insurance.html" class="mob-res-link current">Insurance</a>
+      <a href="resource-money.html" class="mob-res-link">Money &amp; Lifestyle</a>
+    </div>
+  </div>
+  <a href="contact.html" class="mob-a">Contact</a>
+</div>
+
+<!-- ─── SIDEBAR TRIGGER ──────────────────────────────── -->
+<button id="sb-trigger" class="nudge" aria-label="Open resources panel">
+  <div class="sb-trig-icon"><span></span><span></span><span></span></div>
+  <span class="sb-trig-label">Tools</span>
+</button>
+
+<!-- ─── SIDEBAR OVERLAY ─────────────────────────────── -->
+<div id="sb-overlay"></div>
+
+<!-- ─── SIDEBAR PANEL ───────────────────────────────── -->
+<div id="sb-panel" role="dialog" aria-modal="true" aria-label="Insurance resources panel">
+  <div class="sb-head">
+    <div class="sb-title"><em>Insurance</em> Resources</div>
+    <button class="sb-close" id="sb-close" aria-label="Close panel">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l10 10M13 3L3 13"/></svg>
+    </button>
+  </div>
+  <div class="sb-tabs">
+    <button class="sb-tab active" data-pane="nav">Navigate</button>
+    <button class="sb-tab" data-pane="checklist">Checklist</button>
+    <button class="sb-tab" data-pane="tools">Calculators</button>
+  </div>
+  <div class="sb-body">
+
+    <!-- NAV PANE -->
+    <div class="sb-pane active" id="pane-nav">
+      <p style="font-size:.78rem;line-height:1.72;color:rgba(8,12,10,.46);font-weight:300;margin-bottom:2rem">Browse the full resource library. Each guide is built to give you clarity on one area of your financial plan.</p>
+      <a href="resource-retirement.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg></div>
+        <div><div class="sb-res-name">Retirement</div><div class="sb-res-desc">Income architecture &amp; withdrawal strategy</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-investment.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div><div class="sb-res-name">Investment</div><div class="sb-res-desc">Portfolio construction &amp; evidence-based growth</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-estate.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div><div class="sb-res-name">Estate Planning</div><div class="sb-res-desc">Trust structures &amp; legacy architecture</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-tax.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg></div>
+        <div><div class="sb-res-name">Tax Strategy</div><div class="sb-res-desc">Tax-efficient investing across your lifecycle</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-insurance.html" class="sb-res-item current">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><div class="sb-res-name" style="color:var(--sage)">Insurance</div><div class="sb-res-desc">You are here</div></div>
+      </a>
+      <a href="resource-money.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div><div class="sb-res-name">Money &amp; Lifestyle</div><div class="sb-res-desc">Financial habits &amp; confidence building</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+    </div>
+
+    <!-- CHECKLIST PANE -->
+    <div class="sb-pane" id="pane-checklist">
+      <div class="sb-ck-prog">
+        <div class="sb-ck-prog-label"><span>Coverage Review</span><span id="ck-pct">0 / 16</span></div>
+        <div class="sb-ck-prog-bar"><div class="sb-ck-prog-fill" id="ck-fill"></div></div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Life Insurance</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Coverage amount reviewed</strong> — face value aligned to income replacement needs (typically 10–15× income)</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Policy type confirmed</strong> — term vs. permanent evaluated based on need and budget</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Beneficiary designations current — primary and contingent named</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Ownership reviewed — consider ILIT if estate tax is a concern</div>
+        </div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Disability &amp; Income Protection</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Long-term disability coverage</strong> — own-occupation definition; covers 60–70% of income</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Benefit period sufficient — to age 65 minimum for high-income earners</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Short-term disability or emergency fund covers the elimination period</div>
+        </div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Property &amp; Liability</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Homeowners/renters policy reviewed — replacement cost, not actual cash value</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Auto liability limits reviewed — minimum $100K/$300K recommended</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Personal umbrella policy</strong> — $1M+ coverage for high-net-worth households</div>
+        </div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Long-Term Care &amp; Health</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Long-term care strategy in place — insurance, self-insure plan, or hybrid policy</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Health insurance adequate — review deductibles, out-of-pocket max, network</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">HSA maximized if enrolled in HDHP ($4,150 individual / $8,300 family in 2024)</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Key-person insurance reviewed if business owner</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Annual insurance review scheduled — coverages grow stale as life changes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOLS PANE -->
+    <div class="sb-pane" id="pane-tools">
+
+      <!-- Life Insurance Needs Calculator -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Life Insurance Needs</div>
+        <div class="sb-tool-desc">Estimate how much life insurance coverage your family requires to maintain their standard of living.</div>
+        <div class="sb-tool-section">
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Annual Income ($)</label>
+              <input class="sb-tool-input" id="li-income" type="number" placeholder="e.g. 150000">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Years to Replace</label>
+              <input class="sb-tool-input" id="li-years" type="number" placeholder="e.g. 20">
+            </div>
+          </div>
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Outstanding Debt ($)</label>
+              <input class="sb-tool-input" id="li-debt" type="number" placeholder="e.g. 350000">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Existing Coverage ($)</label>
+              <input class="sb-tool-input" id="li-existing" type="number" placeholder="e.g. 250000">
+            </div>
+          </div>
+          <div>
+            <label class="sb-tool-lbl">Liquid Assets / Savings ($)</label>
+            <input class="sb-tool-input" id="li-assets" type="number" placeholder="e.g. 100000">
+          </div>
+        </div>
+        <button class="sb-tool-btn" onclick="runLifeCalc()">Calculate Need</button>
+        <div id="li-result"></div>
+      </div>
+
+      <!-- Disability Income Gap -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Disability Income Gap</div>
+        <div class="sb-tool-desc">See how much of your income would be at risk if you became unable to work.</div>
+        <div class="sb-tool-section">
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Monthly Gross Income ($)</label>
+              <input class="sb-tool-input" id="di-income" type="number" placeholder="e.g. 12000">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Current Coverage ($)</label>
+              <input class="sb-tool-input" id="di-current" type="number" placeholder="e.g. 4000">
+            </div>
+          </div>
+          <div>
+            <label class="sb-tool-lbl">Monthly Expenses ($)</label>
+            <input class="sb-tool-input" id="di-expenses" type="number" placeholder="e.g. 8000">
+          </div>
+        </div>
+        <button class="sb-tool-btn" onclick="runDisability()">Analyze Gap</button>
+        <div id="di-result"></div>
+      </div>
+
+      <!-- Umbrella Coverage Estimator -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Umbrella Coverage Guide</div>
+        <div class="sb-tool-desc">Estimate the personal umbrella liability coverage appropriate for your net worth and risk profile.</div>
+        <div class="sb-tool-section">
+          <div>
+            <label class="sb-tool-lbl">Total Net Worth ($)</label>
+            <input class="sb-tool-input" id="umb-nw" type="number" placeholder="e.g. 2000000">
+          </div>
+          <div>
+            <label class="sb-tool-lbl">Number of Vehicles</label>
+            <input class="sb-tool-input" id="umb-cars" type="number" placeholder="e.g. 2">
+          </div>
+          <div>
+            <label class="sb-tool-lbl">Risk Factors</label>
+            <select class="sb-tool-select" id="umb-risk">
+              <option value="">Select...</option>
+              <option value="low">Low — no teen drivers, no pool, no home business</option>
+              <option value="moderate">Moderate — teen driver or recreational property</option>
+              <option value="high">High — multiple exposures, high public profile</option>
+            </select>
+          </div>
+        </div>
+        <button class="sb-tool-btn" onclick="runUmbrella()">Get Recommendation</button>
+        <div id="umb-result"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ─── HERO ──────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-geo" aria-hidden="true">
+    <svg viewBox="0 0 400 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M200 20 L360 80 L360 220 C360 320 280 400 200 440 C120 400 40 320 40 220 L40 80 Z" stroke="rgba(122,170,126,1)" stroke-width="1" fill="none"/>
+      <path d="M200 60 L330 110 L330 220 C330 305 262 375 200 410 C138 375 70 305 70 220 L70 110 Z" stroke="rgba(122,170,126,0.5)" stroke-width="0.75" fill="none"/>
+      <path d="M200 100 L300 140 L300 220 C300 292 244 350 200 380 C156 350 100 292 100 220 L100 140 Z" stroke="rgba(122,170,126,0.25)" stroke-width="0.5" fill="none"/>
+      <!-- Inner cross -->
+      <line x1="200" y1="180" x2="200" y2="300" stroke="rgba(122,170,126,0.3)" stroke-width="0.75"/>
+      <line x1="150" y1="240" x2="250" y2="240" stroke="rgba(122,170,126,0.3)" stroke-width="0.75"/>
+    </svg>
+  </div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-lines" aria-hidden="true"></div>
+  <div class="hero-ghost" aria-hidden="true">shield</div>
+
+  <div class="hero-content">
+    <div class="hero-top">
+      <div class="hero-ey">Insurance &amp; Protection</div>
+      <div class="hero-stats-top">
+        <div class="hero-stat-t">
+          <div class="hero-stat-tl">Coverage Types</div>
+          <div class="hero-stat-tv">Life, Disability,<em> &amp; more</em></div>
+        </div>
+        <div class="hero-stat-t">
+          <div class="hero-stat-tl">Review Frequency</div>
+          <div class="hero-stat-tv">Annual<em> minimum</em></div>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="hero-ttl">
+      <span class="ln"><span class="wd">Protect</span></span>
+      <span class="ln"><span class="wd">what</span></span>
+      <span class="ln"><span class="wd"><em>matters.</em></span></span>
+    </h1>
+
+    <div class="hero-bot">
+      <p class="hero-desc">
+        Insurance isn't a product — it's a foundation. <strong>The right coverage, properly structured,</strong>
+        ensures that one bad event cannot undo everything you've built. We review every layer of protection as part of a complete wealth plan.
+      </p>
+      <div class="hero-actions">
+        <a href="contact.html" class="btn-p btn-solid mag">Review My Coverage</a>
+        <button class="btn-p btn-ghost-p mag" onclick="openSidebar('tools')">Open Calculators</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STRIPS ─────────────────────────────────────────── -->
+<section id="strips">
+  <div class="strip-item rv">
+    <div class="strip-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
+    <div class="strip-lbl">Most Overlooked</div>
+    <div class="strip-val">Disability</div>
+    <div class="strip-note">A 35-year-old is 3× more likely to become disabled than to die before age 65.</div>
+  </div>
+  <div class="strip-item rv d1">
+    <div class="strip-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <div class="strip-lbl">Starting Point</div>
+    <div class="strip-val">10–15×</div>
+    <div class="strip-note">Life insurance face value as a multiple of annual income for most households.</div>
+  </div>
+  <div class="strip-item rv d2">
+    <div class="strip-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </div>
+    <div class="strip-lbl">Umbrella Coverage</div>
+    <div class="strip-val">$1M+</div>
+    <div class="strip-note">Recommended minimum for households with significant net worth or liability exposure.</div>
+  </div>
+  <div class="strip-item rv d3">
+    <div class="strip-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    </div>
+    <div class="strip-lbl">LTC Risk</div>
+    <div class="strip-val">70<em>%</em></div>
+    <div class="strip-note">Chance a person over 65 will need some form of long-term care in their lifetime.</div>
+  </div>
+</section>
+
+<!-- ─── COVERAGE TYPES ─────────────────────────────────── -->
+<section id="coverage">
+  <div class="cov-hd">
+    <div class="rv-l">
+      <div class="cov-ey">Coverage Overview</div>
+      <h2 class="cov-h">The layers<br>of <em>protection.</em></h2>
+    </div>
+    <p class="cov-sub rv d1">Every coverage type serves a specific role in your financial architecture. <strong>Understanding each one — and how they interact — is what separates a reactive insurance purchase from a deliberate protection strategy.</strong></p>
+  </div>
+  <div class="cov-grid">
+
+    <!-- Life Insurance — full width -->
+    <div class="cov-card wide rv">
+      <div>
+        <div class="cov-num">01</div>
+        <div class="cov-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div class="cov-title">Life Insurance</div>
+        <div class="cov-type">Income replacement &amp; legacy</div>
+      </div>
+      <div>
+        <p class="cov-body">Life insurance replaces income, eliminates debt, and funds future goals when you're no longer there to do it yourself. <strong>Term life is simple and cost-effective</strong> for most income-replacement needs. Permanent policies — whole life, universal life, indexed UL — serve more specialized roles: estate liquidity, tax-advantaged cash accumulation, or funding buy-sell agreements for business owners.<br><br>The right structure depends entirely on your goals, not what a policy illustration makes look attractive. We model every option objectively before a recommendation is made.</p>
+      </div>
+    </div>
+
+    <div class="cov-card rv">
+      <div class="cov-num">02</div>
+      <div class="cov-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>
+      </div>
+      <div class="cov-title">Disability Income</div>
+      <div class="cov-type">Your most valuable asset</div>
+      <p class="cov-body">Your ability to earn income is worth more than your home, your car, and your current portfolio combined. <strong>Own-occupation disability coverage</strong> protects that asset — paying if you cannot perform your specific profession, not just any work. Group employer policies cover only 60% of base salary, exclude bonuses, and are taxable. Individual policies fill this gap.</p>
+    </div>
+
+    <div class="cov-card rv d1">
+      <div class="cov-num">03</div>
+      <div class="cov-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div class="cov-title">Property &amp; Casualty</div>
+      <div class="cov-type">Homeowners, auto &amp; umbrella</div>
+      <p class="cov-body">Homeowners and auto policies are the foundation — but <strong>most clients are meaningfully underinsured</strong> on liability limits. A personal umbrella policy extends coverage across all policies for $1–5 million or more, at a fraction of the cost. For high-net-worth households, it's one of the highest-leverage insurance decisions available.</p>
+    </div>
+
+    <div class="cov-card rv">
+      <div class="cov-num">04</div>
+      <div class="cov-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 2v5h5"/><path d="M21 6L16 1 5 1a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6z"/><path d="M9 13h6M9 17h3"/></svg>
+      </div>
+      <div class="cov-title">Long-Term Care</div>
+      <div class="cov-type">Aging &amp; care planning</div>
+      <p class="cov-body">The average annual cost of a private nursing home room exceeds $100,000. <strong>Seventy percent of adults 65+ will need some form of care</strong>. Traditional LTC insurance, hybrid life/LTC policies, and self-insure strategies each have tradeoffs — and the optimal approach changes with age. The best time to evaluate this is before it becomes urgent.</p>
+    </div>
+
+    <div class="cov-card rv d1">
+      <div class="cov-num">05</div>
+      <div class="cov-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+      </div>
+      <div class="cov-title">Business Insurance</div>
+      <div class="cov-type">Key-person &amp; buy-sell</div>
+      <p class="cov-body">Business owners face a distinct layer of insurance need. <strong>Key-person life insurance</strong> protects the business if a critical employee or owner dies. Buy-sell agreements funded by life or disability insurance ensure ownership transitions without forcing heirs to sell at a discount or leaving surviving partners exposed. These are often the most underplanned areas we encounter.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── NEEDS ANALYSIS BAND ─────────────────────────────── -->
+<section id="needs-band">
+  <div class="nb-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+  </div>
+  <div>
+    <div class="nb-label">Our Process</div>
+    <div class="nb-title">Insurance reviewed as part of<br>your complete financial picture.</div>
+    <p class="nb-body">Most insurance reviews look at coverage in isolation. We look at it in the context of your full balance sheet — <strong>how your existing assets, income streams, and estate plan affect what you actually need to insure against, and what you can afford to self-insure.</strong> The result is coverage that's neither excessive nor dangerously thin.</p>
+  </div>
+  <div class="nb-cta">
+    <a href="contact.html" class="btn-p btn-solid mag" style="white-space:nowrap">Schedule a Review</a>
+  </div>
+</section>
+
+<!-- ─── LIFE EVENTS ─────────────────────────────────────── -->
+<section id="events">
+  <div class="ev-hd rv">
+    <div class="ev-ey">When Coverage Changes</div>
+    <h2 class="ev-h">Life events that<br>trigger a <em>review.</em></h2>
+    <p class="ev-sub">Insurance needs aren't static. These inflection points are when gaps most often appear — and when the cost of being underinsured is highest.</p>
+  </div>
+  <div class="ev-list">
+    <div class="ev-row rv">
+      <div class="ev-n">01</div>
+      <div class="ev-title">Marriage or <em>divorce</em></div>
+      <p class="ev-body">Beneficiary designations must be updated immediately. Coverage needs shift significantly — a spouse may need income replacement, or a previously named ex-spouse may still be listed on policies years later. <strong>Divorce is the most common source of outdated beneficiary designations we encounter.</strong></p>
+    </div>
+    <div class="ev-row rv d1">
+      <div class="ev-n">02</div>
+      <div class="ev-title">Birth of a <em>child</em></div>
+      <p class="ev-body">A new dependent changes your income replacement need, your need for a guardian designation, and often your long-term disability picture. <strong>Life insurance coverage should be re-evaluated within 90 days of every birth or adoption</strong> — and the policy term should extend to when your youngest child reaches financial independence.</p>
+    </div>
+    <div class="ev-row rv d2">
+      <div class="ev-n">03</div>
+      <div class="ev-title">Significant income <em>increase</em></div>
+      <p class="ev-body">Coverage amounts that made sense at $120,000 may be deeply inadequate at $350,000. Group disability plans don't automatically scale with income, and life insurance benefit amounts don't adjust for lifestyle inflation. <strong>Review coverage every time your income increases by more than 25%.</strong></p>
+    </div>
+    <div class="ev-row rv">
+      <div class="ev-n">04</div>
+      <div class="ev-title">Business ownership <em>transition</em></div>
+      <p class="ev-body">Starting or acquiring a business creates key-person exposure, buy-sell funding needs, and potential personal liability that didn't previously exist. <strong>Business owners are statistically the most underinsured segment of high-income households</strong> — and often the ones with the most to lose from a single uninsured event.</p>
+    </div>
+    <div class="ev-row rv d1">
+      <div class="ev-n">05</div>
+      <div class="ev-title">Approaching <em>retirement</em></div>
+      <p class="ev-body">As earned income decreases and assets grow, the nature of insurance need shifts. Life insurance for income replacement becomes less critical; long-term care coverage becomes more urgent. <strong>The 55–65 window is the last cost-effective moment</strong> to lock in LTC coverage before underwriting becomes difficult or premiums prohibitive.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQ ───────────────────────────────────────────────── -->
+<section id="faq">
+  <div class="faq-hd rv">
+    <div>
+      <div class="faq-ey">Questions</div>
+      <h2 class="faq-h">Insurance,<br><em>answered.</em></h2>
+    </div>
+    <p class="faq-side">These are the questions we hear most often from clients at every stage of life — answered plainly, without product bias or jargon.<br><br><strong>The right answer always depends on your specific situation.</strong></p>
+  </div>
+  <div class="faq-list rv d1">
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">01</span>Term or permanent life insurance — which is right for me?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">For most people, <strong>term life insurance is the right starting point</strong>. It's straightforward, affordable, and purpose-built for income replacement during the years when you're most financially exposed. Permanent policies have legitimate uses — primarily for estate liquidity, business planning, or tax-advantaged accumulation — but they're significantly more expensive and are often sold where term would suffice. We always start with what you need the coverage to do, not what generates the highest premium.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">02</span>How much life insurance do I actually need?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">A useful starting estimate is 10–15 times your gross income, plus any outstanding debts, minus liquid assets your family could access. But the real answer requires modeling: <strong>what income needs to be replaced, for how long, at what rate of inflation, and how much existing capital reduces the gap.</strong> The calculator in this panel gives you a directional estimate. A proper needs analysis goes further and accounts for social security survivor benefits, existing savings, and your specific goals.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">03</span>My employer provides disability coverage — is that enough?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">Almost never, for three reasons. First, group policies typically replace only 60% of base salary and exclude bonuses, commissions, and other income. Second, if your employer pays the premium, the benefit is taxable — reducing the effective replacement rate to 40–50%. Third, group policies are tied to your employer; <strong>if you change jobs or the company is acquired, the coverage disappears</strong>. An individually owned policy is portable, tax-free if you pay the premium, and can be structured to cover total income, not just salary.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">04</span>When should I start thinking about long-term care insurance?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">The optimal window is generally ages 55–65. Before 55, the premiums are low but you're paying for decades of coverage before the risk materializes. After 65, underwriting becomes more difficult and premiums increase sharply. <strong>Hybrid life/LTC policies</strong> have become popular as they guarantee a death benefit if LTC isn't needed, solving the "what if I pay for decades and never use it" concern that made traditional standalone LTC policies unpopular.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">05</span>Do I need an umbrella policy if I already have home and auto insurance?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">Yes, if your net worth exceeds the liability limits on your existing policies — which is true of most clients we work with. Standard homeowner policies carry $300,000 in liability coverage. A single serious car accident, a lawsuit, or an incident on your property can generate claims well beyond that. <strong>A $1–2 million umbrella policy typically costs $150–300 per year</strong> — one of the highest return-per-dollar protection decisions available. Net-worth households without umbrella coverage are unnecessarily exposed.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ──────────────────────────────────────────────── -->
+<section id="cta">
+  <div class="rv-l">
+    <div class="cta-ey">Work With Us</div>
+    <h2 class="cta-h">Protection<br>built to<br><em>last.</em></h2>
+    <p class="cta-p">Insurance gaps don't announce themselves. A comprehensive review ensures every layer of your plan is intentional — not accidental.</p>
+    <div class="cta-acts">
+      <a href="contact.html" class="btn-p btn-solid mag">Schedule a Review</a>
+      <button class="btn-p btn-ghost-p mag" onclick="openSidebar('checklist')">Open Checklist</button>
+    </div>
+  </div>
+  <div class="cta-right rv">
+    <div class="cta-dets">
+      <div><div class="cta-dl">Phone</div><div class="cta-dv"><a href="tel:+15551234567">(555) 123-4567</a></div></div>
+      <div><div class="cta-dl">Email</div><div class="cta-dv"><a href="mailto:matthew@pindoley.com">matthew@pindoley.com</a></div></div>
+      <div><div class="cta-dl">Consultations</div><div class="cta-dv">Complimentary, no pressure</div></div>
+      <div><div class="cta-dl">Availability</div><div class="cta-dv">Mon – Fri, 9am – 5pm</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <div class="ft-logo">Matthew Pindoley <b>SE-AWMA®</b></div>
+      <p class="ft-tg">Sophisticated wealth management for those who've earned the right to expect more.</p>
+    </div>
+    <div class="ft-lks">
+      <div class="ft-col"><h4>Services</h4><ul>
+        <li><a href="service.html">Wealth Management</a></li>
+        <li><a href="service.html">Retirement Planning</a></li>
+        <li><a href="service.html">Tax Strategy</a></li>
+        <li><a href="service.html">Estate Planning</a></li>
+      </ul></div>
+      <div class="ft-col"><h4>Resources</h4><ul>
+        <li><a href="resource-retirement.html">Retirement</a></li>
+        <li><a href="resource-investment.html">Investment</a></li>
+        <li><a href="resource-estate.html">Estate</a></li>
+        <li><a href="resource-tax.html">Tax Planning</a></li>
+        <li><a href="resource-insurance.html">Insurance</a></li>
+        <li><a href="resource-money.html">Money &amp; Lifestyle</a></li>
+      </ul></div>
+      <div class="ft-col"><h4>Firm</h4><ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about-firm.html">Our Firm</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <p class="ft-cp">© 2025 Matthew Pindoley Financial Advisory. All rights reserved.</p>
+    <p class="ft-di">Investment advisory services offered through a registered investment adviser. This content is for informational purposes only and does not constitute investment, legal, or tax advice.</p>
+  </div>
+</footer>
+
+<script>
+/* ─── CURSOR ─────────────────────────────────────────── */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button,.cov-card,.ev-row,.strip-item,.sb-res-item,.sb-ck-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+document.addEventListener('mousedown',()=>document.body.classList.add('pressing'));
+document.addEventListener('mouseup',()=>document.body.classList.remove('pressing'));
+
+/* ─── NAV ────────────────────────────────────────────── */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('stk',scrollY>60),{passive:true});
+
+/* NAV DROPDOWN */
+document.querySelectorAll('.nav-drop').forEach(drop=>{
+  const trigger=drop.querySelector('.nav-drop-trigger');
+  const panel=drop.querySelector('.nav-drop-panel');
+  if(!trigger||!panel)return;
+  let t=null;
+  const open=()=>{clearTimeout(t);drop.classList.add('open');trigger.setAttribute('aria-expanded','true')};
+  const close=()=>{t=setTimeout(()=>{drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')},120)};
+  drop.addEventListener('mouseenter',open);
+  drop.addEventListener('mouseleave',close);
+  trigger.addEventListener('click',()=>drop.classList.contains('open')?close():open());
+  drop.addEventListener('keydown',e=>{if(e.key==='Escape'){drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')}});
+  drop.addEventListener('focusout',e=>{if(!drop.contains(e.relatedTarget)){drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')}});
+});
+
+/* MOBILE NAV */
+const mob=document.getElementById('mob'),hbg=document.getElementById('hbg'),mobX=document.getElementById('mob-x');
+hbg.addEventListener('click',()=>mob.classList.add('open'));
+mobX.addEventListener('click',()=>mob.classList.remove('open'));
+document.querySelectorAll('.mob-a,.mob-res-link').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
+
+/* ─── HERO WORDS ─────────────────────────────────────── */
+setTimeout(()=>document.querySelectorAll('.hero-ttl .wd').forEach((el,i)=>{
+  setTimeout(()=>el.classList.add('vis'),i*130);
+}),200);
+
+/* ─── REVEAL ─────────────────────────────────────────── */
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');io.unobserve(x.target)}})},{threshold:.07,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.rv-l').forEach(el=>io.observe(el));
+
+/* ─── FAQ ────────────────────────────────────────────── */
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const open=btn.getAttribute('aria-expanded')==='true';
+    document.querySelectorAll('.faq-q').forEach(b=>{b.setAttribute('aria-expanded','false');b.nextElementSibling.classList.remove('open')});
+    if(!open){btn.setAttribute('aria-expanded','true');btn.nextElementSibling.classList.add('open')}
+  });
+});
+
+/* ─── MAGNETIC ───────────────────────────────────────── */
+document.querySelectorAll('.mag,.nav-btn').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.22}px,${(e.clientY-r.top-r.height/2)*.22}px)`;
+  });
+  btn.addEventListener('mouseleave',()=>{btn.style.transform=''});
+});
+
+/* ─── SIDEBAR ────────────────────────────────────────── */
+const sbPanel=document.getElementById('sb-panel');
+const sbOverlay=document.getElementById('sb-overlay');
+
+function openSidebar(pane){
+  sbPanel.classList.add('open');
+  sbOverlay.classList.add('open');
+  document.body.style.overflow='hidden';
+  if(pane) switchTab(pane);
+}
+function closeSidebar(){
+  sbPanel.classList.remove('open');
+  sbOverlay.classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('sb-trigger').addEventListener('click',()=>openSidebar('nav'));
+document.getElementById('sb-close').addEventListener('click',closeSidebar);
+sbOverlay.addEventListener('click',closeSidebar);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar()});
+
+function switchTab(name){
+  document.querySelectorAll('.sb-tab').forEach(t=>t.classList.toggle('active',t.dataset.pane===name));
+  document.querySelectorAll('.sb-pane').forEach(p=>p.classList.toggle('active',p.id==='pane-'+name));
+}
+document.querySelectorAll('.sb-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>switchTab(tab.dataset.pane));
+});
+
+/* ─── CHECKLIST ──────────────────────────────────────── */
+function toggleCk(item){item.classList.toggle('done');updateProgress()}
+function updateProgress(){
+  const all=document.querySelectorAll('.sb-ck-item');
+  const done=document.querySelectorAll('.sb-ck-item.done');
+  document.getElementById('ck-pct').textContent=done.length+' / '+all.length;
+  document.getElementById('ck-fill').style.width=(done.length/all.length*100)+'%';
+}
+
+/* ─── LIFE INSURANCE NEEDS CALCULATOR ───────────────── */
+function runLifeCalc(){
+  const income=parseFloat(document.getElementById('li-income').value)||0;
+  const years=parseInt(document.getElementById('li-years').value)||0;
+  const debt=parseFloat(document.getElementById('li-debt').value)||0;
+  const existing=parseFloat(document.getElementById('li-existing').value)||0;
+  const assets=parseFloat(document.getElementById('li-assets').value)||0;
+  const r=document.getElementById('li-result');
+
+  if(!income||!years){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please enter your annual income and number of years to replace.</div>';return;}
+
+  // Present value of income stream (discounted at 4%)
+  const discountRate=0.04;
+  const pvIncome=income*(1-Math.pow(1+discountRate,-years))/discountRate;
+  const totalNeed=pvIncome+debt;
+  const netNeed=Math.max(0,totalNeed-existing-assets);
+  const multipleOfIncome=(totalNeed/income).toFixed(1);
+
+  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+  const adequate=existing>=(netNeed*0.9);
+
+  r.innerHTML=`<div class="sb-tool-result ${adequate?'sb-r-ok':'sb-r-warn'}">
+    <div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);font-weight:600;margin-bottom:.75rem">Life Insurance Needs Analysis</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem">
+      <div><div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(8,12,10,.38);font-weight:600;margin-bottom:.2rem">Total Need</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--ink)">${fmt(totalNeed)}</div></div>
+      <div><div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(8,12,10,.38);font-weight:600;margin-bottom:.2rem">Additional Coverage</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:${netNeed>0?'#a0271e':'#2a6b2e'}">${netNeed>0?fmt(netNeed):'Covered'}</div></div>
+    </div>
+    <div style="font-size:.75rem;color:rgba(8,12,10,.44);line-height:1.62">Income replacement value: <strong style="color:var(--ink)">${fmt(pvIncome)}</strong> · Equivalent to <strong style="color:var(--ink)">${multipleOfIncome}× income</strong>. ${netNeed>0?`<strong>Consider adding ${fmt(netNeed)} in additional coverage.</strong>`:'Your existing coverage appears sufficient based on these inputs.'}<br><br><em style="font-size:.7rem;color:rgba(8,12,10,.32)">Assumes 4% discount rate. Does not account for Social Security survivor benefits or investment growth. Use as a starting estimate only.</em></div>
+  </div>`;
+}
+
+/* ─── DISABILITY INCOME GAP ──────────────────────────── */
+function runDisability(){
+  const income=parseFloat(document.getElementById('di-income').value)||0;
+  const current=parseFloat(document.getElementById('di-current').value)||0;
+  const expenses=parseFloat(document.getElementById('di-expenses').value)||0;
+  const r=document.getElementById('di-result');
+
+  if(!income){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please enter your monthly gross income.</div>';return;}
+
+  const targetCoverage=income*0.65;
+  const gap=Math.max(0,targetCoverage-current);
+  const expenseGap=expenses>0?Math.max(0,expenses-current):null;
+  const replacementPct=income>0?(current/income*100).toFixed(0):0;
+  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+
+  let statusClass=gap===0?'sb-r-ok':'sb-r-warn';
+  r.innerHTML=`<div class="sb-tool-result ${statusClass}">
+    <div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);font-weight:600;margin-bottom:.75rem">Disability Income Analysis</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem">
+      <div><div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(8,12,10,.38);font-weight:600;margin-bottom:.2rem">Current Replacement</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--ink)">${replacementPct}% of income</div></div>
+      <div><div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(8,12,10,.38);font-weight:600;margin-bottom:.2rem">Coverage Gap</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:${gap>0?'#a0271e':'#2a6b2e'}">${gap>0?fmt(gap)+'/mo':'On target'}</div></div>
+    </div>
+    <div style="font-size:.75rem;color:rgba(8,12,10,.44);line-height:1.62">
+      Target coverage (65% of income): <strong style="color:var(--ink)">${fmt(targetCoverage)}/mo</strong>${expenseGap!==null&&expenseGap>0?` · Monthly expense shortfall: <strong style="color:var(--ink)">${fmt(expenseGap)}</strong>`:''}.<br><br>
+      ${gap>0?`<strong>An individual disability policy could close the ${fmt(gap)}/mo gap.</strong> Note: if employer pays your premium, benefits are taxable — your effective gap may be higher.`:'Your disability coverage appears to meet the target replacement ratio.'}<br><br>
+      <em style="font-size:.7rem;color:rgba(8,12,10,.32)">Industry standard targets 60–70% income replacement. Group policies exclude bonuses and are taxable if employer-paid.</em>
+    </div>
+  </div>`;
+}
+
+/* ─── UMBRELLA COVERAGE ──────────────────────────────── */
+function runUmbrella(){
+  const nw=parseFloat(document.getElementById('umb-nw').value)||0;
+  const cars=parseInt(document.getElementById('umb-cars').value)||0;
+  const risk=document.getElementById('umb-risk').value;
+  const r=document.getElementById('umb-result');
+
+  if(!nw||!risk){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please enter your net worth and select a risk profile.</div>';return;}
+
+  // Base: round up net worth to nearest million, min $1M
+  let base=Math.max(1000000,Math.ceil(nw/1000000)*1000000);
+  // Add for cars
+  if(cars>=3) base+=1000000;
+  // Adjust for risk
+  if(risk==='moderate') base=Math.max(base,2000000);
+  if(risk==='high') base=Math.max(base,3000000);
+
+  const fmt=n=>'$'+n.toLocaleString('en-US');
+  const fmtEst=n=>'$'+Math.round(n).toLocaleString('en-US');
+
+  // Annual cost estimate: roughly $150–300 per million
+  const lowCost=base/1000000*150;
+  const highCost=base/1000000*300;
+
+  r.innerHTML=`<div class="sb-tool-result sb-r-ok">
+    <div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);font-weight:600;margin-bottom:.75rem">Umbrella Coverage Recommendation</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem">
+      <div><div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(8,12,10,.38);font-weight:600;margin-bottom:.2rem">Suggested Coverage</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--ink)">${fmt(base)}</div></div>
+      <div><div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(8,12,10,.38);font-weight:600;margin-bottom:.2rem">Estimated Annual Cost</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--ink)">${fmtEst(lowCost)}–${fmtEst(highCost)}</div></div>
+    </div>
+    <div style="font-size:.75rem;color:rgba(8,12,10,.44);line-height:1.62">
+      Based on a net worth of <strong style="color:var(--ink)">${fmt(nw)}</strong> and a <strong style="color:var(--ink)">${risk}</strong> risk profile. Umbrella policies layer on top of your existing home and auto liability limits — ensure those are set to at least $250,000/$500,000 before adding an umbrella.<br><br>
+      <em style="font-size:.7rem;color:rgba(8,12,10,.32)">Cost estimates are illustrative. Actual premiums vary by insurer, state, and underlying policy limits. Quotes should be obtained from 2–3 carriers.</em>
+    </div>
+  </div>`;
+}
+</script>
+</body>
+</html>

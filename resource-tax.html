@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Tax Strategy — Matthew Pindoley, SE-AWMA®</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Tax page — pure cream / deep ink / warm bronze accent */
+  --ink:#0c0b09;--ink2:#141210;--ink3:#1c1a17;
+  --cream:#faf8f4;--cream2:#f4f0e8;--cream3:#ede8dd;
+  --bronze:#9a7c52;--bronze2:#b8966a;--bronze3:rgba(154,124,82,.12);
+  --charcoal:#2a2720;--charcoal2:#3a342c;
+  --muted:rgba(12,11,9,.36);--border:rgba(154,124,82,.15);--border2:rgba(154,124,82,.28);
+  --im:rgba(12,11,9,.44);--ib:rgba(12,11,9,.07);--ib2:rgba(12,11,9,.04);
+  --ff:'Cormorant Garamond',Georgia,serif;
+  --fb:'DM Sans',system-ui,sans-serif;
+  --e1:cubic-bezier(.16,1,.3,1);--e2:cubic-bezier(.22,.9,.25,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--cream);color:var(--ink);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
+a{color:inherit;text-decoration:none}
+
+/* GRAIN */
+#grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.018;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px;animation:grn .08s steps(1) infinite}
+@keyframes grn{0%{transform:translate(0,0)}20%{transform:translate(-4%,-3%)}40%{transform:translate(3%,5%)}60%{transform:translate(-2%,2%)}80%{transform:translate(5%,-4%)}100%{transform:translate(0,0)}}
+
+/* CURSOR — always visible unless touch-only device */
+#cur{position:fixed;top:0;left:0;width:6px;height:6px;border-radius:50%;
+  background:var(--bronze);pointer-events:none;z-index:10000;
+  transform:translate(-50%,-50%);
+  transition:width .3s var(--e1),height .3s var(--e1),opacity .2s;
+  mix-blend-mode:normal}
+#cur-r{position:fixed;top:0;left:0;width:36px;height:36px;border-radius:50%;
+  border:1.5px solid rgba(154,124,82,.5);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .35s var(--e1),height .35s var(--e1),border-color .3s}
+body.hov #cur{width:44px;height:44px;opacity:.08}
+body.hov #cur-r{width:62px;height:62px;border-color:var(--bronze)}
+body.pressing #cur{width:20px;height:20px}
+
+/* ─── NAV ─────────────────────────────────────────── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:2rem 5rem;
+  transition:padding .45s var(--e2),background .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+  background:rgba(12,11,9,.55);backdrop-filter:blur(16px)}
+#nav.stk{padding:1rem 5rem;background:rgba(12,11,9,.92);
+  border-bottom-color:rgba(154,124,82,.12)}
+/* Logo always cream on this page since hero is dark */
+.nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;
+  letter-spacing:.06em;line-height:1.3;color:var(--cream)}
+.nav-logo b{color:var(--bronze2);font-weight:400;font-style:italic}
+.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
+.nav-links a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:500;color:rgba(250,248,244,.38);position:relative;transition:color .25s}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--bronze);transition:width .38s var(--e1)}
+.nav-links a:hover,.nav-links a.active{color:var(--cream)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-drop{position:relative}
+.nav-drop-trigger{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:500;color:rgba(250,248,244,.38);position:relative;
+  display:inline-flex;align-items:center;gap:.45rem;
+  cursor:none;background:none;border:none;padding:0;
+  font-family:var(--fb);transition:color .25s}
+.nav-drop-trigger::after{content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--bronze);transition:width .38s var(--e1)}
+.nav-drop.open .nav-drop-trigger,.nav-drop-trigger.active{color:var(--cream)}
+.nav-drop.open .nav-drop-trigger::after,.nav-drop-trigger.active::after{width:calc(100% - 1.1rem)}
+.nav-drop-trigger svg{transition:transform .3s var(--e1);flex-shrink:0;opacity:.5}
+.nav-drop.open .nav-drop-trigger svg{transform:rotate(180deg);opacity:1}
+.nav-drop-panel{position:absolute;top:calc(100% + 14px);left:50%;
+  transform:translateX(-50%) translateY(-6px);
+  background:var(--ink2);border:1px solid rgba(154,124,82,.14);
+  min-width:220px;padding:.6rem 0;
+  box-shadow:0 24px 60px rgba(12,11,9,.35),0 4px 12px rgba(12,11,9,.2);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s var(--e1),transform .25s var(--e1)}
+.nav-drop-panel::after{content:'';position:absolute;top:-20px;left:0;right:0;height:20px}
+.nav-drop.open .nav-drop-panel{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.nav-drop-panel::before{content:'';position:absolute;top:-5px;left:50%;
+  transform:translateX(-50%) rotate(45deg);
+  width:9px;height:9px;background:var(--ink2);
+  border-left:1px solid rgba(154,124,82,.14);border-top:1px solid rgba(154,124,82,.14)}
+.nav-drop-item{display:flex;align-items:center;gap:.75rem;
+  padding:.72rem 1.4rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  font-weight:600;color:rgba(250,248,244,.35);cursor:none;
+  transition:color .2s,background .2s;white-space:nowrap}
+.nav-drop-item:hover{color:var(--cream);background:rgba(154,124,82,.07)}
+.nav-drop-item.current{color:var(--bronze2)}
+.nav-drop-item svg{width:14px;height:14px;flex-shrink:0;opacity:.4;transition:opacity .2s}
+.nav-drop-item:hover svg,.nav-drop-item.current svg{opacity:1}
+.nav-drop-divider{height:1px;background:rgba(154,124,82,.1);margin:.4rem 0}
+.nav-btn{display:inline-flex;align-items:center;
+  padding:.6rem 1.5rem;border:1px solid rgba(154,124,82,.3);border-radius:9999px;
+  font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:600;color:var(--bronze2);position:relative;overflow:hidden;
+  transition:color .3s,border-color .3s}
+.nav-btn::before{content:'';position:absolute;inset:0;background:var(--bronze);
+  transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
+.nav-btn:hover::before{transform:scaleX(1)}
+.nav-btn:hover{color:var(--ink);border-color:var(--bronze)}
+.nav-btn span{position:relative;z-index:1}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px}
+.hbg i{display:block;width:22px;height:1px;background:var(--cream);transition:all .3s}
+
+/* MOBILE DRAWER */
+#mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;
+  clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .75s var(--e1)}
+#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+#mob a{font-family:var(--ff);font-size:clamp(2.5rem,9vw,5.5rem);font-weight:300;
+  color:var(--cream);letter-spacing:-.02em;transition:color .2s}
+#mob a:hover{color:var(--bronze2)}
+#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
+  cursor:none;font-family:var(--ff);font-size:1.8rem;color:var(--muted);transition:color .2s}
+#mob-x:hover{color:var(--cream)}
+.mob-resources{display:flex;flex-direction:column;gap:0;width:100%;align-items:center}
+.mob-res-label{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:1rem}
+.mob-res-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem}
+.mob-res-link{font-family:var(--fb);font-size:.65rem;letter-spacing:.14em;
+  text-transform:uppercase;font-weight:600;color:var(--muted);
+  padding:.45rem 1rem;border:1px solid var(--border);
+  transition:color .2s,border-color .2s}
+.mob-res-link:hover,.mob-res-link.current{color:var(--bronze);border-color:var(--border2)}
+
+/* ═══════════════════════════════════════════════════
+   HERO — full-viewport, split diagonal, editorial
+   ═══════════════════════════════════════════════════ */
+#hero{min-height:100svh;position:relative;display:grid;
+  grid-template-columns:1fr 1fr;overflow:hidden}
+
+/* Left panel — ink dark */
+.hero-left{background:var(--ink);display:flex;flex-direction:column;
+  justify-content:flex-end;padding:8rem 5rem 6rem;position:relative;overflow:hidden;z-index:1}
+.hero-left-grid{position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(154,124,82,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(154,124,82,.04) 1px,transparent 1px);
+  background-size:64px 64px;pointer-events:none}
+.hero-left-glow{position:absolute;bottom:-20%;left:-10%;
+  width:80%;height:80%;
+  background:radial-gradient(ellipse,rgba(154,124,82,.07) 0%,transparent 65%);
+  pointer-events:none}
+.hero-eyebrow{font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;
+  font-weight:600;color:var(--bronze);display:inline-flex;align-items:center;gap:.75rem;
+  margin-bottom:3rem;opacity:0;animation:rUp .8s var(--e1) .3s forwards}
+.hero-eyebrow::before{content:'';width:20px;height:1px;background:var(--bronze)}
+.hero-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(5rem,9vw,13rem);line-height:.82;letter-spacing:-.055em;
+  color:var(--cream);opacity:0;animation:rUp 1s var(--e1) .4s forwards}
+.hero-h .ln{display:block}
+.hero-h em{font-style:italic;color:var(--bronze2)}
+.hero-tagline{font-size:.88rem;line-height:1.82;color:rgba(250,248,244,.42);
+  font-weight:300;max-width:36ch;margin-top:3.5rem;border-top:1px solid rgba(154,124,82,.15);
+  padding-top:2rem;opacity:0;animation:rUp .8s var(--e1) 1.6s forwards}
+.hero-tagline strong{color:var(--cream);font-weight:500}
+
+/* Right panel — cream with large number */
+.hero-right{background:var(--cream2);display:flex;flex-direction:column;
+  justify-content:space-between;padding:8rem 4.5rem 6rem;position:relative;overflow:hidden}
+.hero-right::before{content:'';position:absolute;top:0;left:0;width:1px;height:100%;
+  background:linear-gradient(to bottom,transparent,var(--bronze),transparent)}
+.hero-num-wrap{position:absolute;top:0;right:-2rem;bottom:0;
+  display:flex;align-items:center;pointer-events:none;overflow:hidden}
+.hero-big-num{font-family:var(--ff);font-size:clamp(22rem,38vw,55rem);
+  font-weight:300;color:rgba(12,11,9,.04);line-height:1;letter-spacing:-.08em;
+  user-select:none;opacity:0;animation:fadeIn 1.6s ease 1s forwards}
+.hero-right-top{position:relative;z-index:1;
+  opacity:0;animation:rUp .8s var(--e1) .6s forwards}
+.hero-right-label{font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:.6rem}
+.hero-right-stat{font-family:var(--ff);font-size:clamp(3rem,6vw,8rem);font-weight:300;
+  color:var(--ink);line-height:.9;letter-spacing:-.05em}
+.hero-right-stat em{font-style:italic;color:var(--bronze)}
+.hero-right-note{font-size:.8rem;color:var(--im);font-weight:300;margin-top:.8rem;max-width:28ch;line-height:1.65}
+.hero-right-bottom{position:relative;z-index:1;
+  opacity:0;animation:rUp .8s var(--e1) .9s forwards}
+.hero-actions{display:flex;gap:.85rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.btn-p{display:inline-flex;align-items:center;gap:.55rem;border-radius:9999px;
+  font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  cursor:none;transition:transform .2s var(--e1),box-shadow .25s}
+.btn-solid{padding:.82rem 2rem;background:var(--ink);color:var(--cream);border:none}
+.btn-solid:hover{box-shadow:0 16px 40px rgba(12,11,9,.22)}
+.btn-ghost-p{padding:.82rem 2rem;background:transparent;color:var(--ink);
+  border:1px solid rgba(12,11,9,.16)}
+.btn-ghost-p:hover{border-color:var(--bronze);background:rgba(154,124,82,.05)}
+.hero-footnote{font-size:.65rem;letter-spacing:.06em;color:var(--muted);
+  display:flex;align-items:center;gap:.65rem;line-height:1.5}
+.hero-footnote::before{content:'';width:20px;height:1px;background:var(--border2);flex-shrink:0}
+
+/* ═══════════════════════════════════════════════════
+   MARQUEE — scrolling tax principles band
+   ═══════════════════════════════════════════════════ */
+#marquee{overflow:hidden;border-top:1px solid var(--ib);border-bottom:1px solid var(--ib);
+  background:var(--ink);padding:1.2rem 0;display:flex;align-items:center}
+.marquee-track{display:flex;gap:0;white-space:nowrap;
+  animation:marquee 28s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{display:inline-flex;align-items:center;gap:2.5rem;padding:0 3rem;
+  font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600;
+  color:rgba(250,248,244,.28)}
+.marquee-item em{color:var(--bronze);font-style:normal}
+.marquee-dot{width:4px;height:4px;border-radius:50%;background:rgba(154,124,82,.35);flex-shrink:0}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ═══════════════════════════════════════════════════
+   STRATEGIES — asymmetric staggered layout
+   ═══════════════════════════════════════════════════ */
+#strategies{background:var(--cream)}
+
+/* Intro row */
+.strat-intro{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ib)}
+.strat-intro-left{padding:8rem 5rem;border-right:1px solid var(--ib)}
+.strat-intro-right{padding:8rem 5rem;display:flex;flex-direction:column;justify-content:center}
+.strat-ey{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:2rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.strat-ey::before{content:'';width:20px;height:1px;background:var(--bronze)}
+.strat-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3rem,5.5vw,7rem);line-height:.88;letter-spacing:-.05em;color:var(--ink)}
+.strat-h em{font-style:italic;color:var(--bronze)}
+.strat-intro-body{font-size:.88rem;line-height:1.88;color:var(--im);font-weight:300;max-width:42ch}
+.strat-intro-body strong{color:var(--ink);font-weight:500}
+.strat-intro-num{font-family:var(--ff);font-size:clamp(5rem,10vw,13rem);
+  font-weight:300;color:rgba(12,11,9,.06);line-height:1;letter-spacing:-.06em;
+  margin-top:auto;text-align:right;pointer-events:none;user-select:none}
+
+/* Staggered cards — alternating full/half layout */
+.strat-row{display:grid;border-bottom:1px solid var(--ib)}
+.strat-row.r-1-2{grid-template-columns:1fr 2fr}
+.strat-row.r-2-1{grid-template-columns:2fr 1fr}
+.strat-row.r-3{grid-template-columns:1fr 1fr 1fr}
+.strat-cell{padding:5rem;border-right:1px solid var(--ib);
+  position:relative;overflow:hidden;
+  transition:background .4s var(--e1)}
+.strat-cell:last-child{border-right:none}
+.strat-cell:hover{background:rgba(12,11,9,.024)}
+.strat-cell-inner{position:relative;z-index:1}
+/* Hover reveal gradient corner */
+.strat-cell::after{content:'';position:absolute;bottom:-40%;right:-20%;
+  width:70%;height:70%;
+  background:radial-gradient(ellipse,rgba(154,124,82,.07) 0%,transparent 65%);
+  opacity:0;transition:opacity .5s var(--e1);pointer-events:none}
+.strat-cell:hover::after{opacity:1}
+/* Top accent line that grows on hover */
+.strat-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--bronze),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .5s var(--e1)}
+.strat-cell:hover::before{transform:scaleX(1)}
+
+.sc-num{font-family:var(--ff);font-size:.78rem;color:rgba(154,124,82,.25);
+  font-weight:300;letter-spacing:.05em;margin-bottom:2rem}
+.sc-title{font-family:var(--ff);font-weight:300;
+  font-size:clamp(1.8rem,3vw,3.2rem);letter-spacing:-.03em;
+  color:var(--ink);line-height:.95;margin-bottom:1.2rem}
+.sc-title em{font-style:italic;color:var(--bronze)}
+.sc-tag{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:1.4rem;
+  display:inline-flex;align-items:center;gap:.5rem}
+.sc-tag::before{content:'';width:12px;height:1px;background:var(--bronze)}
+.sc-body{font-size:.83rem;line-height:1.86;color:var(--im);font-weight:300;max-width:40ch}
+.sc-body strong{color:var(--ink);font-weight:500}
+/* Large cell gets bigger type */
+.strat-cell.large .sc-title{font-size:clamp(2.2rem,4vw,4.5rem)}
+.strat-cell.large .sc-body{font-size:.86rem;max-width:48ch}
+/* Accent cell — dark */
+.strat-cell.dark{background:var(--ink)}
+.strat-cell.dark::before{background:linear-gradient(90deg,var(--bronze2),transparent)}
+.strat-cell.dark::after{background:radial-gradient(ellipse,rgba(154,124,82,.1) 0%,transparent 65%)}
+.strat-cell.dark:hover{background:var(--charcoal)}
+.strat-cell.dark .sc-num{color:rgba(154,124,82,.22)}
+.strat-cell.dark .sc-title{color:var(--cream)}
+.strat-cell.dark .sc-title em{color:var(--bronze2)}
+.strat-cell.dark .sc-tag{color:var(--bronze2)}
+.strat-cell.dark .sc-tag::before{background:var(--bronze2)}
+.strat-cell.dark .sc-body{color:rgba(250,248,244,.44)}
+.strat-cell.dark .sc-body strong{color:var(--cream)}
+
+/* ═══════════════════════════════════════════════════
+   TIMELINE — horizontal scroll, tax calendar
+   ═══════════════════════════════════════════════════ */
+#timeline{background:var(--cream2);border-top:1px solid var(--ib);
+  border-bottom:1px solid var(--ib);padding:8rem 0;overflow:hidden}
+.tl-head{padding:0 5rem;margin-bottom:5rem}
+.tl-ey{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:1.8rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.tl-ey::before{content:'';width:20px;height:1px;background:var(--bronze)}
+.tl-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.5rem,4.5vw,6rem);line-height:.9;letter-spacing:-.05em;color:var(--ink)}
+.tl-h em{font-style:italic;color:var(--bronze)}
+.tl-sub{font-size:.84rem;color:var(--im);font-weight:300;margin-top:1.2rem;max-width:52ch;line-height:1.72}
+
+/* Horizontal scrollable track */
+.tl-scroll-outer{overflow-x:auto;padding:0 5rem;cursor:grab;
+  scrollbar-width:none;-ms-overflow-style:none}
+.tl-scroll-outer::-webkit-scrollbar{display:none}
+.tl-scroll-outer.dragging{cursor:grabbing}
+.tl-track{display:flex;gap:0;min-width:max-content;
+  border-top:1px solid var(--ib);padding-top:3rem}
+
+/* Timeline connector line */
+.tl-item{width:280px;flex-shrink:0;padding-right:4rem;position:relative}
+.tl-item::before{content:'';position:absolute;top:0;left:0;
+  transform:translateY(-3rem) translateY(-.5px);
+  width:100%;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
+.tl-dot{width:10px;height:10px;border-radius:50%;
+  background:var(--cream2);border:2px solid var(--bronze);
+  position:absolute;top:0;left:0;
+  transform:translateY(-3rem) translateY(-4.5px);
+  transition:background .3s,transform .3s var(--e1)}
+.tl-item:hover .tl-dot{background:var(--bronze);transform:translateY(-3rem) translateY(-4.5px) scale(1.4)}
+.tl-month{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:1rem}
+.tl-title{font-family:var(--ff);font-size:clamp(1.4rem,2.2vw,2rem);
+  font-weight:300;color:var(--ink);letter-spacing:-.025em;line-height:1;margin-bottom:.7rem}
+.tl-body{font-size:.78rem;line-height:1.74;color:var(--im);font-weight:300;max-width:22ch}
+.tl-body strong{color:var(--ink);font-weight:500}
+.tl-badge{display:inline-flex;align-items:center;gap:.4rem;
+  font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  color:var(--cream);background:var(--bronze);padding:.22rem .65rem;
+  margin-bottom:.8rem}
+.tl-badge.urgent{background:var(--ink)}
+
+/* ═══════════════════════════════════════════════════
+   SPLIT FEATURE — full-bleed image-like dark panel
+   ═══════════════════════════════════════════════════ */
+#feature{display:grid;grid-template-columns:1fr 1fr;min-height:70vh}
+.feat-left{background:var(--ink);padding:8rem 5rem;display:flex;flex-direction:column;
+  justify-content:center;position:relative;overflow:hidden}
+.feat-bg-num{position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-family:var(--ff);font-size:clamp(18rem,28vw,38rem);
+  font-weight:300;color:rgba(154,124,82,.04);line-height:1;letter-spacing:-.1em;
+  pointer-events:none;user-select:none;white-space:nowrap}
+.feat-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(154,124,82,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(154,124,82,.025) 1px,transparent 1px);
+  background-size:56px 56px;pointer-events:none}
+.feat-ey{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:2.5rem;
+  display:inline-flex;align-items:center;gap:.75rem;position:relative;z-index:1}
+.feat-ey::before{content:'';width:20px;height:1px;background:var(--bronze)}
+.feat-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.5rem,4.5vw,6rem);line-height:.9;letter-spacing:-.05em;
+  color:var(--cream);position:relative;z-index:1}
+.feat-h em{font-style:italic;color:var(--bronze2)}
+.feat-body{font-size:.86rem;line-height:1.86;color:rgba(250,248,244,.44);
+  font-weight:300;margin-top:2.5rem;max-width:42ch;position:relative;z-index:1}
+.feat-body strong{color:var(--cream);font-weight:500}
+.feat-cta{margin-top:4rem;position:relative;z-index:1}
+
+.feat-right{background:var(--cream);padding:8rem 5rem;display:flex;flex-direction:column;
+  justify-content:center;border-left:1px solid var(--ib);gap:3rem}
+.feat-right-item{padding:2.8rem 0;border-bottom:1px solid var(--ib);
+  transition:padding-left .35s var(--e1)}
+.feat-right-item:first-child{border-top:1px solid var(--ib)}
+.feat-right-item:hover{padding-left:.8rem}
+.fri-n{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(154,124,82,.4);font-weight:600;margin-bottom:.6rem;font-family:var(--fb)}
+.fri-title{font-family:var(--ff);font-size:clamp(1.4rem,2.2vw,2.2rem);
+  font-weight:300;color:var(--ink);letter-spacing:-.025em;line-height:1;margin-bottom:.65rem}
+.fri-title em{font-style:italic;color:var(--bronze)}
+.fri-body{font-size:.82rem;line-height:1.8;color:var(--im);font-weight:300;max-width:38ch}
+.fri-body strong{color:var(--ink);font-weight:500}
+
+/* ═══════════════════════════════════════════════════
+   FAQ — editorial, magazine double-column
+   ═══════════════════════════════════════════════════ */
+#faq{padding:10rem 5rem;background:var(--cream)}
+.faq-outer{display:grid;grid-template-columns:1fr 1fr;gap:8rem}
+.faq-left-head{position:sticky;top:8rem;align-self:start}
+.faq-ey{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:2rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.faq-ey::before{content:'';width:20px;height:1px;background:var(--bronze)}
+.faq-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.8rem,5vw,6.5rem);line-height:.88;letter-spacing:-.05em;color:var(--ink)}
+.faq-h em{font-style:italic;color:var(--bronze)}
+.faq-sub{font-size:.84rem;line-height:1.82;color:var(--im);font-weight:300;
+  margin-top:2.5rem;max-width:32ch}
+.faq-sub strong{color:var(--ink);font-weight:500}
+.faq-cta-wrap{margin-top:4rem;display:flex;flex-direction:column;gap:1rem}
+.faq-list{display:flex;flex-direction:column;gap:0}
+.faq-item{border-bottom:1px solid var(--ib)}
+.faq-item:first-child{border-top:1px solid var(--ib)}
+.faq-q{display:flex;align-items:baseline;justify-content:space-between;
+  width:100%;padding:2rem 0;background:transparent;border:none;cursor:none;
+  text-align:left;font-family:var(--ff);font-size:clamp(1.2rem,1.8vw,1.65rem);
+  font-weight:300;color:var(--ink);letter-spacing:-.015em;gap:2rem;transition:color .2s}
+.faq-q:hover{color:var(--bronze)}
+.fq-i{font-size:.6rem;letter-spacing:.12em;color:rgba(12,11,9,.24);font-family:var(--fb);
+  text-transform:uppercase;font-weight:500;flex-shrink:0;width:2.2rem}
+.fq-arr{flex-shrink:0;width:22px;height:22px;border:1px solid rgba(12,11,9,.12);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  transition:transform .35s var(--e1),border-color .25s,background .25s}
+.faq-q[aria-expanded="true"] .fq-arr{transform:rotate(45deg);border-color:var(--bronze);background:var(--bronze)}
+.faq-q[aria-expanded="true"] .fq-arr svg{color:var(--cream)}
+.fq-arr svg{width:9px;height:9px;color:rgba(12,11,9,.3);transition:color .25s}
+.faq-panel{max-height:0;overflow:hidden;transition:max-height .42s cubic-bezier(.2,.9,.2,1)}
+.faq-panel.open{max-height:500px}
+.faq-ans{padding:.2rem 0 2.2rem 2.8rem;font-size:.83rem;line-height:1.9;
+  color:var(--im);font-weight:300;max-width:58ch}
+.faq-ans strong{color:var(--ink);font-weight:500}
+
+/* ═══════════════════════════════════════════════════
+   CTA — full dark, centered, typographic
+   ═══════════════════════════════════════════════════ */
+#cta{background:var(--ink);padding:12rem 5rem;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  position:relative;overflow:hidden;border-top:1px solid rgba(154,124,82,.12)}
+.cta-bg-text{position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-family:var(--ff);font-size:clamp(14rem,26vw,36rem);
+  font-weight:300;color:rgba(154,124,82,.035);line-height:1;
+  letter-spacing:-.1em;pointer-events:none;user-select:none;white-space:nowrap}
+.cta-grid-bg{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(154,124,82,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(154,124,82,.025) 1px,transparent 1px);
+  background-size:72px 72px;pointer-events:none}
+.cta-ey{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:3rem;
+  display:inline-flex;align-items:center;gap:.75rem;position:relative;z-index:1}
+.cta-ey::before,.cta-ey::after{content:'';width:40px;height:1px;background:var(--bronze)}
+.cta-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(4rem,9vw,13rem);line-height:.86;letter-spacing:-.06em;
+  color:var(--cream);position:relative;z-index:1;max-width:18ch}
+.cta-h em{font-style:italic;color:var(--bronze2)}
+.cta-p{font-size:.9rem;line-height:1.82;color:rgba(250,248,244,.42);
+  font-weight:300;margin-top:3.5rem;max-width:44ch;position:relative;z-index:1}
+.cta-p strong{color:var(--cream);font-weight:500}
+.cta-acts{display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;
+  margin-top:4rem;position:relative;z-index:1}
+.cta-details{display:flex;gap:5rem;margin-top:6rem;padding-top:4rem;
+  border-top:1px solid rgba(154,124,82,.15);position:relative;z-index:1;flex-wrap:wrap;
+  justify-content:center}
+.cta-det-item{text-align:center}
+.cta-dl{font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(154,124,82,.55);font-weight:600;margin-bottom:.4rem}
+.cta-dv{font-family:var(--ff);font-size:1.35rem;font-weight:300;color:var(--cream)}
+.cta-dv a{transition:color .2s}.cta-dv a:hover{color:var(--bronze2)}
+
+/* FOOTER */
+footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5rem 3.5rem}
+.ft-top{display:flex;justify-content:space-between;align-items:flex-start;
+  gap:3rem;margin-bottom:4rem;padding-bottom:4rem;border-bottom:1px solid var(--border)}
+.ft-logo{font-family:var(--ff);font-size:1.5rem;font-weight:300;color:var(--cream)}
+.ft-logo b{color:var(--bronze2);font-weight:400;font-style:italic}
+.ft-tg{font-size:.76rem;color:var(--muted);margin-top:.5rem;max-width:28ch;line-height:1.6}
+.ft-lks{display:flex;gap:5rem}
+.ft-col h4{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:1.4rem}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.ft-col ul a{font-size:.78rem;color:var(--muted);transition:color .2s}
+.ft-col ul a:hover{color:var(--cream)}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.ft-cp{font-size:.68rem;color:rgba(250,248,244,.18)}
+.ft-di{font-size:.62rem;color:rgba(250,248,244,.12);max-width:55ch;text-align:right;line-height:1.55}
+
+/* ─── SIDEBAR ─────────────────────────────────────── */
+#sb-trigger{position:fixed;right:2rem;top:50%;transform:translateY(-50%);
+  z-index:600;display:flex;flex-direction:column;align-items:center;gap:0;
+  background:var(--ink);border:none;cursor:none;padding:1.2rem .85rem;
+  transition:background .3s,transform .35s var(--e1)}
+#sb-trigger:hover{background:var(--charcoal)}
+#sb-trigger.nudge{animation:nudge 2.5s var(--e1) 3s 1}
+@keyframes nudge{0%,100%{transform:translateY(-50%) translateX(0)}30%{transform:translateY(-50%) translateX(-8px)}60%{transform:translateY(-50%) translateX(-4px)}}
+.sb-trig-label{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;writing-mode:vertical-rl;margin-top:.7rem}
+.sb-trig-icon{display:flex;flex-direction:column;gap:3px}
+.sb-trig-icon span{display:block;width:14px;height:1px;background:var(--cream2);
+  transition:width .25s var(--e1)}
+#sb-trigger:hover .sb-trig-icon span:nth-child(2){width:10px}
+#sb-trigger:hover .sb-trig-icon span:nth-child(3){width:6px}
+#sb-overlay{position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.5);
+  opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(4px)}
+#sb-overlay.open{opacity:1;pointer-events:auto}
+#sb-panel{position:fixed;right:0;top:0;bottom:0;z-index:710;
+  width:min(520px,92vw);background:var(--cream);
+  border-left:1px solid var(--ib);
+  transform:translateX(100%);transition:transform .55s var(--e1);
+  display:flex;flex-direction:column;overflow:hidden}
+#sb-panel.open{transform:translateX(0)}
+.sb-head{background:var(--ink2);padding:2.5rem;display:flex;align-items:center;
+  justify-content:space-between;flex-shrink:0;border-bottom:1px solid rgba(154,124,82,.12)}
+.sb-title{font-family:var(--ff);font-size:1.6rem;font-weight:300;color:var(--cream);letter-spacing:-.025em}
+.sb-title em{font-style:italic;color:var(--bronze2)}
+.sb-close{width:36px;height:36px;border:1px solid rgba(154,124,82,.18);
+  background:transparent;cursor:none;display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s,background .2s}
+.sb-close:hover{border-color:var(--bronze);background:rgba(154,124,82,.08)}
+.sb-close svg{width:14px;height:14px;color:rgba(250,248,244,.42)}
+.sb-tabs{display:flex;border-bottom:1px solid var(--ib);flex-shrink:0;background:var(--cream)}
+.sb-tab{flex:1;padding:1.1rem;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:600;color:var(--im);background:transparent;border:none;cursor:none;
+  border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.sb-tab:hover{color:var(--ink)}
+.sb-tab.active{color:var(--ink);border-bottom-color:var(--bronze)}
+.sb-body{flex:1;overflow-y:auto;padding:2.5rem;scrollbar-width:thin;scrollbar-color:rgba(12,11,9,.1) transparent}
+.sb-body::-webkit-scrollbar{width:4px}
+.sb-body::-webkit-scrollbar-thumb{background:rgba(12,11,9,.1)}
+.sb-pane{display:none}.sb-pane.active{display:block}
+.sb-res-item{display:flex;align-items:center;gap:1rem;
+  padding:1.1rem 0;border-bottom:1px solid var(--ib2);transition:padding-left .3s var(--e1)}
+.sb-res-item:last-child{border-bottom:none}
+.sb-res-item:hover{padding-left:.6rem}
+.sb-res-item.current{opacity:.5;pointer-events:none}
+.sb-res-icon{width:36px;height:36px;border:1px solid var(--ib);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:border-color .2s,background .2s}
+.sb-res-item:hover .sb-res-icon{border-color:var(--bronze);background:rgba(154,124,82,.06)}
+.sb-res-icon svg{width:14px;height:14px;color:var(--im)}
+.sb-res-name{font-family:var(--ff);font-size:1.25rem;font-weight:300;color:var(--ink);letter-spacing:-.015em}
+.sb-res-desc{font-size:.72rem;color:var(--im);margin-top:.1rem}
+.sb-res-arr{margin-left:auto;opacity:0;transition:opacity .2s;flex-shrink:0}
+.sb-res-arr svg{width:12px;height:12px;color:var(--bronze)}
+.sb-res-item:hover .sb-res-arr{opacity:1}
+.sb-ck-section{margin-bottom:2.5rem}
+.sb-ck-title{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:1rem;
+  display:flex;align-items:center;gap:.65rem}
+.sb-ck-title::before{content:'';width:16px;height:1px;background:var(--bronze)}
+.sb-ck-item{display:flex;align-items:flex-start;gap:.85rem;
+  padding:.7rem 0;border-bottom:1px solid var(--ib2);cursor:none}
+.sb-ck-item:last-child{border-bottom:none}
+.sb-ck-box{width:18px;height:18px;border:1px solid rgba(12,11,9,.18);
+  flex-shrink:0;margin-top:.1rem;position:relative;transition:border-color .2s,background .2s;cursor:none}
+.sb-ck-item.done .sb-ck-box{border-color:var(--bronze);background:var(--bronze)}
+.sb-ck-item.done .sb-ck-box::after{content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%230c0b09' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center/10px no-repeat}
+.sb-ck-text{font-size:.82rem;line-height:1.6;color:var(--im);font-weight:300}
+.sb-ck-text strong{color:var(--ink);font-weight:500}
+.sb-ck-item.done .sb-ck-text{color:rgba(12,11,9,.24);text-decoration:line-through;text-decoration-color:rgba(12,11,9,.18)}
+.sb-ck-prog{margin-bottom:2rem}
+.sb-ck-prog-label{display:flex;justify-content:space-between;align-items:center;
+  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--im);font-weight:500;margin-bottom:.65rem}
+.sb-ck-prog-bar{height:3px;background:rgba(12,11,9,.07);overflow:hidden}
+.sb-ck-prog-fill{height:100%;background:linear-gradient(90deg,var(--bronze),var(--bronze2));
+  width:0;transition:width .6s var(--e1)}
+.sb-tool-card{padding:1.6rem;border:1px solid var(--ib);margin-bottom:1rem;
+  transition:border-color .3s,background .3s;position:relative;overflow:hidden}
+.sb-tool-card:hover{border-color:var(--border2);background:rgba(154,124,82,.03)}
+.sb-tool-title{font-family:var(--ff);font-size:1.2rem;font-weight:300;color:var(--ink);
+  margin-bottom:.3rem;letter-spacing:-.015em}
+.sb-tool-desc{font-size:.78rem;color:var(--im);font-weight:300;line-height:1.65;margin-bottom:1.2rem}
+.sb-tool-btn{display:inline-flex;align-items:center;gap:.5rem;font-size:.65rem;
+  letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  color:var(--ink);border:1px solid rgba(12,11,9,.18);
+  padding:.55rem 1.2rem;background:transparent;cursor:none;
+  transition:border-color .2s,background .2s,color .2s}
+.sb-tool-btn:hover{border-color:var(--bronze);background:rgba(154,124,82,.06);color:var(--bronze)}
+.sb-tool-input{width:100%;padding:.65rem .85rem;border:1px solid var(--ib);
+  background:var(--cream);font-family:var(--fb);font-size:.85rem;color:var(--ink);
+  outline:none;transition:border-color .2s;margin-bottom:.6rem}
+.sb-tool-input:focus{border-color:var(--bronze)}
+.sb-tool-select{width:100%;padding:.65rem .85rem;border:1px solid var(--ib);
+  background:var(--cream);font-family:var(--fb);font-size:.85rem;color:var(--ink);
+  outline:none;transition:border-color .2s;margin-bottom:.6rem;appearance:none}
+.sb-tool-select:focus{border-color:var(--bronze)}
+.sb-tool-result{margin-top:1rem;padding:1rem 1.2rem;font-size:.8rem;line-height:1.65;font-weight:300}
+.sb-r-ok{background:rgba(154,124,82,.07);border:1px solid rgba(154,124,82,.22);color:var(--ink)}
+.sb-r-warn{background:rgba(200,80,50,.05);border:1px solid rgba(200,80,50,.18);color:var(--ink)}
+.sb-r-info{background:rgba(12,11,9,.04);border:1px solid rgba(12,11,9,.1);color:var(--ink)}
+.sb-tool-lbl{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--im);font-weight:600;display:block;margin-bottom:.35rem}
+.sb-tool-section{margin-bottom:1.5rem}
+.sb-tool-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+
+/* ─── REVEAL ──────────────────────────────────────── */
+.rv,.rv-l,.rv-r{opacity:1;transform:none} /* safe default — JS overrides below */
+.rv.anim{opacity:0;transform:translateY(28px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv-l.anim{opacity:0;transform:translateX(-24px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv-r.anim{opacity:0;transform:translateX(24px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv.anim.vis{opacity:1;transform:translateY(0)}
+.rv-l.anim.vis{opacity:1;transform:translateX(0)}
+.rv-r.anim.vis{opacity:1;transform:translateX(0)}
+.d1{transition-delay:.12s}.d2{transition-delay:.22s}.d3{transition-delay:.34s}.d4{transition-delay:.46s}
+
+@keyframes rUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{to{opacity:1}}
+
+/* ─── RESPONSIVE ──────────────────────────────────── */
+@media(max-width:1100px){
+  #nav,#nav.stk{padding-left:2.5rem;padding-right:2.5rem}
+  #hero{grid-template-columns:1fr}
+  .hero-right{padding:5rem 2.5rem}
+  .hero-left{padding:10rem 2.5rem 5rem}
+  .strat-intro,.strat-row.r-1-2,.strat-row.r-2-1,.strat-row.r-3,#feature{grid-template-columns:1fr}
+  .strat-intro-left,.strat-intro-right,.strat-cell,.feat-left,.feat-right{border-right:none;border-bottom:1px solid var(--ib)}
+  .strat-intro-left{padding:5rem 2.5rem}
+  .strat-intro-right{padding:4rem 2.5rem}
+  .strat-cell{padding:4rem 2.5rem}
+  .feat-left,.feat-right{padding:6rem 2.5rem}
+  #faq{padding:6rem 2.5rem}
+  .faq-outer{grid-template-columns:1fr;gap:4rem}
+  .faq-left-head{position:static}
+  #cta{padding:8rem 2.5rem}
+  #timeline .tl-head{padding:0 2.5rem}
+  .tl-scroll-outer{padding:0 2.5rem}
+  #sb-trigger{display:none}
+  .ft-top{flex-direction:column}.ft-lks{flex-direction:column;gap:2rem}
+  .ft-bot{flex-direction:column;align-items:flex-start}.ft-di{text-align:left}
+  footer{padding:4rem 2.5rem 2.5rem}
+  .cta-details{gap:2.5rem}
+}
+@media(max-width:768px){
+  .nav-links,.nav-btn{display:none}.hbg{display:flex}
+  .hero-left{padding:9rem 2rem 4rem}
+  .hero-right{padding:4rem 2rem}
+}
+@media(pointer:coarse){#cur,#cur-r{display:none}body{cursor:auto}a,button{cursor:pointer}}
+</style>
+</head>
+<body>
+<div id="grain"></div>
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- ─── NAV ───────────────────────────────────────── -->
+<nav id="nav">
+  <a href="index_new.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
+  <ul class="nav-links">
+    <li><a href="index_new.html">Home</a></li>
+    <li class="nav-drop">
+      <button class="nav-drop-trigger active" aria-haspopup="true" aria-expanded="false">
+        Resources
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M2 4l4 4 4-4"/></svg>
+      </button>
+      <div class="nav-drop-panel" role="menu">
+        <a href="resource-retirement.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement
+        </a>
+        <a href="resource-investment.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment
+        </a>
+        <a href="resource-estate.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning
+        </a>
+        <a href="resource-tax.html" class="nav-drop-item current" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy
+        </a>
+        <a href="resource-insurance.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance
+        </a>
+        <div class="nav-drop-divider"></div>
+        <a href="resource-money.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle
+        </a>
+      </div>
+    </li>
+  </ul>
+  <a href="contact.html" class="nav-btn"><span>Begin Your Plan</span></a>
+  <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div id="mob">
+  <button id="mob-x">✕</button>
+  <a href="index_new.html" class="mob-a">Home</a>
+  <div class="mob-resources">
+    <div class="mob-res-label">Resources</div>
+    <div class="mob-res-links">
+      <a href="resource-retirement.html" class="mob-res-link">Retirement</a>
+      <a href="resource-investment.html" class="mob-res-link">Investment</a>
+      <a href="resource-estate.html" class="mob-res-link">Estate</a>
+      <a href="resource-tax.html" class="mob-res-link current">Tax</a>
+      <a href="resource-insurance.html" class="mob-res-link">Insurance</a>
+      <a href="resource-money.html" class="mob-res-link">Money &amp; Lifestyle</a>
+    </div>
+  </div>
+  <a href="contact.html" class="mob-a">Contact</a>
+</div>
+
+<!-- ─── SIDEBAR TRIGGER ──────────────────────────── -->
+<button id="sb-trigger" class="nudge" aria-label="Open resources panel">
+  <div class="sb-trig-icon"><span></span><span></span><span></span></div>
+  <span class="sb-trig-label">Tools</span>
+</button>
+<div id="sb-overlay"></div>
+
+<!-- ─── SIDEBAR PANEL ───────────────────────────── -->
+<div id="sb-panel" role="dialog" aria-modal="true" aria-label="Tax strategy resources">
+  <div class="sb-head">
+    <div class="sb-title"><em>Tax</em> Resources</div>
+    <button class="sb-close" id="sb-close" aria-label="Close panel">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l10 10M13 3L3 13"/></svg>
+    </button>
+  </div>
+  <div class="sb-tabs">
+    <button class="sb-tab active" data-pane="nav">Navigate</button>
+    <button class="sb-tab" data-pane="checklist">Checklist</button>
+    <button class="sb-tab" data-pane="tools">Calculators</button>
+  </div>
+  <div class="sb-body">
+
+    <!-- NAV PANE -->
+    <div class="sb-pane active" id="pane-nav">
+      <p style="font-size:.78rem;line-height:1.72;color:var(--im);font-weight:300;margin-bottom:2rem">Browse the full resource library. Each guide is built to give you clarity on one area of your financial plan.</p>
+      <a href="resource-retirement.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg></div>
+        <div><div class="sb-res-name">Retirement</div><div class="sb-res-desc">Income architecture &amp; withdrawal strategy</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-investment.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div><div class="sb-res-name">Investment</div><div class="sb-res-desc">Portfolio construction &amp; evidence-based growth</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-estate.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div><div class="sb-res-name">Estate Planning</div><div class="sb-res-desc">Trust structures &amp; legacy architecture</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-tax.html" class="sb-res-item current">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg></div>
+        <div><div class="sb-res-name" style="color:var(--bronze)">Tax Strategy</div><div class="sb-res-desc">You are here</div></div>
+      </a>
+      <a href="resource-insurance.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><div class="sb-res-name">Insurance</div><div class="sb-res-desc">Protection for individuals &amp; business owners</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-money.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div><div class="sb-res-name">Money &amp; Lifestyle</div><div class="sb-res-desc">Financial habits &amp; confidence building</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+    </div>
+
+    <!-- CHECKLIST PANE -->
+    <div class="sb-pane" id="pane-checklist">
+      <div class="sb-ck-prog">
+        <div class="sb-ck-prog-label"><span>Tax Year Progress</span><span id="ck-pct">0 / 18</span></div>
+        <div class="sb-ck-prog-bar"><div class="sb-ck-prog-fill" id="ck-fill"></div></div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Year-Round Hygiene</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Tax-efficient asset location</strong> — bonds/REITs in tax-deferred; equities in taxable</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Tax-loss harvesting monitored — losses realized without triggering wash-sale rules</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Charitable contributions</strong> — DAF or appreciated shares used where applicable</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">401(k) / IRA contributions maximized — $23,000 / $7,000 limits for 2024</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">HSA maxed if eligible — triple tax advantage ($4,150 / $8,300 in 2024)</div></div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Roth Conversion &amp; Planning</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Roth conversion window analyzed</strong> — current vs. projected future tax rate</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Backdoor Roth considered if income exceeds direct contribution limit</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Pro-rata rule reviewed if traditional IRA balances exist</div></div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Year-End Moves</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Capital gain / loss harvest before December 31</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Estimated tax payments</strong> — Q4 payment made on time (Jan 15)</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">RMDs taken by December 31 if age 73+</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Qualified charitable distributions used if 70½+ (up to $105,000)</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Bunching strategy evaluated — itemize vs. standard deduction</div></div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Business Owners</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>SEP-IRA / Solo 401(k)</strong> contribution limits maximized</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">QBI deduction eligibility confirmed (Sec. 199A)</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Entity structure reviewed — S-corp election vs. LLC efficiency</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Depreciation / bonus depreciation opportunities captured</div></div>
+      </div>
+    </div>
+
+    <!-- TOOLS PANE -->
+    <div class="sb-pane" id="pane-tools">
+
+      <!-- Roth Conversion Estimator -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Roth Conversion Estimator</div>
+        <div class="sb-tool-desc">Estimate the tax cost of a Roth conversion and break-even timeline versus leaving funds in a traditional IRA.</div>
+        <div class="sb-tool-section">
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Conversion Amount ($)</label>
+              <input class="sb-tool-input" id="rc-amount" type="number" placeholder="e.g. 100000">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Current Tax Rate (%)</label>
+              <input class="sb-tool-input" id="rc-rate" type="number" placeholder="e.g. 24">
+            </div>
+          </div>
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Expected Future Rate (%)</label>
+              <input class="sb-tool-input" id="rc-future" type="number" placeholder="e.g. 32">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Years Until Withdrawal</label>
+              <input class="sb-tool-input" id="rc-years" type="number" placeholder="e.g. 20">
+            </div>
+          </div>
+        </div>
+        <button class="sb-tool-btn" onclick="runRothConversion()">Estimate Conversion</button>
+        <div id="rc-result"></div>
+      </div>
+
+      <!-- Capital Gains Tax Calculator -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Capital Gains Estimator</div>
+        <div class="sb-tool-desc">Estimate the federal tax on a planned asset sale — long-term vs. short-term treatment.</div>
+        <div class="sb-tool-section">
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Sale Proceeds ($)</label>
+              <input class="sb-tool-input" id="cg-proceeds" type="number" placeholder="e.g. 250000">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Cost Basis ($)</label>
+              <input class="sb-tool-input" id="cg-basis" type="number" placeholder="e.g. 80000">
+            </div>
+          </div>
+          <div>
+            <label class="sb-tool-lbl">Holding Period &amp; Filing Status</label>
+            <select class="sb-tool-select" id="cg-type">
+              <option value="">Select...</option>
+              <option value="lt-single">Long-term — Single filer</option>
+              <option value="lt-mfj">Long-term — Married filing jointly</option>
+              <option value="st-22">Short-term — 22% bracket</option>
+              <option value="st-24">Short-term — 24% bracket</option>
+              <option value="st-32">Short-term — 32% bracket</option>
+              <option value="st-37">Short-term — 37% bracket</option>
+            </select>
+          </div>
+        </div>
+        <button class="sb-tool-btn" onclick="runCapGains()">Calculate Tax</button>
+        <div id="cg-cresult"></div>
+      </div>
+
+      <!-- Tax Savings from Deductions -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Deduction Value Calculator</div>
+        <div class="sb-tool-desc">See how much a deduction actually saves you in real dollars at your marginal rate.</div>
+        <div class="sb-tool-section">
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Deduction Amount ($)</label>
+              <input class="sb-tool-input" id="dv-amount" type="number" placeholder="e.g. 25000">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Marginal Tax Rate (%)</label>
+              <input class="sb-tool-input" id="dv-rate" type="number" placeholder="e.g. 32">
+            </div>
+          </div>
+          <div>
+            <label class="sb-tool-lbl">State Tax Rate (%) — optional</label>
+            <input class="sb-tool-input" id="dv-state" type="number" placeholder="e.g. 6">
+          </div>
+        </div>
+        <button class="sb-tool-btn" onclick="runDeductionValue()">Calculate Savings</button>
+        <div id="dv-result"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     HERO — split diagonal dark/light
+     ══════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-left-grid" aria-hidden="true"></div>
+    <div class="hero-left-glow" aria-hidden="true"></div>
+    <div class="hero-eyebrow">Tax Strategy</div>
+    <h1 class="hero-h">
+      Keep more<br>of what<br><em>you earn.</em>
+    </h1>
+    <p class="hero-tagline">We treat tax planning as a <strong>year-round discipline</strong> — not a spring ritual. The best moves happen before December, not after.</p>
+  </div>
+  <div class="hero-right">
+    <div class="hero-num-wrap" aria-hidden="true">
+      <div class="hero-big-num">37</div>
+    </div>
+    <div class="hero-right-top">
+      <div class="hero-right-label">Top Federal Rate</div>
+      <div class="hero-right-stat">37<em>%</em></div>
+      <p class="hero-right-note">The marginal rate paid by the highest earners — and why strategy matters more at the top.</p>
+    </div>
+    <div class="hero-right-bottom">
+      <div class="hero-actions">
+        <a href="contact.html" class="btn-p btn-solid mag">Start Tax Planning</a>
+        <button class="btn-p btn-ghost-p mag" onclick="openSidebar('tools')">Open Calculators</button>
+      </div>
+      <p class="hero-footnote">Tax strategy reviewed annually and after major life events — marriage, business sale, inheritance, retirement.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     MARQUEE
+     ══════════════════════════════════════════════════ -->
+<div id="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Tax-Loss Harvesting <span class="marquee-dot"></span></span>
+    <span class="marquee-item"><em>Roth Conversions</em> <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Asset Location <span class="marquee-dot"></span></span>
+    <span class="marquee-item"><em>Charitable Giving</em> <span class="marquee-dot"></span></span>
+    <span class="marquee-item">QBI Deduction <span class="marquee-dot"></span></span>
+    <span class="marquee-item"><em>Capital Gains Planning</em> <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Estate Tax Reduction <span class="marquee-dot"></span></span>
+    <span class="marquee-item"><em>Backdoor Roth</em> <span class="marquee-dot"></span></span>
+    <span class="marquee-item">RMD Strategy <span class="marquee-dot"></span></span>
+    <span class="marquee-item"><em>NIIT Planning</em> <span class="marquee-dot"></span></span>
+    <!-- Duplicate for seamless loop -->
+    <span class="marquee-item">Tax-Loss Harvesting <span class="marquee-dot"></span></span>
+    <span class="marquee-item"><em>Roth Conversions</em> <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Asset Location <span class="marquee-dot"></span></span>
+    <span class="marquee-item"><em>Charitable Giving</em> <span class="marquee-dot"></span></span>
+    <span class="marquee-item">QBI Deduction <span class="marquee-dot"></span></span>
+    <span class="marquee-item"><em>Capital Gains Planning</em> <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Estate Tax Reduction <span class="marquee-dot"></span></span>
+    <span class="marquee-item"><em>Backdoor Roth</em> <span class="marquee-dot"></span></span>
+    <span class="marquee-item">RMD Strategy <span class="marquee-dot"></span></span>
+    <span class="marquee-item"><em>NIIT Planning</em> <span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     STRATEGIES — asymmetric staggered grid
+     ══════════════════════════════════════════════════ -->
+<section id="strategies">
+  <!-- Intro row -->
+  <div class="strat-intro">
+    <div class="strat-intro-left rv-l">
+      <div class="strat-ey">Core Strategies</div>
+      <h2 class="strat-h">Proactive<br>not <em>reactive.</em></h2>
+    </div>
+    <div class="strat-intro-right rv d1">
+      <p class="strat-intro-body">Most people file a tax return. <strong>We engineer one.</strong> The difference lies in decisions made throughout the year that either capture savings or forfeit them — permanently. There are no do-overs after December 31.</p>
+      <div class="strat-intro-num" aria-hidden="true">01</div>
+    </div>
+  </div>
+
+  <!-- Row 1: small | large -->
+  <div class="strat-row r-1-2">
+    <div class="strat-cell dark rv">
+      <div class="strat-cell-inner">
+        <div class="sc-num">01</div>
+        <div class="sc-tag">Account Strategy</div>
+        <h3 class="sc-title">Asset<br><em>Location</em></h3>
+        <p class="sc-body">Where you hold an asset matters as much as what you hold. <strong>Tax-inefficient assets belong in tax-deferred accounts</strong> — the right placement can add meaningful after-tax return at zero additional risk.</p>
+      </div>
+    </div>
+    <div class="strat-cell large rv d1">
+      <div class="strat-cell-inner">
+        <div class="sc-num">02</div>
+        <div class="sc-tag">Harvesting</div>
+        <h3 class="sc-title">Tax-Loss<br><em>Harvesting</em></h3>
+        <p class="sc-body">Market volatility creates tax assets. Selling a declined position and replacing it with a correlated alternative <strong>crystallizes a loss you can use to offset gains</strong> — while keeping your market exposure intact. Done systematically, it generates real tax alpha over a full market cycle.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2: large | small -->
+  <div class="strat-row r-2-1">
+    <div class="strat-cell large rv">
+      <div class="strat-cell-inner">
+        <div class="sc-num">03</div>
+        <div class="sc-tag">Roth Strategy</div>
+        <h3 class="sc-title">Roth Conversions<br>& the <em>Tax Rate Gap</em></h3>
+        <p class="sc-body">Converting traditional IRA assets to Roth makes sense when your current tax rate is lower than your projected future rate. <strong>Identifying that window — and the right conversion amount — is where significant lifetime savings are made.</strong> The math is highly personal and worth modeling carefully.</p>
+      </div>
+    </div>
+    <div class="strat-cell rv d1">
+      <div class="strat-cell-inner">
+        <div class="sc-num">04</div>
+        <div class="sc-tag">Giving Strategy</div>
+        <h3 class="sc-title">Charitable<br><em>Mechanics</em></h3>
+        <p class="sc-body">Donating appreciated securities eliminates capital gains tax entirely. A <strong>Donor-Advised Fund</strong> lets you take a deduction in a high-income year and distribute to charities over time — a powerful pairing with Roth conversions or a business sale.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 3: three equal -->
+  <div class="strat-row r-3">
+    <div class="strat-cell rv">
+      <div class="strat-cell-inner">
+        <div class="sc-num">05</div>
+        <div class="sc-tag">Business Owners</div>
+        <h3 class="sc-title">Entity &amp;<br><em>QBI Strategy</em></h3>
+        <p class="sc-body">The Sec. 199A deduction can reduce taxable income by up to 20% for eligible pass-through businesses. <strong>Whether you qualify — and how much — depends on structure, wages paid, and income level.</strong> The right setup is worth revisiting annually.</p>
+      </div>
+    </div>
+    <div class="strat-cell dark rv d1">
+      <div class="strat-cell-inner">
+        <div class="sc-num">06</div>
+        <div class="sc-tag">Retirement Accounts</div>
+        <h3 class="sc-title">RMD &amp;<br><em>Distribution</em></h3>
+        <p class="sc-body">Required Minimum Distributions create forced taxable income beginning at age 73. <strong>The years before RMDs begin are often the best window to act</strong> — Roth conversions, charitable distributions, and multi-account coordination can make a lasting difference.</p>
+      </div>
+    </div>
+    <div class="strat-cell rv d2">
+      <div class="strat-cell-inner">
+        <div class="sc-num">07</div>
+        <div class="sc-tag">Investment Income</div>
+        <h3 class="sc-title">NIIT &amp;<br><em>LTCG Rates</em></h3>
+        <p class="sc-body">The 3.8% Net Investment Income Tax layers on top of capital gains for higher earners. <strong>At the top bracket, the combined federal rate on investment gains can reach 23.8%.</strong> How you time and structure income matters more than most realize.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     TIMELINE — horizontal tax calendar
+     ══════════════════════════════════════════════════ -->
+<section id="timeline">
+  <div class="tl-head rv">
+    <div class="tl-ey">The Tax Calendar</div>
+    <h2 class="tl-h">Strategy has<br>a <em>deadline.</em></h2>
+    <p class="tl-sub">Tax opportunities are time-sensitive. Miss the window and they're gone for the year. Here are the key moments we plan around with every client.</p>
+  </div>
+  <div class="tl-scroll-outer" id="tl-scroll">
+    <div class="tl-track">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-month">January</div>
+        <div class="tl-badge">New Year</div>
+        <div class="tl-title">Contribution windows open</div>
+        <p class="tl-body">IRA and HSA windows reset for the new tax year. A good moment to confirm prior-year moves and set the plan for the year ahead.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-month">March – April</div>
+        <div class="tl-badge urgent">Deadline</div>
+        <div class="tl-title">Filing deadline — April 15</div>
+        <p class="tl-body">Returns due. IRA contributions for the prior year can still be made through this date. An extension buys time to file — not to pay.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-month">June</div>
+        <div class="tl-badge">Mid-Year</div>
+        <div class="tl-title">Mid-year income review</div>
+        <p class="tl-body">Year-to-date income is now visible. Estimated payments can be adjusted and early conversion opportunities identified.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-month">September</div>
+        <div class="tl-badge">Planning</div>
+        <div class="tl-title">Year-end window opens</div>
+        <p class="tl-body">The most important planning window of the year begins. Strategies need to be modeled now — not in December when time runs short.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-month">October – November</div>
+        <div class="tl-badge">Action</div>
+        <div class="tl-title">Harvest losses, review gains</div>
+        <p class="tl-body">Execute loss harvesting, confirm RMD amounts, and finalize charitable giving plans before year-end deadlines close in.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-month">December</div>
+        <div class="tl-badge urgent">Year-End</div>
+        <div class="tl-title">Last window — December 31</div>
+        <p class="tl-body">Final day for Roth conversions, RMDs, loss harvesting, charitable donations, and retirement contributions. <strong>No extensions on year-end strategy.</strong></p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-month">Year-Round</div>
+        <div class="tl-badge">Ongoing</div>
+        <div class="tl-title">Life events trigger reviews</div>
+        <p class="tl-body">A job change, business sale, inheritance, or marriage can shift your entire tax picture. <strong>Opportunistic strategy never waits for year-end.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     FEATURE — split dark/light, advanced strategies
+     ══════════════════════════════════════════════════ -->
+<section id="feature">
+  <div class="feat-left rv-l">
+    <div class="feat-grid" aria-hidden="true"></div>
+    <div class="feat-bg-num" aria-hidden="true">199A</div>
+    <div class="feat-ey">For Business Owners</div>
+    <h2 class="feat-h">The most<br>overlooked<br><em>deductions</em><br>in the code.</h2>
+    <p class="feat-body">Business owners face a uniquely complex tax picture — and a uniquely large opportunity. <strong>The right structure and timing can reduce effective tax rates significantly.</strong> These are not loopholes. They are the code working as intended.</p>
+    <div class="feat-cta">
+      <a href="contact.html" class="btn-p btn-solid mag">Schedule a Business Review</a>
+    </div>
+  </div>
+  <div class="feat-right rv-r">
+    <div class="feat-right-item">
+      <div class="fri-n">Section 199A</div>
+      <div class="fri-title">Qualified Business<br><em>Income Deduction</em></div>
+      <p class="fri-body">Up to 20% of qualified business income may be deductible for pass-through entities. <strong>Structure, wages, and income level all affect eligibility</strong> — and the rules are nuanced enough to warrant a dedicated review.</p>
+    </div>
+    <div class="feat-right-item">
+      <div class="fri-n">Section 179 / Bonus Depreciation</div>
+      <div class="fri-title">Accelerated<br><em>Depreciation</em></div>
+      <p class="fri-body">Eligible business property can often be deducted immediately rather than over years. <strong>The rules shift regularly</strong> — timing capital expenditures around them can generate meaningful upfront deductions.</p>
+    </div>
+    <div class="feat-right-item">
+      <div class="fri-n">Entity Structure</div>
+      <div class="fri-title">S-Corp Election<br><em>&amp; Salary Split</em></div>
+      <p class="fri-body">S-Corp election can split income between salary and distributions — <strong>reducing self-employment tax</strong> on the distribution portion. Whether it's right for you depends on net income, administrative appetite, and other factors.</p>
+    </div>
+    <div class="feat-right-item">
+      <div class="fri-n">Retirement Plans</div>
+      <div class="fri-title">Solo 401(k)<br><em>&amp; Cash Balance</em></div>
+      <p class="fri-body">Self-employed individuals have access to retirement vehicles that far exceed employee limits. <strong>The right plan structure can shelter significantly more income</strong> — and the best option depends on your age, income, and goals.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     FAQ — sticky left head, right accordion
+     ══════════════════════════════════════════════════ -->
+<section id="faq">
+  <div class="faq-outer">
+    <div class="faq-left-head rv-l">
+      <div class="faq-ey">Questions</div>
+      <h2 class="faq-h">Tax,<br><em>answered.</em></h2>
+      <p class="faq-sub">Plain answers to the questions every client eventually asks — from the basic to the surprisingly nuanced.<br><br><strong>The specifics always depend on your situation.</strong></p>
+      <div class="faq-cta-wrap">
+        <a href="contact.html" class="btn-p btn-solid mag">Schedule a Consultation</a>
+        <button class="btn-p btn-ghost-p mag" onclick="openSidebar('tools')">Use Tax Calculators</button>
+      </div>
+    </div>
+    <div class="faq-list rv d1">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="fq-i">01</span>Is tax planning something I do once a year?
+          <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+        </button>
+        <div class="faq-panel"><p class="faq-ans">No — and that's the most expensive misconception in personal finance. <strong>By the time you sit down with a CPA in March, most decisions are already locked in.</strong> Roth conversions, harvesting, charitable giving, and gain timing all require action during the year. We plan continuously so opportunities aren't missed.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="fq-i">02</span>What's the difference between a financial advisor and a CPA for taxes?
+          <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+        </button>
+        <div class="faq-panel"><p class="faq-ans">A CPA accurately reports what happened. A financial advisor shapes what happens before it does. <strong>Tax strategy lives in the advisory relationship</strong> — not the return. When the two work together, you capture opportunities that neither finds alone.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="fq-i">03</span>When does a Roth conversion make sense?
+          <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+        </button>
+        <div class="faq-panel"><p class="faq-ans">When your current tax rate is lower than your projected future rate. <strong>Identifying when that window opens — and how much to convert — is the heart of the analysis.</strong> It's highly personal and worth modeling with your full financial picture in view.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="fq-i">04</span>How does tax-loss harvesting actually work?
+          <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+        </button>
+        <div class="faq-panel"><p class="faq-ans">You sell a position at a loss, realize the tax asset, and immediately replace it with a similar fund to maintain your market exposure. <strong>The loss offsets gains — or up to $3,000 of ordinary income.</strong> The wash-sale rule and precise execution are where it gets nuanced — worth getting right.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="fq-i">05</span>Should I sell appreciated stock or donate it?
+          <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+        </button>
+        <div class="faq-panel"><p class="faq-ans">Almost always donate it directly. Donating shares — or contributing to a Donor-Advised Fund — means <strong>zero capital gains tax and a full fair-market-value deduction.</strong> Selling first and donating cash costs you the tax hit. The charity receives the same amount either way; you keep the difference.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="fq-i">06</span>What's the Net Investment Income Tax and who pays it?
+          <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+        </button>
+        <div class="faq-panel"><p class="faq-ans">A 3.8% surcharge on investment income for higher earners — layered on top of capital gains rates. <strong>At the top bracket, the combined federal rate on gains can reach 23.8%.</strong> How you structure income and time transactions can meaningfully reduce this exposure. It's worth understanding before any large sale.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     CTA — full dark, centered typographic
+     ══════════════════════════════════════════════════ -->
+<section id="cta">
+  <div class="cta-grid-bg" aria-hidden="true"></div>
+  <div class="cta-bg-text" aria-hidden="true">tax</div>
+  <div class="cta-ey rv">The Opportunity</div>
+  <h2 class="cta-h rv d1">The best<br>tax strategy<br>is a <em>proactive</em><br>one.</h2>
+  <p class="cta-p rv d2">Every year without a coordinated tax plan is a year of unnecessary leakage. <strong>A single well-timed move can be worth more than a year of investment returns.</strong> Let's find yours.</p>
+  <div class="cta-acts rv d3">
+    <a href="contact.html" class="btn-p btn-solid mag">Begin Tax Planning</a>
+    <button class="btn-p btn-ghost-p mag" onclick="openSidebar('checklist')">Run Tax Checklist</button>
+  </div>
+  <div class="cta-details rv d4">
+    <div class="cta-det-item"><div class="cta-dl">Phone</div><div class="cta-dv"><a href="tel:+15551234567">(555) 123-4567</a></div></div>
+    <div class="cta-det-item"><div class="cta-dl">Email</div><div class="cta-dv"><a href="/cdn-cgi/l/email-protection#a3cec2d7d7cbc6d4e3d3cacdc7cccfc6da8dc0ccce"><span class="__cf_email__" data-cfemail="8ae7ebfefee2effdcafae3e4eee5e6eff3a4e9e5e7">[email&#160;protected]</span></a></div></div>
+    <div class="cta-det-item"><div class="cta-dl">Consultations</div><div class="cta-dv">Complimentary</div></div>
+    <div class="cta-det-item"><div class="cta-dl">Availability</div><div class="cta-dv">Mon – Fri, 9am – 5pm</div></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <div class="ft-logo">Matthew Pindoley <b>SE-AWMA®</b></div>
+      <p class="ft-tg">Sophisticated wealth management for those who've earned the right to expect more.</p>
+    </div>
+    <div class="ft-lks">
+      <div class="ft-col"><h4>Services</h4><ul>
+        <li><a href="service.html">Wealth Management</a></li>
+        <li><a href="service.html">Retirement Planning</a></li>
+        <li><a href="service.html">Tax Strategy</a></li>
+        <li><a href="service.html">Estate Planning</a></li>
+      </ul></div>
+      <div class="ft-col"><h4>Resources</h4><ul>
+        <li><a href="resource-retirement.html">Retirement</a></li>
+        <li><a href="resource-investment.html">Investment</a></li>
+        <li><a href="resource-estate.html">Estate</a></li>
+        <li><a href="resource-tax.html">Tax Planning</a></li>
+        <li><a href="resource-insurance.html">Insurance</a></li>
+        <li><a href="resource-money.html">Money &amp; Lifestyle</a></li>
+      </ul></div>
+      <div class="ft-col"><h4>Firm</h4><ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about-firm.html">Our Firm</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <p class="ft-cp">© 2025 Matthew Pindoley Financial Advisory. All rights reserved.</p>
+    <p class="ft-di">Investment advisory services offered through a registered investment adviser. This content is for informational purposes only and does not constitute investment, legal, or tax advice.</p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ─── CURSOR ───────────────────────────────────────── */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button,.strat-cell,.feat-right-item,.tl-item,.sb-res-item,.sb-ck-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+document.addEventListener('mousedown',()=>document.body.classList.add('pressing'));
+document.addEventListener('mouseup',()=>document.body.classList.remove('pressing'));
+
+/* ─── NAV ──────────────────────────────────────────── */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('stk',scrollY>60),{passive:true});
+
+document.querySelectorAll('.nav-drop').forEach(drop=>{
+  const trigger=drop.querySelector('.nav-drop-trigger');
+  const panel=drop.querySelector('.nav-drop-panel');
+  if(!trigger||!panel)return;
+  let t=null;
+  const open=()=>{clearTimeout(t);drop.classList.add('open');trigger.setAttribute('aria-expanded','true')};
+  const close=()=>{t=setTimeout(()=>{drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')},120)};
+  drop.addEventListener('mouseenter',open);
+  drop.addEventListener('mouseleave',close);
+  trigger.addEventListener('click',()=>drop.classList.contains('open')?close():open());
+  drop.addEventListener('keydown',e=>{if(e.key==='Escape'){drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')}});
+  drop.addEventListener('focusout',e=>{if(!drop.contains(e.relatedTarget)){drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')}});
+});
+
+const mob=document.getElementById('mob'),hbg=document.getElementById('hbg'),mobX=document.getElementById('mob-x');
+hbg.addEventListener('click',()=>mob.classList.add('open'));
+mobX.addEventListener('click',()=>mob.classList.remove('open'));
+document.querySelectorAll('.mob-a,.mob-res-link').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
+
+/* ─── HERO WORDS — handled by CSS animation now ────── */
+
+/* ─── REVEAL ───────────────────────────────────────── */
+// Add .anim only via JS so elements are never invisible without JS support
+const revEls=document.querySelectorAll('.rv,.rv-l,.rv-r');
+revEls.forEach(el=>el.classList.add('anim'));
+
+const io=new IntersectionObserver(e=>{
+  e.forEach(x=>{
+    if(x.isIntersecting){
+      x.target.classList.add('vis');
+      io.unobserve(x.target);
+    }
+  });
+},{threshold:0,rootMargin:'0px 0px 0px 0px'});
+revEls.forEach(el=>io.observe(el));
+
+// Safety net: reveal everything after 2.5s regardless
+setTimeout(()=>{revEls.forEach(el=>el.classList.add('vis'))},2500);
+
+/* ─── FAQ ──────────────────────────────────────────── */
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const open=btn.getAttribute('aria-expanded')==='true';
+    document.querySelectorAll('.faq-q').forEach(b=>{b.setAttribute('aria-expanded','false');b.nextElementSibling.classList.remove('open')});
+    if(!open){btn.setAttribute('aria-expanded','true');btn.nextElementSibling.classList.add('open')}
+  });
+});
+
+/* ─── MAGNETIC ─────────────────────────────────────── */
+document.querySelectorAll('.mag,.nav-btn').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.22}px,${(e.clientY-r.top-r.height/2)*.22}px)`;
+  });
+  btn.addEventListener('mouseleave',()=>{btn.style.transform=''});
+});
+
+/* ─── HORIZONTAL TIMELINE DRAG SCROLL ─────────────── */
+const tlScroll=document.getElementById('tl-scroll');
+if(tlScroll){
+  let isDown=false,startX,scrollLeft;
+  tlScroll.addEventListener('mousedown',e=>{isDown=true;tlScroll.classList.add('dragging');startX=e.pageX-tlScroll.offsetLeft;scrollLeft=tlScroll.scrollLeft});
+  tlScroll.addEventListener('mouseleave',()=>{isDown=false;tlScroll.classList.remove('dragging')});
+  tlScroll.addEventListener('mouseup',()=>{isDown=false;tlScroll.classList.remove('dragging')});
+  tlScroll.addEventListener('mousemove',e=>{if(!isDown)return;e.preventDefault();const x=e.pageX-tlScroll.offsetLeft;const walk=(x-startX)*1.6;tlScroll.scrollLeft=scrollLeft-walk});
+}
+
+/* ─── SIDEBAR ──────────────────────────────────────── */
+const sbPanel=document.getElementById('sb-panel'),sbOverlay=document.getElementById('sb-overlay');
+function openSidebar(pane){sbPanel.classList.add('open');sbOverlay.classList.add('open');document.body.style.overflow='hidden';if(pane)switchTab(pane)}
+function closeSidebar(){sbPanel.classList.remove('open');sbOverlay.classList.remove('open');document.body.style.overflow=''}
+document.getElementById('sb-trigger').addEventListener('click',()=>openSidebar('nav'));
+document.getElementById('sb-close').addEventListener('click',closeSidebar);
+sbOverlay.addEventListener('click',closeSidebar);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar()});
+function switchTab(name){
+  document.querySelectorAll('.sb-tab').forEach(t=>t.classList.toggle('active',t.dataset.pane===name));
+  document.querySelectorAll('.sb-pane').forEach(p=>p.classList.toggle('active',p.id==='pane-'+name));
+}
+document.querySelectorAll('.sb-tab').forEach(tab=>{tab.addEventListener('click',()=>switchTab(tab.dataset.pane))});
+
+/* ─── CHECKLIST ────────────────────────────────────── */
+function toggleCk(item){item.classList.toggle('done');updateProgress()}
+function updateProgress(){
+  const all=document.querySelectorAll('.sb-ck-item'),done=document.querySelectorAll('.sb-ck-item.done');
+  document.getElementById('ck-pct').textContent=done.length+' / '+all.length;
+  document.getElementById('ck-fill').style.width=(done.length/all.length*100)+'%';
+}
+
+/* ─── ROTH CONVERSION ESTIMATOR ────────────────────── */
+function runRothConversion(){
+  const amount=parseFloat(document.getElementById('rc-amount').value)||0;
+  const currentRate=parseFloat(document.getElementById('rc-rate').value)||0;
+  const futureRate=parseFloat(document.getElementById('rc-future').value)||0;
+  const years=parseInt(document.getElementById('rc-years').value)||0;
+  const r=document.getElementById('rc-result');
+  if(!amount||!currentRate||!futureRate||!years){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please fill in all fields.</div>';return;}
+
+  const growthRate=0.07;
+  const taxNow=amount*(currentRate/100);
+  const rothValue=amount*Math.pow(1+growthRate,years); // grows tax-free
+  const tradValue=(amount*Math.pow(1+growthRate,years))*(1-futureRate/100); // taxed at withdrawal
+  const benefit=rothValue-tradValue-taxNow;
+  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+  const worthwhile=futureRate>currentRate;
+
+  r.innerHTML=`<div class="sb-tool-result ${worthwhile?'sb-r-ok':'sb-r-info'}">
+    <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:.75rem">Roth Conversion Analysis</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.75rem">
+      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Tax Cost Today</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--ink)">${fmt(taxNow)}</div></div>
+      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Lifetime Benefit</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:${benefit>0?'#2a6b2e':'#a0271e'}">${benefit>0?'+':'-'}${fmt(Math.abs(benefit))}</div></div>
+    </div>
+    <div style="font-size:.75rem;color:var(--im);line-height:1.65">Roth after ${years}yr: <strong style="color:var(--ink)">${fmt(rothValue)}</strong> · Traditional after tax: <strong style="color:var(--ink)">${fmt(tradValue)}</strong>.<br><br>${worthwhile?`<strong>Conversion appears beneficial</strong> — paying ${currentRate}% now avoids ${futureRate}% later.`:`Current rate (${currentRate}%) exceeds future rate (${futureRate}%) — conversion may not be optimal.`}<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">Assumes 7% annual growth. Does not account for state taxes, IRMAA, or bracket thresholds.</em></div>
+  </div>`;
+}
+
+/* ─── CAPITAL GAINS ESTIMATOR ──────────────────────── */
+function runCapGains(){
+  const proceeds=parseFloat(document.getElementById('cg-proceeds').value)||0;
+  const basis=parseFloat(document.getElementById('cg-basis').value)||0;
+  const type=document.getElementById('cg-type').value;
+  const r=document.getElementById('cg-cresult');
+  if(!proceeds||!basis||!type){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please fill in all fields.</div>';return;}
+
+  const gain=proceeds-basis;
+  if(gain<=0){r.innerHTML='<div class="sb-tool-result sb-r-info">No taxable gain — position is at a loss or break-even. Consider harvesting the loss to offset other gains.</div>';return;}
+
+  let rate=0,niit=0;
+  const ltRates={'lt-single':{0:0,47025:0.15,518900:0.2},'lt-mfj':{0:0,94050:0.15,583750:0.2}};
+
+  if(type.startsWith('lt')){
+    // Simplified: apply 20% + 3.8% NIIT for illustration
+    rate=0.20;niit=0.038;
+  } else {
+    const brackMap={'st-22':0.22,'st-24':0.24,'st-32':0.32,'st-37':0.37};
+    rate=brackMap[type]||0.24;niit=0.038;
+  }
+
+  const baseTax=gain*rate;
+  const niitTax=gain*niit;
+  const totalTax=baseTax+niitTax;
+  const netProceeds=proceeds-totalTax;
+  const effectiveRate=((totalTax/gain)*100).toFixed(1);
+  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+  const isLT=type.startsWith('lt');
+
+  r.innerHTML=`<div class="sb-tool-result sb-r-ok">
+    <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:.75rem">Capital Gains Estimate — ${isLT?'Long-Term':'Short-Term'}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.75rem">
+      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Taxable Gain</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--ink)">${fmt(gain)}</div></div>
+      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Est. Federal Tax</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--ink)">${fmt(totalTax)}</div></div>
+    </div>
+    <div style="font-size:.75rem;color:var(--im);line-height:1.65">
+      ${rate*100}% ${isLT?'LTCG':'ordinary income'} + 3.8% NIIT = <strong style="color:var(--ink)">${effectiveRate}% effective rate</strong> on gain · Net proceeds after tax: <strong style="color:var(--ink)">${fmt(netProceeds)}</strong>.<br><br>${isLT?'':`<strong>Short-term gains are taxed as ordinary income.</strong> Waiting to cross the 1-year long-term threshold would reduce the effective rate significantly.<br><br>`}<em style="font-size:.7rem;color:rgba(12,11,9,.3)">Federal estimate only. NIIT applies if MAGI exceeds thresholds. State taxes additional. Consult a tax advisor.</em>
+    </div>
+  </div>`;
+}
+
+/* ─── DEDUCTION VALUE CALCULATOR ───────────────────── */
+function runDeductionValue(){
+  const amount=parseFloat(document.getElementById('dv-amount').value)||0;
+  const fedRate=parseFloat(document.getElementById('dv-rate').value)||0;
+  const stateRate=parseFloat(document.getElementById('dv-state').value)||0;
+  const r=document.getElementById('dv-result');
+  if(!amount||!fedRate){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please enter the deduction amount and your federal tax rate.</div>';return;}
+
+  const fedSavings=amount*(fedRate/100);
+  const stateSavings=amount*(stateRate/100);
+  const totalSavings=fedSavings+stateSavings;
+  const effectiveCost=amount-totalSavings;
+  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+
+  r.innerHTML=`<div class="sb-tool-result sb-r-ok">
+    <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:.75rem">Deduction Value at ${fedRate}% Federal${stateRate?` + ${stateRate}% State`:''}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.75rem">
+      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Total Tax Saved</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--ink)">${fmt(totalSavings)}</div></div>
+      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">After-Tax Cost</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--ink)">${fmt(effectiveCost)}</div></div>
+    </div>
+    <div style="font-size:.75rem;color:var(--im);line-height:1.65">A ${fmt(amount)} deduction saves <strong style="color:var(--ink)">${fmt(fedSavings)} in federal taxes</strong>${stateRate?` and <strong style="color:var(--ink)">${fmt(stateSavings)} in state taxes</strong>`:''} — reducing the real cost to <strong style="color:var(--ink)">${fmt(effectiveCost)}</strong>. This is why charitable contributions of appreciated securities, retirement contributions, and business deductions are so powerful at high income levels.<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">Assumes you are itemizing and the deduction is fully deductible. Phaseouts may apply at high incomes.</em></div>
+  </div>`;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Money &amp; Lifestyle — Matthew Pindoley, SE-AWMA®</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Money & Lifestyle — warm sand / deep moss / gold accent */
+  --ink:#0c0b09;--ink2:#141210;--ink3:#1c1a17;
+  --cream:#faf8f4;--cream2:#f4f0e8;--cream3:#ede8dd;
+  --bronze:#9a7c52;--bronze2:#b8966a;--bronze3:rgba(154,124,82,.12);
+  --gold:#c4a35a;--gold2:#d4b87a;
+  --sage:#3d4a3e;--sage2:#506352;
+  --charcoal:#2a2720;--charcoal2:#3a342c;
+  --muted:rgba(12,11,9,.36);--border:rgba(154,124,82,.15);--border2:rgba(154,124,82,.28);
+  --im:rgba(12,11,9,.44);--ib:rgba(12,11,9,.07);--ib2:rgba(12,11,9,.04);
+  --ff:'Cormorant Garamond',Georgia,serif;
+  --fb:'DM Sans',system-ui,sans-serif;
+  --e1:cubic-bezier(.16,1,.3,1);--e2:cubic-bezier(.22,.9,.25,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--cream);color:var(--ink);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
+a{color:inherit;text-decoration:none}
+
+/* GRAIN */
+#grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.018;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px;animation:grn .08s steps(1) infinite}
+@keyframes grn{0%{transform:translate(0,0)}20%{transform:translate(-4%,-3%)}40%{transform:translate(3%,5%)}60%{transform:translate(-2%,2%)}80%{transform:translate(5%,-4%)}100%{transform:translate(0,0)}}
+
+/* CURSOR */
+#cur{position:fixed;top:0;left:0;width:6px;height:6px;border-radius:50%;
+  background:var(--gold);pointer-events:none;z-index:10000;
+  transform:translate(-50%,-50%);
+  transition:width .3s var(--e1),height .3s var(--e1),opacity .2s}
+#cur-r{position:fixed;top:0;left:0;width:36px;height:36px;border-radius:50%;
+  border:1.5px solid rgba(196,163,90,.5);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .35s var(--e1),height .35s var(--e1),border-color .3s}
+body.hov #cur{width:44px;height:44px;opacity:.08}
+body.hov #cur-r{width:62px;height:62px;border-color:var(--gold)}
+body.pressing #cur{width:20px;height:20px}
+
+/* ─── NAV ─────────────────────────────────────────── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:2rem 5rem;
+  transition:padding .45s var(--e2),background .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+  background:rgba(12,11,9,.55);backdrop-filter:blur(16px)}
+#nav.stk{padding:1rem 5rem;background:rgba(12,11,9,.92);
+  border-bottom-color:rgba(154,124,82,.12)}
+.nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;
+  letter-spacing:.06em;line-height:1.3;color:var(--cream)}
+.nav-logo b{color:var(--bronze2);font-weight:400;font-style:italic}
+.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
+.nav-links a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:500;color:rgba(250,248,244,.38);position:relative;transition:color .25s}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--bronze);transition:width .38s var(--e1)}
+.nav-links a:hover,.nav-links a.active{color:var(--cream)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-drop{position:relative}
+.nav-drop-trigger{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:500;color:rgba(250,248,244,.38);position:relative;
+  display:inline-flex;align-items:center;gap:.45rem;
+  cursor:none;background:none;border:none;padding:0;
+  font-family:var(--fb);transition:color .25s}
+.nav-drop-trigger::after{content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--bronze);transition:width .38s var(--e1)}
+.nav-drop.open .nav-drop-trigger,.nav-drop-trigger.active{color:var(--cream)}
+.nav-drop.open .nav-drop-trigger::after,.nav-drop-trigger.active::after{width:calc(100% - 1.1rem)}
+.nav-drop-trigger svg{transition:transform .3s var(--e1);flex-shrink:0;opacity:.5}
+.nav-drop.open .nav-drop-trigger svg{transform:rotate(180deg);opacity:1}
+.nav-drop-panel{position:absolute;top:calc(100% + 14px);left:50%;
+  transform:translateX(-50%) translateY(-6px);
+  background:var(--ink2);border:1px solid rgba(154,124,82,.14);
+  min-width:220px;padding:.6rem 0;
+  box-shadow:0 24px 60px rgba(12,11,9,.35),0 4px 12px rgba(12,11,9,.2);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s var(--e1),transform .25s var(--e1)}
+.nav-drop-panel::after{content:'';position:absolute;top:-20px;left:0;right:0;height:20px}
+.nav-drop.open .nav-drop-panel{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.nav-drop-panel::before{content:'';position:absolute;top:-5px;left:50%;
+  transform:translateX(-50%) rotate(45deg);
+  width:9px;height:9px;background:var(--ink2);
+  border-left:1px solid rgba(154,124,82,.14);border-top:1px solid rgba(154,124,82,.14)}
+.nav-drop-item{display:flex;align-items:center;gap:.75rem;
+  padding:.72rem 1.4rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  font-weight:600;color:rgba(250,248,244,.35);cursor:none;
+  transition:color .2s,background .2s;white-space:nowrap}
+.nav-drop-item:hover{color:var(--cream);background:rgba(154,124,82,.07)}
+.nav-drop-item.current{color:var(--bronze2)}
+.nav-drop-item svg{width:14px;height:14px;flex-shrink:0;opacity:.4;transition:opacity .2s}
+.nav-drop-item:hover svg,.nav-drop-item.current svg{opacity:1}
+.nav-drop-divider{height:1px;background:rgba(154,124,82,.1);margin:.4rem 0}
+.nav-btn{display:inline-flex;align-items:center;
+  padding:.6rem 1.5rem;border:1px solid rgba(154,124,82,.3);border-radius:9999px;
+  font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:600;color:var(--bronze2);position:relative;overflow:hidden;
+  transition:color .3s,border-color .3s}
+.nav-btn::before{content:'';position:absolute;inset:0;background:var(--bronze);
+  transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
+.nav-btn:hover::before{transform:scaleX(1)}
+.nav-btn:hover{color:var(--ink);border-color:var(--bronze)}
+.nav-btn span{position:relative;z-index:1}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px}
+.hbg i{display:block;width:22px;height:1px;background:var(--cream);transition:all .3s}
+
+/* MOBILE DRAWER */
+#mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;
+  clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .75s var(--e1)}
+#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+#mob a{font-family:var(--ff);font-size:clamp(2.5rem,9vw,5.5rem);font-weight:300;
+  color:var(--cream);letter-spacing:-.02em;transition:color .2s}
+#mob a:hover{color:var(--bronze2)}
+#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
+  cursor:none;font-family:var(--ff);font-size:1.8rem;color:var(--muted);transition:color .2s}
+#mob-x:hover{color:var(--cream)}
+.mob-resources{display:flex;flex-direction:column;gap:0;width:100%;align-items:center}
+.mob-res-label{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:1rem}
+.mob-res-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem}
+.mob-res-link{font-family:var(--fb);font-size:.65rem;letter-spacing:.14em;
+  text-transform:uppercase;font-weight:600;color:var(--muted);
+  padding:.45rem 1rem;border:1px solid var(--border);
+  transition:color .2s,border-color .2s}
+.mob-res-link:hover,.mob-res-link.current{color:var(--bronze);border-color:var(--border2)}
+
+/* ═══════════════════════════════════════════════════
+   HERO — editorial lifestyle, full-height cinematic
+   ═══════════════════════════════════════════════════ */
+#hero{min-height:100svh;position:relative;display:grid;
+  grid-template-columns:1fr 1fr;overflow:hidden}
+
+.hero-left{background:var(--sage);display:flex;flex-direction:column;
+  justify-content:flex-end;padding:8rem 5rem 6rem;position:relative;overflow:hidden;z-index:1}
+.hero-left-pattern{position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle at 1px 1px, rgba(196,163,90,.08) 1px, transparent 0);
+  background-size:40px 40px}
+.hero-left-glow{position:absolute;bottom:-10%;right:-5%;
+  width:70%;height:70%;
+  background:radial-gradient(ellipse,rgba(196,163,90,.09) 0%,transparent 65%);
+  pointer-events:none}
+.hero-eyebrow{font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;
+  font-weight:600;color:var(--gold);display:inline-flex;align-items:center;gap:.75rem;
+  margin-bottom:3rem;opacity:0;animation:rUp .8s var(--e1) .3s forwards}
+.hero-eyebrow::before{content:'';width:20px;height:1px;background:var(--gold)}
+.hero-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(4.5rem,8.5vw,12rem);line-height:.82;letter-spacing:-.055em;
+  color:var(--cream);opacity:0;animation:rUp 1s var(--e1) .4s forwards}
+.hero-h .ln{display:block}
+.hero-h em{font-style:italic;color:var(--gold2)}
+.hero-tagline{font-size:.88rem;line-height:1.82;color:rgba(250,248,244,.46);
+  font-weight:300;max-width:38ch;margin-top:3.5rem;border-top:1px solid rgba(196,163,90,.18);
+  padding-top:2rem;opacity:0;animation:rUp .8s var(--e1) 1.6s forwards}
+.hero-tagline strong{color:var(--cream);font-weight:500}
+
+.hero-right{background:var(--cream2);display:flex;flex-direction:column;
+  justify-content:space-between;padding:8rem 4.5rem 6rem;position:relative;overflow:hidden}
+.hero-right::before{content:'';position:absolute;top:0;left:0;width:1px;height:100%;
+  background:linear-gradient(to bottom,transparent,var(--gold),transparent)}
+.hero-num-wrap{position:absolute;top:0;right:-2rem;bottom:0;
+  display:flex;align-items:center;pointer-events:none;overflow:hidden}
+.hero-big-num{font-family:var(--ff);font-size:clamp(18rem,34vw,48rem);
+  font-weight:300;color:rgba(12,11,9,.04);line-height:1;letter-spacing:-.08em;
+  user-select:none;opacity:0;animation:fadeIn 1.6s ease 1s forwards}
+.hero-right-top{position:relative;z-index:1;
+  opacity:0;animation:rUp .8s var(--e1) .6s forwards}
+.hero-right-label{font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:.6rem}
+.hero-right-stat{font-family:var(--ff);font-size:clamp(2.8rem,5.5vw,7.5rem);font-weight:300;
+  color:var(--ink);line-height:.9;letter-spacing:-.05em}
+.hero-right-stat em{font-style:italic;color:var(--bronze)}
+.hero-right-note{font-size:.8rem;color:var(--im);font-weight:300;margin-top:.8rem;max-width:30ch;line-height:1.65}
+.hero-right-bottom{position:relative;z-index:1;
+  opacity:0;animation:rUp .8s var(--e1) .9s forwards}
+.hero-actions{display:flex;gap:.85rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.btn-p{display:inline-flex;align-items:center;gap:.55rem;border-radius:9999px;
+  font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  cursor:none;transition:transform .2s var(--e1),box-shadow .25s}
+.btn-solid{padding:.82rem 2rem;background:var(--ink);color:var(--cream);border:none}
+.btn-solid:hover{box-shadow:0 16px 40px rgba(12,11,9,.22)}
+.btn-ghost-p{padding:.82rem 2rem;background:transparent;color:var(--ink);
+  border:1px solid rgba(12,11,9,.16)}
+.btn-ghost-p:hover{border-color:var(--gold);background:rgba(196,163,90,.05)}
+.hero-footnote{font-size:.65rem;letter-spacing:.06em;color:var(--muted);
+  display:flex;align-items:center;gap:.65rem;line-height:1.5}
+.hero-footnote::before{content:'';width:20px;height:1px;background:var(--border2);flex-shrink:0}
+
+/* ═══════════════════════════════════════════════════
+   MARQUEE
+   ═══════════════════════════════════════════════════ */
+#marquee{overflow:hidden;border-top:1px solid rgba(12,11,9,.06);border-bottom:1px solid rgba(12,11,9,.06);
+  background:var(--sage);padding:1.2rem 0;display:flex;align-items:center}
+.marquee-track{display:flex;gap:0;white-space:nowrap;
+  animation:marquee 32s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{display:inline-flex;align-items:center;gap:2.5rem;padding:0 3rem;
+  font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600;
+  color:rgba(250,248,244,.28)}
+.marquee-item em{color:var(--gold);font-style:normal}
+.marquee-dot{width:4px;height:4px;border-radius:50%;background:rgba(196,163,90,.35);flex-shrink:0}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ═══════════════════════════════════════════════════
+   PHILOSOPHY — large editorial intro
+   ═══════════════════════════════════════════════════ */
+#philosophy{background:var(--cream)}
+.phil-intro{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ib)}
+.phil-intro-left{padding:8rem 5rem;border-right:1px solid var(--ib)}
+.phil-intro-right{padding:8rem 5rem;display:flex;flex-direction:column;justify-content:center}
+.phil-ey{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:2rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.phil-ey::before{content:'';width:20px;height:1px;background:var(--gold)}
+.phil-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3rem,5.5vw,7rem);line-height:.88;letter-spacing:-.05em;color:var(--ink)}
+.phil-h em{font-style:italic;color:var(--bronze)}
+.phil-body{font-size:.88rem;line-height:1.88;color:var(--im);font-weight:300;max-width:44ch}
+.phil-body strong{color:var(--ink);font-weight:500}
+.phil-pullquote{font-family:var(--ff);font-size:clamp(1.6rem,3vw,3rem);
+  font-weight:300;line-height:1.28;letter-spacing:-.025em;color:var(--ink);
+  border-left:2px solid var(--gold);padding-left:2rem;margin-top:2rem}
+.phil-pullquote em{font-style:italic;color:var(--bronze2)}
+
+/* ═══════════════════════════════════════════════════
+   PILLARS — 3-col lifestyle tiles
+   ═══════════════════════════════════════════════════ */
+#pillars{background:var(--cream2)}
+.pillars-head{padding:6rem 5rem 4rem;border-bottom:1px solid var(--ib);
+  display:flex;justify-content:space-between;align-items:flex-end;gap:3rem}
+.pillars-ey{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.5rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.pillars-ey::before{content:'';width:20px;height:1px;background:var(--gold)}
+.pillars-headline{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.5rem,4.5vw,6rem);line-height:.9;letter-spacing:-.05em;color:var(--ink)}
+.pillars-headline em{font-style:italic;color:var(--bronze)}
+.pillars-sub{font-size:.84rem;line-height:1.8;color:var(--im);
+  font-weight:300;max-width:30ch;flex-shrink:0}
+.pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ib)}
+.pillar-card{padding:4rem 3.5rem;border-right:1px solid var(--ib);
+  position:relative;overflow:hidden;
+  transition:background .35s}
+.pillar-card:last-child{border-right:none}
+.pillar-card::before{content:'';position:absolute;bottom:0;left:0;right:0;
+  height:2px;background:linear-gradient(90deg,var(--gold),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .5s var(--e1)}
+.pillar-card:hover::before{transform:scaleX(1)}
+.pillar-card:hover{background:rgba(196,163,90,.03)}
+.pillar-num{font-family:var(--ff);font-size:5rem;font-weight:300;
+  color:rgba(12,11,9,.05);line-height:1;letter-spacing:-.08em;
+  margin-bottom:2rem;transition:color .35s}
+.pillar-card:hover .pillar-num{color:rgba(196,163,90,.12)}
+.pillar-icon{width:42px;height:42px;border:1px solid var(--ib);
+  display:flex;align-items:center;justify-content:center;margin-bottom:1.8rem;
+  transition:border-color .3s,background .3s}
+.pillar-card:hover .pillar-icon{border-color:var(--gold);background:rgba(196,163,90,.06)}
+.pillar-icon svg{width:18px;height:18px;color:var(--im);transition:color .3s}
+.pillar-card:hover .pillar-icon svg{color:var(--gold)}
+.pillar-title{font-family:var(--ff);font-size:1.65rem;font-weight:300;
+  color:var(--ink);letter-spacing:-.02em;margin-bottom:.85rem;line-height:1.15}
+.pillar-title em{font-style:italic;color:var(--bronze)}
+.pillar-body{font-size:.82rem;line-height:1.82;color:var(--im);font-weight:300}
+.pillar-body strong{color:var(--ink);font-weight:500}
+
+/* ═══════════════════════════════════════════════════
+   PRINCIPLES — alternating dark/light editorial
+   ═══════════════════════════════════════════════════ */
+#principles{background:var(--cream)}
+.principles-intro{padding:8rem 5rem 5rem;border-bottom:1px solid var(--ib)}
+.princ-ey{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:2rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.princ-ey::before{content:'';width:20px;height:1px;background:var(--gold)}
+.princ-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3rem,5vw,6.5rem);line-height:.88;letter-spacing:-.05em;color:var(--ink)}
+.princ-h em{font-style:italic;color:var(--bronze)}
+.princ-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ib);
+  min-height:420px}
+.princ-row.dark{background:var(--sage)}
+.princ-cell{padding:5rem;display:flex;flex-direction:column;justify-content:center;
+  border-right:1px solid var(--ib);position:relative;overflow:hidden}
+.princ-cell:last-child{border-right:none}
+.princ-row.dark .princ-cell{border-right-color:rgba(196,163,90,.1)}
+.princ-cell-num{font-family:var(--ff);font-size:7rem;font-weight:300;
+  color:rgba(12,11,9,.04);line-height:1;letter-spacing:-.08em;
+  position:absolute;top:2rem;right:3rem;pointer-events:none;user-select:none}
+.princ-row.dark .princ-cell-num{color:rgba(250,248,244,.04)}
+.princ-cell-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  font-weight:600;color:var(--gold);margin-bottom:1.2rem;
+  display:inline-flex;align-items:center;gap:.65rem}
+.princ-cell-label::before{content:'';width:14px;height:1px;background:var(--gold)}
+.princ-row.dark .princ-cell-label{color:var(--gold2)}
+.princ-cell-title{font-family:var(--ff);font-size:clamp(1.8rem,3.2vw,3.5rem);
+  font-weight:300;color:var(--ink);letter-spacing:-.035em;line-height:1.1;margin-bottom:1.5rem}
+.princ-row.dark .princ-cell-title{color:var(--cream)}
+.princ-cell-title em{font-style:italic;color:var(--bronze)}
+.princ-row.dark .princ-cell-title em{color:var(--gold2)}
+.princ-cell-body{font-size:.85rem;line-height:1.88;color:var(--im);font-weight:300;max-width:38ch}
+.princ-row.dark .princ-cell-body{color:rgba(250,248,244,.5)}
+.princ-cell-body strong{color:var(--ink);font-weight:500}
+.princ-row.dark .princ-cell-body strong{color:var(--cream)}
+
+/* ═══════════════════════════════════════════════════
+   HABITS — horizontal scroll editorial
+   ═══════════════════════════════════════════════════ */
+#habits{background:var(--ink);overflow:hidden;padding:8rem 0}
+.habits-head{padding:0 5rem 4rem;display:grid;grid-template-columns:auto 1fr;
+  gap:0 6rem;align-items:end;border-bottom:1px solid rgba(154,124,82,.12);
+  padding-bottom:4rem;margin-bottom:4rem}
+.habits-ey{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.5rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.habits-ey::before{content:'';width:20px;height:1px;background:var(--gold)}
+.habits-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3rem,5vw,6.5rem);line-height:.88;letter-spacing:-.055em;color:var(--cream)}
+.habits-h em{font-style:italic;color:var(--gold2)}
+.habits-subtext{font-size:.85rem;line-height:1.82;color:rgba(250,248,244,.38);
+  font-weight:300;max-width:36ch;align-self:end}
+.habits-list{display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid rgba(154,124,82,.1)}
+.habit-item{padding:3.5rem 3rem;border-right:1px solid rgba(154,124,82,.1);
+  position:relative;transition:background .3s}
+.habit-item:last-child{border-right:none}
+.habit-item:hover{background:rgba(196,163,90,.04)}
+.habit-n{font-family:var(--ff);font-size:3rem;font-weight:300;
+  color:rgba(196,163,90,.15);line-height:1;letter-spacing:-.06em;margin-bottom:1.5rem}
+.habit-title{font-family:var(--ff);font-size:1.45rem;font-weight:300;
+  color:var(--cream);letter-spacing:-.018em;margin-bottom:.9rem;line-height:1.2}
+.habit-title em{font-style:italic;color:var(--gold2)}
+.habit-body{font-size:.8rem;line-height:1.82;color:rgba(250,248,244,.4);font-weight:300}
+.habit-body strong{color:rgba(250,248,244,.72);font-weight:500}
+
+/* ═══════════════════════════════════════════════════
+   FEATURE STRIP — lifestyle goals centered
+   ═══════════════════════════════════════════════════ */
+#feature{background:var(--cream2);
+  display:grid;grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--ib);border-bottom:1px solid var(--ib)}
+.feat-left{padding:8rem 5rem;border-right:1px solid var(--ib);
+  display:flex;flex-direction:column;justify-content:center}
+.feat-right{padding:8rem 5rem;display:flex;flex-direction:column;justify-content:center;
+  background:var(--sage)}
+.feat-ey{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;
+  font-weight:600;color:var(--gold);margin-bottom:1.8rem;
+  display:inline-flex;align-items:center;gap:.65rem}
+.feat-ey::before{content:'';width:14px;height:1px;background:var(--gold)}
+.feat-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2rem,3.8vw,5rem);line-height:.9;letter-spacing:-.04em;color:var(--ink);
+  margin-bottom:2rem}
+.feat-h em{font-style:italic;color:var(--bronze)}
+.feat-right .feat-h{color:var(--cream)}
+.feat-right .feat-h em{color:var(--gold2)}
+.feat-body{font-size:.86rem;line-height:1.88;color:var(--im);font-weight:300;max-width:40ch}
+.feat-right .feat-body{color:rgba(250,248,244,.5)}
+.feat-body strong{color:var(--ink);font-weight:500}
+.feat-right .feat-body strong{color:var(--cream)}
+.feat-list{margin-top:2.5rem;display:flex;flex-direction:column;gap:.8rem}
+.feat-list-item{display:flex;align-items:flex-start;gap:.85rem;
+  font-size:.82rem;color:var(--im);font-weight:300;line-height:1.6}
+.feat-right .feat-list-item{color:rgba(250,248,244,.45)}
+.feat-list-item::before{content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--gold);flex-shrink:0;margin-top:.45rem}
+.feat-list-item strong{color:var(--ink);font-weight:500}
+.feat-right .feat-list-item strong{color:var(--cream)}
+.feat-stat-row{display:flex;gap:3rem;margin-top:3.5rem;padding-top:3rem;
+  border-top:1px solid var(--ib)}
+.feat-right .feat-stat-row{border-top-color:rgba(196,163,90,.15)}
+.feat-stat{text-align:center}
+.feat-stat-n{font-family:var(--ff);font-size:clamp(2rem,4vw,4.5rem);
+  font-weight:300;color:var(--ink);letter-spacing:-.04em;line-height:1}
+.feat-right .feat-stat-n{color:var(--cream)}
+.feat-stat-n em{font-style:italic;color:var(--bronze)}
+.feat-right .feat-stat-n em{color:var(--gold2)}
+.feat-stat-label{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--im);font-weight:600;margin-top:.4rem}
+.feat-right .feat-stat-label{color:rgba(250,248,244,.38)}
+
+/* ═══════════════════════════════════════════════════
+   FAQ
+   ═══════════════════════════════════════════════════ */
+#faq{padding:10rem 5rem;background:var(--cream)}
+.faq-outer{display:grid;grid-template-columns:1fr 1fr;gap:8rem}
+.faq-left-head{position:sticky;top:8rem;align-self:start}
+.faq-ey{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:2rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.faq-ey::before{content:'';width:20px;height:1px;background:var(--gold)}
+.faq-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.8rem,5vw,6.5rem);line-height:.88;letter-spacing:-.05em;color:var(--ink)}
+.faq-h em{font-style:italic;color:var(--bronze)}
+.faq-sub{font-size:.84rem;line-height:1.82;color:var(--im);font-weight:300;
+  margin-top:2.5rem;max-width:32ch}
+.faq-sub strong{color:var(--ink);font-weight:500}
+.faq-cta-wrap{margin-top:4rem;display:flex;flex-direction:column;gap:1rem}
+.faq-list{display:flex;flex-direction:column;gap:0}
+.faq-item{border-bottom:1px solid var(--ib)}
+.faq-item:first-child{border-top:1px solid var(--ib)}
+.faq-q{display:flex;align-items:baseline;justify-content:space-between;
+  width:100%;padding:2rem 0;background:transparent;border:none;cursor:none;
+  text-align:left;font-family:var(--ff);font-size:clamp(1.2rem,1.8vw,1.65rem);
+  font-weight:300;color:var(--ink);letter-spacing:-.015em;gap:2rem;transition:color .2s}
+.faq-q:hover{color:var(--bronze)}
+.fq-i{font-size:.6rem;letter-spacing:.12em;color:rgba(12,11,9,.24);font-family:var(--fb);
+  text-transform:uppercase;font-weight:500;flex-shrink:0;width:2.2rem}
+.fq-arr{flex-shrink:0;width:22px;height:22px;border:1px solid rgba(12,11,9,.12);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  transition:transform .35s var(--e1),border-color .25s,background .25s}
+.faq-q[aria-expanded="true"] .fq-arr{transform:rotate(45deg);border-color:var(--gold);background:var(--gold)}
+.faq-q[aria-expanded="true"] .fq-arr svg{color:var(--cream)}
+.fq-arr svg{width:9px;height:9px;color:rgba(12,11,9,.3);transition:color .25s}
+.faq-panel{max-height:0;overflow:hidden;transition:max-height .42s cubic-bezier(.2,.9,.2,1)}
+.faq-panel.open{max-height:500px}
+.faq-ans{padding:.2rem 0 2.2rem 2.8rem;font-size:.83rem;line-height:1.9;
+  color:var(--im);font-weight:300;max-width:58ch}
+.faq-ans strong{color:var(--ink);font-weight:500}
+
+/* ═══════════════════════════════════════════════════
+   CTA — full dark, centered
+   ═══════════════════════════════════════════════════ */
+#cta{background:var(--sage);padding:12rem 5rem;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  position:relative;overflow:hidden;border-top:1px solid rgba(196,163,90,.12)}
+.cta-bg-text{position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-family:var(--ff);font-size:clamp(12rem,24vw,34rem);
+  font-weight:300;color:rgba(196,163,90,.04);line-height:1;
+  letter-spacing:-.1em;pointer-events:none;user-select:none;white-space:nowrap}
+.cta-grid-bg{position:absolute;inset:0;
+  background-image:radial-gradient(circle at 1px 1px, rgba(196,163,90,.06) 1px, transparent 0);
+  background-size:52px 52px;pointer-events:none}
+.cta-ey{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:3rem;
+  display:inline-flex;align-items:center;gap:.75rem;position:relative;z-index:1}
+.cta-ey::before,.cta-ey::after{content:'';width:40px;height:1px;background:var(--gold)}
+.cta-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(4rem,9vw,12rem);line-height:.86;letter-spacing:-.06em;
+  color:var(--cream);position:relative;z-index:1;max-width:18ch}
+.cta-h em{font-style:italic;color:var(--gold2)}
+.cta-p{font-size:.9rem;line-height:1.82;color:rgba(250,248,244,.42);
+  font-weight:300;margin-top:3.5rem;max-width:44ch;position:relative;z-index:1}
+.cta-p strong{color:var(--cream);font-weight:500}
+.cta-acts{display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;
+  margin-top:4rem;position:relative;z-index:1}
+.btn-cta-primary{padding:.9rem 2.4rem;background:var(--gold);color:var(--ink);
+  border:none;border-radius:9999px;font-size:.7rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;cursor:none;
+  transition:box-shadow .3s var(--e1),transform .2s}
+.btn-cta-primary:hover{box-shadow:0 20px 50px rgba(196,163,90,.4)}
+.btn-cta-ghost{padding:.9rem 2.4rem;background:transparent;color:var(--cream);
+  border:1px solid rgba(250,248,244,.22);border-radius:9999px;
+  font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:none;
+  transition:border-color .3s,background .3s}
+.btn-cta-ghost:hover{border-color:var(--gold);background:rgba(196,163,90,.08)}
+.cta-details{display:flex;gap:5rem;margin-top:6rem;padding-top:4rem;
+  border-top:1px solid rgba(196,163,90,.15);position:relative;z-index:1;flex-wrap:wrap;
+  justify-content:center}
+.cta-det-item{text-align:center}
+.cta-dl{font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(196,163,90,.55);font-weight:600;margin-bottom:.4rem}
+.cta-dv{font-family:var(--ff);font-size:1.35rem;font-weight:300;color:var(--cream)}
+.cta-dv a{transition:color .2s}.cta-dv a:hover{color:var(--gold2)}
+
+/* FOOTER */
+footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5rem 3.5rem}
+.ft-top{display:flex;justify-content:space-between;align-items:flex-start;
+  gap:3rem;margin-bottom:4rem;padding-bottom:4rem;border-bottom:1px solid var(--border)}
+.ft-logo{font-family:var(--ff);font-size:1.5rem;font-weight:300;color:var(--cream)}
+.ft-logo b{color:var(--bronze2);font-weight:400;font-style:italic}
+.ft-tg{font-size:.76rem;color:var(--muted);margin-top:.5rem;max-width:28ch;line-height:1.6}
+.ft-lks{display:flex;gap:5rem}
+.ft-col h4{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:1.4rem}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.ft-col ul a{font-size:.78rem;color:var(--muted);transition:color .2s}
+.ft-col ul a:hover{color:var(--cream)}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.ft-cp{font-size:.68rem;color:rgba(250,248,244,.18)}
+.ft-di{font-size:.62rem;color:rgba(250,248,244,.12);max-width:55ch;text-align:right;line-height:1.55}
+
+/* ─── SIDEBAR ─────────────────────────────────────── */
+#sb-trigger{position:fixed;right:2rem;top:50%;transform:translateY(-50%);
+  z-index:600;display:flex;flex-direction:column;align-items:center;gap:0;
+  background:var(--ink);border:none;cursor:none;padding:1.2rem .85rem;
+  transition:background .3s,transform .35s var(--e1)}
+#sb-trigger:hover{background:var(--charcoal)}
+#sb-trigger.nudge{animation:nudge 2.5s var(--e1) 3s 1}
+@keyframes nudge{0%,100%{transform:translateY(-50%) translateX(0)}30%{transform:translateY(-50%) translateX(-8px)}60%{transform:translateY(-50%) translateX(-4px)}}
+.sb-trig-label{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;writing-mode:vertical-rl;margin-top:.7rem}
+.sb-trig-icon{display:flex;flex-direction:column;gap:3px}
+.sb-trig-icon span{display:block;width:14px;height:1px;background:var(--cream2);
+  transition:width .25s var(--e1)}
+#sb-trigger:hover .sb-trig-icon span:nth-child(2){width:10px}
+#sb-trigger:hover .sb-trig-icon span:nth-child(3){width:6px}
+#sb-overlay{position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.5);
+  opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(4px)}
+#sb-overlay.open{opacity:1;pointer-events:auto}
+#sb-panel{position:fixed;right:0;top:0;bottom:0;z-index:710;
+  width:min(520px,92vw);background:var(--cream);
+  border-left:1px solid var(--ib);
+  transform:translateX(100%);transition:transform .55s var(--e1);
+  display:flex;flex-direction:column;overflow:hidden}
+#sb-panel.open{transform:translateX(0)}
+.sb-head{background:var(--ink2);padding:2.5rem;display:flex;align-items:center;
+  justify-content:space-between;flex-shrink:0;border-bottom:1px solid rgba(154,124,82,.12)}
+.sb-title{font-family:var(--ff);font-size:1.6rem;font-weight:300;color:var(--cream);letter-spacing:-.025em}
+.sb-title em{font-style:italic;color:var(--bronze2)}
+.sb-close{width:36px;height:36px;border:1px solid rgba(154,124,82,.18);
+  background:transparent;cursor:none;display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s,background .2s}
+.sb-close:hover{border-color:var(--bronze);background:rgba(154,124,82,.08)}
+.sb-close svg{width:14px;height:14px;color:rgba(250,248,244,.42)}
+.sb-tabs{display:flex;border-bottom:1px solid var(--ib);flex-shrink:0;background:var(--cream)}
+.sb-tab{flex:1;padding:1.1rem;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:600;color:var(--im);background:transparent;border:none;cursor:none;
+  border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.sb-tab:hover{color:var(--ink)}
+.sb-tab.active{color:var(--ink);border-bottom-color:var(--bronze)}
+.sb-body{flex:1;overflow-y:auto;padding:2.5rem;scrollbar-width:thin;scrollbar-color:rgba(12,11,9,.1) transparent}
+.sb-body::-webkit-scrollbar{width:4px}
+.sb-body::-webkit-scrollbar-thumb{background:rgba(12,11,9,.1)}
+.sb-pane{display:none}.sb-pane.active{display:block}
+.sb-res-item{display:flex;align-items:center;gap:1rem;
+  padding:1.1rem 0;border-bottom:1px solid var(--ib2);transition:padding-left .3s var(--e1)}
+.sb-res-item:last-child{border-bottom:none}
+.sb-res-item:hover{padding-left:.6rem}
+.sb-res-item.current{opacity:.5;pointer-events:none}
+.sb-res-icon{width:36px;height:36px;border:1px solid var(--ib);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:border-color .2s,background .2s}
+.sb-res-item:hover .sb-res-icon{border-color:var(--bronze);background:rgba(154,124,82,.06)}
+.sb-res-icon svg{width:14px;height:14px;color:var(--im)}
+.sb-res-name{font-family:var(--ff);font-size:1.25rem;font-weight:300;color:var(--ink);letter-spacing:-.015em}
+.sb-res-desc{font-size:.72rem;color:var(--im);margin-top:.1rem}
+.sb-res-arr{margin-left:auto;opacity:0;transition:opacity .2s;flex-shrink:0}
+.sb-res-arr svg{width:12px;height:12px;color:var(--bronze)}
+.sb-res-item:hover .sb-res-arr{opacity:1}
+.sb-ck-section{margin-bottom:2.5rem}
+.sb-ck-title{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--bronze);font-weight:600;margin-bottom:1rem;
+  display:flex;align-items:center;gap:.65rem}
+.sb-ck-title::before{content:'';width:16px;height:1px;background:var(--bronze)}
+.sb-ck-item{display:flex;align-items:flex-start;gap:.85rem;
+  padding:.7rem 0;border-bottom:1px solid var(--ib2);cursor:none}
+.sb-ck-item:last-child{border-bottom:none}
+.sb-ck-box{width:18px;height:18px;border:1px solid rgba(12,11,9,.18);
+  flex-shrink:0;margin-top:.1rem;position:relative;transition:border-color .2s,background .2s;cursor:none}
+.sb-ck-item.done .sb-ck-box{border-color:var(--bronze);background:var(--bronze)}
+.sb-ck-item.done .sb-ck-box::after{content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%230c0b09' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center/10px no-repeat}
+.sb-ck-text{font-size:.82rem;line-height:1.6;color:var(--im);font-weight:300}
+.sb-ck-text strong{color:var(--ink);font-weight:500}
+.sb-ck-item.done .sb-ck-text{color:rgba(12,11,9,.24);text-decoration:line-through;text-decoration-color:rgba(12,11,9,.18)}
+.sb-ck-prog{margin-bottom:2rem}
+.sb-ck-prog-label{display:flex;justify-content:space-between;align-items:center;
+  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--im);font-weight:500;margin-bottom:.65rem}
+.sb-ck-prog-bar{height:3px;background:rgba(12,11,9,.07);overflow:hidden}
+.sb-ck-prog-fill{height:100%;background:linear-gradient(90deg,var(--bronze),var(--bronze2));
+  width:0;transition:width .6s var(--e1)}
+.sb-tool-card{padding:1.6rem;border:1px solid var(--ib);margin-bottom:1rem;
+  transition:border-color .3s,background .3s;position:relative;overflow:hidden}
+.sb-tool-card:hover{border-color:var(--border2);background:rgba(154,124,82,.03)}
+.sb-tool-title{font-family:var(--ff);font-size:1.2rem;font-weight:300;color:var(--ink);
+  margin-bottom:.3rem;letter-spacing:-.015em}
+.sb-tool-desc{font-size:.78rem;color:var(--im);font-weight:300;line-height:1.65;margin-bottom:1.2rem}
+.sb-tool-btn{display:inline-flex;align-items:center;gap:.5rem;font-size:.65rem;
+  letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  color:var(--ink);border:1px solid rgba(12,11,9,.18);
+  padding:.55rem 1.2rem;background:transparent;cursor:none;
+  transition:border-color .2s,background .2s,color .2s}
+.sb-tool-btn:hover{border-color:var(--bronze);background:rgba(154,124,82,.06);color:var(--bronze)}
+.sb-tool-input{width:100%;padding:.65rem .85rem;border:1px solid var(--ib);
+  background:var(--cream);font-family:var(--fb);font-size:.85rem;color:var(--ink);
+  outline:none;transition:border-color .2s;margin-bottom:.6rem}
+.sb-tool-input:focus{border-color:var(--bronze)}
+.sb-tool-select{width:100%;padding:.65rem .85rem;border:1px solid var(--ib);
+  background:var(--cream);font-family:var(--fb);font-size:.85rem;color:var(--ink);
+  outline:none;transition:border-color .2s;margin-bottom:.6rem;appearance:none}
+.sb-tool-select:focus{border-color:var(--bronze)}
+.sb-tool-result{margin-top:1rem;padding:1rem 1.2rem;font-size:.8rem;line-height:1.65;font-weight:300}
+.sb-r-ok{background:rgba(154,124,82,.07);border:1px solid rgba(154,124,82,.22);color:var(--ink)}
+.sb-r-warn{background:rgba(200,80,50,.05);border:1px solid rgba(200,80,50,.18);color:var(--ink)}
+.sb-r-info{background:rgba(12,11,9,.04);border:1px solid rgba(12,11,9,.1);color:var(--ink)}
+.sb-tool-lbl{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--im);font-weight:600;display:block;margin-bottom:.35rem}
+.sb-tool-section{margin-bottom:1.5rem}
+.sb-tool-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+
+/* ─── REVEAL ──────────────────────────────────────── */
+.rv,.rv-l,.rv-r{opacity:1;transform:none}
+.rv.anim{opacity:0;transform:translateY(28px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv-l.anim{opacity:0;transform:translateX(-24px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv-r.anim{opacity:0;transform:translateX(24px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv.anim.vis{opacity:1;transform:translateY(0)}
+.rv-l.anim.vis{opacity:1;transform:translateX(0)}
+.rv-r.anim.vis{opacity:1;transform:translateX(0)}
+.d1{transition-delay:.12s}.d2{transition-delay:.22s}.d3{transition-delay:.34s}.d4{transition-delay:.46s}
+@keyframes rUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{to{opacity:1}}
+
+/* ─── RESPONSIVE ──────────────────────────────────── */
+@media(max-width:1100px){
+  #nav,#nav.stk{padding-left:2.5rem;padding-right:2.5rem}
+  #hero{grid-template-columns:1fr}
+  .hero-right{padding:5rem 2.5rem}
+  .hero-left{padding:10rem 2.5rem 5rem}
+  .phil-intro,.princ-row,#feature{grid-template-columns:1fr}
+  .phil-intro-left,.phil-intro-right,.princ-cell,.feat-left,.feat-right{border-right:none;border-bottom:1px solid var(--ib)}
+  .princ-row.dark .princ-cell{border-bottom-color:rgba(196,163,90,.1)}
+  .phil-intro-left{padding:5rem 2.5rem}
+  .phil-intro-right{padding:4rem 2.5rem}
+  .princ-cell{padding:4rem 2.5rem}
+  .feat-left,.feat-right{padding:6rem 2.5rem}
+  .pillars-head{flex-direction:column;gap:1.5rem;padding:4rem 2.5rem}
+  .pillars-grid{grid-template-columns:1fr}
+  .pillar-card{border-right:none;border-bottom:1px solid var(--ib);padding:3rem 2.5rem}
+  .habits-list{grid-template-columns:1fr 1fr}
+  .habits-head{padding:0 2.5rem 3rem;grid-template-columns:1fr;gap:1.5rem}
+  #habits{padding:6rem 0}
+  .habit-item{padding:3rem 2.5rem}
+  #faq{padding:6rem 2.5rem}
+  .faq-outer{grid-template-columns:1fr;gap:4rem}
+  .faq-left-head{position:static}
+  #cta{padding:8rem 2.5rem}
+  #sb-trigger{display:none}
+  .ft-top{flex-direction:column}.ft-lks{flex-direction:column;gap:2rem}
+  .ft-bot{flex-direction:column;align-items:flex-start}.ft-di{text-align:left}
+  footer{padding:4rem 2.5rem 2.5rem}
+  .cta-details{gap:2.5rem}
+}
+@media(max-width:768px){
+  .nav-links,.nav-btn{display:none}.hbg{display:flex}
+  .hero-left{padding:9rem 2rem 4rem}
+  .hero-right{padding:4rem 2rem}
+  .habits-list{grid-template-columns:1fr}
+}
+@media(pointer:coarse){#cur,#cur-r{display:none}body{cursor:auto}a,button{cursor:pointer}}
+</style>
+</head>
+<body>
+<div id="grain"></div>
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- ─── NAV ───────────────────────────────────────── -->
+<nav id="nav">
+  <a href="index_new.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
+  <ul class="nav-links">
+    <li><a href="index_new.html">Home</a></li>
+    <li class="nav-drop">
+      <button class="nav-drop-trigger active" aria-haspopup="true" aria-expanded="false">
+        Resources
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M2 4l4 4 4-4"/></svg>
+      </button>
+      <div class="nav-drop-panel" role="menu">
+        <a href="resource-retirement.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement
+        </a>
+        <a href="resource-investment.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment
+        </a>
+        <a href="resource-estate.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning
+        </a>
+        <a href="resource-tax.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy
+        </a>
+        <a href="resource-insurance.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance
+        </a>
+        <div class="nav-drop-divider"></div>
+        <a href="resource-money.html" class="nav-drop-item current" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle
+        </a>
+      </div>
+    </li>
+  </ul>
+  <a href="contact.html" class="nav-btn"><span>Begin Your Plan</span></a>
+  <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div id="mob">
+  <button id="mob-x">✕</button>
+  <a href="index_new.html">Home</a>
+  <div class="mob-resources">
+    <div class="mob-res-label">Resources</div>
+    <div class="mob-res-links">
+      <a href="resource-retirement.html" class="mob-res-link">Retirement</a>
+      <a href="resource-investment.html" class="mob-res-link">Investment</a>
+      <a href="resource-estate.html" class="mob-res-link">Estate</a>
+      <a href="resource-tax.html" class="mob-res-link">Tax</a>
+      <a href="resource-insurance.html" class="mob-res-link">Insurance</a>
+      <a href="resource-money.html" class="mob-res-link current">Money &amp; Lifestyle</a>
+    </div>
+  </div>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- ─── SIDEBAR TRIGGER ──────────────────────────── -->
+<button id="sb-trigger" class="nudge" aria-label="Open resources panel">
+  <div class="sb-trig-icon"><span></span><span></span><span></span></div>
+  <span class="sb-trig-label">Tools</span>
+</button>
+<div id="sb-overlay"></div>
+
+<!-- ─── SIDEBAR PANEL ───────────────────────────── -->
+<div id="sb-panel" role="dialog" aria-modal="true" aria-label="Money and lifestyle resources">
+  <div class="sb-head">
+    <div class="sb-title"><em>Money &amp; Lifestyle</em> Resources</div>
+    <button class="sb-close" id="sb-close" aria-label="Close panel">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l10 10M13 3L3 13"/></svg>
+    </button>
+  </div>
+  <div class="sb-tabs">
+    <button class="sb-tab active" data-pane="nav">Navigate</button>
+    <button class="sb-tab" data-pane="checklist">Checklist</button>
+    <button class="sb-tab" data-pane="tools">Calculators</button>
+  </div>
+  <div class="sb-body">
+
+    <!-- NAV PANE -->
+    <div class="sb-pane active" id="pane-nav">
+      <p style="font-size:.78rem;line-height:1.72;color:var(--im);font-weight:300;margin-bottom:2rem">Browse the full resource library. Each guide is built to give you clarity on one area of your financial plan.</p>
+      <a href="resource-retirement.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg></div>
+        <div><div class="sb-res-name">Retirement</div><div class="sb-res-desc">Income architecture &amp; withdrawal strategy</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-investment.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div><div class="sb-res-name">Investment</div><div class="sb-res-desc">Portfolio construction &amp; evidence-based growth</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-estate.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div><div class="sb-res-name">Estate Planning</div><div class="sb-res-desc">Trust structures &amp; legacy architecture</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-tax.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg></div>
+        <div><div class="sb-res-name">Tax Strategy</div><div class="sb-res-desc">Year-round tax planning &amp; optimization</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-insurance.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><div class="sb-res-name">Insurance</div><div class="sb-res-desc">Protection for individuals &amp; business owners</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-money.html" class="sb-res-item current">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div><div class="sb-res-name" style="color:var(--bronze)">Money &amp; Lifestyle</div><div class="sb-res-desc">You are here</div></div>
+      </a>
+    </div>
+
+    <!-- CHECKLIST PANE -->
+    <div class="sb-pane" id="pane-checklist">
+      <div class="sb-ck-prog">
+        <div class="sb-ck-prog-label"><span>Lifestyle Alignment</span><span id="ck-pct">0 / 16</span></div>
+        <div class="sb-ck-prog-bar"><div class="sb-ck-prog-fill" id="ck-fill"></div></div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Money Mindset Foundations</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Values clarity</strong> — top 3 life priorities defined and funded intentionally</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Spending plan reviewed annually — categories reflect current life stage</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Lifestyle inflation</strong> monitored — income increases evaluated before new recurring expenses</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Emergency fund at 6–12 months of essential expenses</div></div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Major Purchase Planning</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Home purchase</strong> — total cost modeled (PITI, maintenance, opportunity cost)</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Vehicle strategy evaluated — buy vs. lease vs. own outright</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Travel &amp; experience budget set — funded separately, not from savings</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Luxury discretionary reviewed — cost-per-use and genuine enjoyment assessed</div></div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Giving &amp; Generosity</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Annual giving budget</strong> established and reflected in cash flow plan</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Family gifting strategy reviewed — $18,000 annual exclusion utilized</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Donor-advised fund considered for bunching charitable deductions</div></div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Life Transition Planning</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Career transition</strong> — financial runway modeled before major moves</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Education funding for children — 529 contributions on track</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Sabbatical or semi-retirement planned — date and cost estimated</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Financial plan stress-tested against lifestyle scenarios</div></div>
+      </div>
+    </div>
+
+    <!-- TOOLS PANE -->
+    <div class="sb-pane" id="pane-tools">
+
+      <!-- Lifestyle Cost of Waiting -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Cost of Lifestyle Delay</div>
+        <div class="sb-tool-desc">See what a recurring lifestyle expense costs over time — and what it would be worth if invested instead.</div>
+        <div class="sb-tool-section">
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Monthly Amount ($)</label>
+              <input class="sb-tool-input" id="ld-monthly" type="number" placeholder="e.g. 2000">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Years</label>
+              <input class="sb-tool-input" id="ld-years" type="number" placeholder="e.g. 20">
+            </div>
+          </div>
+          <div>
+            <label class="sb-tool-lbl">Expected Return (%)</label>
+            <input class="sb-tool-input" id="ld-return" type="number" placeholder="e.g. 7">
+          </div>
+        </div>
+        <button class="sb-tool-btn" onclick="runLifestyleDelay()">Calculate</button>
+        <div id="ld-result"></div>
+      </div>
+
+      <!-- Emergency Fund Calculator -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Emergency Fund Target</div>
+        <div class="sb-tool-desc">Calculate the right emergency fund size based on your essential monthly expenses and risk profile.</div>
+        <div class="sb-tool-section">
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Monthly Essentials ($)</label>
+              <input class="sb-tool-input" id="ef-monthly" type="number" placeholder="e.g. 8000">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Job Security</label>
+              <select class="sb-tool-select" id="ef-security">
+                <option value="">Select...</option>
+                <option value="3">Very stable (gov't, tenured)</option>
+                <option value="6">Stable (salaried employee)</option>
+                <option value="9">Variable (commission, contract)</option>
+                <option value="12">High-risk (entrepreneur, volatile)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button class="sb-tool-btn" onclick="runEmergencyFund()">Calculate Target</button>
+        <div id="ef-result"></div>
+      </div>
+
+      <!-- Savings Rate Analyzer -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Savings Rate Analyzer</div>
+        <div class="sb-tool-desc">Understand your current savings rate and its impact on your financial independence timeline.</div>
+        <div class="sb-tool-section">
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Annual Gross Income ($)</label>
+              <input class="sb-tool-input" id="sr-income" type="number" placeholder="e.g. 350000">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Annual Savings ($)</label>
+              <input class="sb-tool-input" id="sr-savings" type="number" placeholder="e.g. 80000">
+            </div>
+          </div>
+        </div>
+        <button class="sb-tool-btn" onclick="runSavingsRate()">Analyze</button>
+        <div id="sr-result"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     HERO
+     ══════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-left-pattern" aria-hidden="true"></div>
+    <div class="hero-left-glow" aria-hidden="true"></div>
+    <div class="hero-eyebrow">Money &amp; Lifestyle</div>
+    <h1 class="hero-h">
+      <span class="ln">Live</span>
+      <span class="ln">well,</span>
+      <em>on purpose.</em>
+    </h1>
+    <p class="hero-tagline">Wealth isn't just a number — it's the freedom to design a life that <strong>actually fits you.</strong> We help you spend with intention, give generously, and build a plan that honors both your goals and your values.</p>
+  </div>
+  <div class="hero-right">
+    <div class="hero-num-wrap" aria-hidden="true">
+      <div class="hero-big-num">%</div>
+    </div>
+    <div class="hero-right-top">
+      <div class="hero-right-label">Savings Rate, High Earners</div>
+      <div class="hero-right-stat">12<em>%</em></div>
+      <p class="hero-right-note">The median savings rate among high-income households — far below the 20–30% that enables true financial flexibility.</p>
+    </div>
+    <div class="hero-right-bottom">
+      <div class="hero-actions">
+        <a href="contact.html" class="btn-p btn-solid">Design Your Lifestyle Plan</a>
+        <button class="btn-p btn-ghost-p" onclick="openSidebar('tools')">Open Calculators</button>
+      </div>
+      <p class="hero-footnote">Your lifestyle plan is reviewed at every major life event — career change, home purchase, inheritance, or family transition.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     MARQUEE
+     ══════════════════════════════════════════════════ -->
+<div id="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-item"><em>Intentional Spending</em><div class="marquee-dot"></div></div>
+    <div class="marquee-item">Lifestyle Architecture<div class="marquee-dot"></div></div>
+    <div class="marquee-item"><em>Financial Confidence</em><div class="marquee-dot"></div></div>
+    <div class="marquee-item">Values-Based Planning<div class="marquee-dot"></div></div>
+    <div class="marquee-item"><em>White Glove Experience</em><div class="marquee-dot"></div></div>
+    <div class="marquee-item">Behavioral Finance<div class="marquee-dot"></div></div>
+    <div class="marquee-item"><em>Major Purchase Strategy</em><div class="marquee-dot"></div></div>
+    <div class="marquee-item">Generosity Planning<div class="marquee-dot"></div></div>
+    <div class="marquee-item"><em>Life Transitions</em><div class="marquee-dot"></div></div>
+    <div class="marquee-item">Spending with Purpose<div class="marquee-dot"></div></div>
+    <!-- duplicate -->
+    <div class="marquee-item"><em>Intentional Spending</em><div class="marquee-dot"></div></div>
+    <div class="marquee-item">Lifestyle Architecture<div class="marquee-dot"></div></div>
+    <div class="marquee-item"><em>Financial Confidence</em><div class="marquee-dot"></div></div>
+    <div class="marquee-item">Values-Based Planning<div class="marquee-dot"></div></div>
+    <div class="marquee-item"><em>White Glove Experience</em><div class="marquee-dot"></div></div>
+    <div class="marquee-item">Behavioral Finance<div class="marquee-dot"></div></div>
+    <div class="marquee-item"><em>Major Purchase Strategy</em><div class="marquee-dot"></div></div>
+    <div class="marquee-item">Generosity Planning<div class="marquee-dot"></div></div>
+    <div class="marquee-item"><em>Life Transitions</em><div class="marquee-dot"></div></div>
+    <div class="marquee-item">Spending with Purpose<div class="marquee-dot"></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PHILOSOPHY
+     ══════════════════════════════════════════════════ -->
+<section id="philosophy">
+  <div class="phil-intro">
+    <div class="phil-intro-left rv">
+      <div class="phil-ey">The Foundation</div>
+      <h2 class="phil-h">Money is<br>a <em>tool,</em><br>not a score.</h2>
+    </div>
+    <div class="phil-intro-right rv d1">
+      <p class="phil-body">Most financial conversations start with charts and allocations. We start somewhere different — with <strong>what matters most to you.</strong> Because the most sophisticated investment strategy in the world is hollow if it's not funding a life you've consciously chosen.</p>
+      <p class="phil-body" style="margin-top:1.5rem">Our role is to help you make intentional decisions about money — not just grow it. That means aligning your cash flow with your values, navigating major purchases with clarity, and designing a plan that lets you <strong>spend generously without guilt.</strong></p>
+      <div class="phil-pullquote rv d2">
+        The goal isn't to die with the most — it's to live <em>fully</em> along the way.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     PILLARS
+     ══════════════════════════════════════════════════ -->
+<section id="pillars">
+  <div class="pillars-head">
+    <div class="rv">
+      <div class="pillars-ey">What We Cover</div>
+      <h2 class="pillars-headline">Three pillars<br>of <em>living well.</em></h2>
+    </div>
+    <p class="pillars-sub rv d1">Your financial life isn't just about investments — it's about how money flows through your entire life. We address all of it.</p>
+  </div>
+  <div class="pillars-grid">
+    <div class="pillar-card rv">
+      <div class="pillar-num">01</div>
+      <div class="pillar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <h3 class="pillar-title">Intentional<br><em>Spending</em></h3>
+      <p class="pillar-body">We map every dollar to a purpose. <strong>Lifestyle inflation</strong> is the silent wealth killer at high incomes — we track it, discuss it, and ensure your spending plan evolves with your life, not just your income.</p>
+    </div>
+    <div class="pillar-card rv d1">
+      <div class="pillar-num">02</div>
+      <div class="pillar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <h3 class="pillar-title">Major Purchase<br><em>Strategy</em></h3>
+      <p class="pillar-body">Homes, vehicles, travel, education — <strong>every significant purchase deserves a plan.</strong> We model the full financial impact before you commit, so you can buy with confidence rather than anxiety.</p>
+    </div>
+    <div class="pillar-card rv d2">
+      <div class="pillar-num">03</div>
+      <div class="pillar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <h3 class="pillar-title">Giving &amp;<br><em>Generosity</em></h3>
+      <p class="pillar-body">Philanthropy and family giving are cornerstones of a meaningful financial life. <strong>Strategic generosity</strong> — through donor-advised funds, direct gifts, or legacy planning — is woven into every plan we build.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     PRINCIPLES — alternating dark/light
+     ══════════════════════════════════════════════════ -->
+<section id="principles">
+  <div class="principles-intro rv">
+    <div class="princ-ey">How We Think</div>
+    <h2 class="princ-h">The principles<br>behind <em>the plan.</em></h2>
+  </div>
+
+  <div class="princ-row">
+    <div class="princ-cell rv">
+      <div class="princ-cell-num" aria-hidden="true">01</div>
+      <div class="princ-cell-label">Principle One</div>
+      <h3 class="princ-cell-title">Clarity before<br><em>complexity.</em></h3>
+      <p class="princ-cell-body">Before we talk about asset allocation or tax structures, we get clear on what you want your life to look like. <strong>Financial complexity is only valuable when it serves something real.</strong> We always start with the life, then build the plan around it.</p>
+    </div>
+    <div class="princ-cell rv d1">
+      <div class="princ-cell-num" aria-hidden="true">02</div>
+      <div class="princ-cell-label">Principle Two</div>
+      <h3 class="princ-cell-title">Spend on<br>what <em>you love.</em></h3>
+      <p class="princ-cell-body">We actively encourage spending on the things that bring you genuine joy — travel, experiences, your home, your family. The goal is never deprivation. It's <strong>eliminating the spending that doesn't actually matter</strong> so more flows to what does.</p>
+    </div>
+  </div>
+
+  <div class="princ-row dark">
+    <div class="princ-cell rv">
+      <div class="princ-cell-num" aria-hidden="true">03</div>
+      <div class="princ-cell-label">Principle Three</div>
+      <h3 class="princ-cell-title">Behavior shapes<br><em>outcomes.</em></h3>
+      <p class="princ-cell-body">The biggest factor in financial success isn't your portfolio — it's your behavior. We build processes and routines that make <strong>good financial decisions automatic</strong> and protect you from the behavioral biases that derail high earners at the worst moments.</p>
+    </div>
+    <div class="princ-cell rv d1">
+      <div class="princ-cell-num" aria-hidden="true">04</div>
+      <div class="princ-cell-label">Principle Four</div>
+      <h3 class="princ-cell-title">Plan for<br><em>transitions.</em></h3>
+      <p class="princ-cell-body">Life changes — careers pivot, families grow, priorities shift. We build your financial plan to be <strong>flexible and resilient</strong>, so that when major life transitions arrive, you're ready. Not scrambling. Every plan includes stress-tested scenarios for what comes next.</p>
+    </div>
+  </div>
+
+  <div class="princ-row">
+    <div class="princ-cell rv">
+      <div class="princ-cell-num" aria-hidden="true">05</div>
+      <div class="princ-cell-label">Principle Five</div>
+      <h3 class="princ-cell-title">Wealth is<br><em>generational.</em></h3>
+      <p class="princ-cell-body">How you use your wealth shapes more than your own life — it shapes your family's story. <strong>Intentional generosity, family education around money, and strategic gifting</strong> are the tools that turn individual wealth into lasting family legacy.</p>
+    </div>
+    <div class="princ-cell rv d1">
+      <div class="princ-cell-num" aria-hidden="true">06</div>
+      <div class="princ-cell-label">Principle Six</div>
+      <h3 class="princ-cell-title">Simplicity is<br>a <em>strategy.</em></h3>
+      <p class="princ-cell-body">Complexity is not sophistication. The best financial plans are ones you actually understand and follow. We <strong>streamline, consolidate, and clarify</strong> — so your financial life creates confidence, not confusion, and frees your attention for the life you're building.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     HABITS — dark band
+     ══════════════════════════════════════════════════ -->
+<section id="habits">
+  <div class="habits-head">
+    <div class="rv">
+      <div class="habits-ey">What High Earners Do Differently</div>
+      <h2 class="habits-h">Habits of the<br><em>financially free.</em></h2>
+    </div>
+    <p class="habits-subtext rv d1">Across decades of client relationships, these patterns define those who achieve genuine financial freedom — not just high net worth.</p>
+  </div>
+  <div class="habits-list">
+    <div class="habit-item rv">
+      <div class="habit-n">01</div>
+      <h3 class="habit-title">They pay<br>themselves <em>first.</em></h3>
+      <p class="habit-body">Savings are automatic, not discretionary. <strong>The first transfer out of every paycheck</strong> goes to investment and savings accounts — before discretionary spending ever begins.</p>
+    </div>
+    <div class="habit-item rv d1">
+      <div class="habit-n">02</div>
+      <h3 class="habit-title">They review<br><em>the plan</em> annually.</h3>
+      <p class="habit-body">Life changes. <strong>Annual plan reviews</strong> catch lifestyle drift, recalibrate goals, and ensure every major decision is grounded in a current financial picture.</p>
+    </div>
+    <div class="habit-item rv d2">
+      <div class="habit-n">03</div>
+      <h3 class="habit-title">They give<br><em>generously</em> — on purpose.</h3>
+      <p class="habit-body">Giving is budgeted, not reactive. <strong>Planned generosity</strong> is tax-efficient, deeply satisfying, and one of the clearest expressions of what wealth is actually for.</p>
+    </div>
+    <div class="habit-item rv d3">
+      <div class="habit-n">04</div>
+      <h3 class="habit-title">They <em>own</em> their<br>big decisions.</h3>
+      <p class="habit-body">Major purchases are never impulse-driven. <strong>A financial lens on every significant choice</strong> — real estate, business investment, education — keeps the plan intact through life's biggest moments.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     FEATURE STRIP
+     ══════════════════════════════════════════════════ -->
+<section id="feature">
+  <div class="feat-left rv">
+    <div class="feat-ey">Spending Intentionally</div>
+    <h2 class="feat-h">Your best life<br>has a <em>budget.</em></h2>
+    <p class="feat-body">A spending plan built on your values doesn't restrict your life — it <strong>liberates it.</strong> When every category is intentional, you stop second-guessing every purchase and start living with confidence.</p>
+    <div class="feat-list">
+      <div class="feat-list-item"><strong>Values mapping</strong> — we match spending categories to your stated priorities</div>
+      <div class="feat-list-item"><strong>Lifestyle inflation reviews</strong> — quarterly check on discretionary spend vs. plan</div>
+      <div class="feat-list-item"><strong>Guilt-free spending zones</strong> — explicit permission to spend generously on what you love</div>
+      <div class="feat-list-item"><strong>Friction reduction</strong> — simplifying financial systems so good habits are automatic</div>
+    </div>
+  </div>
+  <div class="feat-right rv d1">
+    <div class="feat-ey">By the Numbers</div>
+    <h2 class="feat-h">Financial<br><em>confidence</em> matters.</h2>
+    <p class="feat-body">The numbers behind why intentional planning makes an extraordinary difference over a lifetime of earning and spending.</p>
+    <div class="feat-stat-row">
+      <div class="feat-stat">
+        <div class="feat-stat-n">3<em>×</em></div>
+        <div class="feat-stat-label">Wealth at 65 with 25% vs 10% savings rate</div>
+      </div>
+      <div class="feat-stat">
+        <div class="feat-stat-n">70<em>%</em></div>
+        <div class="feat-stat-label">Of high earners report financial stress despite income</div>
+      </div>
+      <div class="feat-stat">
+        <div class="feat-stat-n">$1<em>M+</em></div>
+        <div class="feat-stat-label">Avg. lifetime cost of unplanned lifestyle inflation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     FAQ
+     ══════════════════════════════════════════════════ -->
+<section id="faq">
+  <div class="faq-outer">
+    <div class="faq-left-head rv">
+      <div class="faq-ey">Frequently Asked</div>
+      <h2 class="faq-h">Questions<br>about <em>living</em><br>well.</h2>
+      <p class="faq-sub">Real conversations we have with clients navigating the intersection of money and the life they want to live.</p>
+      <div class="faq-cta-wrap">
+        <a href="contact.html" class="btn-p btn-solid" style="justify-content:center">Schedule a Conversation</a>
+      </div>
+    </div>
+    <div class="faq-list rv d1">
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+          <span class="fq-i">01</span>
+          <span>How do I know if I'm spending too much on lifestyle?</span>
+          <span class="fq-arr"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l6 6M8 2L2 8"/></svg></span>
+        </button>
+        <div class="faq-panel"><p class="faq-ans">The honest answer is that "too much" is relative — but the signal is usually anxiety, not math. If spending feels uncomfortable, if you're not sure how a big purchase fits your plan, or if your savings rate hasn't grown with your income, those are flags. <strong>We run a structured lifestyle audit</strong> that maps your actual spending against your stated values and your long-term goals. The goal isn't to spend less — it's to spend right.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+          <span class="fq-i">02</span>
+          <span>Should I buy or continue renting my home?</span>
+          <span class="fq-arr"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l6 6M8 2L2 8"/></svg></span>
+        </button>
+        <div class="faq-panel"><p class="faq-ans">This is one of the most emotionally charged financial decisions — and one of the most commonly analyzed incorrectly. The true cost of homeownership includes <strong>mortgage interest, property tax, insurance, maintenance (typically 1–2% of value annually), and opportunity cost</strong> on the down payment. We model buy vs. rent for every time horizon you're considering so the decision is financial, not emotional.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+          <span class="fq-i">03</span>
+          <span>How do I help my adult children financially without creating dependency?</span>
+          <span class="fq-arr"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l6 6M8 2L2 8"/></svg></span>
+        </button>
+        <div class="faq-panel"><p class="faq-ans">One of the most meaningful — and complex — conversations we have. There's no universal answer, but the framework involves being clear on what you're giving and why, <strong>structuring gifts to enable rather than replace</strong> (helping with a down payment differs from covering rent indefinitely), and ensuring your own financial security comes first. Annual gift exclusions, 529 contributions, and direct tuition or medical payments can all be used tax-efficiently.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+          <span class="fq-i">04</span>
+          <span>I earn well but I never feel financially secure. Why?</span>
+          <span class="fq-arr"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l6 6M8 2L2 8"/></svg></span>
+        </button>
+        <div class="faq-panel"><p class="faq-ans">This is more common than you'd think — and it has a name: financial anxiety. It often comes from <strong>a lack of clarity</strong>, not a lack of money. When you don't have a written plan, a clear picture of your net worth trajectory, and defined spending boundaries, every purchase carries uncertainty. The antidote is almost always structure and visibility — a plan you understand and trust enough to actually follow.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+          <span class="fq-i">05</span>
+          <span>How much should I be saving at my income level?</span>
+          <span class="fq-arr"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l6 6M8 2L2 8"/></svg></span>
+        </button>
+        <div class="faq-panel"><p class="faq-ans">The target savings rate depends on when you want financial independence, your current net worth, and your expected lifestyle. As a rough framework: <strong>20% of gross income</strong> is a floor for high earners; 25–35% accelerates independence meaningfully; anything below 15% at high incomes suggests spending is outpacing intention. We model your specific number based on your goals, not a generic rule.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
+          <span class="fq-i">06</span>
+          <span>Can I afford to take a sabbatical or career break?</span>
+          <span class="fq-arr"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l6 6M8 2L2 8"/></svg></span>
+        </button>
+        <div class="faq-panel"><p class="faq-ans">Almost always — if it's planned properly. We model sabbatical scenarios that include <strong>the income gap, portfolio impact, healthcare coverage, and re-entry assumptions</strong>. Most clients are surprised to find that a well-planned year off has a far smaller long-term impact than they feared. The fear of "can I afford this?" is often the biggest obstacle. A clear model removes the fear.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     CTA
+     ══════════════════════════════════════════════════ -->
+<section id="cta">
+  <div class="cta-bg-text" aria-hidden="true">Life</div>
+  <div class="cta-grid-bg" aria-hidden="true"></div>
+  <div class="cta-ey">The White Glove Experience</div>
+  <h2 class="cta-h rv">Let's design<br>your <em>best</em><br>life together.</h2>
+  <p class="cta-p rv d1">This is the conversation most advisors skip. We don't. <strong>Your life is the plan</strong> — everything else is just the mechanism to fund it. Let's talk about what that looks like for you.</p>
+  <div class="cta-acts rv d2">
+    <a href="contact.html" class="btn-cta-primary">Schedule a Conversation</a>
+    <a href="resources.html" class="btn-cta-ghost">Browse All Resources</a>
+  </div>
+  <div class="cta-details rv d3">
+    <div class="cta-det-item">
+      <div class="cta-dl">Phone</div>
+      <div class="cta-dv"><a href="tel:+14195551234">(419) 555-1234</a></div>
+    </div>
+    <div class="cta-det-item">
+      <div class="cta-dl">Email</div>
+      <div class="cta-dv"><a href="mailto:matthew@pindoley.com">matthew@pindoley.com</a></div>
+    </div>
+    <div class="cta-det-item">
+      <div class="cta-dl">Response Time</div>
+      <div class="cta-dv">Same Business Day</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <div class="ft-logo">Matthew Pindoley<br><b>SE-AWMA®</b></div>
+      <p class="ft-tg">Personalized wealth management for those who want more from their financial life.</p>
+    </div>
+    <div class="ft-lks">
+      <div class="ft-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="resource-retirement.html">Retirement</a></li>
+          <li><a href="resource-investment.html">Investment</a></li>
+          <li><a href="resource-estate.html">Estate Planning</a></li>
+          <li><a href="resource-tax.html">Tax Strategy</a></li>
+          <li><a href="resource-insurance.html">Insurance</a></li>
+          <li><a href="resource-money.html">Money &amp; Lifestyle</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Firm</h4>
+        <ul>
+          <li><a href="about-firm.html">About the Firm</a></li>
+          <li><a href="about-who.html">Who We Serve</a></li>
+          <li><a href="service.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <p class="ft-cp">© 2025 Matthew Pindoley, SE-AWMA®. All rights reserved.</p>
+    <p class="ft-di">Investment advisory services offered through a registered investment adviser. This material is for informational purposes only and does not constitute investment, tax, or legal advice. Past performance does not guarantee future results.</p>
+  </div>
+</footer>
+
+<script>
+/* ─── CURSOR ─────────────────────────────────────── */
+const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function lp(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(lp)})();
+document.querySelectorAll('a,button,[onclick]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+document.addEventListener('mousedown',()=>document.body.classList.add('pressing'));
+document.addEventListener('mouseup',()=>document.body.classList.remove('pressing'));
+
+/* ─── NAV ────────────────────────────────────────── */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('stk',scrollY>60));
+const drop=document.querySelector('.nav-drop');
+const trigger=drop.querySelector('.nav-drop-trigger');
+trigger.addEventListener('click',e=>{e.stopPropagation();const o=drop.classList.toggle('open');trigger.setAttribute('aria-expanded',o)});
+document.addEventListener('click',()=>{drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')});
+drop.querySelector('.nav-drop-panel').addEventListener('click',e=>e.stopPropagation());
+
+/* ─── MOBILE ─────────────────────────────────────── */
+const mob=document.getElementById('mob');
+document.getElementById('hbg').addEventListener('click',()=>mob.classList.add('open'));
+document.getElementById('mob-x').addEventListener('click',()=>mob.classList.remove('open'));
+
+/* ─── SIDEBAR ────────────────────────────────────── */
+const sbPanel=document.getElementById('sb-panel');
+const sbOverlay=document.getElementById('sb-overlay');
+function openSidebar(pane='nav'){
+  sbPanel.classList.add('open');sbOverlay.classList.add('open');
+  document.body.style.overflow='hidden';
+  if(pane)switchTab(pane);
+}
+function closeSidebar(){
+  sbPanel.classList.remove('open');sbOverlay.classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('sb-trigger').addEventListener('click',()=>openSidebar('nav'));
+document.getElementById('sb-close').addEventListener('click',closeSidebar);
+sbOverlay.addEventListener('click',closeSidebar);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar()});
+function switchTab(name){
+  document.querySelectorAll('.sb-tab').forEach(t=>t.classList.toggle('active',t.dataset.pane===name));
+  document.querySelectorAll('.sb-pane').forEach(p=>p.classList.toggle('active',p.id==='pane-'+name));
+}
+document.querySelectorAll('.sb-tab').forEach(tab=>{tab.addEventListener('click',()=>switchTab(tab.dataset.pane))});
+
+/* ─── CHECKLIST ──────────────────────────────────── */
+function toggleCk(item){item.classList.toggle('done');updateProgress()}
+function updateProgress(){
+  const all=document.querySelectorAll('.sb-ck-item'),done=document.querySelectorAll('.sb-ck-item.done');
+  document.getElementById('ck-pct').textContent=done.length+' / '+all.length;
+  document.getElementById('ck-fill').style.width=(done.length/all.length*100)+'%';
+}
+
+/* ─── FAQ ────────────────────────────────────────── */
+function toggleFaq(btn){
+  const panel=btn.nextElementSibling;
+  const open=btn.getAttribute('aria-expanded')==='true';
+  document.querySelectorAll('.faq-q[aria-expanded="true"]').forEach(b=>{
+    b.setAttribute('aria-expanded','false');
+    b.nextElementSibling.classList.remove('open');
+  });
+  if(!open){btn.setAttribute('aria-expanded','true');panel.classList.add('open')}
+}
+
+/* ─── REVEAL ─────────────────────────────────────── */
+const revEls=document.querySelectorAll('.rv,.rv-l,.rv-r');
+revEls.forEach(el=>el.classList.add('anim'));
+const ro=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target)}});
+},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+revEls.forEach(el=>ro.observe(el));
+
+/* ─── TOOL: LIFESTYLE DELAY ──────────────────────── */
+function runLifestyleDelay(){
+  const monthly=parseFloat(document.getElementById('ld-monthly').value)||0;
+  const years=parseInt(document.getElementById('ld-years').value)||0;
+  const ret=parseFloat(document.getElementById('ld-return').value)||0;
+  const r=document.getElementById('ld-result');
+  if(!monthly||!years){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please fill in all fields.</div>';return;}
+  const totalSpent=monthly*12*years;
+  const gr=ret/100/12;
+  let fv=0;
+  for(let i=0;i<years*12;i++) fv=(fv+monthly)*(1+gr);
+  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+  r.innerHTML=`<div class="sb-tool-result sb-r-ok">
+    <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:.75rem">Over ${years} Years</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.75rem">
+      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Total Spent</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--ink)">${fmt(totalSpent)}</div></div>
+      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">If Invested Instead</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--bronze)">${fmt(fv)}</div></div>
+    </div>
+    <div style="font-size:.75rem;color:var(--im);line-height:1.65">This expense costs <strong style="color:var(--ink)">${fmt(totalSpent)}</strong> out of pocket — but diverts <strong style="color:var(--ink)">${fmt(fv)}</strong> in potential portfolio value over ${years} years at ${ret||7}% growth. Neither number means stop spending — it means spend consciously.<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">Assumes monthly compounding. Does not account for inflation or taxes.</em></div>
+  </div>`;
+}
+
+/* ─── TOOL: EMERGENCY FUND ───────────────────────── */
+function runEmergencyFund(){
+  const monthly=parseFloat(document.getElementById('ef-monthly').value)||0;
+  const months=parseInt(document.getElementById('ef-security').value)||0;
+  const r=document.getElementById('ef-result');
+  if(!monthly||!months){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please fill in all fields.</div>';return;}
+  const target=monthly*months;
+  const low=monthly*3;
+  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+  const labelMap={'3':'Very Stable (3 months)','6':'Stable (6 months)','9':'Variable (9 months)','12':'High-Risk (12 months)'};
+  r.innerHTML=`<div class="sb-tool-result sb-r-ok">
+    <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:.75rem">Emergency Fund Target — ${labelMap[months]||''}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.75rem">
+      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Recommended Target</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--ink)">${fmt(target)}</div></div>
+      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Absolute Minimum</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--ink)">${fmt(low)}</div></div>
+    </div>
+    <div style="font-size:.75rem;color:var(--im);line-height:1.65">Based on <strong style="color:var(--ink)">${fmt(monthly)}/month</strong> in essential expenses, your target emergency fund is <strong style="color:var(--ink)">${fmt(target)}</strong>. Keep this in a high-yield savings account or money market — liquid, safe, and separate from investment accounts.<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">Essentials include: housing, utilities, groceries, insurance, and minimum debt payments only.</em></div>
+  </div>`;
+}
+
+/* ─── TOOL: SAVINGS RATE ─────────────────────────── */
+function runSavingsRate(){
+  const income=parseFloat(document.getElementById('sr-income').value)||0;
+  const savings=parseFloat(document.getElementById('sr-savings').value)||0;
+  const r=document.getElementById('sr-result');
+  if(!income||!savings){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please fill in all fields.</div>';return;}
+  const rate=(savings/income*100).toFixed(1);
+  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+  let grade,color,note;
+  if(rate>=30){grade='Exceptional';color='#2a6b2e';note='You are on pace for financial independence well ahead of a traditional retirement timeline.'}
+  else if(rate>=20){grade='Strong';color='#2a6b2e';note='Solid foundation. Small increases can meaningfully accelerate your independence date.'}
+  else if(rate>=12){grade='Moderate';color='#9a7c52';note='On par with most high earners — but there\'s meaningful room to improve by reviewing discretionary spending.'}
+  else{grade='Needs Attention';color='#a0271e';note='Your savings rate is below benchmarks for your income level. A structured spending review is recommended.'}
+  const to25=(income*.25-savings);
+  r.innerHTML=`<div class="sb-tool-result ${rate>=20?'sb-r-ok':rate>=12?'sb-r-info':'sb-r-warn'}">
+    <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:.75rem">Savings Rate Analysis</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.75rem">
+      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Your Rate</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:${color}">${rate}%</div></div>
+      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Rating</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:${color}">${grade}</div></div>
+    </div>
+    <div style="font-size:.75rem;color:var(--im);line-height:1.65">${note}${to25>0?`<br><br>To reach <strong style="color:var(--ink)">25% savings rate</strong>, you'd need to save an additional <strong style="color:var(--ink)">${fmt(to25)}/yr</strong> (${fmt(to25/12)}/mo).`:''}<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">Uses gross income as denominator. Includes all savings: 401(k), IRA, taxable, HSA, and other investment accounts.</em></div>
+  </div>`;
+}
+</script>
+</body>
+</html>

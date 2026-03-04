@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Retirement Planning — Matthew Pindoley, SE-AWMA®</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#09090c;--ink2:#111318;--ink3:#191c24;
+  --paper:#f2ece0;--paper2:#ede6d3;
+  --gold:#c8a46a;--gold2:#ddb878;--gold3:rgba(200,164,106,.12);
+  --muted:rgba(242,236,224,.38);--border:rgba(200,164,106,.15);--border2:rgba(200,164,106,.28);
+  --im:rgba(9,9,12,.42);--ib:rgba(9,9,12,.1);
+  --ff:'Cormorant Garamond',Georgia,serif;
+  --fb:'DM Sans',system-ui,sans-serif;
+  --e1:cubic-bezier(.16,1,.3,1);--e2:cubic-bezier(.22,.9,.25,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;overflow-x:hidden}
+body{font-family:var(--fb);background:var(--paper);color:var(--ink);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
+a{color:inherit;text-decoration:none}
+
+/* GRAIN */
+#grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px;animation:grn .08s steps(1) infinite}
+@keyframes grn{0%{transform:translate(0,0)}20%{transform:translate(-4%,-3%)}40%{transform:translate(3%,5%)}60%{transform:translate(-2%,2%)}80%{transform:translate(5%,-4%)}100%{transform:translate(0,0)}}
+
+/* CURSOR */
+#cur{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;
+  background:var(--ink);pointer-events:none;z-index:10000;
+  transform:translate(-50%,-50%);transition:width .3s var(--e1),height .3s var(--e1),background .3s}
+#cur-r{position:fixed;top:0;left:0;width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(9,9,12,.25);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .35s var(--e1),height .35s var(--e1),border-color .3s}
+body.hov #cur{width:48px;height:48px;opacity:.1}
+body.hov #cur-r{width:66px;height:66px;border-color:var(--gold)}
+body.dk #cur{background:var(--gold)}
+body.dk #cur-r{border-color:rgba(200,164,106,.45)}
+body.pressing #cur{width:22px;height:22px}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:2rem 5rem;
+  transition:padding .45s var(--e2),background .4s,border-color .4s;
+  border-bottom:1px solid transparent}
+#nav.lt{padding:1rem 5rem;background:rgba(242,236,224,.9);
+  backdrop-filter:blur(20px);border-bottom-color:var(--ib)}
+#nav.dk{padding:1rem 5rem;background:rgba(9,9,12,.88);
+  backdrop-filter:blur(20px);border-bottom-color:var(--border)}
+.nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;
+  letter-spacing:.06em;line-height:1.3;color:var(--ink);transition:color .3s}
+.nav-logo b{color:var(--gold);font-weight:400;font-style:italic}
+#nav.dk .nav-logo{color:var(--paper)}
+.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
+.nav-links a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:500;color:rgba(9,9,12,.4);position:relative;transition:color .25s}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--gold);transition:width .38s var(--e1)}
+.nav-links a:hover,.nav-links a.active{color:var(--ink)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+#nav.dk .nav-links a{color:var(--muted)}
+#nav.dk .nav-links a:hover{color:var(--paper)}
+.nav-btn{display:inline-flex;align-items:center;
+  padding:.6rem 1.5rem;border:1px solid rgba(9,9,12,.18);border-radius:9999px;
+  font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:600;color:var(--ink);position:relative;overflow:hidden;
+  transition:color .3s,border-color .3s}
+.nav-btn::before{content:'';position:absolute;inset:0;background:var(--ink);
+  transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
+.nav-btn:hover::before{transform:scaleX(1)}
+.nav-btn:hover{color:var(--paper);border-color:var(--ink)}
+.nav-btn span{position:relative;z-index:1}
+#nav.dk .nav-btn{border-color:var(--border2);color:var(--gold)}
+#nav.dk .nav-btn::before{background:var(--gold)}
+#nav.dk .nav-btn:hover{color:var(--ink)}
+/* NAV DROPDOWN */
+.nav-drop{position:relative}
+.nav-drop-trigger{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:500;color:rgba(9,9,12,.4);position:relative;
+  display:inline-flex;align-items:center;gap:.45rem;
+  cursor:none;background:none;border:none;padding:0;
+  font-family:var(--fb);transition:color .25s}
+.nav-drop-trigger::after{content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--gold);transition:width .38s var(--e1)}
+.nav-drop.open .nav-drop-trigger,
+.nav-drop-trigger.active{color:var(--ink)}
+.nav-drop.open .nav-drop-trigger::after,
+.nav-drop-trigger.active::after{width:calc(100% - 1.1rem)}
+.nav-drop-trigger svg{transition:transform .3s var(--e1);flex-shrink:0;opacity:.5}
+.nav-drop.open .nav-drop-trigger svg{transform:rotate(180deg);opacity:1}
+#nav.dk .nav-drop-trigger{color:var(--muted)}
+#nav.dk .nav-drop.open .nav-drop-trigger{color:var(--paper)}
+/* Invisible bridge fills gap so mouse never leaves the hover zone */
+.nav-drop-panel::after{content:'';position:absolute;top:-20px;left:0;right:0;height:20px}
+/* Dropdown panel */
+.nav-drop-panel{position:absolute;top:calc(100% + 14px);left:50%;
+  transform:translateX(-50%) translateY(-6px);
+  background:var(--paper);border:1px solid rgba(9,9,12,.1);
+  min-width:220px;padding:.6rem 0;
+  box-shadow:0 24px 60px rgba(9,9,12,.1),0 4px 12px rgba(9,9,12,.06);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s var(--e1),transform .25s var(--e1)}
+#nav.dk .nav-drop-panel{background:var(--ink2);border-color:var(--border)}
+.nav-drop.open .nav-drop-panel{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+/* Arrow notch on panel */
+.nav-drop-panel::before{content:'';position:absolute;top:-5px;left:50%;
+  transform:translateX(-50%) rotate(45deg);
+  width:9px;height:9px;background:var(--paper);
+  border-left:1px solid rgba(9,9,12,.1);border-top:1px solid rgba(9,9,12,.1)}
+#nav.dk .nav-drop-panel::before{background:var(--ink2);border-color:var(--border)}
+.nav-drop-item{display:flex;align-items:center;gap:.75rem;
+  padding:.72rem 1.4rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  font-weight:600;color:rgba(9,9,12,.45);cursor:none;
+  transition:color .2s,background .2s;white-space:nowrap}
+.nav-drop-item:hover{color:var(--ink);background:rgba(9,9,12,.03)}
+.nav-drop-item.current{color:var(--gold)}
+.nav-drop-item svg{width:14px;height:14px;flex-shrink:0;opacity:.5;transition:opacity .2s}
+.nav-drop-item:hover svg{opacity:1}
+#nav.dk .nav-drop-item{color:var(--muted)}
+#nav.dk .nav-drop-item:hover{color:var(--paper);background:rgba(255,255,255,.04)}
+#nav.dk .nav-drop-item.current{color:var(--gold)}
+.nav-drop-divider{height:1px;background:rgba(9,9,12,.07);margin:.4rem 0}
+#nav.dk .nav-drop-divider{background:var(--border)}
+/* Mobile drawer resource sub-items */
+.mob-resources{display:flex;flex-direction:column;gap:0;width:100%;align-items:center}
+.mob-res-label{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1rem}
+.mob-res-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem}
+.mob-res-link{font-family:var(--fb);font-size:.65rem;letter-spacing:.14em;
+  text-transform:uppercase;font-weight:600;color:var(--muted);
+  padding:.45rem 1rem;border:1px solid var(--border);
+  transition:color .2s,border-color .2s}
+.mob-res-link:hover{color:var(--paper);border-color:rgba(200,164,106,.5)}
+.mob-res-link.current{color:var(--gold);border-color:var(--border2)}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px}
+.hbg i{display:block;width:22px;height:1px;background:var(--ink);transition:all .3s}
+#nav.dk .hbg i{background:var(--paper)}
+
+/* MOBILE DRAWER */
+#mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;
+  clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .75s var(--e1)}
+#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+#mob a{font-family:var(--ff);font-size:clamp(2.5rem,9vw,5.5rem);font-weight:300;
+  color:var(--paper);letter-spacing:-.02em;transition:color .2s}
+#mob a:hover{color:var(--gold)}
+#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
+  cursor:none;font-family:var(--ff);font-size:1.8rem;color:var(--muted);transition:color .2s}
+#mob-x:hover{color:var(--paper)}
+
+/* ═══ HERO — paper split ═══ */
+#hero{min-height:100svh;background:var(--paper);
+  display:grid;grid-template-columns:1fr 1fr;position:relative}
+.hl{display:flex;flex-direction:column;justify-content:flex-end;
+  padding:14rem 4.5rem 6rem 5rem;border-right:1px solid var(--ib);position:relative;z-index:1}
+.hr{display:flex;flex-direction:column;justify-content:flex-end;
+  padding:14rem 5rem 6rem 4.5rem;position:relative;overflow:hidden}
+.h-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600;
+  color:var(--gold);margin-bottom:3rem;display:inline-flex;align-items:center;gap:.75rem;
+  opacity:0;animation:rUp .8s var(--e1) .3s forwards}
+.h-ey::before{content:'';width:24px;height:1px;background:var(--gold)}
+.h-ttl{font-family:var(--ff);font-weight:300;
+  font-size:clamp(4.5rem,8.5vw,11rem);line-height:.88;letter-spacing:-.045em;color:var(--ink)}
+.h-ttl .ln{overflow:hidden;display:block}
+.h-ttl .wd{display:block;transform:translateY(110%);transition:transform 1.1s var(--e1)}
+.h-ttl .wd.vis{transform:translateY(0)}
+.h-ttl em{font-style:italic;color:var(--gold)}
+.h-ttl .ln:nth-child(2) .wd{transition-delay:.08s}
+.h-ttl .ln:nth-child(3) .wd{transition-delay:.16s}
+.h-meta{margin-top:5rem;display:flex;gap:4rem;opacity:0;animation:rUp .8s var(--e1) 1.4s forwards}
+.h-ml{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.35rem}
+.h-mv{font-family:var(--ff);font-size:1.2rem;font-weight:300;color:var(--ink)}
+.h-bgn{position:absolute;bottom:-3rem;right:-1.5rem;
+  font-family:var(--ff);font-size:clamp(16rem,28vw,34rem);font-weight:300;
+  color:rgba(9,9,12,.03);line-height:1;letter-spacing:-.05em;pointer-events:none;user-select:none;
+  opacity:0;animation:fadeIn 1.2s ease 1s forwards}
+.h-rd{position:relative;z-index:2;opacity:0;animation:rUp .8s var(--e1) 1s forwards}
+.h-rd p{font-size:.9rem;line-height:1.82;color:var(--im);font-weight:300;max-width:36ch;margin-bottom:1.5rem}
+.h-rd p strong{color:var(--ink);font-weight:500}
+.h-line{position:absolute;bottom:0;left:50%;width:1px;height:70px;
+  background:linear-gradient(to bottom,transparent,rgba(9,9,12,.18));transform:translateX(-50%)}
+.btn-p{display:inline-flex;align-items:center;gap:.55rem;border-radius:9999px;
+  font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:none;
+  transition:transform .2s var(--e1),box-shadow .25s}
+.btn-solid{padding:.82rem 2rem;background:var(--ink);color:var(--paper);border:none}
+.btn-solid:hover{box-shadow:0 16px 40px rgba(9,9,12,.22)}
+.btn-ghost-p{padding:.82rem 2rem;background:transparent;color:var(--ink);
+  border:1px solid rgba(9,9,12,.18)}
+.btn-ghost-p:hover{border-color:var(--gold);background:rgba(200,164,106,.06)}
+.btn-gold-p{padding:.82rem 2rem;background:var(--gold);color:var(--ink);border:none}
+.btn-gold-p:hover{box-shadow:0 16px 40px rgba(200,164,106,.28)}
+.btn-ghost-lt{padding:.82rem 2rem;background:transparent;color:var(--paper);
+  border:1px solid rgba(242,236,224,.2)}
+.btn-ghost-lt:hover{border-color:var(--gold);background:rgba(200,164,106,.07)}
+
+/* ═══ INTRO BAND — dark ═══ */
+#band{background:var(--ink);padding:7rem 5rem;
+  display:grid;grid-template-columns:auto 1fr;gap:7rem;align-items:center;
+  border-top:1px solid var(--border)}
+.band-lbl{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;white-space:nowrap}
+.band-q{font-family:var(--ff);font-weight:300;
+  font-size:clamp(1.9rem,3.2vw,3.5rem);line-height:1.18;letter-spacing:-.02em;color:var(--paper)}
+.band-q em{font-style:italic;color:var(--gold2)}
+
+/* ═══ TOPICS — editorial alternating rows ═══ */
+#topics{background:var(--paper)}
+.t-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ib);min-height:440px}
+.t-row:nth-child(even){direction:rtl}
+.t-row:nth-child(even)>*{direction:ltr}
+.t-panel{background:var(--ink3);position:relative;overflow:hidden}
+.tp1{background:linear-gradient(150deg,#0d1018 0%,#1a1e2a 100%)}
+.tp2{background:linear-gradient(150deg,#14100a 0%,#211808 100%)}
+.tp3{background:linear-gradient(150deg,#0a0e18 0%,#131724 100%)}
+.tp4{background:linear-gradient(150deg,#10120a 0%,#1a1c0c 100%)}
+.tp5{background:linear-gradient(150deg,#100814 0%,#1c0e20 100%)}
+.tp6{background:linear-gradient(150deg,#081210 0%,#0e1e1a 100%)}
+.t-panel-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff);font-size:clamp(9rem,18vw,22rem);font-weight:300;
+  color:rgba(200,164,106,.08);letter-spacing:-.05em;line-height:1;user-select:none}
+.t-panel-bar{position:absolute;bottom:0;left:0;right:0;
+  height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.t-panel-tag{position:absolute;top:2.5rem;left:2.5rem;
+  font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:600}
+.t-content{padding:5rem;display:flex;flex-direction:column;justify-content:center;
+  border-right:1px solid var(--ib)}
+.t-row:nth-child(even) .t-content{border-right:none;border-left:1px solid var(--ib)}
+.t-n{font-size:.8rem;color:rgba(9,9,12,.2);font-family:var(--ff);
+  font-weight:300;margin-bottom:2rem;letter-spacing:.05em}
+.t-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.2rem,3.5vw,4rem);line-height:1.0;
+  letter-spacing:-.03em;color:var(--ink);margin-bottom:1.8rem}
+.t-h em{font-style:italic;color:#8a6020}
+.t-b{font-size:.84rem;line-height:1.84;color:var(--im);font-weight:300}
+.t-b strong{color:var(--ink);font-weight:500}
+.t-pts{list-style:none;margin-top:2rem;display:flex;flex-direction:column;gap:.6rem}
+.t-pts li{display:flex;align-items:flex-start;gap:.85rem;font-size:.79rem;color:var(--im);font-weight:300}
+.t-pts li::before{content:'—';color:var(--gold);flex-shrink:0;font-family:var(--ff);margin-top:.05em}
+
+/* ═══ CALCULATOR — dark ═══ */
+#calc{background:var(--ink);padding:10rem 5rem;border-top:1px solid var(--border)}
+.c-top{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:end;margin-bottom:6rem}
+.c-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.8rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.c-ey::before{content:'';width:24px;height:1px;background:var(--gold)}
+.c-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.8rem,5vw,6rem);line-height:.95;letter-spacing:-.04em;color:var(--paper)}
+.c-h em{font-style:italic;color:var(--gold2)}
+.c-note{font-size:.84rem;line-height:1.78;color:var(--muted);font-weight:300;align-self:end}
+.c-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2px;
+  background:var(--border);border:1px solid var(--border)}
+.c-in{background:var(--ink2);padding:4rem}
+.c-out{background:var(--ink3);padding:4rem;position:relative;overflow:hidden}
+.c-out::before{content:'';position:absolute;top:-20%;left:-10%;width:70%;height:70%;
+  background:radial-gradient(ellipse,rgba(200,164,106,.07) 0%,transparent 70%);pointer-events:none}
+.fl{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  font-weight:600;color:var(--muted);margin-bottom:.6rem;display:block}
+.fg{margin-bottom:2rem}
+.fi{width:100%;padding:.72rem 1rem;border:1px solid var(--border);
+  font-family:var(--fb);font-size:.9rem;color:var(--paper);
+  background:rgba(255,255,255,.04);outline:none;transition:border-color .2s,background .2s}
+.fi:focus{border-color:var(--gold);background:rgba(200,164,106,.06)}
+.fr{width:100%;appearance:none;height:2px;background:rgba(200,164,106,.18);
+  outline:none;cursor:none;border:none;padding:0;margin:0}
+.fr::-webkit-slider-thumb{appearance:none;width:16px;height:16px;border-radius:50%;
+  background:var(--gold);cursor:none;border:2px solid var(--ink2)}
+.fr-row{display:flex;align-items:center;gap:1.2rem;margin-top:.6rem}
+.fr-v{font-family:var(--ff);font-size:1.4rem;font-weight:300;color:var(--paper);min-width:5.5ch;flex-shrink:0}
+.c-btn{display:inline-flex;align-items:center;gap:.6rem;margin-top:.8rem;
+  border-radius:9999px;font-size:.7rem;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;cursor:none;padding:.88rem 2.2rem;
+  background:var(--gold);color:var(--ink);border:none;transition:box-shadow .25s}
+.c-btn:hover{box-shadow:0 18px 45px rgba(200,164,106,.28)}
+.o-ey{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:.55rem;position:relative;z-index:1}
+.o-big{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3rem,5.5vw,5.8rem);color:var(--paper);line-height:1;
+  letter-spacing:-.04em;margin-bottom:2.5rem;position:relative;z-index:1}
+.o-big sup{font-size:.38em;color:var(--gold);vertical-align:super}
+.o-div{width:100%;height:1px;background:var(--border);margin-bottom:2rem;position:relative;z-index:1}
+.o-s{margin-bottom:1.8rem;position:relative;z-index:1}
+.o-sl{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:.3rem}
+.o-sv{font-family:var(--ff);font-size:1.75rem;font-weight:300;color:var(--paper);line-height:1}
+.o-status{margin-top:2.2rem;padding:1.3rem 1.6rem;border:1px solid;position:relative;z-index:1}
+.o-ok{border-color:rgba(200,164,106,.3);background:rgba(200,164,106,.06)}
+.o-warn{border-color:rgba(220,100,80,.25);background:rgba(220,100,80,.05)}
+.o-stitle{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+.o-ok .o-stitle{color:var(--gold)}.o-warn .o-stitle{color:rgba(220,150,100,.9)}
+.o-smsg{font-size:.78rem;color:var(--muted);margin-top:.35rem;line-height:1.6}
+.o-disc{font-size:.68rem;line-height:1.65;color:rgba(242,236,224,.18);
+  margin-top:1.8rem;padding-top:1.5rem;border-top:1px solid var(--border);position:relative;z-index:1}
+
+/* ═══ TIMELINE — paper ═══ */
+#tl{background:var(--paper2);padding:10rem 5rem;border-top:1px solid var(--ib)}
+.tl-top{display:grid;grid-template-columns:1fr 1.5fr;gap:5rem;align-items:end;margin-bottom:8rem}
+.tl-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.8rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.tl-ey::before{content:'';width:24px;height:1px;background:var(--gold)}
+.tl-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3rem,5.5vw,6.5rem);line-height:.93;letter-spacing:-.04em;color:var(--ink)}
+.tl-h em{font-style:italic;color:#8a6020}
+.tl-sub{font-size:.88rem;line-height:1.8;color:var(--im);font-weight:300;align-self:end}
+.tl-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--ib);overflow:hidden}
+.tl-ph{padding:3rem 2.5rem;border-right:1px solid var(--ib);
+  position:relative;overflow:hidden;transition:background .35s}
+.tl-ph:last-child{border-right:none}
+.tl-ph:hover{background:rgba(9,9,12,.03)}
+.tl-bg{position:absolute;bottom:-2.5rem;right:-1rem;
+  font-family:var(--ff);font-size:9rem;font-weight:300;
+  color:rgba(9,9,12,.04);line-height:1;pointer-events:none;letter-spacing:-.04em}
+.tl-age{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:1.5rem}
+.tl-pttl{font-family:var(--ff);font-size:1.55rem;font-weight:300;
+  color:var(--ink);margin-bottom:.9rem;letter-spacing:-.015em;line-height:1.1}
+.tl-pb{font-size:.78rem;line-height:1.72;color:var(--im);font-weight:300}
+.tl-acts{list-style:none;margin-top:1.5rem;display:flex;flex-direction:column;gap:.5rem}
+.tl-acts li{display:flex;align-items:flex-start;gap:.65rem;font-size:.73rem;color:var(--im);font-weight:300;line-height:1.4}
+.tl-acts li::before{content:'—';color:var(--gold);flex-shrink:0;font-family:var(--ff)}
+
+/* ═══ ACCOUNTS — dark ═══ */
+#acc{background:var(--ink);padding:10rem 5rem;border-top:1px solid var(--border)}
+.acc-top{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:end;margin-bottom:5.5rem}
+.acc-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.8rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.acc-ey::before{content:'';width:24px;height:1px;background:var(--gold)}
+.acc-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.8rem,4.5vw,5.5rem);line-height:.97;letter-spacing:-.04em;color:var(--paper)}
+.acc-h em{font-style:italic;color:var(--gold2)}
+.acc-sub{font-size:.86rem;line-height:1.78;color:var(--muted);font-weight:300;align-self:end}
+.acc-tbl{width:100%;border-collapse:collapse;border:1px solid var(--border)}
+.acc-tbl thead th{background:rgba(200,164,106,.05);padding:.95rem 1.6rem;text-align:left;
+  font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;border-bottom:1px solid var(--border)}
+.acc-tbl tbody tr{border-bottom:1px solid rgba(200,164,106,.06);transition:background .22s}
+.acc-tbl tbody tr:last-child{border-bottom:none}
+.acc-tbl tbody tr:hover{background:rgba(200,164,106,.04)}
+.acc-tbl td{padding:1.3rem 1.6rem;font-size:.81rem;color:var(--muted);font-weight:300;vertical-align:top;line-height:1.55}
+.acc-tbl td:first-child{font-family:var(--ff);font-size:1.08rem;font-weight:300;color:var(--paper);white-space:nowrap;vertical-align:middle}
+.acc-tag{display:inline-block;font-size:.52rem;letter-spacing:.13em;text-transform:uppercase;
+  font-weight:600;padding:.18rem .55rem;border:1px solid var(--border2);color:var(--gold);margin-left:.45rem}
+.acc-note{font-size:.72rem;color:rgba(242,236,224,.2);margin-top:2rem;line-height:1.65;font-weight:300}
+
+/* ═══ FAQ — paper editorial ═══ */
+#faq{background:var(--paper);padding:10rem 5rem;border-top:1px solid var(--ib)}
+.faq-top{display:grid;grid-template-columns:1fr 1.8fr;gap:5rem;align-items:start;margin-bottom:7rem}
+.faq-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.8rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.faq-ey::before{content:'';width:24px;height:1px;background:var(--gold)}
+.faq-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.5rem,4.5vw,5.5rem);line-height:.97;letter-spacing:-.04em;color:var(--ink)}
+.faq-h em{font-style:italic;color:#8a6020}
+.faq-side{font-size:.84rem;line-height:1.82;color:var(--im);font-weight:300;padding-top:6.5rem}
+.faq-side strong{color:var(--ink);font-weight:500}
+.faq-list{border-top:1px solid var(--ib)}
+.faq-item{border-bottom:1px solid var(--ib)}
+.faq-q{display:flex;align-items:baseline;justify-content:space-between;
+  width:100%;padding:2rem 0;background:transparent;border:none;cursor:none;
+  text-align:left;font-family:var(--ff);font-size:clamp(1.25rem,2.2vw,1.85rem);
+  font-weight:300;color:var(--ink);letter-spacing:-.015em;gap:2rem;transition:color .2s}
+.faq-q:hover{color:#5a3c10}
+.fq-i{font-size:.68rem;letter-spacing:.12em;color:var(--im);font-family:var(--fb);
+  text-transform:uppercase;font-weight:500;flex-shrink:0;width:2.5rem}
+.fq-arr{flex-shrink:0;width:24px;height:24px;border:1px solid rgba(9,9,12,.14);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  transition:transform .35s var(--e1),border-color .25s,background .25s}
+.faq-q[aria-expanded="true"] .fq-arr{transform:rotate(45deg);border-color:var(--gold);background:var(--gold)}
+.faq-q[aria-expanded="true"] .fq-arr svg{color:var(--ink)}
+.fq-arr svg{width:10px;height:10px;color:rgba(9,9,12,.35);transition:color .25s}
+.faq-panel{max-height:0;overflow:hidden;transition:max-height .42s cubic-bezier(.2,.9,.2,1)}
+.faq-panel.open{max-height:460px}
+.faq-ans{padding:.2rem 0 2.5rem 3.5rem;font-size:.85rem;line-height:1.87;
+  color:var(--im);font-weight:300;max-width:72ch}
+.faq-ans strong{color:var(--ink);font-weight:500}
+
+/* ═══ CTA — split dark ═══ */
+#cta{background:var(--ink);display:grid;grid-template-columns:1fr 1fr;
+  min-height:70vh;border-top:1px solid var(--border)}
+.cta-l{padding:9rem 5rem;display:flex;flex-direction:column;justify-content:center;
+  border-right:1px solid var(--border)}
+.cta-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:2.5rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.cta-ey::before{content:'';width:24px;height:1px;background:var(--gold)}
+.cta-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3rem,6vw,7rem);line-height:.9;letter-spacing:-.05em;
+  color:var(--paper);margin-bottom:2.5rem}
+.cta-h em{font-style:italic;color:var(--gold2)}
+.cta-p{font-size:.86rem;line-height:1.82;color:var(--muted);font-weight:300;max-width:40ch}
+.cta-acts{display:flex;gap:1rem;flex-wrap:wrap;margin-top:3.5rem}
+.cta-r{padding:9rem 5rem;display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden}
+.cta-r::before{content:'';position:absolute;top:-20%;right:-20%;width:70%;height:70%;
+  background:radial-gradient(ellipse,rgba(200,164,106,.07) 0%,transparent 70%);pointer-events:none}
+.cta-dets{display:flex;flex-direction:column;gap:3rem;position:relative;z-index:1}
+.cta-dl{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:.5rem}
+.cta-dv{font-family:var(--ff);font-size:1.5rem;font-weight:300;color:var(--paper)}
+.cta-dv a{transition:color .2s}.cta-dv a:hover{color:var(--gold)}
+.cta-bignum{position:absolute;bottom:-3rem;left:-1.5rem;
+  font-family:var(--ff);font-size:clamp(12rem,22vw,28rem);font-weight:300;
+  color:rgba(200,164,106,.04);line-height:1;pointer-events:none;letter-spacing:-.05em}
+
+/* FOOTER */
+footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5rem 3.5rem}
+.ft-top{display:flex;justify-content:space-between;align-items:flex-start;
+  gap:3rem;margin-bottom:4rem;padding-bottom:4rem;border-bottom:1px solid var(--border)}
+.ft-logo{font-family:var(--ff);font-size:1.5rem;font-weight:300;color:var(--paper)}
+.ft-logo b{color:var(--gold);font-weight:400;font-style:italic}
+.ft-tg{font-size:.76rem;color:var(--muted);margin-top:.5rem;max-width:28ch;line-height:1.6}
+.ft-lks{display:flex;gap:5rem}
+.ft-col h4{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.4rem}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.ft-col ul a{font-size:.78rem;color:var(--muted);transition:color .2s}
+.ft-col ul a:hover{color:var(--paper)}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.ft-cp{font-size:.68rem;color:rgba(242,236,224,.2)}
+.ft-di{font-size:.62rem;color:rgba(242,236,224,.15);max-width:55ch;text-align:right;line-height:1.55}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv.vis{opacity:1;transform:translateY(0)}
+.rv-l{opacity:0;transform:translateX(-28px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv-l.vis{opacity:1;transform:translateX(0)}
+.rv-r{opacity:0;transform:translateX(28px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv-r.vis{opacity:1;transform:translateX(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+@keyframes rUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{to{opacity:1}}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  #nav,#nav.lt,#nav.dk{padding-left:2.5rem;padding-right:2.5rem}
+  #hero{grid-template-columns:1fr}.hr{display:none}
+  #band{grid-template-columns:1fr;gap:2rem;padding:5rem 2.5rem}
+  .t-row{grid-template-columns:1fr}.t-panel{display:none}
+  .t-content{border-right:none!important;border-left:none!important;padding:4rem 2.5rem}
+  #calc{padding:7rem 2.5rem}.c-top{grid-template-columns:1fr}.c-wrap{grid-template-columns:1fr}
+  #tl{padding:7rem 2.5rem}.tl-top{grid-template-columns:1fr}.tl-grid{grid-template-columns:repeat(2,1fr)}
+  #acc{padding:7rem 2.5rem}.acc-top{grid-template-columns:1fr}
+  #faq{padding:7rem 2.5rem}.faq-top{grid-template-columns:1fr}.faq-side{padding-top:0}
+  #cta{grid-template-columns:1fr}.cta-l{padding:6rem 2.5rem}.cta-r{display:none}
+  footer{padding:4rem 2.5rem 2.5rem}
+}
+@media(max-width:768px){
+  .nav-links,.nav-btn{display:none}.hbg{display:flex}
+  .hl{padding:12rem 2.5rem 5rem}
+  .tl-grid{grid-template-columns:1fr}
+  .tl-ph{border-right:none;border-bottom:1px solid var(--ib)}
+  .ft-top{flex-direction:column}.ft-lks{flex-direction:column;gap:2rem}
+  .ft-bot{flex-direction:column;align-items:flex-start}.ft-di{text-align:left}
+}
+@media(hover:none){#cur,#cur-r{display:none}body{cursor:auto}a,button{cursor:pointer}}
+</style>
+</head>
+<body>
+<div id="grain"></div>
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index_new.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
+  <ul class="nav-links">
+    <li><a href="index_new.html">Home</a></li>
+    <li class="nav-drop">
+      <button class="nav-drop-trigger active" aria-haspopup="true" aria-expanded="false">
+        Resources
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M2 4l4 4 4-4"/></svg>
+      </button>
+      <div class="nav-drop-panel" role="menu">
+        <a href="resource-retirement.html" class="nav-drop-item current" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>
+          Retirement
+        </a>
+        <a href="resource-investment.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Investment
+        </a>
+        <a href="resource-estate.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Estate Planning
+        </a>
+        <a href="resource-tax.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>
+          Tax Strategy
+        </a>
+        <a href="resource-insurance.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Insurance
+        </a>
+        <div class="nav-drop-divider"></div>
+        <a href="resource-money.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Money &amp; Lifestyle
+        </a>
+      </div>
+    </li>
+  </ul>
+  <a href="contact.html" class="nav-btn"><span>Begin Your Plan</span></a>
+  <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div id="mob">
+  <button id="mob-x">✕</button>
+  <a href="index_new.html" class="mob-a">Home</a>
+  <div class="mob-resources">
+    <div class="mob-res-label">Resources</div>
+    <div class="mob-res-links">
+      <a href="resource-retirement.html" class="mob-res-link current">Retirement</a>
+      <a href="resource-investment.html" class="mob-res-link">Investment</a>
+      <a href="resource-estate.html" class="mob-res-link">Estate</a>
+      <a href="resource-tax.html" class="mob-res-link">Tax</a>
+      <a href="resource-insurance.html" class="mob-res-link">Insurance</a>
+      <a href="resource-money.html" class="mob-res-link">Money &amp; Lifestyle</a>
+    </div>
+  </div>
+  <a href="contact.html" class="mob-a">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hl">
+    <div class="h-ey">Retirement Planning</div>
+    <h1 class="h-ttl">
+      <span class="ln"><span class="wd">Retire</span></span>
+      <span class="ln"><span class="wd">on your</span></span>
+      <span class="ln"><span class="wd"><em>terms.</em></span></span>
+    </h1>
+    <div class="h-meta">
+      <div><div class="h-ml">Focus Area</div><div class="h-mv">Income & Longevity</div></div>
+      <div><div class="h-ml">Credential</div><div class="h-mv">SE-AWMA®</div></div>
+    </div>
+  </div>
+  <div class="hr">
+    <div class="h-bgn">R</div>
+    <div class="h-rd">
+      <p>Retirement planning is not a single conversation — it is a <strong>living strategy</strong> that evolves with every market cycle, tax law change, and milestone in your life.</p>
+      <p>We bring together income architecture, tax efficiency, and legacy planning into one coherent plan built around you.</p>
+      <div style="display:flex;gap:.9rem;flex-wrap:wrap;margin-top:1.5rem">
+        <a href="#calc" class="btn-p btn-solid mag">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10"/></svg>
+          Calculator
+        </a>
+        <a href="contact.html" class="btn-p btn-ghost-p mag">Schedule Review</a>
+      </div>
+    </div>
+  </div>
+  <div class="h-line"></div>
+</section>
+
+<!-- INTRO BAND -->
+<section id="band">
+  <div class="band-lbl rv">The Approach</div>
+  <p class="band-q rv d1">"Retirement is not a date on a calendar — it is a <em>financial architecture</em> built over decades. The quality of your retirement is determined by the decisions made long before you make them."</p>
+</section>
+
+<!-- TOPICS -->
+<section id="topics">
+
+  <div class="t-row">
+    <div class="t-panel tp1">
+      <div class="t-panel-num">01</div>
+      <div class="t-panel-bar"></div>
+      <div class="t-panel-tag">Income Planning</div>
+    </div>
+    <div class="t-content rv">
+      <div class="t-n">01 / 06</div>
+      <h2 class="t-h">Retirement<br><em>Income Architecture</em></h2>
+      <p class="t-b">Your retirement income plan must answer one question above all others: <strong>will it last?</strong> We design a layered income strategy drawing from multiple sources in the right sequence — protecting against market volatility, inflation, and longevity risk simultaneously.</p>
+      <ul class="t-pts">
+        <li>Social Security optimization — delay analysis, spousal coordination, break-even modeling</li>
+        <li>Portfolio withdrawal sequencing — which accounts to draw from first and why</li>
+        <li>Pension decisions — lump sum vs. lifetime annuity trade-off analysis</li>
+        <li>Guaranteed income floors using fixed annuities or bond ladders</li>
+        <li>Dynamic spending guardrails that adapt to market conditions</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="t-row">
+    <div class="t-panel tp2">
+      <div class="t-panel-num">02</div>
+      <div class="t-panel-bar"></div>
+      <div class="t-panel-tag">Tax Strategy</div>
+    </div>
+    <div class="t-content rv">
+      <div class="t-n">02 / 06</div>
+      <h2 class="t-h">Tax-Efficient<br><em>Withdrawal Planning</em></h2>
+      <p class="t-b">The IRS is your silent partner in retirement. Every dollar withdrawn from a traditional IRA or 401(k) is taxable — and without a plan, Required Minimum Distributions can push you into brackets you could have avoided entirely.</p>
+      <ul class="t-pts">
+        <li>Roth conversion planning during the low-income window before RMDs begin</li>
+        <li>Strategic capital gains harvesting in low-bracket years</li>
+        <li>Coordinating withdrawals to minimize Medicare IRMAA surcharges</li>
+        <li>Qualified Charitable Distributions — using IRA funds for giving to reduce taxable income</li>
+        <li>Multi-account tax diversification for flexible future planning</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="t-row">
+    <div class="t-panel tp3">
+      <div class="t-panel-num">03</div>
+      <div class="t-panel-bar"></div>
+      <div class="t-panel-tag">Social Security</div>
+    </div>
+    <div class="t-content rv">
+      <div class="t-n">03 / 06</div>
+      <h2 class="t-h">Social Security<br><em>Optimization</em></h2>
+      <p class="t-b">Social Security is among the most consequential — and most often mismanaged — decisions in retirement. Claiming too early can permanently reduce your benefit by as much as 30%. The right strategy depends on health, other income sources, and spousal circumstances.</p>
+      <ul class="t-pts">
+        <li>Benefit grows approximately 8% per year for each year of delay past full retirement age</li>
+        <li>Spousal benefit strategies and restricted application analysis</li>
+        <li>Survivor benefit planning for married couples</li>
+        <li>Break-even analysis — when does delaying actually pay off for you?</li>
+        <li>Tax treatment of benefits based on combined income thresholds</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="t-row">
+    <div class="t-panel tp4">
+      <div class="t-panel-num">04</div>
+      <div class="t-panel-bar"></div>
+      <div class="t-panel-tag">Healthcare</div>
+    </div>
+    <div class="t-content rv">
+      <div class="t-n">04 / 06</div>
+      <h2 class="t-h">Healthcare &<br><em>Long-Term Care</em></h2>
+      <p class="t-b">Healthcare is consistently the most underestimated expense in retirement. A 65-year-old couple today can expect to spend over $300,000 on healthcare costs — and that excludes long-term care, which affects nearly 70% of retirees at some point in their lives.</p>
+      <ul class="t-pts">
+        <li>Bridging to Medicare — ACA marketplace plans, COBRA, and spousal coverage options</li>
+        <li>Medicare Part A, B, C, and D — selecting the right combination for your situation</li>
+        <li>Medigap vs. Medicare Advantage — a true trade-off analysis</li>
+        <li>Long-term care insurance vs. self-insuring vs. hybrid life/LTC policies</li>
+        <li>HSA strategy — carrying the triple tax advantage into retirement</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="t-row">
+    <div class="t-panel tp5">
+      <div class="t-panel-num">05</div>
+      <div class="t-panel-bar"></div>
+      <div class="t-panel-tag">Investments</div>
+    </div>
+    <div class="t-content rv">
+      <div class="t-n">05 / 06</div>
+      <h2 class="t-h">Portfolio Longevity<br>& <em>Sequence Risk</em></h2>
+      <p class="t-b">The greatest investment risk in retirement is not market volatility in isolation — it is the <strong>timing</strong> of that volatility. A significant decline in the first years of retirement, while you are withdrawing from the portfolio, can permanently impair your plan's ability to recover.</p>
+      <ul class="t-pts">
+        <li>Bucket strategy — segmenting assets by time horizon to prevent forced selling in down markets</li>
+        <li>Allocation glide path from accumulation to distribution phase</li>
+        <li>Sustainable withdrawal rate analysis beyond the simple 4% rule</li>
+        <li>Inflation protection — TIPS, real assets, and dividend growth equity strategies</li>
+        <li>Disciplined rebalancing without emotional decision-making</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="t-row">
+    <div class="t-panel tp6">
+      <div class="t-panel-num">06</div>
+      <div class="t-panel-bar"></div>
+      <div class="t-panel-tag">Legacy</div>
+    </div>
+    <div class="t-content rv">
+      <div class="t-n">06 / 06</div>
+      <h2 class="t-h">Legacy Planning<br>& <em>Wealth Transfer</em></h2>
+      <p class="t-b">Retirement planning does not end with your income needs. For many clients, leaving a meaningful legacy — to family, to charity, or to both — is central to their purpose. We integrate estate planning into your retirement strategy so assets transfer according to your wishes, with minimal friction and taxation.</p>
+      <ul class="t-pts">
+        <li>Beneficiary designation review across IRAs, 401(k)s, life insurance, and annuities</li>
+        <li>SECURE Act 2.0 implications for inherited IRA planning</li>
+        <li>Charitable giving strategies — DAFs, QCDs, and charitable remainder trusts</li>
+        <li>Trust coordination — revocable living trusts and retirement assets</li>
+        <li>Stretch strategies for maximizing what heirs receive after taxes</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- CALCULATOR -->
+<section id="calc">
+  <div class="c-top rv">
+    <div>
+      <div class="c-ey">Retirement Calculator</div>
+      <h2 class="c-h">Project your<br><em>readiness.</em></h2>
+    </div>
+    <p class="c-note">A quick projection of where your retirement plan stands. Adjust the sliders — results update instantly. For a comprehensive, personalized analysis, schedule a complimentary review.</p>
+  </div>
+  <div class="c-wrap rv d1">
+    <div class="c-in">
+      <div class="fg">
+        <label class="fl">Current Age</label>
+        <div class="fr-row"><input type="range" class="fr" id="cAge" min="25" max="70" value="45" oninput="sync('cAge','cAgeV','','')"><span class="fr-v" id="cAgeV">45</span></div>
+      </div>
+      <div class="fg">
+        <label class="fl">Target Retirement Age</label>
+        <div class="fr-row"><input type="range" class="fr" id="rAge" min="55" max="75" value="65" oninput="sync('rAge','rAgeV','','')"><span class="fr-v" id="rAgeV">65</span></div>
+      </div>
+      <div class="fg">
+        <label class="fl">Current Savings ($)</label>
+        <input type="number" class="fi" id="savings" value="250000" oninput="runCalc()">
+      </div>
+      <div class="fg">
+        <label class="fl">Monthly Contribution</label>
+        <div class="fr-row"><input type="range" class="fr" id="contrib" min="0" max="6000" step="100" value="1500" oninput="sync('contrib','contribV','$','')"><span class="fr-v" id="contribV">$1,500</span></div>
+      </div>
+      <div class="fg">
+        <label class="fl">Expected Annual Return</label>
+        <div class="fr-row"><input type="range" class="fr" id="rRate" min="2" max="12" step="0.5" value="6.5" oninput="sync('rRate','rRateV','','%')"><span class="fr-v" id="rRateV">6.5%</span></div>
+      </div>
+      <div class="fg">
+        <label class="fl">Desired Monthly Income ($)</label>
+        <input type="number" class="fi" id="mIncome" value="8000" oninput="runCalc()">
+      </div>
+      <button class="c-btn mag" onclick="runCalc()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10"/></svg>
+        Calculate
+      </button>
+    </div>
+    <div class="c-out">
+      <div class="o-ey">Projected Portfolio at Retirement</div>
+      <div class="o-big" id="outTotal"><sup>$</sup>—</div>
+      <div class="o-div"></div>
+      <div id="outStats"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="tl">
+  <div class="tl-top rv">
+    <div>
+      <div class="tl-ey">Planning by Decade</div>
+      <h2 class="tl-h">Your retirement<br><em>roadmap</em></h2>
+    </div>
+    <p class="tl-sub">Every phase of life demands a distinct financial focus. The actions you take in your 30s are just as critical as those in your 60s — they are simply different. Here is how we think about the arc of retirement planning from accumulation to distribution.</p>
+  </div>
+  <div class="tl-grid rv d1">
+    <div class="tl-ph">
+      <div class="tl-bg">30</div>
+      <div class="tl-age">Your 30s — Foundation</div>
+      <h3 class="tl-pttl">Build the habit of wealth</h3>
+      <p class="tl-pb">Time is your greatest asset. A dollar invested at 30 is worth dramatically more than a dollar invested at 50.</p>
+      <ul class="tl-acts"><li>Maximize employer 401(k) match</li><li>Open and fund a Roth IRA</li><li>Establish 3–6 month emergency fund</li><li>Begin life and disability insurance</li></ul>
+    </div>
+    <div class="tl-ph">
+      <div class="tl-bg">40</div>
+      <div class="tl-age">Your 40s — Acceleration</div>
+      <h3 class="tl-pttl">Increase savings velocity</h3>
+      <p class="tl-pb">Peak earning years allow for aggressive saving. Begin projecting retirement income needs with precision.</p>
+      <ul class="tl-acts"><li>Max 401(k) and IRA contributions</li><li>Review and rebalance allocation</li><li>Project Social Security benefits</li><li>Review life insurance adequacy</li></ul>
+    </div>
+    <div class="tl-ph">
+      <div class="tl-bg">50</div>
+      <div class="tl-age">Your 50s — Precision</div>
+      <h3 class="tl-pttl">Fine-tune and de-risk</h3>
+      <p class="tl-pb">Catch-up contributions, Roth conversions, and healthcare bridging strategies become paramount.</p>
+      <ul class="tl-acts"><li>Use catch-up contribution limits</li><li>Begin Roth conversion analysis</li><li>Model healthcare bridge to Medicare</li><li>Review beneficiary designations</li></ul>
+    </div>
+    <div class="tl-ph">
+      <div class="tl-bg">60</div>
+      <div class="tl-age">Your 60s — Transition</div>
+      <h3 class="tl-pttl">Activate your income plan</h3>
+      <p class="tl-pb">The shift from accumulation to distribution is one of the most consequential financial transitions of your life.</p>
+      <ul class="tl-acts"><li>Determine Social Security claim date</li><li>Enroll in Medicare at 65</li><li>Establish withdrawal sequencing</li><li>Finalize estate documents</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ACCOUNTS -->
+<section id="acc">
+  <div class="acc-top rv">
+    <div>
+      <div class="acc-ey">Account Guide</div>
+      <h2 class="acc-h">Know your<br><em>accounts.</em></h2>
+    </div>
+    <p class="acc-sub">Understanding the tax treatment and rules of each retirement account type is foundational to a tax-diversified plan. Contribution limits shown are for tax year 2024.</p>
+  </div>
+  <div class="rv d1" style="overflow-x:auto">
+    <table class="acc-tbl">
+      <thead>
+        <tr>
+          <th>Account</th><th>2024 Limit</th><th>Tax on Contributions</th><th>Tax on Withdrawals</th><th>RMDs?</th><th>Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Traditional 401(k)<span class="acc-tag">Employer</span></td>
+          <td>$23,000<br><span style="font-size:.7rem;opacity:.45">+$7,500 catch-up (50+)</span></td>
+          <td>Pre-tax (deductible)</td><td>Ordinary income</td><td>Yes, age 73</td>
+          <td>High earners expecting lower tax rate in retirement</td>
+        </tr>
+        <tr>
+          <td>Roth 401(k)<span class="acc-tag">Employer</span></td>
+          <td>$23,000<br><span style="font-size:.7rem;opacity:.45">+$7,500 catch-up (50+)</span></td>
+          <td>After-tax</td><td>Tax-free (qualified)</td><td>No (SECURE 2.0)</td>
+          <td>Those expecting higher tax rates in retirement</td>
+        </tr>
+        <tr>
+          <td>Traditional IRA<span class="acc-tag">Individual</span></td>
+          <td>$7,000<br><span style="font-size:.7rem;opacity:.45">+$1,000 catch-up (50+)</span></td>
+          <td>Pre-tax if eligible</td><td>Ordinary income</td><td>Yes, age 73</td>
+          <td>Those without a workplace plan or seeking deduction</td>
+        </tr>
+        <tr>
+          <td>Roth IRA<span class="acc-tag">Individual</span></td>
+          <td>$7,000<br><span style="font-size:.7rem;opacity:.45">+$1,000 catch-up (50+)</span></td>
+          <td>After-tax</td><td>Tax-free (qualified)</td><td>Never</td>
+          <td>Tax diversification and estate planning</td>
+        </tr>
+        <tr>
+          <td>SEP-IRA<span class="acc-tag">Self-Employed</span></td>
+          <td>$69,000 or 25% of comp</td>
+          <td>Pre-tax</td><td>Ordinary income</td><td>Yes, age 73</td>
+          <td>Self-employed and small business owners</td>
+        </tr>
+        <tr>
+          <td>Solo 401(k)<span class="acc-tag">Self-Employed</span></td>
+          <td>Up to $69,000 combined</td>
+          <td>Pre-tax or Roth</td><td>Depends on election</td><td>Yes, age 73</td>
+          <td>Self-employed with no full-time employees</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="acc-note">Limits are subject to annual IRS adjustments. SECURE Act 2.0 introduced additional changes effective 2024 and beyond. Consult with a financial advisor for guidance specific to your situation.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-top rv">
+    <div>
+      <div class="faq-ey">Common Questions</div>
+      <h2 class="faq-h">Retirement<br><em>clarity.</em></h2>
+    </div>
+    <div class="faq-side">
+      <p>These are the questions clients bring to us most often as they approach and enter retirement. The answers here are educational — your circumstances will always call for a personalized conversation.</p>
+      <p style="margin-top:1.5rem"><strong>Have a question not listed here?</strong> Schedule a complimentary 30-minute review and we will address your specific situation directly.</p>
+    </div>
+  </div>
+  <div class="faq-list rv d1">
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">01</span>How much money do I actually need to retire?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">The "25× rule" — saving 25 times your expected annual spending — is a useful starting point based on the 4% withdrawal rate. For someone spending $80,000 per year, that implies a $2 million target. But this rule ignores Social Security income, pension income, your specific tax situation, healthcare costs, and the length of your retirement. <strong>A personalized projection will always produce a more accurate and actionable number.</strong> We typically find that clients need meaningfully less — or more — than this heuristic suggests depending on their specific circumstances.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">02</span>When is the best time to claim Social Security?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">Claiming at 62 permanently reduces your benefit by up to 30% compared to your full retirement age. Delaying to 70 increases it by approximately 8% per year beyond full retirement age — potentially worth hundreds of thousands of dollars over a lifetime. For most clients in good health, <strong>delaying Social Security is the highest-return, lowest-risk decision available to them.</strong> The right answer depends on your health, your spouse's situation, other income sources, and your overall tax picture — and we model every scenario.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">03</span>What are RMDs and why do they matter so much?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">Required Minimum Distributions begin at age 73 from traditional IRAs and 401(k)s — and they are fully taxable as ordinary income. If you have allowed large pre-tax balances to accumulate without planning, RMDs can dramatically increase your annual tax burden and trigger Medicare surcharges you could have avoided. <strong>Strategic Roth conversions in the years between retirement and age 73</strong> represent one of the highest-impact planning opportunities available to pre-retirees — reducing future RMDs and creating tax-free income for decades.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">04</span>How do I handle health insurance before Medicare?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">If you retire before 65, bridging to Medicare is one of the most pressing challenges. Options include COBRA (for up to 18–36 months), an ACA marketplace plan, or coverage through a spouse's employer. Costs range from a few hundred to over $2,000 per month depending on your age and income. Importantly, <strong>your income in this window directly affects your marketplace premium subsidies</strong> — making withdrawal and Roth conversion decisions particularly consequential in early retirement years. Healthcare is consistently the most underestimated early-retirement expense.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">05</span>What is sequence-of-returns risk?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">Sequence-of-returns risk is the danger of experiencing significant investment losses in the early years of retirement while simultaneously withdrawing from the portfolio. Selling shares at depressed prices permanently reduces the number of shares available to recover when markets rebound. <strong>Two retirees with identical average returns over 30 years can have dramatically different outcomes</strong> depending solely on when those good and bad years occurred. This is why the transition from accumulation to distribution requires careful re-structuring — not a continuation of the accumulation strategy.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">06</span>Should I pay off my mortgage before retiring?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">Mathematically, if your after-tax mortgage rate is below your expected portfolio return, keeping the mortgage and staying invested often makes sense. But math is not the only variable. <strong>Eliminating a fixed housing payment can meaningfully reduce the income you need in retirement</strong> — lowering your withdrawal rate, your tax bill, and your exposure to sequence-of-returns risk simultaneously. The psychological value of owning your home outright is also real and should not be dismissed. We evaluate both scenarios side-by-side in your plan.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-l rv-l">
+    <div class="cta-ey">Let's Talk</div>
+    <h2 class="cta-h">Your plan<br>starts<br><em>here.</em></h2>
+    <p class="cta-p">Every client's retirement is unique. A complimentary 30-minute discovery call is the first step toward a plan built specifically around your goals, timeline, and values.</p>
+    <div class="cta-acts">
+      <a href="contact.html" class="btn-p btn-gold-p mag">Schedule a Review</a>
+      <a href="resources.html" class="btn-p btn-ghost-lt mag">All Resources</a>
+    </div>
+  </div>
+  <div class="cta-r">
+    <div class="cta-bignum">✦</div>
+    <div class="cta-dets rv-r">
+      <div><div class="cta-dl">Phone</div><div class="cta-dv"><a href="tel:+1234567890">(123) 456-7890</a></div></div>
+      <div><div class="cta-dl">Email</div><div class="cta-dv"><a href="/cdn-cgi/l/email-protection#b1dcd0c5c5d9d4c6f1c1d8dfd5deddd4c89fd2dedc"><span class="__cf_email__" data-cfemail="107d7164647875675060797e747f7c75693e737f7d">[email&#160;protected]</span></a></div></div>
+      <div><div class="cta-dl">Office Hours</div><div class="cta-dv">Mon – Fri, 9am – 5pm</div></div>
+      <div><div class="cta-dl">Consultations</div><div class="cta-dv">Complimentary</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <div class="ft-logo">Matthew Pindoley <b>SE-AWMA®</b></div>
+      <p class="ft-tg">Sophisticated wealth management for those who've earned the right to expect more.</p>
+    </div>
+    <div class="ft-lks">
+      <div class="ft-col"><h4>Services</h4><ul>
+        <li><a href="service.html">Wealth Management</a></li>
+        <li><a href="service.html">Retirement Planning</a></li>
+        <li><a href="service.html">Tax Strategy</a></li>
+        <li><a href="service.html">Estate Planning</a></li>
+      </ul></div>
+      <div class="ft-col"><h4>Resources</h4><ul>
+        <li><a href="resource-retirement.html">Retirement</a></li>
+        <li><a href="resource-investment.html">Investment</a></li>
+        <li><a href="resource-tax.html">Tax Planning</a></li>
+        <li><a href="resource-estate.html">Estate</a></li>
+      </ul></div>
+      <div class="ft-col"><h4>Firm</h4><ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about-firm.html">Our Firm</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <p class="ft-cp">© 2025 Matthew Pindoley, SE-AWMA®. All rights reserved.</p>
+    <p class="ft-di">Investment advisory services offered through a registered investment adviser. This content is for informational purposes only and does not constitute investment, legal, or tax advice. Past performance is not indicative of future results.</p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* CURSOR */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button,.t-content,.tl-ph').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+document.addEventListener('mousedown',()=>document.body.classList.add('pressing'));
+document.addEventListener('mouseup',()=>document.body.classList.remove('pressing'));
+
+/* NAV scroll logic */
+const nav=document.getElementById('nav');
+const darkIds=['band','calc','acc','cta'];
+function updateNav(){
+  if(scrollY<60){nav.className='';document.body.classList.remove('dk');return}
+  let onDark=false;
+  darkIds.forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    const r=el.getBoundingClientRect();
+    if(r.top<=1&&r.bottom>60)onDark=true;
+  });
+  if(onDark){nav.className='dk';document.body.classList.add('dk')}
+  else{nav.className='lt';document.body.classList.remove('dk')}
+}
+window.addEventListener('scroll',updateNav,{passive:true});
+
+/* MOBILE NAV */
+const mob=document.getElementById('mob'),hbg=document.getElementById('hbg'),mobX=document.getElementById('mob-x');
+hbg.addEventListener('click',()=>mob.classList.add('open'));
+mobX.addEventListener('click',()=>mob.classList.remove('open'));
+document.querySelectorAll('.mob-a,.mob-res-link').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
+
+/* NAV DROPDOWN — keyboard support */
+document.querySelectorAll('.nav-drop').forEach(drop=>{
+  const trigger=drop.querySelector('.nav-drop-trigger');
+  const panel=drop.querySelector('.nav-drop-panel');
+  if(!trigger||!panel)return;
+  trigger.addEventListener('click',()=>{
+    const open=trigger.getAttribute('aria-expanded')==='true';
+    trigger.setAttribute('aria-expanded',open?'false':'true');
+  });
+  // close on Escape
+  drop.addEventListener('keydown',e=>{
+    if(e.key==='Escape')trigger.setAttribute('aria-expanded','false');
+  });
+  // close when focus leaves
+  drop.addEventListener('focusout',e=>{
+    if(!drop.contains(e.relatedTarget))trigger.setAttribute('aria-expanded','false');
+  });
+});
+
+/* HERO WORDS */
+setTimeout(()=>document.querySelectorAll('.h-ttl .wd').forEach(el=>el.classList.add('vis')),150);
+
+/* REVEAL */
+const io=new IntersectionObserver(e=>{e.forEach(x=>{
+  if(x.isIntersecting){x.target.classList.add('vis');io.unobserve(x.target)}
+})},{threshold:.07,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>io.observe(el));
+
+/* FAQ */
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const open=btn.getAttribute('aria-expanded')==='true';
+    document.querySelectorAll('.faq-q').forEach(b=>{b.setAttribute('aria-expanded','false');b.nextElementSibling.classList.remove('open')});
+    if(!open){btn.setAttribute('aria-expanded','true');btn.nextElementSibling.classList.add('open')}
+  });
+});
+
+/* CALCULATOR */
+function fmt(n){return Math.round(n).toLocaleString('en-US')}
+function sync(id,lblId,pre,suf){
+  const v=document.getElementById(id).value;
+  document.getElementById(lblId).textContent=pre+(pre==='$'?parseInt(v).toLocaleString('en-US'):v)+suf;
+  runCalc();
+}
+function runCalc(){
+  const cAge=+document.getElementById('cAge').value;
+  const rAge=+document.getElementById('rAge').value;
+  const savings=+document.getElementById('savings').value||0;
+  const contrib=+document.getElementById('contrib').value;
+  const rate=(+document.getElementById('rRate').value)/100;
+  const mIncome=+document.getElementById('mIncome').value||0;
+  const yrs=Math.max(0,rAge-cAge);
+  const mr=rate/12,mo=yrs*12;
+  const fvS=savings*Math.pow(1+rate,yrs);
+  const fvC=mr>0?contrib*((Math.pow(1+mr,mo)-1)/mr):contrib*mo;
+  const total=fvS+fvC;
+  const sust=total*0.04/12;
+  const gap=mIncome-sust;
+  const ok=gap<=0;
+  document.getElementById('outTotal').innerHTML=`<sup>$</sup>${fmt(total)}`;
+  document.getElementById('outStats').innerHTML=`
+    <div class="o-s"><div class="o-sl">Years to Retirement</div><div class="o-sv">${yrs} yrs</div></div>
+    <div class="o-s"><div class="o-sl">Sustainable Monthly (4% rule)</div><div class="o-sv">$${fmt(sust)}<span style="font-size:.5em;color:var(--muted)">/mo</span></div></div>
+    <div class="o-s"><div class="o-sl">Your Income Goal</div><div class="o-sv">$${fmt(mIncome)}<span style="font-size:.5em;color:var(--muted)">/mo</span></div></div>
+    <div class="o-status ${ok?'o-ok':'o-warn'}">
+      <div class="o-stitle">${ok?'On Track':'Shortfall Detected'}</div>
+      <div class="o-smsg">${ok?'Projected surplus of $'+fmt(-gap)+'/mo. Your trajectory supports your income goal.':'Projected gap of $'+fmt(gap)+'/mo. Consider increasing contributions or adjusting your timeline.'}</div>
+    </div>
+    <div class="o-disc">Projection uses compound interest — does not include inflation, Social Security, taxes, or fees. <a href="contact.html" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px">Schedule a full analysis →</a></div>`;
+}
+runCalc();
+
+/* MAGNETIC */
+document.querySelectorAll('.mag,.nav-btn').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    const x=(e.clientX-r.left-r.width/2)*.22;
+    const y=(e.clientY-r.top-r.height/2)*.22;
+    btn.style.transform=`translate(${x}px,${y}px)`;
+  });
+  btn.addEventListener('mouseleave',()=>{btn.style.transform=''});
+});
+
+/* NAV DROPDOWN — hover with delay so panel stays reachable */
+document.querySelectorAll('.nav-drop').forEach(drop=>{
+  const trigger=drop.querySelector('.nav-drop-trigger');
+  const panel=drop.querySelector('.nav-drop-panel');
+  if(!trigger||!panel)return;
+  let closeTimer=null;
+
+  function openDrop(){
+    clearTimeout(closeTimer);
+    drop.classList.add('open');
+    trigger.setAttribute('aria-expanded','true');
+  }
+  function closeDrop(){
+    closeTimer=setTimeout(()=>{
+      drop.classList.remove('open');
+      trigger.setAttribute('aria-expanded','false');
+    },120); // 120ms grace period — enough to move into panel
+  }
+
+  // Hover on the whole drop zone (trigger + panel)
+  drop.addEventListener('mouseenter', openDrop);
+  drop.addEventListener('mouseleave', closeDrop);
+
+  // Click toggle for keyboard / touch users
+  trigger.addEventListener('click',()=>{
+    drop.classList.contains('open') ? closeDrop() : openDrop();
+  });
+
+  // Keyboard
+  drop.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){ drop.classList.remove('open'); trigger.setAttribute('aria-expanded','false'); }
+  });
+  drop.addEventListener('focusout',e=>{
+    if(!drop.contains(e.relatedTarget)){ drop.classList.remove('open'); trigger.setAttribute('aria-expanded','false'); }
+  });
+});
+</script>
+</body>
+</html>

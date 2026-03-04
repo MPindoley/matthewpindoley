@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Estate Planning — Matthew Pindoley, SE-AWMA®</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#09090c;--ink2:#111318;--ink3:#191c24;
+  --paper:#f2ece0;--paper2:#ede6d3;--paper3:#e8dfc8;
+  --gold:#c8a46a;--gold2:#ddb878;
+  --muted:rgba(242,236,224,.38);--border:rgba(200,164,106,.15);--border2:rgba(200,164,106,.28);
+  --im:rgba(9,9,12,.42);--ib:rgba(9,9,12,.09);--ib2:rgba(9,9,12,.06);
+  --ff:'Cormorant Garamond',Georgia,serif;
+  --fb:'DM Sans',system-ui,sans-serif;
+  --e1:cubic-bezier(.16,1,.3,1);--e2:cubic-bezier(.22,.9,.25,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;overflow-x:hidden}
+body{font-family:var(--fb);background:var(--paper);color:var(--ink);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
+a{color:inherit;text-decoration:none}
+
+/* GRAIN */
+#grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px;animation:grn .08s steps(1) infinite}
+@keyframes grn{0%{transform:translate(0,0)}20%{transform:translate(-4%,-3%)}40%{transform:translate(3%,5%)}60%{transform:translate(-2%,2%)}80%{transform:translate(5%,-4%)}100%{transform:translate(0,0)}}
+
+/* CURSOR */
+#cur{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;
+  background:var(--ink);pointer-events:none;z-index:10000;
+  transform:translate(-50%,-50%);transition:width .3s var(--e1),height .3s var(--e1),background .3s}
+#cur-r{position:fixed;top:0;left:0;width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(9,9,12,.22);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .35s var(--e1),height .35s var(--e1),border-color .3s}
+body.hov #cur{width:48px;height:48px;opacity:.08}
+body.hov #cur-r{width:66px;height:66px;border-color:var(--gold)}
+body.pressing #cur{width:22px;height:22px}
+
+/* ─── NAV ─────────────────────────────────────── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:2rem 5rem;
+  transition:padding .45s var(--e2),background .4s,border-color .4s;
+  border-bottom:1px solid transparent}
+#nav.stk{padding:1rem 5rem;background:rgba(242,236,224,.92);
+  backdrop-filter:blur(20px);border-bottom-color:var(--ib)}
+.nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;
+  letter-spacing:.06em;line-height:1.3;color:var(--ink)}
+.nav-logo b{color:var(--gold);font-weight:400;font-style:italic}
+.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
+.nav-links a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:500;color:rgba(9,9,12,.38);position:relative;transition:color .25s}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--gold);transition:width .38s var(--e1)}
+.nav-links a:hover,.nav-links a.active{color:var(--ink)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+/* Dropdown */
+.nav-drop{position:relative}
+.nav-drop-trigger{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:500;color:rgba(9,9,12,.38);position:relative;
+  display:inline-flex;align-items:center;gap:.45rem;
+  cursor:none;background:none;border:none;padding:0;
+  font-family:var(--fb);transition:color .25s}
+.nav-drop-trigger::after{content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--gold);transition:width .38s var(--e1)}
+.nav-drop.open .nav-drop-trigger,.nav-drop-trigger.active{color:var(--ink)}
+.nav-drop.open .nav-drop-trigger::after,.nav-drop-trigger.active::after{width:calc(100% - 1.1rem)}
+.nav-drop-trigger svg{transition:transform .3s var(--e1);flex-shrink:0;opacity:.5}
+.nav-drop.open .nav-drop-trigger svg{transform:rotate(180deg);opacity:1}
+.nav-drop-panel::after{content:'';position:absolute;top:-20px;left:0;right:0;height:20px}
+.nav-drop-panel{position:absolute;top:calc(100% + 14px);left:50%;
+  transform:translateX(-50%) translateY(-6px);
+  background:var(--paper);border:1px solid rgba(9,9,12,.1);
+  min-width:220px;padding:.6rem 0;
+  box-shadow:0 24px 60px rgba(9,9,12,.1),0 4px 12px rgba(9,9,12,.06);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s var(--e1),transform .25s var(--e1)}
+.nav-drop.open .nav-drop-panel{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.nav-drop-panel::before{content:'';position:absolute;top:-5px;left:50%;
+  transform:translateX(-50%) rotate(45deg);
+  width:9px;height:9px;background:var(--paper);
+  border-left:1px solid rgba(9,9,12,.1);border-top:1px solid rgba(9,9,12,.1)}
+.nav-drop-item{display:flex;align-items:center;gap:.75rem;
+  padding:.72rem 1.4rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  font-weight:600;color:rgba(9,9,12,.42);cursor:none;
+  transition:color .2s,background .2s;white-space:nowrap}
+.nav-drop-item:hover{color:var(--ink);background:rgba(9,9,12,.03)}
+.nav-drop-item.current{color:var(--gold)}
+.nav-drop-item svg{width:14px;height:14px;flex-shrink:0;opacity:.45;transition:opacity .2s}
+.nav-drop-item:hover svg,.nav-drop-item.current svg{opacity:1}
+.nav-drop-divider{height:1px;background:rgba(9,9,12,.07);margin:.4rem 0}
+.nav-btn{display:inline-flex;align-items:center;
+  padding:.6rem 1.5rem;border:1px solid rgba(9,9,12,.18);border-radius:9999px;
+  font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:600;color:var(--ink);position:relative;overflow:hidden;
+  transition:color .3s,border-color .3s}
+.nav-btn::before{content:'';position:absolute;inset:0;background:var(--ink);
+  transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
+.nav-btn:hover::before{transform:scaleX(1)}
+.nav-btn:hover{color:var(--paper);border-color:var(--ink)}
+.nav-btn span{position:relative;z-index:1}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px}
+.hbg i{display:block;width:22px;height:1px;background:var(--ink);transition:all .3s}
+
+/* MOBILE DRAWER */
+#mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;
+  clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .75s var(--e1)}
+#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+#mob a{font-family:var(--ff);font-size:clamp(2.5rem,9vw,5.5rem);font-weight:300;
+  color:var(--paper);letter-spacing:-.02em;transition:color .2s}
+#mob a:hover{color:var(--gold)}
+#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
+  cursor:none;font-family:var(--ff);font-size:1.8rem;color:var(--muted);transition:color .2s}
+#mob-x:hover{color:var(--paper)}
+.mob-resources{display:flex;flex-direction:column;gap:0;width:100%;align-items:center}
+.mob-res-label{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1rem}
+.mob-res-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem}
+.mob-res-link{font-family:var(--fb);font-size:.65rem;letter-spacing:.14em;
+  text-transform:uppercase;font-weight:600;color:var(--muted);
+  padding:.45rem 1rem;border:1px solid var(--border);
+  transition:color .2s,border-color .2s}
+.mob-res-link:hover,.mob-res-link.current{color:var(--gold);border-color:var(--border2)}
+
+/* ─── HERO — centered editorial ─────────────────── */
+#hero{min-height:100svh;background:var(--paper);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 5rem 6rem;position:relative;overflow:hidden}
+.hero-ghost{position:absolute;bottom:-8rem;right:-4rem;
+  font-family:var(--ff);font-size:clamp(22rem,38vw,52rem);font-weight:300;
+  color:rgba(9,9,12,.028);line-height:1;letter-spacing:-.06em;
+  pointer-events:none;user-select:none;
+  opacity:0;animation:fadeIn 1.2s ease .8s forwards}
+.hero-grid{position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(9,9,12,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(9,9,12,.035) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:linear-gradient(to bottom,transparent 0%,black 30%,black 65%,transparent 100%)}
+.hero-content{position:relative;z-index:2}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;
+  gap:3rem;margin-bottom:5rem;
+  opacity:0;animation:rUp .8s var(--e1) .4s forwards}
+.hero-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  font-weight:600;color:var(--gold);display:inline-flex;align-items:center;gap:.75rem}
+.hero-ey::before{content:'';width:24px;height:1px;background:var(--gold)}
+.hero-stats-top{display:flex;gap:4rem}
+.hero-stat-t{text-align:right}
+.hero-stat-tl{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--im);font-weight:600;margin-bottom:.3rem}
+.hero-stat-tv{font-family:var(--ff);font-size:1.55rem;font-weight:300;color:var(--ink);line-height:1}
+.hero-ttl{font-family:var(--ff);font-weight:300;
+  font-size:clamp(5.5rem,12vw,16rem);line-height:.86;letter-spacing:-.055em;color:var(--ink)}
+.hero-ttl .ln{overflow:hidden;display:block}
+.hero-ttl .wd{display:block;transform:translateY(110%);transition:transform 1.1s var(--e1)}
+.hero-ttl .wd.vis{transform:translateY(0)}
+.hero-ttl em{font-style:italic;color:var(--gold)}
+.hero-ttl .ln:nth-child(2) .wd{transition-delay:.1s}
+.hero-bot{display:grid;grid-template-columns:1fr 1fr;gap:4rem;
+  align-items:end;margin-top:4.5rem;
+  opacity:0;animation:rUp .8s var(--e1) 1.4s forwards}
+.hero-desc{font-size:.92rem;line-height:1.82;color:var(--im);font-weight:300;max-width:44ch}
+.hero-desc strong{color:var(--ink);font-weight:500}
+.hero-actions{display:flex;gap:.85rem;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+.btn-p{display:inline-flex;align-items:center;gap:.55rem;border-radius:9999px;
+  font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  cursor:none;transition:transform .2s var(--e1),box-shadow .25s}
+.btn-solid{padding:.82rem 2rem;background:var(--ink);color:var(--paper);border:none}
+.btn-solid:hover{box-shadow:0 16px 40px rgba(9,9,12,.2)}
+.btn-ghost-p{padding:.82rem 2rem;background:transparent;color:var(--ink);
+  border:1px solid rgba(9,9,12,.16)}
+.btn-ghost-p:hover{border-color:var(--gold);background:rgba(200,164,106,.05)}
+
+/* ─── STAT STRIP ─────────────────────────────────── */
+#stats{border-top:1px solid var(--ib);border-bottom:1px solid var(--ib);
+  display:grid;grid-template-columns:repeat(3,1fr);background:var(--paper)}
+.st-item{padding:3.5rem 4rem;border-right:1px solid var(--ib);position:relative;overflow:hidden;
+  transition:background .35s}
+.st-item:last-child{border-right:none}
+.st-item:hover{background:rgba(9,9,12,.025)}
+.st-item::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .5s var(--e1)}
+.st-item:hover::after{transform:scaleX(1)}
+.st-lbl{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--im);font-weight:600;margin-bottom:.55rem}
+.st-val{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.5rem,4vw,4.5rem);color:var(--ink);
+  line-height:1;letter-spacing:-.04em}
+.st-val em{color:var(--gold);font-style:normal}
+.st-note{font-size:.76rem;line-height:1.6;color:var(--im);margin-top:.75rem;font-weight:300;max-width:22ch}
+
+/* ─── PILLARS ─────────────────────────────────────── */
+#pillars{padding:9rem 5rem;background:var(--paper)}
+.pil-hd{display:grid;grid-template-columns:1fr 1.8fr;gap:5rem;align-items:end;margin-bottom:7rem}
+.pil-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.8rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.pil-ey::before{content:'';width:24px;height:1px;background:var(--gold)}
+.pil-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.8rem,5vw,6rem);line-height:.93;letter-spacing:-.04em;color:var(--ink)}
+.pil-h em{font-style:italic;color:#8a6020}
+.pil-sub{font-size:.88rem;line-height:1.82;color:var(--im);font-weight:300;align-self:end}
+.pil-list{border-top:1px solid var(--ib)}
+.pil-row{display:grid;grid-template-columns:4rem 1fr 1.5fr;gap:3rem;
+  padding:3rem 0;border-bottom:1px solid var(--ib);
+  align-items:start;transition:padding-left .35s var(--e1);cursor:default}
+.pil-row:hover{padding-left:1.2rem}
+.pil-n{font-family:var(--ff);font-size:.85rem;color:rgba(9,9,12,.2);font-weight:300;letter-spacing:.05em;padding-top:.2rem}
+.pil-title{font-family:var(--ff);font-weight:300;
+  font-size:clamp(1.7rem,2.8vw,2.8rem);letter-spacing:-.025em;color:var(--ink);line-height:1}
+.pil-title em{font-style:italic;color:#8a6020}
+.pil-body{font-size:.84rem;line-height:1.82;color:var(--im);font-weight:300;padding-top:.3rem}
+.pil-body strong{color:var(--ink);font-weight:500}
+
+/* ─── DOCUMENTS — 2×2 grid ───────────────────────── */
+#docs{padding:9rem 5rem;background:var(--paper2);border-top:1px solid var(--ib)}
+.docs-hd{margin-bottom:5rem}
+.docs-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.8rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.docs-ey::before{content:'';width:24px;height:1px;background:var(--gold)}
+.docs-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.5rem,4.5vw,5.5rem);line-height:.95;letter-spacing:-.04em;color:var(--ink)}
+.docs-h em{font-style:italic;color:#8a6020}
+.docs-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;
+  border:1px solid var(--ib);background:var(--ib);overflow:hidden}
+.doc-card{background:var(--paper);padding:4rem;position:relative;overflow:hidden;
+  transition:background .35s}
+.doc-card:hover{background:var(--paper2)}
+.doc-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;
+  background:linear-gradient(to bottom,var(--gold),transparent);
+  transform:scaleY(0);transform-origin:top;transition:transform .45s var(--e1)}
+.doc-card:hover::before{transform:scaleY(1)}
+.doc-num{font-family:var(--ff);font-size:.8rem;color:rgba(9,9,12,.2);
+  font-weight:300;letter-spacing:.05em;margin-bottom:1.5rem}
+.doc-title{font-family:var(--ff);font-weight:300;
+  font-size:clamp(1.6rem,2.5vw,2.2rem);letter-spacing:-.025em;
+  color:var(--ink);margin-bottom:.4rem;line-height:1}
+.doc-sub{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.4rem}
+.doc-body{font-size:.83rem;line-height:1.82;color:var(--im);font-weight:300}
+.doc-body strong{color:var(--ink);font-weight:500}
+
+/* ─── SUNSET ALERT ───────────────────────────────── */
+#sunset{padding:5rem;border-top:1px solid var(--ib);border-bottom:1px solid var(--ib);
+  background:var(--paper);display:grid;grid-template-columns:auto 1fr auto;
+  align-items:center;gap:4rem}
+.sun-icon{width:56px;height:56px;border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sun-icon svg{width:22px;height:22px;color:var(--gold)}
+.sun-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:.5rem}
+.sun-title{font-family:var(--ff);font-weight:300;
+  font-size:clamp(1.4rem,2.2vw,2rem);letter-spacing:-.02em;color:var(--ink);line-height:1.15}
+.sun-body{font-size:.83rem;line-height:1.75;color:var(--im);margin-top:.6rem;font-weight:300;max-width:58ch}
+.sun-body strong{color:var(--ink);font-weight:500}
+.sun-cta{flex-shrink:0}
+
+/* ─── FAQ ─────────────────────────────────────────── */
+#faq{padding:9rem 5rem;background:var(--paper)}
+.faq-hd{display:grid;grid-template-columns:1fr 1.8fr;gap:5rem;align-items:start;margin-bottom:6rem}
+.faq-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.8rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.faq-ey::before{content:'';width:24px;height:1px;background:var(--gold)}
+.faq-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(2.5rem,4.5vw,5.5rem);line-height:.95;letter-spacing:-.04em;color:var(--ink)}
+.faq-h em{font-style:italic;color:#8a6020}
+.faq-side{font-size:.84rem;line-height:1.82;color:var(--im);font-weight:300;padding-top:6.5rem}
+.faq-side strong{color:var(--ink);font-weight:500}
+.faq-list{border-top:1px solid var(--ib)}
+.faq-item{border-bottom:1px solid var(--ib)}
+.faq-q{display:flex;align-items:baseline;justify-content:space-between;
+  width:100%;padding:2rem 0;background:transparent;border:none;cursor:none;
+  text-align:left;font-family:var(--ff);font-size:clamp(1.2rem,2vw,1.75rem);
+  font-weight:300;color:var(--ink);letter-spacing:-.015em;gap:2rem;transition:color .2s}
+.faq-q:hover{color:#5a3c10}
+.fq-i{font-size:.65rem;letter-spacing:.12em;color:var(--im);font-family:var(--fb);
+  text-transform:uppercase;font-weight:500;flex-shrink:0;width:2.5rem}
+.fq-arr{flex-shrink:0;width:24px;height:24px;border:1px solid rgba(9,9,12,.14);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  transition:transform .35s var(--e1),border-color .25s,background .25s}
+.faq-q[aria-expanded="true"] .fq-arr{transform:rotate(45deg);border-color:var(--gold);background:var(--gold)}
+.faq-q[aria-expanded="true"] .fq-arr svg{color:var(--ink)}
+.fq-arr svg{width:10px;height:10px;color:rgba(9,9,12,.32);transition:color .25s}
+.faq-panel{max-height:0;overflow:hidden;transition:max-height .42s cubic-bezier(.2,.9,.2,1)}
+.faq-panel.open{max-height:400px}
+.faq-ans{padding:.2rem 0 2.5rem 3.5rem;font-size:.84rem;line-height:1.88;
+  color:var(--im);font-weight:300;max-width:70ch}
+.faq-ans strong{color:var(--ink);font-weight:500}
+
+/* ─── CTA ─────────────────────────────────────────── */
+#cta{padding:10rem 5rem;border-top:1px solid var(--ib);background:var(--paper);
+  display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.cta-ey{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:2rem;
+  display:inline-flex;align-items:center;gap:.75rem}
+.cta-ey::before{content:'';width:24px;height:1px;background:var(--gold)}
+.cta-h{font-family:var(--ff);font-weight:300;
+  font-size:clamp(3rem,6vw,7.5rem);line-height:.88;letter-spacing:-.055em;color:var(--ink)}
+.cta-h em{font-style:italic;color:#8a6020}
+.cta-p{font-size:.86rem;line-height:1.82;color:var(--im);font-weight:300;
+  margin-top:2rem;max-width:42ch}
+.cta-acts{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:3rem}
+.cta-right{padding:4rem;border:1px solid var(--ib);position:relative;overflow:hidden}
+.cta-right::before{content:'';position:absolute;top:-30%;right:-20%;
+  width:70%;height:70%;background:radial-gradient(ellipse,rgba(200,164,106,.07) 0%,transparent 70%)}
+.cta-dets{display:flex;flex-direction:column;gap:2.5rem;position:relative;z-index:1}
+.cta-dl{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--im);font-weight:600;margin-bottom:.35rem}
+.cta-dv{font-family:var(--ff);font-size:1.4rem;font-weight:300;color:var(--ink)}
+.cta-dv a{transition:color .2s}.cta-dv a:hover{color:var(--gold)}
+
+/* FOOTER */
+footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5rem 3.5rem}
+.ft-top{display:flex;justify-content:space-between;align-items:flex-start;
+  gap:3rem;margin-bottom:4rem;padding-bottom:4rem;border-bottom:1px solid var(--border)}
+.ft-logo{font-family:var(--ff);font-size:1.5rem;font-weight:300;color:var(--paper)}
+.ft-logo b{color:var(--gold);font-weight:400;font-style:italic}
+.ft-tg{font-size:.76rem;color:var(--muted);margin-top:.5rem;max-width:28ch;line-height:1.6}
+.ft-lks{display:flex;gap:5rem}
+.ft-col h4{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1.4rem}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.ft-col ul a{font-size:.78rem;color:var(--muted);transition:color .2s}
+.ft-col ul a:hover{color:var(--paper)}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.ft-cp{font-size:.68rem;color:rgba(242,236,224,.2)}
+.ft-di{font-size:.62rem;color:rgba(242,236,224,.14);max-width:55ch;text-align:right;line-height:1.55}
+
+/* ─── SIDEBAR ─────────────────────────────────────── */
+/* Floating trigger */
+#sb-trigger{position:fixed;right:2rem;top:50%;transform:translateY(-50%);
+  z-index:600;display:flex;flex-direction:column;align-items:center;gap:0;
+  background:var(--ink);border:none;cursor:none;padding:1.2rem .85rem;
+  transition:background .3s,transform .35s var(--e1)}
+#sb-trigger:hover{background:var(--ink2)}
+#sb-trigger.nudge{animation:nudge 2.5s var(--e1) 3s 1}
+@keyframes nudge{0%,100%{transform:translateY(-50%) translateX(0)}30%{transform:translateY(-50%) translateX(-8px)}60%{transform:translateY(-50%) translateX(-4px)}}
+.sb-trig-label{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;writing-mode:vertical-rl;margin-top:.7rem}
+.sb-trig-icon{display:flex;flex-direction:column;gap:3px}
+.sb-trig-icon span{display:block;width:14px;height:1px;background:var(--paper);
+  transition:width .25s var(--e1)}
+#sb-trigger:hover .sb-trig-icon span:nth-child(2){width:10px}
+#sb-trigger:hover .sb-trig-icon span:nth-child(3){width:6px}
+/* Overlay */
+#sb-overlay{position:fixed;inset:0;z-index:700;background:rgba(9,9,12,.45);
+  opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(4px)}
+#sb-overlay.open{opacity:1;pointer-events:auto}
+/* Panel */
+#sb-panel{position:fixed;right:0;top:0;bottom:0;z-index:710;
+  width:min(520px,92vw);background:var(--paper);
+  border-left:1px solid var(--ib);
+  transform:translateX(100%);transition:transform .55s var(--e1);
+  display:flex;flex-direction:column;overflow:hidden}
+#sb-panel.open{transform:translateX(0)}
+.sb-head{background:var(--ink2);padding:2.5rem;display:flex;align-items:center;
+  justify-content:space-between;flex-shrink:0;border-bottom:1px solid var(--border)}
+.sb-title{font-family:var(--ff);font-size:1.6rem;font-weight:300;color:var(--paper);letter-spacing:-.025em}
+.sb-title em{font-style:italic;color:var(--gold)}
+.sb-close{width:36px;height:36px;border:1px solid rgba(242,236,224,.15);
+  background:transparent;cursor:none;display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s,background .2s}
+.sb-close:hover{border-color:var(--gold);background:rgba(200,164,106,.08)}
+.sb-close svg{width:14px;height:14px;color:var(--muted)}
+/* Tabs */
+.sb-tabs{display:flex;border-bottom:1px solid var(--ib);flex-shrink:0;background:var(--paper)}
+.sb-tab{flex:1;padding:1.1rem;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:600;color:var(--im);background:transparent;border:none;cursor:none;
+  border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.sb-tab:hover{color:var(--ink)}
+.sb-tab.active{color:var(--ink);border-bottom-color:var(--gold)}
+/* Scrollable body */
+.sb-body{flex:1;overflow-y:auto;padding:2.5rem;scrollbar-width:thin;scrollbar-color:rgba(9,9,12,.12) transparent}
+.sb-body::-webkit-scrollbar{width:4px}
+.sb-body::-webkit-scrollbar-thumb{background:rgba(9,9,12,.12)}
+.sb-pane{display:none}.sb-pane.active{display:block}
+/* Resources nav pane */
+.sb-res-item{display:flex;align-items:center;gap:1rem;
+  padding:1.1rem 0;border-bottom:1px solid var(--ib2);
+  transition:padding-left .3s var(--e1)}
+.sb-res-item:last-child{border-bottom:none}
+.sb-res-item:hover{padding-left:.6rem}
+.sb-res-item.current{opacity:.5;pointer-events:none}
+.sb-res-icon{width:36px;height:36px;border:1px solid var(--ib);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:border-color .2s,background .2s}
+.sb-res-item:hover .sb-res-icon{border-color:var(--gold);background:rgba(200,164,106,.06)}
+.sb-res-icon svg{width:14px;height:14px;color:var(--im)}
+.sb-res-name{font-family:var(--ff);font-size:1.25rem;font-weight:300;color:var(--ink);letter-spacing:-.015em}
+.sb-res-desc{font-size:.72rem;color:var(--im);margin-top:.1rem}
+.sb-res-arr{margin-left:auto;opacity:0;transition:opacity .2s;flex-shrink:0}
+.sb-res-arr svg{width:12px;height:12px;color:var(--gold)}
+.sb-res-item:hover .sb-res-arr{opacity:1}
+/* Checklist pane */
+.sb-ck-section{margin-bottom:2.5rem}
+.sb-ck-title{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:1rem;
+  display:flex;align-items:center;gap:.65rem}
+.sb-ck-title::before{content:'';width:16px;height:1px;background:var(--gold)}
+.sb-ck-item{display:flex;align-items:flex-start;gap:.85rem;
+  padding:.7rem 0;border-bottom:1px solid var(--ib2);cursor:none}
+.sb-ck-item:last-child{border-bottom:none}
+.sb-ck-box{width:18px;height:18px;border:1px solid rgba(9,9,12,.2);
+  flex-shrink:0;margin-top:.1rem;position:relative;transition:border-color .2s,background .2s;cursor:none}
+.sb-ck-item.done .sb-ck-box{border-color:var(--gold);background:var(--gold)}
+.sb-ck-item.done .sb-ck-box::after{content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%2309090c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center/10px no-repeat}
+.sb-ck-text{font-size:.82rem;line-height:1.6;color:var(--im);font-weight:300}
+.sb-ck-text strong{color:var(--ink);font-weight:500}
+.sb-ck-item.done .sb-ck-text{color:rgba(9,9,12,.28);text-decoration:line-through;text-decoration-color:rgba(9,9,12,.2)}
+.sb-ck-prog{margin-bottom:2rem}
+.sb-ck-prog-label{display:flex;justify-content:space-between;align-items:center;
+  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--im);font-weight:500;margin-bottom:.65rem}
+.sb-ck-prog-bar{height:3px;background:rgba(9,9,12,.08);overflow:hidden}
+.sb-ck-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));
+  width:0;transition:width .6s var(--e1)}
+/* Tools pane */
+.sb-tool-card{padding:1.6rem;border:1px solid var(--ib);margin-bottom:1rem;
+  transition:border-color .3s,background .3s;position:relative;overflow:hidden}
+.sb-tool-card:hover{border-color:var(--border2);background:rgba(200,164,106,.03)}
+.sb-tool-title{font-family:var(--ff);font-size:1.2rem;font-weight:300;color:var(--ink);
+  margin-bottom:.3rem;letter-spacing:-.015em}
+.sb-tool-desc{font-size:.78rem;color:var(--im);font-weight:300;line-height:1.65;margin-bottom:1.2rem}
+.sb-tool-btn{display:inline-flex;align-items:center;gap:.5rem;font-size:.65rem;
+  letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  color:var(--ink);border:1px solid rgba(9,9,12,.18);
+  padding:.55rem 1.2rem;background:transparent;cursor:none;
+  transition:border-color .2s,background .2s,color .2s}
+.sb-tool-btn:hover{border-color:var(--gold);background:rgba(200,164,106,.06);color:var(--gold)}
+.sb-tool-input{width:100%;padding:.65rem .85rem;border:1px solid var(--ib);
+  background:var(--paper);font-family:var(--fb);font-size:.85rem;color:var(--ink);
+  outline:none;transition:border-color .2s;margin-bottom:.6rem}
+.sb-tool-input:focus{border-color:var(--gold)}
+.sb-tool-result{margin-top:1rem;padding:1rem 1.2rem;font-size:.8rem;line-height:1.65;font-weight:300}
+.sb-r-ok{background:rgba(200,164,106,.08);border:1px solid rgba(200,164,106,.25);color:var(--ink)}
+.sb-r-warn{background:rgba(200,80,50,.06);border:1px solid rgba(200,80,50,.2);color:var(--ink)}
+.sb-tool-lbl{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--im);font-weight:600;display:block;margin-bottom:.35rem}
+.sb-tool-section{margin-bottom:1.5rem}
+
+/* ─── REVEAL ─────────────────────────────────────── */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv.vis{opacity:1;transform:translateY(0)}
+.rv-l{opacity:0;transform:translateX(-24px);transition:opacity .9s var(--e1),transform .9s var(--e1)}
+.rv-l.vis{opacity:1;transform:translateX(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+@keyframes rUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{to{opacity:1}}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  #nav,#nav.stk{padding-left:2.5rem;padding-right:2.5rem}
+  #hero,#pillars,#docs,#sunset,#faq,#cta,footer{padding-left:2.5rem;padding-right:2.5rem}
+  #hero{padding-bottom:4rem}
+  .pil-hd,.faq-hd{grid-template-columns:1fr}
+  .faq-side{padding-top:0}
+  #stats{grid-template-columns:1fr}.st-item{border-right:none;border-bottom:1px solid var(--ib)}
+  .st-item:last-child{border-bottom:none}
+  .hero-bot{grid-template-columns:1fr}.hero-actions{justify-content:flex-start}
+  .hero-stats-top{display:none}
+  .docs-grid{grid-template-columns:1fr}
+  #cta{grid-template-columns:1fr}.cta-right{margin-top:0}
+  .pil-row{grid-template-columns:3rem 1fr}
+  .pil-body{display:none}
+  #sunset{grid-template-columns:auto 1fr;gap:2rem}.sun-cta{display:none}
+  #sb-trigger{display:none}
+  .ft-top{flex-direction:column}.ft-lks{flex-direction:column;gap:2rem}
+  .ft-bot{flex-direction:column;align-items:flex-start}.ft-di{text-align:left}
+}
+@media(max-width:768px){
+  .nav-links,.nav-btn{display:none}.hbg{display:flex}
+  .pil-row{grid-template-columns:2.5rem 1fr}
+}
+@media(hover:none){#cur,#cur-r{display:none}body{cursor:auto}a,button{cursor:pointer}}
+</style>
+</head>
+<body>
+<div id="grain"></div>
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- ─── NAV ──────────────────────────────────────── -->
+<nav id="nav">
+  <a href="index_new.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
+  <ul class="nav-links">
+    <li><a href="index_new.html">Home</a></li>
+    <li class="nav-drop">
+      <button class="nav-drop-trigger active" aria-haspopup="true" aria-expanded="false">
+        Resources
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M2 4l4 4 4-4"/></svg>
+      </button>
+      <div class="nav-drop-panel" role="menu">
+        <a href="resource-retirement.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement
+        </a>
+        <a href="resource-investment.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment
+        </a>
+        <a href="resource-estate.html" class="nav-drop-item current" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning
+        </a>
+        <a href="resource-tax.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy
+        </a>
+        <a href="resource-insurance.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance
+        </a>
+        <div class="nav-drop-divider"></div>
+        <a href="resource-money.html" class="nav-drop-item" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle
+        </a>
+      </div>
+    </li>
+  </ul>
+  <a href="contact.html" class="nav-btn"><span>Begin Your Plan</span></a>
+  <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div id="mob">
+  <button id="mob-x">✕</button>
+  <a href="index_new.html" class="mob-a">Home</a>
+  <div class="mob-resources">
+    <div class="mob-res-label">Resources</div>
+    <div class="mob-res-links">
+      <a href="resource-retirement.html" class="mob-res-link">Retirement</a>
+      <a href="resource-investment.html" class="mob-res-link">Investment</a>
+      <a href="resource-estate.html" class="mob-res-link current">Estate</a>
+      <a href="resource-tax.html" class="mob-res-link">Tax</a>
+      <a href="resource-insurance.html" class="mob-res-link">Insurance</a>
+      <a href="resource-money.html" class="mob-res-link">Money &amp; Lifestyle</a>
+    </div>
+  </div>
+  <a href="contact.html" class="mob-a">Contact</a>
+</div>
+
+<!-- ─── SIDEBAR TRIGGER ───────────────────────────── -->
+<button id="sb-trigger" class="nudge" aria-label="Open resources panel">
+  <div class="sb-trig-icon"><span></span><span></span><span></span></div>
+  <span class="sb-trig-label">Resources</span>
+</button>
+
+<!-- ─── SIDEBAR OVERLAY ──────────────────────────── -->
+<div id="sb-overlay"></div>
+
+<!-- ─── SIDEBAR PANEL ────────────────────────────── -->
+<div id="sb-panel" role="dialog" aria-modal="true" aria-label="Estate planning resources">
+  <div class="sb-head">
+    <div class="sb-title"><em>Estate</em> Resources</div>
+    <button class="sb-close" id="sb-close" aria-label="Close panel">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l10 10M13 3L3 13"/></svg>
+    </button>
+  </div>
+  <div class="sb-tabs">
+    <button class="sb-tab active" data-pane="nav">Navigate</button>
+    <button class="sb-tab" data-pane="checklist">Checklist</button>
+    <button class="sb-tab" data-pane="tools">Tools</button>
+  </div>
+  <div class="sb-body">
+
+    <!-- NAV PANE -->
+    <div class="sb-pane active" id="pane-nav">
+      <p style="font-size:.78rem;line-height:1.72;color:var(--im);font-weight:300;margin-bottom:2rem">Browse the full resource library. Each guide is built to give you clarity on one area of your financial plan.</p>
+      <a href="resource-retirement.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg></div>
+        <div><div class="sb-res-name">Retirement</div><div class="sb-res-desc">Income architecture & withdrawal strategy</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-investment.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div><div class="sb-res-name">Investment</div><div class="sb-res-desc">Portfolio construction & evidence-based growth</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-estate.html" class="sb-res-item current">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div><div class="sb-res-name" style="color:var(--gold)">Estate Planning</div><div class="sb-res-desc">You are here</div></div>
+      </a>
+      <a href="resource-tax.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg></div>
+        <div><div class="sb-res-name">Tax Strategy</div><div class="sb-res-desc">Tax-efficient investing across your wealth lifecycle</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-insurance.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><div class="sb-res-name">Insurance</div><div class="sb-res-desc">Protection for individuals & business owners</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+      <a href="resource-money.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div><div class="sb-res-name">Money &amp; Lifestyle</div><div class="sb-res-desc">Financial habits & confidence building</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
+      </a>
+    </div>
+
+    <!-- CHECKLIST PANE -->
+    <div class="sb-pane" id="pane-checklist">
+      <div class="sb-ck-prog">
+        <div class="sb-ck-prog-label"><span>Progress</span><span id="ck-pct">0 / 14</span></div>
+        <div class="sb-ck-prog-bar"><div class="sb-ck-prog-fill" id="ck-fill"></div></div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Core Documents</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Last Will &amp; Testament</strong> — signed, witnessed, and stored securely</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Revocable Living Trust</strong> — drafted and funded with your primary assets</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Durable Power of Attorney</strong> — designates financial decision-maker</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Healthcare Directive / Living Will</strong> — documents medical wishes</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Healthcare POA</strong> — designates medical decision-maker</div>
+        </div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Beneficiaries &amp; Accounts</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Primary &amp; contingent beneficiaries on all IRAs and 401(k)s</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Life insurance policy beneficiaries reviewed and current</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Bank and brokerage accounts titled correctly or in trust</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Real estate titled or transferred to trust as intended</div>
+        </div>
+      </div>
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Tax &amp; Liquidity</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Estate tax exposure estimated under current and post-2026 exemptions</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Liquidity plan in place to cover any estate tax without forced asset sale</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Annual gifting strategy evaluated ($18,000 per recipient in 2024)</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Charitable giving vehicles considered (DAF, CRT, or direct bequest)</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text">Plan reviewed with estate attorney within the last 3 years</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOLS PANE -->
+    <div class="sb-pane" id="pane-tools">
+
+      <!-- Beneficiary Audit -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Beneficiary Audit</div>
+        <div class="sb-tool-desc">Identify missing or conflicting beneficiary designations across your key accounts.</div>
+        <div id="ben-form">
+          <div class="sb-tool-section">
+            <label class="sb-tool-lbl">IRA / 401(k) — Primary Beneficiary</label>
+            <input class="sb-tool-input" id="b1" placeholder="e.g. Spouse — Jane Doe">
+            <label class="sb-tool-lbl">IRA / 401(k) — Contingent Beneficiary</label>
+            <input class="sb-tool-input" id="b2" placeholder="e.g. Children equally">
+          </div>
+          <div class="sb-tool-section">
+            <label class="sb-tool-lbl">Life Insurance — Primary Beneficiary</label>
+            <input class="sb-tool-input" id="b3" placeholder="e.g. Spouse — Jane Doe">
+            <label class="sb-tool-lbl">Life Insurance — Contingent Beneficiary</label>
+            <input class="sb-tool-input" id="b4" placeholder="e.g. Trust or children">
+          </div>
+          <div class="sb-tool-section">
+            <label class="sb-tool-lbl">Brokerage / Bank — Titled or POD Beneficiary</label>
+            <input class="sb-tool-input" id="b5" placeholder="e.g. In trust / payable on death to...">
+          </div>
+          <button class="sb-tool-btn" onclick="runBenAudit()">Run Audit</button>
+          <div id="ben-result"></div>
+        </div>
+      </div>
+
+      <!-- Liquidity Planner -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Liquidity Planner</div>
+        <div class="sb-tool-desc">Estimate your potential estate tax and whether liquid assets are sufficient to cover it.</div>
+        <div class="sb-tool-section">
+          <label class="sb-tool-lbl">Total Estate Value ($)</label>
+          <input class="sb-tool-input" id="liq-estate" type="number" placeholder="e.g. 5000000">
+          <label class="sb-tool-lbl">Available Liquid Assets ($)</label>
+          <input class="sb-tool-input" id="liq-liquid" type="number" placeholder="e.g. 800000">
+          <label class="sb-tool-lbl">Life Insurance Death Benefit ($)</label>
+          <input class="sb-tool-input" id="liq-ins" type="number" placeholder="e.g. 500000">
+        </div>
+        <button class="sb-tool-btn" onclick="runLiquidity()">Estimate Exposure</button>
+        <div id="liq-result"></div>
+      </div>
+
+    </div><!-- /tools pane -->
+  </div><!-- /sb-body -->
+</div><!-- /sb-panel -->
+
+<!-- ─── HERO ───────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-ghost">E</div>
+  <div class="hero-content">
+    <div class="hero-top">
+      <div class="hero-ey">Estate Planning</div>
+      <div class="hero-stats-top">
+        <div class="hero-stat-t">
+          <div class="hero-stat-tl">2024 Federal Exemption</div>
+          <div class="hero-stat-tv">$13.61M</div>
+        </div>
+        <div class="hero-stat-t">
+          <div class="hero-stat-tl">Exemption Sunset</div>
+          <div class="hero-stat-tv">2026</div>
+        </div>
+        <div class="hero-stat-t">
+          <div class="hero-stat-tl">Max Estate Tax Rate</div>
+          <div class="hero-stat-tv">40%</div>
+        </div>
+      </div>
+    </div>
+    <h1 class="hero-ttl">
+      <span class="ln"><span class="wd">Your</span></span>
+      <span class="ln"><span class="wd"><em>Legacy,</em></span></span>
+      <span class="ln"><span class="wd">Protected.</span></span>
+    </h1>
+    <div class="hero-bot">
+      <p class="hero-desc">Estate planning is not a conversation about death — it is a conversation about <strong>intention</strong>. About ensuring that everything you have built reaches the people and causes you care about most, on your terms.</p>
+      <div class="hero-actions">
+        <button class="btn-p btn-solid mag" onclick="openSidebar('checklist')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Estate Checklist
+        </button>
+        <button class="btn-p btn-ghost-p mag" onclick="openSidebar('tools')">Run Estate Tools</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATS ──────────────────────────────────────── -->
+<section id="stats">
+  <div class="st-item rv">
+    <div class="st-lbl">Federal Estate Tax Exemption (2024)</div>
+    <div class="st-val">$13<em>.</em>61<em>M</em></div>
+    <div class="st-note">Per individual — $27.22M for married couples using portability</div>
+  </div>
+  <div class="st-item rv d1">
+    <div class="st-lbl">Projected Exemption After 2025 Sunset</div>
+    <div class="st-val">~$7<em>M</em></div>
+    <div class="st-note">Approximately half the current exemption without Congressional action</div>
+  </div>
+  <div class="st-item rv d2">
+    <div class="st-lbl">Maximum Federal Estate Tax Rate</div>
+    <div class="st-val">40<em>%</em></div>
+    <div class="st-note">Applied to taxable estate above the exemption threshold</div>
+  </div>
+</section>
+
+<!-- ─── PILLARS ────────────────────────────────────── -->
+<section id="pillars">
+  <div class="pil-hd rv">
+    <div>
+      <div class="pil-ey">The Four Pillars</div>
+      <h2 class="pil-h">What a strong<br>estate plan<br><em>actually covers</em></h2>
+    </div>
+    <p class="pil-sub">A complete estate plan is built on four interconnected foundations. Miss one and the whole structure is exposed. Together, they ensure your wishes are carried out without conflict, delay, or unnecessary taxation.</p>
+  </div>
+  <div class="pil-list">
+    <div class="pil-row rv">
+      <div class="pil-n">01</div>
+      <div class="pil-title"><em>Inventory</em></div>
+      <div class="pil-body">A clear, current inventory of your accounts, titled assets, insurance policies, and digital assets prevents delays and ensures nothing is overlooked during estate settlement. <strong>Missing assets are a common and costly problem</strong> — often worth tens of thousands of dollars that heirs simply never know to claim.</div>
+    </div>
+    <div class="pil-row rv d1">
+      <div class="pil-n">02</div>
+      <div class="pil-title"><em>Continuity</em></div>
+      <div class="pil-body">Durable powers of attorney and healthcare directives protect your ability to have decisions made on your behalf if you become incapacitated. <strong>Without them, courts may appoint a guardian</strong> — a lengthy, expensive process that removes control from your family at the worst possible moment.</div>
+    </div>
+    <div class="pil-row rv d2">
+      <div class="pil-n">03</div>
+      <div class="pil-title"><em>Liquidity</em></div>
+      <div class="pil-body">Estate taxes, final expenses, and family needs require immediate cash. Without a liquidity plan, estates are forced to sell investments, real estate, or business interests — often at a discount — to satisfy obligations. <strong>Life insurance is frequently the most efficient source of estate liquidity.</strong></div>
+    </div>
+    <div class="pil-row rv d3">
+      <div class="pil-n">04</div>
+      <div class="pil-title"><em>Governance</em></div>
+      <div class="pil-body">Trusts, trustees, and family governance structures ensure clarity about roles and decision-making. <strong>Ambiguous instructions and disputed authority are the leading causes of family conflict</strong> during estate settlement. Clear governance prevents this and ensures consistent execution of your wishes across generations.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DOCUMENTS ──────────────────────────────────── -->
+<section id="docs">
+  <div class="docs-hd rv">
+    <div class="docs-ey">Core Documents</div>
+    <h2 class="docs-h">Four documents<br>every plan <em>requires</em></h2>
+  </div>
+  <div class="docs-grid rv d1">
+    <div class="doc-card">
+      <div class="doc-num">01</div>
+      <div class="doc-title">Last Will &amp; Testament</div>
+      <div class="doc-sub">Foundation</div>
+      <div class="doc-body">Your will directs how your assets are distributed and names guardians for minor children. Without one, state intestacy laws decide — and <strong>the state's default may bear no resemblance to your wishes</strong>. A will must be properly signed and witnessed to be valid.</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-num">02</div>
+      <div class="doc-title">Revocable Living Trust</div>
+      <div class="doc-sub">Privacy &amp; Probate Avoidance</div>
+      <div class="doc-body">A revocable trust holds assets during your lifetime and transfers them to beneficiaries without probate — <strong>privately, faster, and without court involvement</strong>. Unlike a will, a trust is not a public record. Most clients with meaningful assets benefit from a funded revocable trust.</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-num">03</div>
+      <div class="doc-title">Durable Power of Attorney</div>
+      <div class="doc-sub">Incapacity Planning</div>
+      <div class="doc-body">A POA authorizes a trusted person to manage your financial affairs if you are unable to. <strong>Without one, banks and institutions will freeze accounts</strong> until a court appoints a conservator. This is one of the simplest and most important documents anyone can have.</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-num">04</div>
+      <div class="doc-title">Healthcare Directives</div>
+      <div class="doc-sub">Medical Decision-Making</div>
+      <div class="doc-body">A healthcare POA and living will document your medical wishes and designate who can make healthcare decisions on your behalf. <strong>Without these, family members may disagree</strong> — or courts may intervene — during medical emergencies when clarity matters most.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 2026 SUNSET ALERT ─────────────────────────── -->
+<section id="sunset" class="rv">
+  <div class="sun-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+  </div>
+  <div>
+    <div class="sun-label">Time-Sensitive</div>
+    <div class="sun-title">The 2026 Exemption Sunset changes the math for many families</div>
+    <div class="sun-body">The Tax Cuts and Jobs Act's doubled estate tax exemption expires at the end of 2025. Without Congressional action, the federal exemption reverts to approximately $7 million per individual — effectively cutting the threshold in half. <strong>Families with estates between $7M and $13.61M should act before the window closes.</strong> Strategies like SLATs, GRATs, and lifetime gifting may need to be implemented while the current exemption is in effect.</div>
+  </div>
+  <div class="sun-cta">
+    <a href="contact.html" class="btn-p btn-solid mag" style="white-space:nowrap">
+      Review Before 2026
+    </a>
+  </div>
+</section>
+
+<!-- ─── FAQ ───────────────────────────────────────── -->
+<section id="faq">
+  <div class="faq-hd rv">
+    <div>
+      <div class="faq-ey">Questions</div>
+      <h2 class="faq-h">Estate planning<br><em>answered.</em></h2>
+    </div>
+    <p class="faq-side">Every client comes to estate planning with different circumstances and different concerns. These are the questions we encounter most often — answered plainly, without jargon.<br><br><strong>Your situation will always call for a personal conversation.</strong></p>
+  </div>
+  <div class="faq-list rv d1">
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">01</span>Do I need a trust, or is a will enough?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">A will alone requires your estate to pass through probate — a public court process that can take months or years and costs 3–8% of the estate's value in fees. <strong>A funded revocable trust avoids probate entirely</strong>, transfers assets immediately and privately, and provides continuity of management if you become incapacitated. For most clients with property in multiple states or significant assets, a trust is the superior choice.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">02</span>What happens if I die without an estate plan?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">Dying intestate (without a will or trust) means state law decides who receives your assets and who raises your children. The state's formula is rigid and may direct assets to relatives you would not have chosen, while excluding partners or others you would have prioritized. <strong>The process is public, can take years, and frequently generates family conflict</strong> — all of which are completely avoidable with even a basic plan in place.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">03</span>How often should I update my estate plan?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">At minimum, review your estate plan every 3–5 years and after any major life event: marriage, divorce, birth of a child, death of a named beneficiary or trustee, significant change in wealth, or major tax law change. <strong>Many clients discover that beneficiary designations on IRAs and life insurance policies are years or decades out of date</strong> — sometimes naming ex-spouses or deceased individuals. These designations override your will entirely.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">04</span>What is portability and why does it matter for married couples?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">Portability allows a surviving spouse to use any unused portion of their deceased spouse's estate tax exemption. In 2024, a married couple can effectively shield up to $27.22M from federal estate tax — but <strong>portability is not automatic</strong>. A federal estate tax return (Form 706) must be filed within 9 months of the first spouse's death, even if no tax is owed. Missing this deadline permanently forfeits the unused exemption.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">
+        <span class="fq-i">05</span>Can life insurance help with estate taxes?
+        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
+      </button>
+      <div class="faq-panel"><p class="faq-ans">Life insurance death benefits are income-tax-free, but they are included in your estate for estate tax purposes if you own the policy. An <strong>Irrevocable Life Insurance Trust (ILIT)</strong> removes the policy from your taxable estate while using the death benefit to provide liquidity for estate taxes — allowing heirs to receive the full value of other assets rather than being forced to sell them. This is one of the most cost-efficient estate planning strategies available to taxable estates.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ───────────────────────────────────────── -->
+<section id="cta">
+  <div class="rv-l">
+    <div class="cta-ey">Work With Us</div>
+    <h2 class="cta-h">Build your<br><em>legacy</em><br>plan today.</h2>
+    <p class="cta-p">Estate planning done well is one of the most meaningful things you can do for the people you love. A complimentary consultation is the first step.</p>
+    <div class="cta-acts">
+      <a href="contact.html" class="btn-p btn-solid mag">Schedule a Consultation</a>
+      <button class="btn-p btn-ghost-p mag" onclick="openSidebar('tools')">Run Estate Tools</button>
+    </div>
+  </div>
+  <div class="cta-right rv">
+    <div class="cta-dets">
+      <div><div class="cta-dl">Phone</div><div class="cta-dv"><a href="tel:+15551234567">(555) 123-4567</a></div></div>
+      <div><div class="cta-dl">Email</div><div class="cta-dv"><a href="mailto:matthew@pindoley.com">matthew@pindoley.com</a></div></div>
+      <div><div class="cta-dl">Consultations</div><div class="cta-dv">Complimentary, no pressure</div></div>
+      <div><div class="cta-dl">Availability</div><div class="cta-dv">Mon – Fri, 9am – 5pm</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <div class="ft-logo">Matthew Pindoley <b>SE-AWMA®</b></div>
+      <p class="ft-tg">Sophisticated wealth management for those who've earned the right to expect more.</p>
+    </div>
+    <div class="ft-lks">
+      <div class="ft-col"><h4>Services</h4><ul>
+        <li><a href="service.html">Wealth Management</a></li>
+        <li><a href="service.html">Retirement Planning</a></li>
+        <li><a href="service.html">Tax Strategy</a></li>
+        <li><a href="service.html">Estate Planning</a></li>
+      </ul></div>
+      <div class="ft-col"><h4>Resources</h4><ul>
+        <li><a href="resource-retirement.html">Retirement</a></li>
+        <li><a href="resource-investment.html">Investment</a></li>
+        <li><a href="resource-estate.html">Estate</a></li>
+        <li><a href="resource-tax.html">Tax Planning</a></li>
+        <li><a href="resource-insurance.html">Insurance</a></li>
+        <li><a href="resource-money.html">Money &amp; Lifestyle</a></li>
+      </ul></div>
+      <div class="ft-col"><h4>Firm</h4><ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about-firm.html">Our Firm</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <p class="ft-cp">© 2025 Matthew Pindoley Financial Advisory. All rights reserved.</p>
+    <p class="ft-di">Investment advisory services offered through a registered investment adviser. This content is for informational purposes only and does not constitute investment, legal, or tax advice.</p>
+  </div>
+</footer>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button,.doc-card,.pil-row,.st-item,.sb-res-item,.sb-ck-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+document.addEventListener('mousedown',()=>document.body.classList.add('pressing'));
+document.addEventListener('mouseup',()=>document.body.classList.remove('pressing'));
+
+/* NAV */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('stk',scrollY>60),{passive:true});
+
+/* NAV DROPDOWN */
+document.querySelectorAll('.nav-drop').forEach(drop=>{
+  const trigger=drop.querySelector('.nav-drop-trigger');
+  const panel=drop.querySelector('.nav-drop-panel');
+  if(!trigger||!panel)return;
+  let t=null;
+  const open=()=>{clearTimeout(t);drop.classList.add('open');trigger.setAttribute('aria-expanded','true')};
+  const close=()=>{t=setTimeout(()=>{drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')},120)};
+  drop.addEventListener('mouseenter',open);
+  drop.addEventListener('mouseleave',close);
+  trigger.addEventListener('click',()=>drop.classList.contains('open')?close():open());
+  drop.addEventListener('keydown',e=>{if(e.key==='Escape'){drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')}});
+  drop.addEventListener('focusout',e=>{if(!drop.contains(e.relatedTarget)){drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')}});
+});
+
+/* MOBILE NAV */
+const mob=document.getElementById('mob'),hbg=document.getElementById('hbg'),mobX=document.getElementById('mob-x');
+hbg.addEventListener('click',()=>mob.classList.add('open'));
+mobX.addEventListener('click',()=>mob.classList.remove('open'));
+document.querySelectorAll('.mob-a,.mob-res-link').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
+
+/* HERO WORDS */
+setTimeout(()=>document.querySelectorAll('.hero-ttl .wd').forEach(el=>el.classList.add('vis')),200);
+
+/* REVEAL */
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');io.unobserve(x.target)}})},{threshold:.07,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.rv-l').forEach(el=>io.observe(el));
+
+/* FAQ */
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const open=btn.getAttribute('aria-expanded')==='true';
+    document.querySelectorAll('.faq-q').forEach(b=>{b.setAttribute('aria-expanded','false');b.nextElementSibling.classList.remove('open')});
+    if(!open){btn.setAttribute('aria-expanded','true');btn.nextElementSibling.classList.add('open')}
+  });
+});
+
+/* MAGNETIC */
+document.querySelectorAll('.mag,.nav-btn').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.22}px,${(e.clientY-r.top-r.height/2)*.22}px)`;
+  });
+  btn.addEventListener('mouseleave',()=>{btn.style.transform=''});
+});
+
+/* ─── SIDEBAR ─────────────────────────────────────── */
+const sbPanel=document.getElementById('sb-panel');
+const sbOverlay=document.getElementById('sb-overlay');
+
+function openSidebar(pane){
+  sbPanel.classList.add('open');
+  sbOverlay.classList.add('open');
+  document.body.style.overflow='hidden';
+  if(pane) switchTab(pane);
+}
+function closeSidebar(){
+  sbPanel.classList.remove('open');
+  sbOverlay.classList.remove('open');
+  document.body.style.overflow='';
+}
+
+document.getElementById('sb-trigger').addEventListener('click',()=>openSidebar('nav'));
+document.getElementById('sb-close').addEventListener('click',closeSidebar);
+sbOverlay.addEventListener('click',closeSidebar);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar()});
+
+// Tabs
+function switchTab(name){
+  document.querySelectorAll('.sb-tab').forEach(t=>t.classList.toggle('active',t.dataset.pane===name));
+  document.querySelectorAll('.sb-pane').forEach(p=>p.classList.toggle('active',p.id==='pane-'+name));
+}
+document.querySelectorAll('.sb-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>switchTab(tab.dataset.pane));
+});
+
+/* ─── CHECKLIST ───────────────────────────────────── */
+function toggleCk(item){
+  item.classList.toggle('done');
+  updateProgress();
+}
+function updateProgress(){
+  const all=document.querySelectorAll('.sb-ck-item');
+  const done=document.querySelectorAll('.sb-ck-item.done');
+  document.getElementById('ck-pct').textContent=done.length+' / '+all.length;
+  document.getElementById('ck-fill').style.width=(done.length/all.length*100)+'%';
+}
+
+/* ─── BENEFICIARY AUDIT ───────────────────────────── */
+function runBenAudit(){
+  const fields=[
+    {id:'b1',label:'IRA/401(k) Primary'},
+    {id:'b2',label:'IRA/401(k) Contingent'},
+    {id:'b3',label:'Life Insurance Primary'},
+    {id:'b4',label:'Life Insurance Contingent'},
+    {id:'b5',label:'Brokerage/Bank'}
+  ];
+  const issues=[];
+  const vals=fields.map(f=>{
+    const v=document.getElementById(f.id).value.trim();
+    if(!v) issues.push('Missing: '+f.label);
+    return v;
+  });
+  // Check duplicates
+  const primaries=[vals[0],vals[2]].filter(Boolean);
+  if(primaries.length===2&&primaries[0].toLowerCase()===primaries[2])
+    issues.push('Note: IRA and Life Insurance share the same primary beneficiary — confirm this is intentional');
+  const r=document.getElementById('ben-result');
+  if(issues.length===0){
+    r.innerHTML='<div class="sb-tool-result sb-r-ok">✓ No gaps detected. All key designations are filled. Verify these designations directly with each custodian and review with estate counsel annually.</div>';
+  } else {
+    r.innerHTML='<div class="sb-tool-result sb-r-warn"><strong>'+issues.length+' item'+(issues.length>1?'s':'')+' to address:</strong><ul style="margin:.5rem 0 0 1rem;display:flex;flex-direction:column;gap:.3rem">'+issues.map(i=>'<li style="font-size:.78rem">'+i+'</li>').join('')+'</ul></div>';
+  }
+}
+
+/* ─── LIQUIDITY PLANNER ───────────────────────────── */
+function runLiquidity(){
+  const estate=parseFloat(document.getElementById('liq-estate').value)||0;
+  const liquid=parseFloat(document.getElementById('liq-liquid').value)||0;
+  const ins=parseFloat(document.getElementById('liq-ins').value)||0;
+  const exemption=13610000;
+  const taxable=Math.max(0,estate-exemption);
+  const estTax=taxable*0.4;
+  const available=liquid+ins;
+  const gap=estTax-available;
+  const fmt=n=>Math.round(n).toLocaleString('en-US');
+  const r=document.getElementById('liq-result');
+  if(estTax===0){
+    r.innerHTML='<div class="sb-tool-result sb-r-ok">Estate is below the 2024 federal exemption. No federal estate tax projected at current exemption levels.<br><br><strong style="font-size:.75rem">Note:</strong> <span style="font-size:.75rem">The exemption may drop to ~$7M after 2025. Review exposure under the post-sunset scenario.</span></div>';
+  } else if(gap<=0){
+    r.innerHTML='<div class="sb-tool-result sb-r-ok">Liquidity appears sufficient.<br><br><span style="font-size:.78rem;opacity:.8">Est. tax: <strong>$'+fmt(estTax)+'</strong> · Available: <strong>$'+fmt(available)+'</strong> · Surplus: <strong>$'+fmt(-gap)+'</strong></span></div>';
+  } else {
+    r.innerHTML='<div class="sb-tool-result sb-r-warn">Liquidity shortfall detected.<br><br><span style="font-size:.78rem;opacity:.8">Est. tax: <strong>$'+fmt(estTax)+'</strong> · Available: <strong>$'+fmt(available)+'</strong> · Shortfall: <strong>$'+fmt(gap)+'</strong></span><br><br><span style="font-size:.75rem">Consider additional liquidity strategies: ILIT (life insurance in irrevocable trust), installment elections (IRC §6166), or asset reallocation. Discuss with estate counsel.</span></div>';
+  }
+}
+</script>
+</body>
+</html>
