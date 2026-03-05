@@ -160,9 +160,9 @@ body.pressing #cur{width:28px;height:28px}
 .h-desc strong{color:var(--paper);font-weight:500}
 .h-ctas{display:flex;gap:1.1rem;align-items:center;flex-shrink:0}
 .h-scroll{position:absolute;bottom:3.5rem;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:.65rem;z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:.65rem;z-index:5;
   color:var(--muted);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
-  opacity:0;animation:fadeIn .9s ease 2.2s forwards;z-index:5}
+  opacity:0;animation:fadeIn .9s ease 2.2s forwards}
 .h-scroll-ring{width:30px;height:30px;border:1px solid var(--border2);border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   animation:bob 2.2s ease infinite}
@@ -480,7 +480,8 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 4.
 @media(max-width:768px){
   .nav-links,.nav-btn{display:none}.hbg{display:flex}
   .h1{font-size:clamp(3.5rem,14vw,6.5rem)}
-  .h-bot{flex-direction:column;align-items:flex-start}
+  #hero{padding-bottom:9rem}
+  .h-bot{flex-direction:column;align-items:flex-start;margin-bottom:2rem}
   .pr-hd,.rs-hd{grid-template-columns:1fr}
   .pr-grid,.rs-grid{grid-template-columns:1fr}
   .sv-panel-inner{grid-template-columns:1fr;padding-left:2.5rem}
@@ -625,7 +626,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 4.
   <div class="rv-l">
     <div class="ab-ky">Who We Are</div>
     <h2 class="ab-h">Clarity.<br><em>Precision.</em><br>Purpose.</h2>
-    <p class="ab-p">Matthew Pindoley is a <strong>Sports and Entertainment — Accredited Wealth Management Advisor (SE-AWMA®)</strong>, based in Toledo, Ohio. Growing up, Matthew had a desire to be an architect, drawn to the idea of creating something meaningful from nothing, something that would stand and serve people for years to come. In college, that calling shifted toward law, toward being in relationship with people, helping them navigate the moments that mattered most. He went on to earn his degree in Finance from the University of Toledo, where a deeper understanding of markets, planning, and wealth strategy sharpened what had always been a people-first instinct. Financial planning turned out to be the perfect intersection of both. It is the art of architecting a plan with <strong>precision and intention</strong>, one built to stand the test of time, while walking in the kind of genuine, trusting relationship that people are hungry for but too rarely find. Matthew has seen too many families search for someone they could truly confide in, someone with both the integrity and the expertise to guide them well. That is exactly the advisor he set out to become, and it is the standard he holds himself to for every person who trusts him with their financial future. Faith is central to who Matthew is. As a <strong>practicing Catholic</strong> and being involved in oragnizations around the city, he understands that true wealth is never just about numbers. It is about alignment between your resources, your values, and the life you are called to build.</p>
+    <p class="ab-p">Matthew Pindoley is a <strong>Sports and Entertainment — Accredited Wealth Management Advisor (SE-AWMA®)</strong>, based in Toledo, Ohio. Long before he entered financial planning, Matt wanted to be an architect, then considered law, drawn in both cases to the same two things: building something that lasts, and being genuinely useful to people navigating what matters most. A Finance degree from the University of Toledo gave those instincts a foundation, and wealth management turned out to be where they converged. He has seen too many families struggle to find an advisor they could truly trust, someone with both the <strong>integrity and the expertise</strong> to guide them well. That is the standard he holds himself to for every client. <strong>Faith</strong> is central to who Matt is. As a practicing Catholic and active member of the Toledo community, he understands that true wealth is never just about numbers. It is about alignment between your <strong>resources</strong>, your <strong>values</strong>, and the <strong>life</strong> you are called to build.</p>
     <p class="ab-p">"I believe the most meaningful things in life are built slowly. Not through bold leaps or perfect moments, but through small, faithful choices made day after day, the kind that quietly compound into something real. That philosophy shapes everything about how I work. I am not here to rush you toward a decision or impress you with complexity. I am here to listen, to understand what you are actually building, and to walk alongside you with patience and genuine care. I have found that the best financial relationships, like the best ones in life, grow through <strong>trust</strong> earned over time, through honesty even when it is uncomfortable, and through showing up consistently for the people who matter. That is the kind of advisor I want to be for you."</p>
     <ul class="ab-creds">
       <li>SE-AWMA® Certified Advisor</li>
@@ -871,7 +872,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 4.
       </a>
     </div>
     <div class="ct-dets rv">
-      <div class="ct-d"><div class="ct-dl">Email</div><div class="ct-dv"><a href="mailto:matthew.pindoley@osaicwealth.com">matthew.pindoley@osaicwealth.com</a></div></div>
+      <div class="ct-d"><div class="ct-dl">Email</div><div class="ct-dv"><a href="/cdn-cgi/l/email-protection#711c1005051914065f01181f151e1d1408311e021018120614101d05195f121e1c"><span class="__cf_email__" data-cfemail="a2cfc3d6d6cac7d58cd2cbccc6cdcec7dbe2cdd1c3cbc1d5c7c3ced6ca8cc1cdcf">[email&#160;protected]</span></a></div></div>
       <div class="ct-d"><div class="ct-dl">Phone</div><div class="ct-dv"><a href="tel:+14198871002">(419) 887-1002</a></div></div>
       <div class="ct-d"><div class="ct-dl">Availability</div><div class="ct-dv">Nationwide</div></div>
     </div>
@@ -914,7 +915,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 4.
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── CURSOR ─────────────────────────────────────── */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-r'),lbl=document.getElementById('cur-lbl');
 let mx=0,my=0,rx=0,ry=0;
@@ -1111,10 +1112,10 @@ if(tilt){
     const r=tilt.getBoundingClientRect();
     const x=((e.clientX-r.left)/r.width-.5)*20;
     const y=((e.clientY-r.top)/r.height-.5)*-20;
-    tilt.style.transform=`perspective(900px) rotateX(${y}deg) rotateY(${x}deg) scale3d(1.03,1.03,1.03)`;
+    tilt.style.transform=`perspective(900px) rotateY(${x}deg) rotateX(${y}deg) scale3d(1.02,1.02,1.02)`;
   });
   tilt.addEventListener('mouseleave',()=>{
-    tilt.style.transform='perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+    tilt.style.transform='perspective(900px) rotateY(0deg) rotateX(0deg) scale3d(1,1,1)';
   });
 }
 </script>
