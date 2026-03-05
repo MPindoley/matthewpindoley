@@ -649,6 +649,41 @@ const ro=new IntersectionObserver(entries=>{
       setTimeout(()=>e.target.classList.add('vis'),i*100);
       ro.unobserve(e.target);
     }
+  });
+},{threshold:.15});
+trustItems.forEach(item=>ro.observe(item));
+
+/* FORM SUBMIT */
+const form=document.getElementById('contact-form');
+if(form){
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const name=document.getElementById('f-name');
+    const email=document.getElementById('f-email');
+    const topic=document.getElementById('f-topic');
+    if(!name||!name.value.trim()){if(name)pulse('f-name');return;}
+    if(!email||!email.value.includes('@')){if(email)pulse('f-email');return;}
+    const fw=document.getElementById('form-wrap');
+    const success=document.getElementById('success');
+    if(fw){fw.style.transition='opacity .5s ease,transform .5s ease';fw.style.opacity='0';fw.style.transform='translateY(-10px)';}
+    setTimeout(()=>{
+      if(fw)fw.style.display='none';
+      if(success){success.style.display='block';requestAnimationFrame(()=>requestAnimationFrame(()=>success.classList.add('visible')));}
+    },520);
+  });
+}
+
+function pulse(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.style.borderBottomColor='rgba(200,70,50,.45)';
+  el.animate([
+    {transform:'translateX(-4px)'},{transform:'translateX(4px)'},
+    {transform:'translateX(-3px)'},{transform:'translateX(3px)'},
+    {transform:'translateX(0)'}
+  ],{duration:380,easing:'ease-in-out'});
+  setTimeout(()=>{el.style.borderBottomColor='';},1200);
+}
 </script>
 </body>
 </html>
