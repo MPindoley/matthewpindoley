@@ -993,7 +993,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <div class="sc-num">05</div>
         <div class="sc-tag">Business Owners</div>
         <h3 class="sc-title">Entity &amp;<br><em>QBI Strategy</em></h3>
-        <p class="sc-body">The Sec. 199A deduction can reduce taxable income by up to 20% for eligible pass-through businesses. <strong>Whether you qualify — and how much — depends on structure, wages paid, and income level.</strong> The right setup is worth revisiting annually.</p>
+        <p class="sc-body">The Sec. 199A deduction can reduce taxable income by up to 20% for eligible pass-through businesses. The phase-out threshold is <strong>$403,500 for married filers and $201,750 for single filers in 2026.</strong> Whether you qualify depends on structure, wages, and income — worth reviewing annually.</p>
       </div>
     </div>
     <div class="strat-cell dark rv d1">
@@ -1102,7 +1102,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
     <div class="feat-right-item">
       <div class="fri-n">Section 179 / Bonus Depreciation</div>
       <div class="fri-title">Accelerated<br><em>Depreciation</em></div>
-      <p class="fri-body">Eligible business property can often be deducted immediately rather than over years. <strong>The rules shift regularly</strong> — timing capital expenditures around them can generate meaningful upfront deductions.</p>
+      <p class="fri-body">Eligible business property can now be deducted at <strong>100% in the year placed in service</strong> — bonus depreciation was restored to 100% permanently under the One Big Beautiful Bill Act. Timing capital expenditures strategically still matters for income management.</p>
     </div>
     <div class="feat-right-item">
       <div class="fri-n">Entity Structure</div>
@@ -1229,7 +1229,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
     </div>
   </div>
   <div class="ft-bot">
-    <p class="ft-cp">© 2025 Matthew Pindoley Financial Advisory. All rights reserved.</p>
+    <p class="ft-cp">© 2026 Matthew Pindoley Financial Advisory. All rights reserved.</p>
     <p class="ft-di">Investment advisory services offered through a registered investment adviser. This content is for informational purposes only and does not constitute investment, legal, or tax advice.</p>
   </div>
 </footer>
@@ -1409,29 +1409,6 @@ function runCapGains(){
   </div>`;
 }
 
-/* ─── DEDUCTION VALUE CALCULATOR ───────────────────── */
-function runDeductionValue(){
-  const amount=parseFloat(document.getElementById('dv-amount').value)||0;
-  const fedRate=parseFloat(document.getElementById('dv-rate').value)||0;
-  const stateRate=parseFloat(document.getElementById('dv-state').value)||0;
-  const r=document.getElementById('dv-result');
-  if(!amount||!fedRate){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please enter the deduction amount and your federal tax rate.</div>';return;}
-
-  const fedSavings=amount*(fedRate/100);
-  const stateSavings=amount*(stateRate/100);
-  const totalSavings=fedSavings+stateSavings;
-  const effectiveCost=amount-totalSavings;
-  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
-
-  r.innerHTML=`<div class="sb-tool-result sb-r-ok">
-    <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:.75rem">Deduction Value at ${fedRate}% Federal${stateRate?` + ${stateRate}% State`:''}</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.75rem">
-      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Total Tax Saved</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--ink)">${fmt(totalSavings)}</div></div>
-      <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">After-Tax Cost</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--ink)">${fmt(effectiveCost)}</div></div>
-    </div>
-    <div style="font-size:.75rem;color:var(--im);line-height:1.65">A ${fmt(amount)} deduction saves <strong style="color:var(--ink)">${fmt(fedSavings)} in federal taxes</strong>${stateRate?` and <strong style="color:var(--ink)">${fmt(stateSavings)} in state taxes</strong>`:''} — reducing the real cost to <strong style="color:var(--ink)">${fmt(effectiveCost)}</strong>. This is why charitable contributions of appreciated securities, retirement contributions, and business deductions are so powerful at high income levels.<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">Assumes you are itemizing and the deduction is fully deductible. Phaseouts may apply at high incomes.</em></div>
-  </div>`;
-}
 </script>
 </body>
 </html>
