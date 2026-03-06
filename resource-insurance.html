@@ -135,7 +135,7 @@ body.pressing #cur{width:22px;height:22px}
 /* ─── HERO ──────────────────────────────────────────── */
 #hero{min-height:100svh;background:var(--forest);
   display:flex;flex-direction:column;justify-content:flex-end;
-  padding:0 5rem 6rem;position:relative;overflow:hidden}
+  padding:5rem 5rem 6rem;position:relative;overflow:hidden}
 
 /* Shield geometry bg */
 .hero-geo{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
@@ -401,11 +401,11 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
 #sb-trigger:hover .sb-trig-icon span:nth-child(2){width:10px}
 #sb-trigger:hover .sb-trig-icon span:nth-child(3){width:6px}
 
-#sb-overlay{position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.55);
+#sb-overlay{position:fixed;inset:0;z-index:880;background:rgba(0,0,0,.55);
   opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(4px)}
 #sb-overlay.open{opacity:1;pointer-events:auto}
 
-#sb-panel{position:fixed;right:0;top:0;bottom:0;z-index:710;
+#sb-panel{position:fixed;right:0;top:0;bottom:0;z-index:900;
   width:min(520px,92vw);background:var(--paper);
   border-left:1px solid rgba(122,170,126,.1);
   transform:translateX(100%);transition:transform .55s var(--e1);
@@ -547,6 +547,11 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
   .strip-item:nth-child(3){border-right:none}
 }
 @media(hover:none){#cur,#cur-r{display:none}body{cursor:auto}a,button{cursor:pointer}}
+
+.t-discuss{display:inline-flex;align-items:center;gap:.4rem;margin-top:2rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:rgba(9,9,12,.3);transition:color .25s;text-decoration:none}
+.t-discuss span{transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.t-discuss:hover{color:var(--gold)}
+.t-discuss:hover span{transform:translateX(4px)}
 </style>
 </head>
 <body>
@@ -947,7 +952,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <div class="cov-type">Income replacement &amp; legacy</div>
       </div>
       <div>
-        <p class="cov-body">Life insurance replaces income, eliminates debt, and funds future goals when you're no longer there to do it yourself. <strong>Term life is simple and cost-effective</strong> for most income-replacement needs. Permanent policies — whole life, universal life, indexed UL — serve more specialized roles: estate liquidity, tax-advantaged cash accumulation, or funding buy-sell agreements for business owners.<br><br>The right structure depends entirely on your goals, not what a policy illustration makes look attractive. We model every option objectively before a recommendation is made.</p>
+        <p class="cov-body">Life insurance replaces income, eliminates debt, and funds future goals when you're no longer there to do it yourself.</p>
       </div>
     </div>
 
@@ -958,7 +963,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
       </div>
       <div class="cov-title">Disability Income</div>
       <div class="cov-type">Your most valuable asset</div>
-      <p class="cov-body">Your ability to earn income is worth more than your home, your car, and your current portfolio combined. <strong>Own-occupation disability coverage</strong> protects that asset — paying if you cannot perform your specific profession, not just any work. Group employer policies cover only 60% of base salary, exclude bonuses, and are taxable. Individual policies fill this gap.</p>
+      <p class="cov-body">Your ability to earn income is worth more than your home, your car, and your current portfolio combined.</p>
     </div>
 
     <div class="cov-card rv d1">
@@ -968,7 +973,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
       </div>
       <div class="cov-title">Property &amp; Casualty</div>
       <div class="cov-type">Homeowners, auto &amp; umbrella</div>
-      <p class="cov-body">Homeowners and auto policies are the foundation — but <strong>most clients are meaningfully underinsured</strong> on liability limits. A personal umbrella policy extends coverage across all policies for $1–5 million or more, at a fraction of the cost. For high-net-worth households, it's one of the highest-leverage insurance decisions available.</p>
+      <p class="cov-body">Homeowners and auto policies are the foundation — but most clients are meaningfully underinsured on liability limits.</p>
     </div>
 
     <div class="cov-card rv">
@@ -978,7 +983,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
       </div>
       <div class="cov-title">Long-Term Care</div>
       <div class="cov-type">Aging &amp; care planning</div>
-      <p class="cov-body">The average annual cost of a private nursing home room exceeds $100,000. <strong>Seventy percent of adults 65+ will need some form of care</strong>. Traditional LTC insurance, hybrid life/LTC policies, and self-insure strategies each have tradeoffs — and the optimal approach changes with age. The best time to evaluate this is before it becomes urgent.</p>
+      <p class="cov-body">The average annual cost of a private nursing home room exceeds $100,000.</p>
     </div>
 
     <div class="cov-card rv d1">
@@ -988,110 +993,14 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
       </div>
       <div class="cov-title">Business Insurance</div>
       <div class="cov-type">Key-person &amp; buy-sell</div>
-      <p class="cov-body">Business owners face a distinct layer of insurance need. <strong>Key-person life insurance</strong> protects the business if a critical employee or owner dies. Buy-sell agreements funded by life or disability insurance ensure ownership transitions without forcing heirs to sell at a discount or leaving surviving partners exposed. These are often the most underplanned areas we encounter.</p>
+      <p class="cov-body">Business owners face a distinct layer of insurance need.</p>
     </div>
 
   </div>
 </section>
 
-<!-- ─── NEEDS ANALYSIS BAND ─────────────────────────────── -->
-<section id="needs-band">
-  <div class="nb-icon" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-  </div>
-  <div>
-    <div class="nb-label">Our Process</div>
-    <div class="nb-title">Insurance reviewed as part of<br>your complete financial picture.</div>
-    <p class="nb-body">Most insurance reviews look at coverage in isolation. We look at it in the context of your full balance sheet — <strong>how your existing assets, income streams, and estate plan affect what you actually need to insure against, and what you can afford to self-insure.</strong> The result is coverage that's neither excessive nor dangerously thin.</p>
-  </div>
-  <div class="nb-cta">
-    <a href="contact.html" class="btn-p btn-solid mag" style="white-space:nowrap">Schedule a Review</a>
-  </div>
-</section>
 
-<!-- ─── LIFE EVENTS ─────────────────────────────────────── -->
-<section id="events">
-  <div class="ev-hd rv">
-    <div class="ev-ey">When Coverage Changes</div>
-    <h2 class="ev-h">Life events that<br>trigger a <em>review.</em></h2>
-    <p class="ev-sub">Insurance needs aren't static. These inflection points are when gaps most often appear — and when the cost of being underinsured is highest.</p>
-  </div>
-  <div class="ev-list">
-    <div class="ev-row rv">
-      <div class="ev-n">01</div>
-      <div class="ev-title">Marriage or <em>divorce</em></div>
-      <p class="ev-body">Beneficiary designations must be updated immediately. Coverage needs shift significantly — a spouse may need income replacement, or a previously named ex-spouse may still be listed on policies years later. <strong>Divorce is the most common source of outdated beneficiary designations we encounter.</strong></p>
-    </div>
-    <div class="ev-row rv d1">
-      <div class="ev-n">02</div>
-      <div class="ev-title">Birth of a <em>child</em></div>
-      <p class="ev-body">A new dependent changes your income replacement need, your need for a guardian designation, and often your long-term disability picture. <strong>Life insurance coverage should be re-evaluated within 90 days of every birth or adoption</strong> — and the policy term should extend to when your youngest child reaches financial independence.</p>
-    </div>
-    <div class="ev-row rv d2">
-      <div class="ev-n">03</div>
-      <div class="ev-title">Significant income <em>increase</em></div>
-      <p class="ev-body">Coverage amounts that made sense at $120,000 may be deeply inadequate at $350,000. Group disability plans don't automatically scale with income, and life insurance benefit amounts don't adjust for lifestyle inflation. <strong>Review coverage every time your income increases by more than 25%.</strong></p>
-    </div>
-    <div class="ev-row rv">
-      <div class="ev-n">04</div>
-      <div class="ev-title">Business ownership <em>transition</em></div>
-      <p class="ev-body">Starting or acquiring a business creates key-person exposure, buy-sell funding needs, and potential personal liability that didn't previously exist. <strong>Business owners are statistically the most underinsured segment of high-income households</strong> — and often the ones with the most to lose from a single uninsured event.</p>
-    </div>
-    <div class="ev-row rv d1">
-      <div class="ev-n">05</div>
-      <div class="ev-title">Approaching <em>retirement</em></div>
-      <p class="ev-body">As earned income decreases and assets grow, the nature of insurance need shifts. Life insurance for income replacement becomes less critical; long-term care coverage becomes more urgent. <strong>The 55–65 window is the last cost-effective moment</strong> to lock in LTC coverage before underwriting becomes difficult or premiums prohibitive.</p>
-    </div>
-  </div>
-</section>
 
-<!-- ─── FAQ ───────────────────────────────────────────────── -->
-<section id="faq">
-  <div class="faq-hd rv">
-    <div>
-      <div class="faq-ey">Questions</div>
-      <h2 class="faq-h">Insurance,<br><em>answered.</em></h2>
-    </div>
-    <p class="faq-side">These are the questions we hear most often from clients at every stage of life — answered plainly, without product bias or jargon.<br><br><strong>The right answer always depends on your specific situation.</strong></p>
-  </div>
-  <div class="faq-list rv d1">
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">01</span>Term or permanent life insurance — which is right for me?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">For most people, <strong>term life insurance is the right starting point</strong>. It's straightforward, affordable, and purpose-built for income replacement during the years when you're most financially exposed. Permanent policies have legitimate uses — primarily for estate liquidity, business planning, or tax-advantaged accumulation — but they're significantly more expensive and are often sold where term would suffice. We always start with what you need the coverage to do, not what generates the highest premium.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">02</span>How much life insurance do I actually need?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">A useful starting estimate is 10–15 times your gross income, plus any outstanding debts, minus liquid assets your family could access. But the real answer requires modeling: <strong>what income needs to be replaced, for how long, at what rate of inflation, and how much existing capital reduces the gap.</strong> The calculator in this panel gives you a directional estimate. A proper needs analysis goes further and accounts for social security survivor benefits, existing savings, and your specific goals.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">03</span>My employer provides disability coverage — is that enough?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">Almost never, for three reasons. First, group policies typically replace only 60% of base salary and exclude bonuses, commissions, and other income. Second, if your employer pays the premium, the benefit is taxable — reducing the effective replacement rate to 40–50%. Third, group policies are tied to your employer; <strong>if you change jobs or the company is acquired, the coverage disappears</strong>. An individually owned policy is portable, tax-free if you pay the premium, and can be structured to cover total income, not just salary.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">04</span>When should I start thinking about long-term care insurance?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">The optimal window is generally ages 55–65. Before 55, the premiums are low but you're paying for decades of coverage before the risk materializes. After 65, underwriting becomes more difficult and premiums increase sharply. <strong>Hybrid life/LTC policies</strong> have become popular as they guarantee a death benefit if LTC isn't needed, solving the "what if I pay for decades and never use it" concern that made traditional standalone LTC policies unpopular.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">05</span>Do I need an umbrella policy if I already have home and auto insurance?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">Yes, if your net worth exceeds the liability limits on your existing policies — which is true of most clients we work with. Standard homeowner policies carry $300,000 in liability coverage. A single serious car accident, a lawsuit, or an incident on your property can generate claims well beyond that. <strong>A $1–2 million umbrella policy typically costs $150–300 per year</strong> — one of the highest return-per-dollar protection decisions available. Net-worth households without umbrella coverage are unnecessarily exposed.</p></div>
-    </div>
-  </div>
-</section>
 
 <!-- ─── CTA ──────────────────────────────────────────────── -->
 <section id="cta">

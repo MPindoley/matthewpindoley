@@ -141,7 +141,7 @@ body.pressing #cur{width:20px;height:20px}
   grid-template-columns:1fr 1fr;overflow:hidden}
 
 .hero-left{background:var(--sage);display:flex;flex-direction:column;
-  justify-content:flex-end;padding:8rem 5rem 6rem;position:relative;overflow:hidden;z-index:1}
+  justify-content:flex-end;padding:11rem 5rem 6rem;position:relative;overflow:hidden;z-index:1}
 .hero-left-pattern{position:absolute;inset:0;pointer-events:none;
   background-image:radial-gradient(circle at 1px 1px, rgba(196,163,90,.08) 1px, transparent 0);
   background-size:40px 40px}
@@ -164,7 +164,7 @@ body.pressing #cur{width:20px;height:20px}
 .hero-tagline strong{color:var(--cream);font-weight:500}
 
 .hero-right{background:var(--cream2);display:flex;flex-direction:column;
-  justify-content:space-between;padding:8rem 4.5rem 6rem;position:relative;overflow:hidden}
+  justify-content:space-between;padding:11rem 4.5rem 6rem;position:relative;overflow:hidden}
 .hero-right::before{content:'';position:absolute;top:0;left:0;width:1px;height:100%;
   background:linear-gradient(to bottom,transparent,var(--gold),transparent)}
 .hero-num-wrap{position:absolute;top:0;right:-2rem;bottom:0;
@@ -502,10 +502,10 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
   transition:width .25s var(--e1)}
 #sb-trigger:hover .sb-trig-icon span:nth-child(2){width:10px}
 #sb-trigger:hover .sb-trig-icon span:nth-child(3){width:6px}
-#sb-overlay{position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.5);
+#sb-overlay{position:fixed;inset:0;z-index:880;background:rgba(0,0,0,.5);
   opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(4px)}
 #sb-overlay.open{opacity:1;pointer-events:auto}
-#sb-panel{position:fixed;right:0;top:0;bottom:0;z-index:710;
+#sb-panel{position:fixed;right:0;top:0;bottom:0;z-index:900;
   width:min(520px,92vw);background:var(--cream);
   border-left:1px solid var(--ib);
   transform:translateX(100%);transition:transform .55s var(--e1);
@@ -646,6 +646,11 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
   .habits-list{grid-template-columns:1fr}
 }
 @media(pointer:coarse){#cur,#cur-r{display:none}body{cursor:auto}a,button{cursor:pointer}}
+
+.t-discuss{display:inline-flex;align-items:center;gap:.4rem;margin-top:2rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:rgba(9,9,12,.3);transition:color .25s;text-decoration:none}
+.t-discuss span{transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.t-discuss:hover{color:var(--gold)}
+.t-discuss:hover span{transform:translateX(4px)}
 </style>
 </head>
 <body>
@@ -949,7 +954,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
       <h2 class="phil-h">Money is<br>a <em>tool,</em><br>not a score.</h2>
     </div>
     <div class="phil-intro-right rv d1">
-      <p class="phil-body">Most financial conversations start with charts and allocations. We start somewhere different — with <strong>what matters most to you.</strong> Because the most sophisticated investment strategy in the world is hollow if it's not funding a life you've consciously chosen.</p>
+      <p class="phil-body">Most financial conversations start with charts and allocations.</p>
       <p class="phil-body" style="margin-top:1.5rem">Our role is to help you make intentional decisions about money — not just grow it. That means aligning your cash flow with your values, navigating major purchases with clarity, and designing a plan that lets you <strong>spend generously without guilt.</strong></p>
       <div class="phil-pullquote rv d2">
         The goal isn't to die with the most — it's to live <em>fully</em> along the way.
@@ -976,7 +981,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
       </div>
       <h3 class="pillar-title">Intentional<br><em>Spending</em></h3>
-      <p class="pillar-body">We map every dollar to a purpose. <strong>Lifestyle inflation</strong> is the silent wealth killer at high incomes — we track it, discuss it, and ensure your spending plan evolves with your life, not just your income.</p>
+      <p class="pillar-body">We map every dollar to a purpose.</p>
     </div>
     <div class="pillar-card rv d1">
       <div class="pillar-num">02</div>
@@ -984,7 +989,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       </div>
       <h3 class="pillar-title">Major Purchase<br><em>Strategy</em></h3>
-      <p class="pillar-body">Homes, vehicles, travel, education — <strong>every significant purchase deserves a plan.</strong> We model the full financial impact before you commit, so you can buy with confidence rather than anxiety.</p>
+      <p class="pillar-body">Homes, vehicles, travel, education — every significant purchase deserves a plan.</p>
     </div>
     <div class="pillar-card rv d2">
       <div class="pillar-num">03</div>
@@ -992,7 +997,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
       </div>
       <h3 class="pillar-title">Giving &amp;<br><em>Generosity</em></h3>
-      <p class="pillar-body">Philanthropy and family giving are cornerstones of a meaningful financial life. <strong>Strategic generosity</strong> — through donor-advised funds, direct gifts, or legacy planning — is woven into every plan we build.</p>
+      <p class="pillar-body">Philanthropy and family giving are cornerstones of a meaningful financial life.</p>
     </div>
   </div>
 </section>
@@ -1011,13 +1016,13 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
       <div class="princ-cell-num" aria-hidden="true">01</div>
       <div class="princ-cell-label">Principle One</div>
       <h3 class="princ-cell-title">Clarity before<br><em>complexity.</em></h3>
-      <p class="princ-cell-body">Before we talk about asset allocation or tax structures, we get clear on what you want your life to look like. <strong>Financial complexity is only valuable when it serves something real.</strong> We always start with the life, then build the plan around it.</p>
+      <p class="princ-cell-body">Before we talk about asset allocation or tax structures, we get clear on what you want your life to look like.</p>
     </div>
     <div class="princ-cell rv d1">
       <div class="princ-cell-num" aria-hidden="true">02</div>
       <div class="princ-cell-label">Principle Two</div>
       <h3 class="princ-cell-title">Spend on<br>what <em>you love.</em></h3>
-      <p class="princ-cell-body">We actively encourage spending on the things that bring you genuine joy — travel, experiences, your home, your family. The goal is never deprivation. It's <strong>eliminating the spending that doesn't actually matter</strong> so more flows to what does.</p>
+      <p class="princ-cell-body">We actively encourage spending on the things that bring you genuine joy — travel, experiences, your home, your family.</p>
     </div>
   </div>
 
@@ -1026,13 +1031,13 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
       <div class="princ-cell-num" aria-hidden="true">03</div>
       <div class="princ-cell-label">Principle Three</div>
       <h3 class="princ-cell-title">Behavior shapes<br><em>outcomes.</em></h3>
-      <p class="princ-cell-body">The biggest factor in financial success isn't your portfolio — it's your behavior. We build processes and routines that make <strong>good financial decisions automatic</strong> and protect you from the behavioral biases that derail high earners at the worst moments.</p>
+      <p class="princ-cell-body">The biggest factor in financial success isn't your portfolio — it's your behavior.</p>
     </div>
     <div class="princ-cell rv d1">
       <div class="princ-cell-num" aria-hidden="true">04</div>
       <div class="princ-cell-label">Principle Four</div>
       <h3 class="princ-cell-title">Plan for<br><em>transitions.</em></h3>
-      <p class="princ-cell-body">Life changes — careers pivot, families grow, priorities shift. We build your financial plan to be <strong>flexible and resilient</strong>, so that when major life transitions arrive, you're ready. Not scrambling. Every plan includes stress-tested scenarios for what comes next.</p>
+      <p class="princ-cell-body">Life changes — careers pivot, families grow, priorities shift.</p>
     </div>
   </div>
 
@@ -1041,13 +1046,13 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
       <div class="princ-cell-num" aria-hidden="true">05</div>
       <div class="princ-cell-label">Principle Five</div>
       <h3 class="princ-cell-title">Wealth is<br><em>generational.</em></h3>
-      <p class="princ-cell-body">How you use your wealth shapes more than your own life — it shapes your family's story. <strong>Intentional generosity, family education around money, and strategic gifting</strong> are the tools that turn individual wealth into lasting family legacy.</p>
+      <p class="princ-cell-body">How you use your wealth shapes more than your own life — it shapes your family's story.</p>
     </div>
     <div class="princ-cell rv d1">
       <div class="princ-cell-num" aria-hidden="true">06</div>
       <div class="princ-cell-label">Principle Six</div>
       <h3 class="princ-cell-title">Simplicity is<br>a <em>strategy.</em></h3>
-      <p class="princ-cell-body">Complexity is not sophistication. The best financial plans are ones you actually understand and follow. We <strong>streamline, consolidate, and clarify</strong> — so your financial life creates confidence, not confusion, and frees your attention for the life you're building.</p>
+      <p class="princ-cell-body">Complexity is not sophistication.</p>
     </div>
   </div>
 </section>
@@ -1055,146 +1060,14 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
 <!-- ══════════════════════════════════════════════════
      HABITS — dark band
      ══════════════════════════════════════════════════ -->
-<section id="habits">
-  <div class="habits-head">
-    <div class="rv">
-      <div class="habits-ey">What High Earners Do Differently</div>
-      <h2 class="habits-h">Habits of the<br><em>financially free.</em></h2>
-    </div>
-    <p class="habits-subtext rv d1">Across decades of client relationships, these patterns define those who achieve genuine financial freedom — not just high net worth.</p>
-  </div>
-  <div class="habits-list">
-    <div class="habit-item rv">
-      <div class="habit-n">01</div>
-      <h3 class="habit-title">They pay<br>themselves <em>first.</em></h3>
-      <p class="habit-body">Savings are automatic, not discretionary. <strong>The first transfer out of every paycheck</strong> goes to investment and savings accounts — before discretionary spending ever begins.</p>
-    </div>
-    <div class="habit-item rv d1">
-      <div class="habit-n">02</div>
-      <h3 class="habit-title">They review<br><em>the plan</em> annually.</h3>
-      <p class="habit-body">Life changes. <strong>Annual plan reviews</strong> catch lifestyle drift, recalibrate goals, and ensure every major decision is grounded in a current financial picture.</p>
-    </div>
-    <div class="habit-item rv d2">
-      <div class="habit-n">03</div>
-      <h3 class="habit-title">They give<br><em>generously</em> — on purpose.</h3>
-      <p class="habit-body">Giving is budgeted, not reactive. <strong>Planned generosity</strong> is tax-efficient, deeply satisfying, and one of the clearest expressions of what wealth is actually for.</p>
-    </div>
-    <div class="habit-item rv d3">
-      <div class="habit-n">04</div>
-      <h3 class="habit-title">They <em>own</em> their<br>big decisions.</h3>
-      <p class="habit-body">Major purchases are never impulse-driven. <strong>A financial lens on every significant choice</strong> — real estate, business investment, education — keeps the plan intact through life's biggest moments.</p>
-    </div>
-  </div>
-</section>
 
 <!-- ══════════════════════════════════════════════════
      FEATURE STRIP
      ══════════════════════════════════════════════════ -->
-<section id="feature">
-  <div class="feat-left rv">
-    <div class="feat-ey">Spending Intentionally</div>
-    <h2 class="feat-h">Your best life<br>has a <em>budget.</em></h2>
-    <p class="feat-body">A spending plan built on your values doesn't restrict your life — it <strong>liberates it.</strong> When every category is intentional, you stop second-guessing every purchase and start living with confidence.</p>
-    <div class="feat-list">
-      <div class="feat-list-item"><strong>Values mapping</strong> — we match spending categories to your stated priorities</div>
-      <div class="feat-list-item"><strong>Lifestyle inflation reviews</strong> — quarterly check on discretionary spend vs. plan</div>
-      <div class="feat-list-item"><strong>Guilt-free spending zones</strong> — explicit permission to spend generously on what you love</div>
-      <div class="feat-list-item"><strong>Friction reduction</strong> — simplifying financial systems so good habits are automatic</div>
-    </div>
-  </div>
-  <div class="feat-right rv d1">
-    <div class="feat-ey">By the Numbers</div>
-    <h2 class="feat-h">Financial<br><em>confidence</em> matters.</h2>
-    <p class="feat-body">The numbers behind why intentional planning makes an extraordinary difference over a lifetime of earning and spending.</p>
-    <div class="feat-stat-row">
-      <div class="feat-stat">
-        <div class="feat-stat-n">3<em>×</em></div>
-        <div class="feat-stat-label">Wealth at 65 with 25% vs 10% savings rate</div>
-      </div>
-      <div class="feat-stat">
-        <div class="feat-stat-n">70<em>%</em></div>
-        <div class="feat-stat-label">Of high earners report financial stress despite income</div>
-      </div>
-      <div class="feat-stat">
-        <div class="feat-stat-n">$1<em>M+</em></div>
-        <div class="feat-stat-label">Avg. lifetime cost of unplanned lifestyle inflation</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ══════════════════════════════════════════════════
      FAQ
      ══════════════════════════════════════════════════ -->
-<section id="faq">
-  <div class="faq-outer">
-    <div class="faq-left-head rv">
-      <div class="faq-ey">Frequently Asked</div>
-      <h2 class="faq-h">Questions<br>about <em>living</em><br>well.</h2>
-      <p class="faq-sub">Real conversations we have with clients navigating the intersection of money and the life they want to live.</p>
-      <div class="faq-cta-wrap">
-        <a href="contact.html" class="btn-p btn-solid" style="justify-content:center">Schedule a Conversation</a>
-      </div>
-    </div>
-    <div class="faq-list rv d1">
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
-          <span class="fq-i">01</span>
-          <span>How do I know if I'm spending too much on lifestyle?</span>
-          <span class="fq-arr"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l6 6M8 2L2 8"/></svg></span>
-        </button>
-        <div class="faq-panel"><p class="faq-ans">The honest answer is that "too much" is relative — but the signal is usually anxiety, not math. If spending feels uncomfortable, if you're not sure how a big purchase fits your plan, or if your savings rate hasn't grown with your income, those are flags. <strong>We run a structured lifestyle audit</strong> that maps your actual spending against your stated values and your long-term goals. The goal isn't to spend less — it's to spend right.</p></div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
-          <span class="fq-i">02</span>
-          <span>Should I buy or continue renting my home?</span>
-          <span class="fq-arr"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l6 6M8 2L2 8"/></svg></span>
-        </button>
-        <div class="faq-panel"><p class="faq-ans">This is one of the most emotionally charged financial decisions — and one of the most commonly analyzed incorrectly. The true cost of homeownership includes <strong>mortgage interest, property tax, insurance, maintenance (typically 1–2% of value annually), and opportunity cost</strong> on the down payment. We model buy vs. rent for every time horizon you're considering so the decision is financial, not emotional.</p></div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
-          <span class="fq-i">03</span>
-          <span>How do I help my adult children financially without creating dependency?</span>
-          <span class="fq-arr"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l6 6M8 2L2 8"/></svg></span>
-        </button>
-        <div class="faq-panel"><p class="faq-ans">One of the most meaningful — and complex — conversations we have. There's no universal answer, but the framework involves being clear on what you're giving and why, <strong>structuring gifts to enable rather than replace</strong> (helping with a down payment differs from covering rent indefinitely), and ensuring your own financial security comes first. Annual gift exclusions, 529 contributions, and direct tuition or medical payments can all be used tax-efficiently.</p></div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
-          <span class="fq-i">04</span>
-          <span>I earn well but I never feel financially secure. Why?</span>
-          <span class="fq-arr"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l6 6M8 2L2 8"/></svg></span>
-        </button>
-        <div class="faq-panel"><p class="faq-ans">This is more common than you'd think — and it has a name: financial anxiety. It often comes from <strong>a lack of clarity</strong>, not a lack of money. When you don't have a written plan, a clear picture of your net worth trajectory, and defined spending boundaries, every purchase carries uncertainty. The antidote is almost always structure and visibility — a plan you understand and trust enough to actually follow.</p></div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
-          <span class="fq-i">05</span>
-          <span>How much should I be saving at my income level?</span>
-          <span class="fq-arr"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l6 6M8 2L2 8"/></svg></span>
-        </button>
-        <div class="faq-panel"><p class="faq-ans">The target savings rate depends on when you want financial independence, your current net worth, and your expected lifestyle. As a rough framework: <strong>20% of gross income</strong> is a floor for high earners; 25–35% accelerates independence meaningfully; anything below 15% at high incomes suggests spending is outpacing intention. We model your specific number based on your goals, not a generic rule.</p></div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">
-          <span class="fq-i">06</span>
-          <span>Can I afford to take a sabbatical or career break?</span>
-          <span class="fq-arr"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l6 6M8 2L2 8"/></svg></span>
-        </button>
-        <div class="faq-panel"><p class="faq-ans">Almost always — if it's planned properly. We model sabbatical scenarios that include <strong>the income gap, portfolio impact, healthcare coverage, and re-entry assumptions</strong>. Most clients are surprised to find that a well-planned year off has a far smaller long-term impact than they feared. The fear of "can I afford this?" is often the biggest obstacle. A clear model removes the fear.</p></div>
-      </div>
-
-    </div>
-  </div>
-</section>
 
 <!-- ══════════════════════════════════════════════════
      CTA

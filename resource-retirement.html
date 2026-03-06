@@ -60,7 +60,7 @@ body.pressing #cur{width:22px;height:22px}
 #nav.dk .nav-logo{color:var(--paper)}
 .nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
 .nav-links a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
-  font-weight:500;color:rgba(9,9,12,.4);position:relative;transition:color .25s}
+  font-weight:500;color:rgba(9,9,12,.58);position:relative;transition:color .25s}
 .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;
   width:0;height:1px;background:var(--gold);transition:width .38s var(--e1)}
 .nav-links a:hover,.nav-links a.active{color:var(--ink)}
@@ -83,7 +83,7 @@ body.pressing #cur{width:22px;height:22px}
 /* NAV DROPDOWN */
 .nav-drop{position:relative}
 .nav-drop-trigger{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
-  font-weight:500;color:rgba(9,9,12,.4);position:relative;
+  font-weight:500;color:rgba(9,9,12,.58);position:relative;
   display:inline-flex;align-items:center;gap:.45rem;
   cursor:none;background:none;border:none;padding:0;
   font-family:var(--fb);transition:color .25s}
@@ -117,7 +117,7 @@ body.pressing #cur{width:22px;height:22px}
 #nav.dk .nav-drop-panel::before{background:var(--ink2);border-color:var(--border)}
 .nav-drop-item{display:flex;align-items:center;gap:.75rem;
   padding:.72rem 1.4rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
-  font-weight:600;color:rgba(9,9,12,.45);cursor:none;
+  font-weight:600;color:rgba(9,9,12,.62);cursor:none;
   transition:color .2s,background .2s;white-space:nowrap}
 .nav-drop-item:hover{color:var(--ink);background:rgba(9,9,12,.03)}
 .nav-drop-item.current{color:var(--gold)}
@@ -239,10 +239,10 @@ body.pressing #cur{width:22px;height:22px}
   font-size:clamp(2.2rem,3.5vw,4rem);line-height:1.0;
   letter-spacing:-.03em;color:var(--ink);margin-bottom:1.8rem}
 .t-h em{font-style:italic;color:#8a6020}
-.t-b{font-size:.88rem;line-height:1.84;color:rgba(9,9,12,.52);font-weight:300}
+.t-b{font-size:.88rem;line-height:1.84;color:rgba(9,9,12,.68);font-weight:300}
 .t-b strong{color:var(--ink);font-weight:500}
 .t-pts{list-style:none;margin-top:2rem;display:flex;flex-direction:column;gap:.6rem}
-.t-pts li{display:flex;align-items:flex-start;gap:.85rem;font-size:.83rem;color:rgba(9,9,12,.52);font-weight:300}
+.t-pts li{display:flex;align-items:flex-start;gap:.85rem;font-size:.83rem;color:rgba(9,9,12,.68);font-weight:300}
 .t-pts li::before{content:'—';color:var(--gold);flex-shrink:0;font-family:var(--ff);margin-top:.05em}
 
 /* ═══ CALCULATOR — dark ═══ */
@@ -321,7 +321,7 @@ body.pressing #cur{width:22px;height:22px}
 .tl-age{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:1.5rem}
 .tl-pttl{font-family:var(--ff);font-size:1.55rem;font-weight:300;
   color:var(--ink);margin-bottom:.9rem;letter-spacing:-.015em;line-height:1.1}
-.tl-pb{font-size:.82rem;line-height:1.72;color:rgba(9,9,12,.52);font-weight:300}
+.tl-pb{font-size:.82rem;line-height:1.72;color:rgba(9,9,12,.68);font-weight:300}
 .tl-acts{list-style:none;margin-top:1.5rem;display:flex;flex-direction:column;gap:.5rem}
 .tl-acts li{display:flex;align-items:flex-start;gap:.65rem;font-size:.77rem;color:rgba(9,9,12,.52);font-weight:300;line-height:1.4}
 .tl-acts li::before{content:'—';color:var(--gold);flex-shrink:0;font-family:var(--ff)}
@@ -463,6 +463,11 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
   .ft-bot{flex-direction:column;align-items:flex-start}.ft-di{text-align:left}
 }
 @media(hover:none){#cur,#cur-r{display:none}body{cursor:auto}a,button{cursor:pointer}}
+
+.t-discuss{display:inline-flex;align-items:center;gap:.4rem;margin-top:2rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:rgba(9,9,12,.3);transition:color .25s;text-decoration:none}
+.t-discuss span{transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.t-discuss:hover{color:var(--gold)}
+.t-discuss:hover span{transform:translateX(4px)}
 </style>
 </head>
 <body>
@@ -580,14 +585,8 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
     <div class="t-content rv">
       <div class="t-n">01 / 06</div>
       <h2 class="t-h">Retirement<br><em>Income Architecture</em></h2>
-      <p class="t-b">Your retirement income plan must answer one question above all others: <strong>will it last?</strong> We design a layered income strategy drawing from multiple sources in the right sequence — protecting against market volatility, inflation, and longevity risk simultaneously.</p>
-      <ul class="t-pts">
-        <li>Social Security optimization — delay analysis, spousal coordination, break-even modeling</li>
-        <li>Portfolio withdrawal sequencing — which accounts to draw from first and why</li>
-        <li>Pension decisions — lump sum vs. lifetime annuity trade-off analysis</li>
-        <li>Guaranteed income floors using fixed annuities or bond ladders</li>
-        <li>Dynamic spending guardrails that adapt to market conditions</li>
-      </ul>
+      <p class="t-b">Your retirement income plan must answer one question above all others: will it last?</p>
+      <a href="contact.html" class="t-discuss">Talk to me about this <span>→</span></a>
     </div>
   </div>
 
@@ -600,14 +599,8 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
     <div class="t-content rv">
       <div class="t-n">02 / 06</div>
       <h2 class="t-h">Tax-Efficient<br><em>Withdrawal Planning</em></h2>
-      <p class="t-b">The IRS is your silent partner in retirement. Every dollar withdrawn from a traditional IRA or 401(k) is taxable — and without a plan, Required Minimum Distributions can push you into brackets you could have avoided entirely.</p>
-      <ul class="t-pts">
-        <li>Roth conversion planning during the low-income window before RMDs begin</li>
-        <li>Strategic capital gains harvesting in low-bracket years</li>
-        <li>Coordinating withdrawals to minimize Medicare IRMAA surcharges</li>
-        <li>Qualified Charitable Distributions — using IRA funds for giving to reduce taxable income</li>
-        <li>Multi-account tax diversification for flexible future planning</li>
-      </ul>
+      <p class="t-b">The IRS is your silent partner in retirement.</p>
+      <a href="contact.html" class="t-discuss">Talk to me about this <span>→</span></a>
     </div>
   </div>
 
@@ -620,14 +613,8 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
     <div class="t-content rv">
       <div class="t-n">03 / 06</div>
       <h2 class="t-h">Social Security<br><em>Optimization</em></h2>
-      <p class="t-b">Social Security is among the most consequential — and most often mismanaged — decisions in retirement. Claiming too early can permanently reduce your benefit by as much as 30%. The right strategy depends on health, other income sources, and spousal circumstances.</p>
-      <ul class="t-pts">
-        <li>Benefit grows approximately 8% per year for each year of delay past full retirement age</li>
-        <li>Spousal benefit strategies and restricted application analysis</li>
-        <li>Survivor benefit planning for married couples</li>
-        <li>Break-even analysis — when does delaying actually pay off for you?</li>
-        <li>Tax treatment of benefits based on combined income thresholds</li>
-      </ul>
+      <p class="t-b">Social Security is among the most consequential — and most often mismanaged — decisions in retirement.</p>
+      <a href="contact.html" class="t-discuss">Talk to me about this <span>→</span></a>
     </div>
   </div>
 
@@ -640,58 +627,16 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
     <div class="t-content rv">
       <div class="t-n">04 / 06</div>
       <h2 class="t-h">Healthcare &<br><em>Long-Term Care</em></h2>
-      <p class="t-b">Healthcare is consistently the most underestimated expense in retirement. A 65-year-old couple today can expect to spend over $300,000 on healthcare costs — and that excludes long-term care, which affects nearly 70% of retirees at some point in their lives.</p>
-      <ul class="t-pts">
-        <li>Bridging to Medicare — ACA marketplace plans, COBRA, and spousal coverage options</li>
-        <li>Medicare Part A, B, C, and D — selecting the right combination for your situation</li>
-        <li>Medigap vs. Medicare Advantage — a true trade-off analysis</li>
-        <li>Long-term care insurance vs. self-insuring vs. hybrid life/LTC policies</li>
-        <li>HSA strategy — carrying the triple tax advantage into retirement</li>
-      </ul>
+      <p class="t-b">Healthcare is consistently the most underestimated expense in retirement.</p>
+      <a href="contact.html" class="t-discuss">Talk to me about this <span>→</span></a>
     </div>
   </div>
 
-  <div class="t-row">
-    <div class="t-panel tp5">
-      <div class="t-panel-num">05</div>
-      <div class="t-panel-bar"></div>
-      <div class="t-panel-tag">Investments</div>
-    </div>
-    <div class="t-content rv">
-      <div class="t-n">05 / 06</div>
-      <h2 class="t-h">Portfolio Longevity<br>& <em>Sequence Risk</em></h2>
-      <p class="t-b">The greatest investment risk in retirement is not market volatility in isolation — it is the <strong>timing</strong> of that volatility. A significant decline in the first years of retirement, while you are withdrawing from the portfolio, can permanently impair your plan's ability to recover.</p>
-      <ul class="t-pts">
-        <li>Bucket strategy — segmenting assets by time horizon to prevent forced selling in down markets</li>
-        <li>Allocation glide path from accumulation to distribution phase</li>
-        <li>Sustainable withdrawal rate analysis beyond the simple 4% rule</li>
-        <li>Inflation protection — TIPS, real assets, and dividend growth equity strategies</li>
-        <li>Disciplined rebalancing without emotional decision-making</li>
-      </ul>
-    </div>
-  </div>
 
-  <div class="t-row">
-    <div class="t-panel tp6">
-      <div class="t-panel-num">06</div>
-      <div class="t-panel-bar"></div>
-      <div class="t-panel-tag">Legacy</div>
-    </div>
-    <div class="t-content rv">
-      <div class="t-n">06 / 06</div>
-      <h2 class="t-h">Legacy Planning<br>& <em>Wealth Transfer</em></h2>
-      <p class="t-b">Retirement planning does not end with your income needs. For many clients, leaving a meaningful legacy — to family, to charity, or to both — is central to their purpose. We integrate estate planning into your retirement strategy so assets transfer according to your wishes, with minimal friction and taxation.</p>
-      <ul class="t-pts">
-        <li>Beneficiary designation review across IRAs, 401(k)s, life insurance, and annuities</li>
-        <li>SECURE Act 2.0 implications for inherited IRA planning</li>
-        <li>Charitable giving strategies — DAFs, QCDs, and charitable remainder trusts</li>
-        <li>Trust coordination — revocable living trusts and retirement assets</li>
-        <li>Stretch strategies for maximizing what heirs receive after taxes</li>
-      </ul>
-    </div>
-  </div>
 
 </section>
+
+
 
 <!-- CALCULATOR -->
 <section id="calc">
@@ -783,122 +728,6 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
   </div>
 </section>
 
-<!-- ACCOUNTS -->
-<section id="acc">
-  <div class="acc-top rv">
-    <div>
-      <div class="acc-ey">Account Guide</div>
-      <h2 class="acc-h">Know your<br><em>accounts.</em></h2>
-    </div>
-    <p class="acc-sub">Understanding the tax treatment and rules of each retirement account type is foundational to a tax-diversified plan. Contribution limits shown are for tax year 2026.</p>
-  </div>
-  <div class="rv d1" style="overflow-x:auto">
-    <table class="acc-tbl">
-      <thead>
-        <tr>
-          <th>Account</th><th>2026 Limit</th><th>Tax on Contributions</th><th>Tax on Withdrawals</th><th>RMDs?</th><th>Best For</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Traditional 401(k)<span class="acc-tag">Employer</span></td>
-          <td>$24,500<br><span style="font-size:.7rem;opacity:.45">+$8,000 catch-up (50+)</span><br><span style="font-size:.7rem;opacity:.45">+$11,250 super catch-up (60–63)</span></td>
-          <td>Pre-tax (deductible)</td><td>Ordinary income</td><td>Yes, age 73</td>
-          <td>High earners expecting lower tax rate in retirement</td>
-        </tr>
-        <tr>
-          <td>Roth 401(k)<span class="acc-tag">Employer</span></td>
-          <td>$24,500<br><span style="font-size:.7rem;opacity:.45">+$8,000 catch-up (50+)</span><br><span style="font-size:.7rem;opacity:.45">+$11,250 super catch-up (60–63)</span></td>
-          <td>After-tax</td><td>Tax-free (qualified)</td><td>No (SECURE 2.0)</td>
-          <td>Those expecting higher tax rates in retirement</td>
-        </tr>
-        <tr>
-          <td>Traditional IRA<span class="acc-tag">Individual</span></td>
-          <td>$7,500<br><span style="font-size:.7rem;opacity:.45">+$1,100 catch-up (50+)</span></td>
-          <td>Pre-tax if eligible</td><td>Ordinary income</td><td>Yes, age 73</td>
-          <td>Those without a workplace plan or seeking deduction</td>
-        </tr>
-        <tr>
-          <td>Roth IRA<span class="acc-tag">Individual</span></td>
-          <td>$7,500<br><span style="font-size:.7rem;opacity:.45">+$1,100 catch-up (50+)</span></td>
-          <td>After-tax</td><td>Tax-free (qualified)</td><td>Never</td>
-          <td>Tax diversification and estate planning</td>
-        </tr>
-        <tr>
-          <td>SEP-IRA<span class="acc-tag">Self-Employed</span></td>
-          <td>$72,000 or 25% of comp</td>
-          <td>Pre-tax</td><td>Ordinary income</td><td>Yes, age 73</td>
-          <td>Self-employed and small business owners</td>
-        </tr>
-        <tr>
-          <td>Solo 401(k)<span class="acc-tag">Self-Employed</span></td>
-          <td>Up to $72,000 combined</td>
-          <td>Pre-tax or Roth</td><td>Depends on election</td><td>Yes, age 73</td>
-          <td>Self-employed with no full-time employees</td>
-        </tr>
-      </tbody>
-    </table>
-    <p class="acc-note">Limits reflect 2026 IRS adjustments. New for 2026: employees earning over $150,000 must make catch-up contributions as Roth (after-tax) under SECURE 2.0. Ages 60–63 are eligible for an enhanced super catch-up of $11,250 in employer plans. RMDs begin at age 73, scheduled to move to age 75 in 2033. Consult a financial advisor for guidance specific to your situation.</p>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq">
-  <div class="faq-top rv">
-    <div>
-      <div class="faq-ey">Common Questions</div>
-      <h2 class="faq-h">Retirement<br><em>clarity.</em></h2>
-    </div>
-    <div class="faq-side">
-      <p>These are the questions clients bring to us most often as they approach and enter retirement. The answers here are educational — your circumstances will always call for a personalized conversation.</p>
-      <p style="margin-top:1.5rem"><strong>Have a question not listed here?</strong> Schedule a complimentary 30-minute review and we will address your specific situation directly.</p>
-    </div>
-  </div>
-  <div class="faq-list rv d1">
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">01</span>How much money do I actually need to retire?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">The "25× rule" — saving 25 times your expected annual spending — is a useful starting point based on the 4% withdrawal rate. For someone spending $80,000 per year, that implies a $2 million target. But this rule ignores Social Security income, pension income, your specific tax situation, healthcare costs, and the length of your retirement. <strong>A personalized projection will always produce a more accurate and actionable number.</strong> We typically find that clients need meaningfully less — or more — than this heuristic suggests depending on their specific circumstances.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">02</span>When is the best time to claim Social Security?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">Claiming at 62 permanently reduces your benefit by up to 30% compared to your full retirement age. Delaying to 70 increases it by approximately 8% per year beyond full retirement age — potentially worth hundreds of thousands of dollars over a lifetime. For most clients in good health, <strong>delaying Social Security is the highest-return, lowest-risk decision available to them.</strong> The right answer depends on your health, your spouse's situation, other income sources, and your overall tax picture — and we model every scenario.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">03</span>What are RMDs and why do they matter so much?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">Required Minimum Distributions begin at age 73 from traditional IRAs and 401(k)s — and they are fully taxable as ordinary income. If you have allowed large pre-tax balances to accumulate without planning, RMDs can dramatically increase your annual tax burden and trigger Medicare surcharges you could have avoided. <strong>Strategic Roth conversions in the years between retirement and age 73</strong> represent one of the highest-impact planning opportunities available to pre-retirees — reducing future RMDs and creating tax-free income for decades.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">04</span>How do I handle health insurance before Medicare?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">If you retire before 65, bridging to Medicare is one of the most pressing challenges. Options include COBRA (for up to 18–36 months), an ACA marketplace plan, or coverage through a spouse's employer. Costs range from a few hundred to over $2,000 per month depending on your age and income. Importantly, <strong>your income in this window directly affects your marketplace premium subsidies</strong> — making withdrawal and Roth conversion decisions particularly consequential in early retirement years. Healthcare is consistently the most underestimated early-retirement expense.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">05</span>What is sequence-of-returns risk?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">Sequence-of-returns risk is the danger of experiencing significant investment losses in the early years of retirement while simultaneously withdrawing from the portfolio. Selling shares at depressed prices permanently reduces the number of shares available to recover when markets rebound. <strong>Two retirees with identical average returns over 30 years can have dramatically different outcomes</strong> depending solely on when those good and bad years occurred. This is why the transition from accumulation to distribution requires careful re-structuring — not a continuation of the accumulation strategy.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">06</span>Should I pay off my mortgage before retiring?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">Mathematically, if your after-tax mortgage rate is below your expected portfolio return, keeping the mortgage and staying invested often makes sense. But math is not the only variable. <strong>Eliminating a fixed housing payment can meaningfully reduce the income you need in retirement</strong> — lowering your withdrawal rate, your tax bill, and your exposure to sequence-of-returns risk simultaneously. The psychological value of owning your home outright is also real and should not be dismissed. We evaluate both scenarios side-by-side in your plan.</p></div>
-    </div>
-  </div>
-</section>
 
 <!-- CTA -->
 <section id="cta">

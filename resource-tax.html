@@ -142,7 +142,7 @@ body.pressing #cur{width:20px;height:20px}
 
 /* Left panel — ink dark */
 .hero-left{background:var(--ink);display:flex;flex-direction:column;
-  justify-content:flex-end;padding:8rem 5rem 6rem;position:relative;overflow:hidden;z-index:1}
+  justify-content:flex-end;padding:11rem 5rem 6rem;position:relative;overflow:hidden;z-index:1}
 .hero-left-grid{position:absolute;inset:0;
   background-image:
     linear-gradient(rgba(154,124,82,.04) 1px,transparent 1px),
@@ -168,7 +168,7 @@ body.pressing #cur{width:20px;height:20px}
 
 /* Right panel — cream with large number */
 .hero-right{background:var(--cream2);display:flex;flex-direction:column;
-  justify-content:space-between;padding:8rem 4.5rem 6rem;position:relative;overflow:hidden}
+  justify-content:space-between;padding:11rem 4.5rem 6rem;position:relative;overflow:hidden}
 .hero-right::before{content:'';position:absolute;top:0;left:0;width:1px;height:100%;
   background:linear-gradient(to bottom,transparent,var(--bronze),transparent)}
 .hero-num-wrap{position:absolute;top:0;right:-2rem;bottom:0;
@@ -483,10 +483,10 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
   transition:width .25s var(--e1)}
 #sb-trigger:hover .sb-trig-icon span:nth-child(2){width:10px}
 #sb-trigger:hover .sb-trig-icon span:nth-child(3){width:6px}
-#sb-overlay{position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.5);
+#sb-overlay{position:fixed;inset:0;z-index:880;background:rgba(0,0,0,.5);
   opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(4px)}
 #sb-overlay.open{opacity:1;pointer-events:auto}
-#sb-panel{position:fixed;right:0;top:0;bottom:0;z-index:710;
+#sb-panel{position:fixed;right:0;top:0;bottom:0;z-index:900;
   width:min(520px,92vw);background:var(--cream);
   border-left:1px solid var(--ib);
   transform:translateX(100%);transition:transform .55s var(--e1);
@@ -621,6 +621,11 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
   .hero-right{padding:4rem 2rem}
 }
 @media(pointer:coarse){#cur,#cur-r{display:none}body{cursor:auto}a,button{cursor:pointer}}
+
+.t-discuss{display:inline-flex;align-items:center;gap:.4rem;margin-top:2rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:rgba(9,9,12,.3);transition:color .25s;text-decoration:none}
+.t-discuss span{transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.t-discuss:hover{color:var(--gold)}
+.t-discuss:hover span{transform:translateX(4px)}
 </style>
 </head>
 <body>
@@ -941,7 +946,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
       <h2 class="strat-h">Proactive<br>not <em>reactive.</em></h2>
     </div>
     <div class="strat-intro-right rv d1">
-      <p class="strat-intro-body">Most people file a tax return. <strong>We engineer one.</strong> The difference lies in decisions made throughout the year that either capture savings or forfeit them — permanently. There are no do-overs after December 31.</p>
+      <p class="strat-intro-body">Most people file a tax return.</p>
       <div class="strat-intro-num" aria-hidden="true">01</div>
     </div>
   </div>
@@ -953,7 +958,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <div class="sc-num">01</div>
         <div class="sc-tag">Account Strategy</div>
         <h3 class="sc-title">Asset<br><em>Location</em></h3>
-        <p class="sc-body">Where you hold an asset matters as much as what you hold. <strong>Tax-inefficient assets belong in tax-deferred accounts</strong> — the right placement can add meaningful after-tax return at zero additional risk.</p>
+        <p class="sc-body">Where you hold an asset matters as much as what you hold.</p>
       </div>
     </div>
     <div class="strat-cell large rv d1">
@@ -961,7 +966,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <div class="sc-num">02</div>
         <div class="sc-tag">Harvesting</div>
         <h3 class="sc-title">Tax-Loss<br><em>Harvesting</em></h3>
-        <p class="sc-body">Market volatility creates tax assets. Selling a declined position and replacing it with a correlated alternative <strong>crystallizes a loss you can use to offset gains</strong> — while keeping your market exposure intact. Done systematically, it generates real tax alpha over a full market cycle.</p>
+        <p class="sc-body">Market volatility creates tax assets.</p>
       </div>
     </div>
   </div>
@@ -973,7 +978,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <div class="sc-num">03</div>
         <div class="sc-tag">Roth Strategy</div>
         <h3 class="sc-title">Roth Conversions<br>& the <em>Tax Rate Gap</em></h3>
-        <p class="sc-body">Converting traditional IRA assets to Roth makes sense when your current tax rate is lower than your projected future rate. <strong>Identifying that window — and the right conversion amount — is where significant lifetime savings are made.</strong> The math is highly personal and worth modeling carefully.</p>
+        <p class="sc-body">Converting traditional IRA assets to Roth makes sense when your current tax rate is lower than your projected future rate.</p>
       </div>
     </div>
     <div class="strat-cell rv d1">
@@ -981,7 +986,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <div class="sc-num">04</div>
         <div class="sc-tag">Giving Strategy</div>
         <h3 class="sc-title">Charitable<br><em>Mechanics</em></h3>
-        <p class="sc-body">Donating appreciated securities eliminates capital gains tax entirely. A <strong>Donor-Advised Fund</strong> lets you take a deduction in a high-income year and distribute to charities over time — a powerful pairing with Roth conversions or a business sale.</p>
+        <p class="sc-body">Donating appreciated securities eliminates capital gains tax entirely.</p>
       </div>
     </div>
   </div>
@@ -993,7 +998,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <div class="sc-num">05</div>
         <div class="sc-tag">Business Owners</div>
         <h3 class="sc-title">Entity &amp;<br><em>QBI Strategy</em></h3>
-        <p class="sc-body">The Sec. 199A deduction can reduce taxable income by up to 20% for eligible pass-through businesses. The phase-out threshold is <strong>$403,500 for married filers and $201,750 for single filers in 2026.</strong> Whether you qualify depends on structure, wages, and income — worth reviewing annually.</p>
+        <p class="sc-body">The Sec.</p>
       </div>
     </div>
     <div class="strat-cell dark rv d1">
@@ -1001,7 +1006,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <div class="sc-num">06</div>
         <div class="sc-tag">Retirement Accounts</div>
         <h3 class="sc-title">RMD &amp;<br><em>Distribution</em></h3>
-        <p class="sc-body">Required Minimum Distributions create forced taxable income beginning at age 73. <strong>The years before RMDs begin are often the best window to act</strong> — Roth conversions, charitable distributions, and multi-account coordination can make a lasting difference.</p>
+        <p class="sc-body">Required Minimum Distributions create forced taxable income beginning at age 73.</p>
       </div>
     </div>
     <div class="strat-cell rv d2">
@@ -1009,7 +1014,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <div class="sc-num">07</div>
         <div class="sc-tag">Investment Income</div>
         <h3 class="sc-title">NIIT &amp;<br><em>LTCG Rates</em></h3>
-        <p class="sc-body">The 3.8% Net Investment Income Tax layers on top of capital gains for higher earners. <strong>At the top bracket, the combined federal rate on investment gains can reach 23.8%.</strong> How you time and structure income matters more than most realize.</p>
+        <p class="sc-body">The 3.8% Net Investment Income Tax layers on top of capital gains for higher earners.</p>
       </div>
     </div>
   </div>
@@ -1031,28 +1036,28 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <div class="tl-month">January</div>
         <div class="tl-badge">New Year</div>
         <div class="tl-title">Contribution windows open</div>
-        <p class="tl-body">IRA and HSA windows reset for the new tax year. A good moment to confirm prior-year moves and set the plan for the year ahead.</p>
+        <p class="tl-body">IRA and HSA windows reset for the new tax year.</p>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
         <div class="tl-month">March – April</div>
         <div class="tl-badge urgent">Deadline</div>
         <div class="tl-title">Filing deadline — April 15</div>
-        <p class="tl-body">Returns due. IRA contributions for the prior year can still be made through this date. An extension buys time to file — not to pay.</p>
+        <p class="tl-body">Returns due.</p>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
         <div class="tl-month">June</div>
         <div class="tl-badge">Mid-Year</div>
         <div class="tl-title">Mid-year income review</div>
-        <p class="tl-body">Year-to-date income is now visible. Estimated payments can be adjusted and early conversion opportunities identified.</p>
+        <p class="tl-body">Year-to-date income is now visible.</p>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
         <div class="tl-month">September</div>
         <div class="tl-badge">Planning</div>
         <div class="tl-title">Year-end window opens</div>
-        <p class="tl-body">The most important planning window of the year begins. Strategies need to be modeled now — not in December when time runs short.</p>
+        <p class="tl-body">The most important planning window of the year begins.</p>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
@@ -1066,14 +1071,14 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
         <div class="tl-month">December</div>
         <div class="tl-badge urgent">Year-End</div>
         <div class="tl-title">Last window — December 31</div>
-        <p class="tl-body">Final day for Roth conversions, RMDs, loss harvesting, charitable donations, and retirement contributions. <strong>No extensions on year-end strategy.</strong></p>
+        <p class="tl-body">Final day for Roth conversions, RMDs, loss harvesting, charitable donations, and retirement contributions.</p>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
         <div class="tl-month">Year-Round</div>
         <div class="tl-badge">Ongoing</div>
         <div class="tl-title">Life events trigger reviews</div>
-        <p class="tl-body">A job change, business sale, inheritance, or marriage can shift your entire tax picture. <strong>Opportunistic strategy never waits for year-end.</strong></p>
+        <p class="tl-body">A job change, business sale, inheritance, or marriage can shift your entire tax picture.</p>
       </div>
     </div>
   </div>
@@ -1082,101 +1087,10 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
 <!-- ══════════════════════════════════════════════════
      FEATURE — split dark/light, advanced strategies
      ══════════════════════════════════════════════════ -->
-<section id="feature">
-  <div class="feat-left rv-l">
-    <div class="feat-grid" aria-hidden="true"></div>
-    <div class="feat-bg-num" aria-hidden="true">199A</div>
-    <div class="feat-ey">For Business Owners</div>
-    <h2 class="feat-h">The most<br>overlooked<br><em>deductions</em><br>in the code.</h2>
-    <p class="feat-body">Business owners face a uniquely complex tax picture — and a uniquely large opportunity. <strong>The right structure and timing can reduce effective tax rates significantly.</strong> These are not loopholes. They are the code working as intended.</p>
-    <div class="feat-cta">
-      <a href="contact.html" class="btn-p btn-solid mag">Schedule a Business Review</a>
-    </div>
-  </div>
-  <div class="feat-right rv-r">
-    <div class="feat-right-item">
-      <div class="fri-n">Section 199A</div>
-      <div class="fri-title">Qualified Business<br><em>Income Deduction</em></div>
-      <p class="fri-body">Up to 20% of qualified business income may be deductible for pass-through entities. <strong>Structure, wages, and income level all affect eligibility</strong> — and the rules are nuanced enough to warrant a dedicated review.</p>
-    </div>
-    <div class="feat-right-item">
-      <div class="fri-n">Section 179 / Bonus Depreciation</div>
-      <div class="fri-title">Accelerated<br><em>Depreciation</em></div>
-      <p class="fri-body">Eligible business property can now be deducted at <strong>100% in the year placed in service</strong> — bonus depreciation was restored to 100% permanently under the One Big Beautiful Bill Act. Timing capital expenditures strategically still matters for income management.</p>
-    </div>
-    <div class="feat-right-item">
-      <div class="fri-n">Entity Structure</div>
-      <div class="fri-title">S-Corp Election<br><em>&amp; Salary Split</em></div>
-      <p class="fri-body">S-Corp election can split income between salary and distributions — <strong>reducing self-employment tax</strong> on the distribution portion. Whether it's right for you depends on net income, administrative appetite, and other factors.</p>
-    </div>
-    <div class="feat-right-item">
-      <div class="fri-n">Retirement Plans</div>
-      <div class="fri-title">Solo 401(k)<br><em>&amp; Cash Balance</em></div>
-      <p class="fri-body">Self-employed individuals have access to retirement vehicles that far exceed employee limits. <strong>The right plan structure can shelter significantly more income</strong> — and the best option depends on your age, income, and goals.</p>
-    </div>
-  </div>
-</section>
 
 <!-- ══════════════════════════════════════════════════
      FAQ — sticky left head, right accordion
      ══════════════════════════════════════════════════ -->
-<section id="faq">
-  <div class="faq-outer">
-    <div class="faq-left-head rv-l">
-      <div class="faq-ey">Questions</div>
-      <h2 class="faq-h">Tax,<br><em>answered.</em></h2>
-      <p class="faq-sub">Plain answers to the questions every client eventually asks — from the basic to the surprisingly nuanced.<br><br><strong>The specifics always depend on your situation.</strong></p>
-      <div class="faq-cta-wrap">
-        <a href="contact.html" class="btn-p btn-solid mag">Schedule a Consultation</a>
-        <button class="btn-p btn-ghost-p mag" onclick="openSidebar('tools')">Use Tax Calculators</button>
-      </div>
-    </div>
-    <div class="faq-list rv d1">
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          <span class="fq-i">01</span>Is tax planning something I do once a year?
-          <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-        </button>
-        <div class="faq-panel"><p class="faq-ans">No — and that's the most expensive misconception in personal finance. <strong>By the time you sit down with a CPA in March, most decisions are already locked in.</strong> Roth conversions, harvesting, charitable giving, and gain timing all require action during the year. We plan continuously so opportunities aren't missed.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          <span class="fq-i">02</span>What's the difference between a financial advisor and a CPA for taxes?
-          <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-        </button>
-        <div class="faq-panel"><p class="faq-ans">A CPA accurately reports what happened. A financial advisor shapes what happens before it does. <strong>Tax strategy lives in the advisory relationship</strong> — not the return. When the two work together, you capture opportunities that neither finds alone.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          <span class="fq-i">03</span>When does a Roth conversion make sense?
-          <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-        </button>
-        <div class="faq-panel"><p class="faq-ans">When your current tax rate is lower than your projected future rate. <strong>Identifying when that window opens — and how much to convert — is the heart of the analysis.</strong> It's highly personal and worth modeling with your full financial picture in view.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          <span class="fq-i">04</span>How does tax-loss harvesting actually work?
-          <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-        </button>
-        <div class="faq-panel"><p class="faq-ans">You sell a position at a loss, realize the tax asset, and immediately replace it with a similar fund to maintain your market exposure. <strong>The loss offsets gains — or up to $3,000 of ordinary income.</strong> The wash-sale rule and precise execution are where it gets nuanced — worth getting right.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          <span class="fq-i">05</span>Should I sell appreciated stock or donate it?
-          <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-        </button>
-        <div class="faq-panel"><p class="faq-ans">Almost always donate it directly. Donating shares — or contributing to a Donor-Advised Fund — means <strong>zero capital gains tax and a full fair-market-value deduction.</strong> Selling first and donating cash costs you the tax hit. The charity receives the same amount either way; you keep the difference.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          <span class="fq-i">06</span>What's the Net Investment Income Tax and who pays it?
-          <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-        </button>
-        <div class="faq-panel"><p class="faq-ans">A 3.8% surcharge on investment income for higher earners — layered on top of capital gains rates. <strong>At the top bracket, the combined federal rate on gains can reach 23.8%.</strong> How you structure income and time transactions can meaningfully reduce this exposure. It's worth understanding before any large sale.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ══════════════════════════════════════════════════
      CTA — full dark, centered typographic

@@ -132,7 +132,7 @@ body.pressing #cur{width:22px;height:22px}
 /* ─── HERO — centered editorial ─────────────────── */
 #hero{min-height:100svh;background:var(--paper);
   display:flex;flex-direction:column;justify-content:flex-end;
-  padding:0 5rem 6rem;position:relative;overflow:hidden}
+  padding:5rem 5rem 6rem;position:relative;overflow:hidden}
 .hero-ghost{position:absolute;bottom:-8rem;right:-4rem;
   font-family:var(--ff);font-size:clamp(22rem,38vw,52rem);font-weight:300;
   color:rgba(9,9,12,.028);line-height:1;letter-spacing:-.06em;
@@ -195,7 +195,7 @@ body.pressing #cur{width:22px;height:22px}
   font-size:clamp(2.5rem,4vw,4.5rem);color:var(--ink);
   line-height:1;letter-spacing:-.04em}
 .st-val em{color:var(--gold);font-style:normal}
-.st-note{font-size:.78rem;line-height:1.6;color:rgba(9,9,12,.52);margin-top:.75rem;font-weight:300;max-width:22ch}
+.st-note{font-size:.78rem;line-height:1.6;color:rgba(9,9,12,.68);margin-top:.75rem;font-weight:300;max-width:22ch}
 
 /* ─── PILLARS ─────────────────────────────────────── */
 #pillars{padding:9rem 5rem;background:var(--paper)}
@@ -217,7 +217,7 @@ body.pressing #cur{width:22px;height:22px}
 .pil-title{font-family:var(--ff);font-weight:300;
   font-size:clamp(1.7rem,2.8vw,2.8rem);letter-spacing:-.025em;color:var(--ink);line-height:1}
 .pil-title em{font-style:italic;color:#8a6020}
-.pil-body{font-size:.88rem;line-height:1.82;color:rgba(9,9,12,.52);font-weight:300;padding-top:.3rem}
+.pil-body{font-size:.88rem;line-height:1.82;color:rgba(9,9,12,.68);font-weight:300;padding-top:.3rem}
 .pil-body strong{color:var(--ink);font-weight:500}
 
 /* ─── DOCUMENTS — 2×2 grid ───────────────────────── */
@@ -246,7 +246,7 @@ body.pressing #cur{width:22px;height:22px}
   color:var(--ink);margin-bottom:.4rem;line-height:1}
 .doc-sub{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
   color:var(--gold);font-weight:600;margin-bottom:1.4rem}
-.doc-body{font-size:.87rem;line-height:1.82;color:rgba(9,9,12,.52);font-weight:300}
+.doc-body{font-size:.87rem;line-height:1.82;color:rgba(9,9,12,.68);font-weight:300}
 .doc-body strong{color:var(--ink);font-weight:500}
 
 /* ─── SUNSET ALERT ───────────────────────────────── */
@@ -260,7 +260,7 @@ body.pressing #cur{width:22px;height:22px}
   color:var(--gold);font-weight:600;margin-bottom:.5rem}
 .sun-title{font-family:var(--ff);font-weight:300;
   font-size:clamp(1.4rem,2.2vw,2rem);letter-spacing:-.02em;color:var(--ink);line-height:1.15}
-.sun-body{font-size:.87rem;line-height:1.75;color:rgba(9,9,12,.52);margin-top:.6rem;font-weight:300;max-width:58ch}
+.sun-body{font-size:.87rem;line-height:1.75;color:rgba(9,9,12,.68);margin-top:.6rem;font-weight:300;max-width:58ch}
 .sun-body strong{color:var(--ink);font-weight:500}
 .sun-cta{flex-shrink:0}
 
@@ -294,7 +294,7 @@ body.pressing #cur{width:22px;height:22px}
 .faq-panel{max-height:0;overflow:hidden;transition:max-height .42s cubic-bezier(.2,.9,.2,1)}
 .faq-panel.open{max-height:400px}
 .faq-ans{padding:.2rem 0 2.5rem 3.5rem;font-size:.87rem;line-height:1.88;
-  color:rgba(9,9,12,.52);font-weight:300;max-width:70ch}
+  color:rgba(9,9,12,.68);font-weight:300;max-width:70ch}
 .faq-ans strong{color:var(--ink);font-weight:500}
 
 /* ─── CTA ─────────────────────────────────────────── */
@@ -307,7 +307,7 @@ body.pressing #cur{width:22px;height:22px}
 .cta-h{font-family:var(--ff);font-weight:300;
   font-size:clamp(3rem,6vw,7.5rem);line-height:.88;letter-spacing:-.055em;color:var(--ink)}
 .cta-h em{font-style:italic;color:#8a6020}
-.cta-p{font-size:.88rem;line-height:1.82;color:rgba(9,9,12,.52);font-weight:300;
+.cta-p{font-size:.88rem;line-height:1.82;color:rgba(9,9,12,.68);font-weight:300;
   margin-top:2rem;max-width:42ch}
 .cta-acts{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:3rem}
 .cta-right{padding:4rem;border:1px solid var(--ib);position:relative;overflow:hidden}
@@ -353,11 +353,11 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
 #sb-trigger:hover .sb-trig-icon span:nth-child(2){width:10px}
 #sb-trigger:hover .sb-trig-icon span:nth-child(3){width:6px}
 /* Overlay */
-#sb-overlay{position:fixed;inset:0;z-index:700;background:rgba(9,9,12,.45);
+#sb-overlay{position:fixed;inset:0;z-index:880;background:rgba(9,9,12,.45);
   opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(4px)}
 #sb-overlay.open{opacity:1;pointer-events:auto}
 /* Panel */
-#sb-panel{position:fixed;right:0;top:0;bottom:0;z-index:710;
+#sb-panel{position:fixed;right:0;top:0;bottom:0;z-index:900;
   width:min(520px,92vw);background:var(--paper);
   border-left:1px solid var(--ib);
   transform:translateX(100%);transition:transform .55s var(--e1);
@@ -415,9 +415,9 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
 .sb-ck-item.done .sb-ck-box{border-color:var(--gold);background:var(--gold)}
 .sb-ck-item.done .sb-ck-box::after{content:'';position:absolute;inset:0;
   background:url("data:image/svg+xml,%3Csvg viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%2309090c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center/10px no-repeat}
-.sb-ck-text{font-size:.84rem;line-height:1.6;color:rgba(9,9,12,.52);font-weight:300}
+.sb-ck-text{font-size:.84rem;line-height:1.6;color:rgba(9,9,12,.68);font-weight:300}
 .sb-ck-text strong{color:var(--ink);font-weight:500}
-.sb-ck-item.done .sb-ck-text{color:rgba(9,9,12,.28);text-decoration:line-through;text-decoration-color:rgba(9,9,12,.2)}
+.sb-ck-item.done .sb-ck-text{color:rgba(9,9,12,.68);text-decoration:line-through;text-decoration-color:rgba(9,9,12,.2)}
 .sb-ck-prog{margin-bottom:2rem}
 .sb-ck-prog-label{display:flex;justify-content:space-between;align-items:center;
   font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
@@ -446,7 +446,7 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
 .sb-r-ok{background:rgba(200,164,106,.08);border:1px solid rgba(200,164,106,.25);color:var(--ink)}
 .sb-r-warn{background:rgba(200,80,50,.06);border:1px solid rgba(200,80,50,.2);color:var(--ink)}
 .sb-tool-lbl{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;
-  color:rgba(9,9,12,.52);font-weight:600;display:block;margin-bottom:.35rem}
+  color:rgba(9,9,12,.68);font-weight:600;display:block;margin-bottom:.35rem}
 .sb-tool-section{margin-bottom:1.5rem}
 
 /* ─── REVEAL ─────────────────────────────────────── */
@@ -484,6 +484,11 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
   .pil-row{grid-template-columns:2.5rem 1fr}
 }
 @media(hover:none){#cur,#cur-r{display:none}body{cursor:auto}a,button{cursor:pointer}}
+
+.t-discuss{display:inline-flex;align-items:center;gap:.4rem;margin-top:2rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:rgba(9,9,12,.3);transition:color .25s;text-decoration:none}
+.t-discuss span{transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.t-discuss:hover{color:var(--gold)}
+.t-discuss:hover span{transform:translateX(4px)}
 </style>
 </head>
 <body>
@@ -798,22 +803,22 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
     <div class="pil-row rv">
       <div class="pil-n">01</div>
       <div class="pil-title"><em>Inventory</em></div>
-      <div class="pil-body">A clear, current inventory of your accounts, titled assets, insurance policies, and digital assets prevents delays and ensures nothing is overlooked during estate settlement. <strong>Missing assets are a common and costly problem</strong> — often worth tens of thousands of dollars that heirs simply never know to claim.</div>
+      <div class="pil-body">A clear, current inventory of your accounts, titled assets, insurance policies, and digital assets prevents delays and ensures nothing is overlooked during estate settlement.</div>
     </div>
     <div class="pil-row rv d1">
       <div class="pil-n">02</div>
       <div class="pil-title"><em>Continuity</em></div>
-      <div class="pil-body">Durable powers of attorney and healthcare directives protect your ability to have decisions made on your behalf if you become incapacitated. <strong>Without them, courts may appoint a guardian</strong> — a lengthy, expensive process that removes control from your family at the worst possible moment.</div>
+      <div class="pil-body">Durable powers of attorney and healthcare directives protect your ability to have decisions made on your behalf if you become incapacitated.</div>
     </div>
     <div class="pil-row rv d2">
       <div class="pil-n">03</div>
       <div class="pil-title"><em>Liquidity</em></div>
-      <div class="pil-body">Estate taxes, final expenses, and family needs require immediate cash. Without a liquidity plan, estates are forced to sell investments, real estate, or business interests — often at a discount — to satisfy obligations. <strong>Life insurance is frequently the most efficient source of estate liquidity.</strong></div>
+      <div class="pil-body">Estate taxes, final expenses, and family needs require immediate cash.</div>
     </div>
     <div class="pil-row rv d3">
       <div class="pil-n">04</div>
       <div class="pil-title"><em>Governance</em></div>
-      <div class="pil-body">Trusts, trustees, and family governance structures ensure clarity about roles and decision-making. <strong>Ambiguous instructions and disputed authority are the leading causes of family conflict</strong> during estate settlement. Clear governance prevents this and ensures consistent execution of your wishes across generations.</div>
+      <div class="pil-body">Trusts, trustees, and family governance structures ensure clarity about roles and decision-making.</div>
     </div>
   </div>
 </section>
@@ -829,93 +834,30 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
       <div class="doc-num">01</div>
       <div class="doc-title">Last Will &amp; Testament</div>
       <div class="doc-sub">Foundation</div>
-      <div class="doc-body">Your will directs how your assets are distributed and names guardians for minor children. Without one, state intestacy laws decide — and <strong>the state's default may bear no resemblance to your wishes</strong>. A will must be properly signed and witnessed to be valid.</div>
+      <div class="doc-body">Your will directs how your assets are distributed and names guardians for minor children.</div>
     </div>
     <div class="doc-card">
       <div class="doc-num">02</div>
       <div class="doc-title">Revocable Living Trust</div>
       <div class="doc-sub">Privacy &amp; Probate Avoidance</div>
-      <div class="doc-body">A revocable trust holds assets during your lifetime and transfers them to beneficiaries without probate — <strong>privately, faster, and without court involvement</strong>. Unlike a will, a trust is not a public record. Most clients with meaningful assets benefit from a funded revocable trust.</div>
+      <div class="doc-body">A revocable trust holds assets during your lifetime and transfers them to beneficiaries without probate — privately, faster, and without court involvement.</div>
     </div>
     <div class="doc-card">
       <div class="doc-num">03</div>
       <div class="doc-title">Durable Power of Attorney</div>
       <div class="doc-sub">Incapacity Planning</div>
-      <div class="doc-body">A POA authorizes a trusted person to manage your financial affairs if you are unable to. <strong>Without one, banks and institutions will freeze accounts</strong> until a court appoints a conservator. This is one of the simplest and most important documents anyone can have.</div>
+      <div class="doc-body">A POA authorizes a trusted person to manage your financial affairs if you are unable to.</div>
     </div>
     <div class="doc-card">
       <div class="doc-num">04</div>
       <div class="doc-title">Healthcare Directives</div>
       <div class="doc-sub">Medical Decision-Making</div>
-      <div class="doc-body">A healthcare POA and living will document your medical wishes and designate who can make healthcare decisions on your behalf. <strong>Without these, family members may disagree</strong> — or courts may intervene — during medical emergencies when clarity matters most.</div>
+      <div class="doc-body">A healthcare POA and living will document your medical wishes and designate who can make healthcare decisions on your behalf.</div>
     </div>
   </div>
 </section>
 
-<!-- ─── 2026 SUNSET ALERT ─────────────────────────── -->
-<section id="sunset" class="rv">
-  <div class="sun-icon">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-  </div>
-  <div>
-    <div class="sun-label">Planning Update — 2026</div>
-    <div class="sun-title">The sunset was prevented — the $15M exemption is now permanent</div>
-    <div class="sun-body">The One Big Beautiful Bill Act, signed July 4, 2025, permanently eliminated the TCJA sunset provision. Beginning January 1, 2026, the federal estate and gift tax exemption rises to <strong>$15 million per individual ($30 million for married couples)</strong> — and is indexed for inflation going forward. The feared reversion to ~$7 million did not occur. While the urgency of the year-end deadline has passed, strategic estate planning remains essential. Trust structures, lifetime gifting, and multi-generational planning are still among the most powerful tools available — and the right time to review your plan is now, not when circumstances force it.</div>
-  </div>
-  <div class="sun-cta">
-    <a href="contact.html" class="btn-p btn-solid mag" style="white-space:nowrap">
-      Review Your Plan
-    </a>
-  </div>
-</section>
 
-<!-- ─── FAQ ───────────────────────────────────────── -->
-<section id="faq">
-  <div class="faq-hd rv">
-    <div>
-      <div class="faq-ey">Questions</div>
-      <h2 class="faq-h">Estate planning<br><em>answered.</em></h2>
-    </div>
-    <p class="faq-side">Every client comes to estate planning with different circumstances and different concerns. These are the questions we encounter most often — answered plainly, without jargon.<br><br><strong>Your situation will always call for a personal conversation.</strong></p>
-  </div>
-  <div class="faq-list rv d1">
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">01</span>Do I need a trust, or is a will enough?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">A will alone requires your estate to pass through probate — a public court process that can take months or years and costs 3–8% of the estate's value in fees. <strong>A funded revocable trust avoids probate entirely</strong>, transfers assets immediately and privately, and provides continuity of management if you become incapacitated. For most clients with property in multiple states or significant assets, a trust is the superior choice.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">02</span>What happens if I die without an estate plan?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">Dying intestate (without a will or trust) means state law decides who receives your assets and who raises your children. The state's formula is rigid and may direct assets to relatives you would not have chosen, while excluding partners or others you would have prioritized. <strong>The process is public, can take years, and frequently generates family conflict</strong> — all of which are completely avoidable with even a basic plan in place.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">03</span>How often should I update my estate plan?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">At minimum, review your estate plan every 3–5 years and after any major life event: marriage, divorce, birth of a child, death of a named beneficiary or trustee, significant change in wealth, or major tax law change. <strong>Many clients discover that beneficiary designations on IRAs and life insurance policies are years or decades out of date</strong> — sometimes naming ex-spouses or deceased individuals. These designations override your will entirely.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">04</span>What is portability and why does it matter for married couples?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">Portability allows a surviving spouse to use any unused portion of their deceased spouse's estate tax exemption. In 2026, a married couple can effectively shield up to $30M from federal estate tax — but <strong>portability is not automatic</strong>. A federal estate tax return (Form 706) must be filed within 9 months of the first spouse's death, even if no tax is owed. Missing this deadline permanently forfeits the unused exemption.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">
-        <span class="fq-i">05</span>Can life insurance help with estate taxes?
-        <span class="fq-arr"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></span>
-      </button>
-      <div class="faq-panel"><p class="faq-ans">Life insurance death benefits are income-tax-free, but they are included in your estate for estate tax purposes if you own the policy. An <strong>Irrevocable Life Insurance Trust (ILIT)</strong> removes the policy from your taxable estate while using the death benefit to provide liquidity for estate taxes — allowing heirs to receive the full value of other assets rather than being forced to sell them. This is one of the most cost-efficient estate planning strategies available to taxable estates.</p></div>
-    </div>
-  </div>
-</section>
 
 <!-- ─── CTA ───────────────────────────────────────── -->
 <section id="cta">
