@@ -322,6 +322,8 @@ body.rdy #trail-glow{animation:trailIn 3s var(--e1) 1.1s forwards}
   position:absolute;
   transform:translate(-50%,-50%);
   z-index:20;cursor:none;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
 
 /* Three staggered pulse rings */
@@ -1285,25 +1287,33 @@ const TIERS = {
   },
 };
 
-/* ─── CURSOR ─────────────────────────────────── */
+/* ─── CURSOR (mouse-only — disabled entirely on touch devices) ── */
 const cur  = document.getElementById('cur');
 const curR = document.getElementById('cur-r');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=e.clientY;
-  cur.style.left=mx+'px';cur.style.top=my+'px';
-});
-(function loop(){
-  rx+=(mx-rx)*.1;ry+=(my-ry)*.1;
-  curR.style.left=rx+'px';curR.style.top=ry+'px';
-  requestAnimationFrame(loop);
-})();
-document.querySelectorAll('a,button,.fq-q,.btn,.mkr,#aum-slider').forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
-});
-document.addEventListener('mousedown',()=>document.body.classList.add('pressing'));
-document.addEventListener('mouseup',()=>document.body.classList.remove('pressing'));
+const hasTouch = window.matchMedia('(hover:none)').matches;
+
+if (!hasTouch) {
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cur.style.left  = mx+'px';
+    cur.style.top   = my+'px';
+  });
+  (function loop(){
+    rx += (mx-rx)*.1;
+    ry += (my-ry)*.1;
+    curR.style.left = rx+'px';
+    curR.style.top  = ry+'px';
+    requestAnimationFrame(loop);
+  })();
+  // Hover states only on real mouse devices
+  document.querySelectorAll('a,button,.fq-q,.btn,.mkr,#aum-slider').forEach(el=>{
+    el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
+  });
+  document.addEventListener('mousedown', () => document.body.classList.add('pressing'));
+  document.addEventListener('mouseup',   () => document.body.classList.remove('pressing'));
+}
 
 /* ─── PAGE READY ────── */
 const rdy=()=>document.body.classList.add('rdy');
@@ -1431,13 +1441,21 @@ dp.addEventListener('touchend', e => {
   if (e.changedTouches[0].clientY - tsY > 60) closePanel();
 }, { passive: true });
 
-// Markers — single pointer event, works on mouse AND touch
+// Markers — touch and mouse handled separately, no cross-firing
 document.querySelectorAll('.mkr').forEach(mkr => {
   const id = mkr.dataset.id;
-  mkr.addEventListener('pointerup', e => {
-    e.stopPropagation();
-    openPanel(id);
-  });
+
+  if (hasTouch) {
+    // Touch: use touchend, prevent any ghost click
+    mkr.addEventListener('touchend', e => {
+      e.preventDefault();
+      openPanel(id);
+    }, { passive: false });
+  } else {
+    // Mouse: plain click
+    mkr.addEventListener('click', () => openPanel(id));
+  }
+
   mkr.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(id); }
   });
