@@ -859,6 +859,214 @@ footer{background:var(--ink2);border-top:1px solid var(--border);padding:5rem 5r
   </div>
 </footer>
 
+<!-- ─── SIDEBAR TRIGGER ──────────────────────────────── -->
+<button id="sb-trigger" aria-label="Open tools panel">
+  <div class="sb-trig-icon"><span></span><span></span><span></span></div>
+  <span class="sb-trig-label">Tools</span>
+</button>
+
+<!-- ─── SIDEBAR OVERLAY ──────────────────────────────── -->
+<div id="sb-overlay"></div>
+
+<!-- ─── SIDEBAR PANEL ────────────────────────────────── -->
+<div id="sb-panel" role="dialog" aria-modal="true" aria-label="Investment Tools">
+
+  <!-- Header -->
+  <div class="sb-head">
+    <div class="sb-title">Investment <em>Tools</em></div>
+    <button id="sb-close" aria-label="Close panel">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="sb-tabs">
+    <button class="sb-tab active" data-pane="tools">Calculators</button>
+    <button class="sb-tab" data-pane="ck">Checklist</button>
+    <button class="sb-tab" data-pane="nav">Resources</button>
+  </div>
+
+  <!-- Body -->
+  <div class="sb-body">
+
+    <!-- ── TOOLS PANE ── -->
+    <div class="sb-pane active" id="pane-tools">
+
+      <!-- Compound Growth Calculator -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Compound Growth</div>
+        <div class="sb-tool-desc">Project how your portfolio grows over time with contributions and compounding returns.</div>
+        <div class="sb-tool-section">
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Initial Amount ($)</label>
+              <input id="cg-init" type="number" class="sb-tool-input" placeholder="e.g. 50000" value="50000">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Monthly Contribution ($)</label>
+              <input id="cg-contrib" type="number" class="sb-tool-input" placeholder="e.g. 500" value="500">
+            </div>
+          </div>
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Annual Return (%)</label>
+              <input id="cg-rate" type="number" class="sb-tool-input" placeholder="e.g. 7" value="7" step="0.1">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Years</label>
+              <input id="cg-years" type="number" class="sb-tool-input" placeholder="e.g. 20" value="20">
+            </div>
+          </div>
+        </div>
+        <button class="sb-tool-btn" onclick="runCompound()">
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>
+          Calculate
+        </button>
+        <div id="cg-result"></div>
+      </div>
+
+      <!-- Allocation Checker -->
+      <div class="sb-tool-card">
+        <div class="sb-tool-title">Allocation Checker</div>
+        <div class="sb-tool-desc">Enter your current portfolio percentages and risk tolerance to get a quick alignment review.</div>
+        <div class="sb-tool-section">
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">US Equities (%)</label>
+              <input id="al-us" type="number" class="sb-tool-input" placeholder="e.g. 40" value="40">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">International (%)</label>
+              <input id="al-intl" type="number" class="sb-tool-input" placeholder="e.g. 20" value="20">
+            </div>
+          </div>
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl">Bonds / Fixed Income (%)</label>
+              <input id="al-bonds" type="number" class="sb-tool-input" placeholder="e.g. 30" value="30">
+            </div>
+            <div>
+              <label class="sb-tool-lbl">Alternatives / Cash (%)</label>
+              <input id="al-alt" type="number" class="sb-tool-input" placeholder="e.g. 10" value="10">
+            </div>
+          </div>
+          <label class="sb-tool-lbl">Risk Tolerance</label>
+          <select id="al-risk" class="sb-tool-select">
+            <option value="">Select profile…</option>
+            <option value="conservative">Conservative</option>
+            <option value="moderate">Moderate</option>
+            <option value="aggressive">Aggressive</option>
+          </select>
+        </div>
+        <button class="sb-tool-btn" onclick="runAllocation()">
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Review Allocation
+        </button>
+        <div id="alloc-result"></div>
+      </div>
+
+    </div><!-- /pane-tools -->
+
+    <!-- ── CHECKLIST PANE ── -->
+    <div class="sb-pane" id="pane-ck">
+      <div class="sb-ck-prog">
+        <div class="sb-ck-prog-label">
+          <span>Portfolio Readiness</span>
+          <span id="ck-pct">0 / 10</span>
+        </div>
+        <div class="sb-ck-prog-bar"><div id="ck-fill" class="sb-ck-prog-fill"></div></div>
+      </div>
+
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Foundation</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Emergency fund established</strong> — 3–6 months of expenses in liquid savings before investing.</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>High-interest debt paid off</strong> — No investment reliably beats 15–20% credit card interest.</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Employer 401(k) match captured</strong> — Free money. Always take it first.</div>
+        </div>
+      </div>
+
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Portfolio Structure</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Investment policy statement written</strong> — Know your target allocation, rebalancing rules, and time horizon.</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Expense ratios reviewed</strong> — Fund costs below 0.20% for core holdings.</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>International diversification included</strong> — Non-US equities as 20–40% of equity sleeve.</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Bond allocation appropriate to timeline</strong> — More bonds as retirement approaches.</div>
+        </div>
+      </div>
+
+      <div class="sb-ck-section">
+        <div class="sb-ck-title">Tax & Maintenance</div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Asset location optimized</strong> — Tax-inefficient assets in tax-deferred accounts; equities in taxable.</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Annual rebalancing scheduled</strong> — Drift-based or calendar rebalancing to maintain target allocation.</div>
+        </div>
+        <div class="sb-ck-item" onclick="toggleCk(this)">
+          <div class="sb-ck-box"></div>
+          <div class="sb-ck-text"><strong>Beneficiary designations current</strong> — Reviewed within the last 2 years.</div>
+        </div>
+      </div>
+    </div><!-- /pane-ck -->
+
+    <!-- ── NAV PANE ── -->
+    <div class="sb-pane" id="pane-nav">
+      <a href="resource-retirement.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg></div>
+        <div><div class="sb-res-name">Retirement</div><div class="sb-res-desc">Income architecture & withdrawal strategy</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></div>
+      </a>
+      <a href="resource-investment.html" class="sb-res-item current">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div><div class="sb-res-name">Investment</div><div class="sb-res-desc">Portfolio construction & evidence-based strategy</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></div>
+      </a>
+      <a href="resource-estate.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div><div class="sb-res-name">Estate Planning</div><div class="sb-res-desc">Trusts, wills & legacy transfer</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></div>
+      </a>
+      <a href="resource-tax.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg></div>
+        <div><div class="sb-res-name">Tax Strategy</div><div class="sb-res-desc">Year-round tax minimization</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></div>
+      </a>
+      <a href="resource-insurance.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><div class="sb-res-name">Insurance</div><div class="sb-res-desc">Protection & risk management</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></div>
+      </a>
+      <a href="resource-money.html" class="sb-res-item">
+        <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div><div class="sb-res-name">Money & Lifestyle</div><div class="sb-res-desc">Financial habits & behavioral finance</div></div>
+        <div class="sb-res-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></div>
+      </a>
+    </div><!-- /pane-nav -->
+
+  </div><!-- /sb-body -->
+</div><!-- /sb-panel -->
+
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ─── CURSOR ─────────────────────────────────────────── */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
