@@ -456,7 +456,7 @@ footer{
         </div>
         <div class="thread">
           <div class="thread-label">Email</div>
-          <a href="/cdn-cgi/l/email-protection#cfa2aebbbba7aab88fbfa6a1aba0a3aab6a9a6a1aea1aca6aea3e1aca0a2" class="thread-value"><span class="__cf_email__" data-cfemail="64090510100c011324140d0a000b08011d020d0a050a070d05084a070b09">[email&#160;protected]</span>
+          <a href="mailto:Matthew.Pindoley@osaicwealth.com" class="thread-value">Matthew.Pindoley@osaicwealth.com
             <div class="thread-sub">Response within hours</div>
           </a>
         </div>
@@ -636,7 +636,7 @@ footer{
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 (function () {
   'use strict';
 
@@ -744,7 +744,7 @@ footer{
   }, { threshold: 0.15 });
   trustItems.forEach(function (item) { ro.observe(item); });
 
-  /* ── FORM SUBMIT ────────────────────────────── */
+    /* ── FORM SUBMIT ────────────────────────────── */
   var form = document.getElementById('contact-form');
   if (form) {
     form.addEventListener('submit', function (e) {
@@ -756,25 +756,54 @@ footer{
       if (!first || !first.value.trim()) { pulse('f-first'); return; }
       if (!email || !email.value.includes('@')) { pulse('f-email'); return; }
 
-      var fw      = document.getElementById('form-wrap');
-      var success = document.getElementById('success');
+      var btn = form.querySelector('.submit-btn');
+      var btnSpan = btn ? btn.querySelector('span') : null;
+      if (btnSpan) btnSpan.textContent = 'Sending…';
+      if (btn) btn.disabled = true;
 
-      if (fw) {
-        fw.style.transition = 'opacity .5s ease, transform .5s ease';
-        fw.style.opacity    = '0';
-        fw.style.transform  = 'translateY(-10px)';
-      }
-      setTimeout(function () {
-        if (fw) fw.style.display = 'none';
-        if (success) {
-          success.style.display = 'block';
-          requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-              success.classList.add('visible');
-            });
-          });
+      var data = {
+        name: (first.value.trim()) + ' ' + ((document.getElementById('f-last')||{}).value||'').trim(),
+        email: email.value.trim(),
+        phone: ((document.getElementById('f-phone')||{}).value||'').trim(),
+        topic: ((document.getElementById('f-topic')||{}).value||'').trim(),
+        message: ((document.getElementById('f-message')||{}).value||'').trim()
+      };
+
+      fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(function(r) { return r.json().then(function(d) { return {ok:r.ok,data:d}; }); })
+      .then(function(res) {
+        if (res.ok) {
+          var fw      = document.getElementById('form-wrap');
+          var success = document.getElementById('success');
+          if (fw) {
+            fw.style.transition = 'opacity .5s ease, transform .5s ease';
+            fw.style.opacity    = '0';
+            fw.style.transform  = 'translateY(-10px)';
+          }
+          setTimeout(function () {
+            if (fw) fw.style.display = 'none';
+            if (success) {
+              success.style.display = 'block';
+              requestAnimationFrame(function () {
+                requestAnimationFrame(function () { success.classList.add('visible'); });
+              });
+            }
+          }, 520);
+        } else {
+          if (btnSpan) btnSpan.textContent = 'Send Your Message';
+          if (btn) btn.disabled = false;
+          alert('Something went wrong. Please try again or email Matthew.Pindoley@osaicwealth.com directly.');
         }
-      }, 520);
+      })
+      .catch(function() {
+        if (btnSpan) btnSpan.textContent = 'Send Your Message';
+        if (btn) btn.disabled = false;
+        alert('Unable to send. Please email Matthew.Pindoley@osaicwealth.com directly.');
+      });
     });
   }
 
