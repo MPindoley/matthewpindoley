@@ -1243,4 +1243,25 @@ if(tilt){
   });
 }
 </script>
-<a href
+<style>
+#disc-pill{
+  position:fixed;bottom:2rem;right:2.2rem;z-index:900;
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.46rem 1.1rem;border-radius:9999px;
+  font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:600;
+  background:rgba(9,9,12,.78);backdrop-filter:blur(14px);
+  border:1px solid rgba(200,164,106,.22);
+  color:rgba(242,236,224,.65);
+  transition:color .25s,border-color .25s,background .25s;
+  text-decoration:none;
+}
+#disc-pill:hover{color:var(--gold);border-color:rgba(200,164,106,.55);background:rgba(9,9,12,.92)}
+#disc-pill svg{opacity:.7}
+</style>
+<a href="disclosure.html" id="disc-pill" aria-label="Important Disclosures">
+  <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="5"/><path d="M6 5v4M6 3.5v.5"/></svg>
+  Disclosures
+</a>
+</body>
+</html>
