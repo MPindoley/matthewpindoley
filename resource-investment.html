@@ -280,6 +280,13 @@ body.pressing #cur{width:22px;height:22px}
   color:var(--accent);font-weight:600;margin-bottom:1.2rem}
 .asset-body{font-size:.85rem;line-height:1.82;color:rgba(232,234,240,.78);font-weight:300}
 .asset-body strong{color:var(--silver);font-weight:500}
+.assets-disclosure{display:flex;align-items:flex-start;gap:.65rem;
+  max-width:760px;margin:2.5rem auto 0;
+  padding:1rem 1.4rem;
+  border:1px solid var(--border);border-radius:4px;
+  background:rgba(124,156,186,.04)}
+.assets-disclosure p{font-size:.68rem;line-height:1.8;
+  color:rgba(232,234,240,.32);letter-spacing:.01em}
 
 /* ─── EVIDENCE BAND ───────────────────────────────────── */
 #evidence{padding:5rem;border-top:1px solid var(--ib);border-bottom:1px solid var(--ib);
@@ -869,6 +876,11 @@ footer{
       <p class="asset-body">Strategic cash reserves serve short-term needs and opportunity deployment.</p>
     </div>
   </div>
+
+  <div class="assets-disclosure rv">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13" style="flex-shrink:0;opacity:.45;margin-top:.1rem"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+    <p>All investments involve risks, including loss of principal. In selecting an asset allocation plan to meet your individual situation, you should consider a variety of factors, including your assets, income, age, investment objectives and risk tolerance.</p>
+  </div>
 </section>
 
 
@@ -887,7 +899,7 @@ footer{
   <div class="cta-right rv">
     <div class="cta-dets">
       <div><div class="cta-dl">Phone</div><div class="cta-dv"><a href="tel:+14198871002">(419) 887-1002</a></div></div>
-      <div><div class="cta-dl">Email</div><div class="cta-dv"><a href="mailto:Matthew.Pindoley@osaicwealth.com">Matthew.Pindoley@osaicwealth.com</a></div></div>
+      <div><div class="cta-dl">Email</div><div class="cta-dv"><a href="/cdn-cgi/l/email-protection#165b7762627e736138467f7872797a736f567965777f756173777a627e3875797b"><span class="__cf_email__" data-cfemail="c78aa6b3b3afa2b0e997aea9a3a8aba2be87a8b4a6aea4b0a2a6abb3afe9a4a8aa">[email&#160;protected]</span></a></div></div>
       <div><div class="cta-dl">Consultations</div><div class="cta-dv">Complimentary, no pressure</div></div>
       <div><div class="cta-dl">Availability</div><div class="cta-dv">Mon – Fri, 9am – 5pm</div></div>
     </div>
@@ -1149,7 +1161,7 @@ footer{
   </div><!-- /sb-body -->
 </div><!-- /sb-panel -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ─── CURSOR ─────────────────────────────────────────── */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
@@ -1333,9 +1345,4 @@ function runAllocation(){
   document.getElementById('alloc-result').innerHTML=html;
 }
 </script>
-<a href="disclosure.html" id="disc-pill" aria-label="Important Disclosures">
-  <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="5"/><path d="M6 5v4M6 3.5v.5"/></svg>
-  Disclosures
-</a>
-</body>
-</html>
+<a href
