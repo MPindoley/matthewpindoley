@@ -631,6 +631,71 @@ footer{
   #finra-pill{bottom:1.4rem;left:1.2rem;font-size:.54rem;padding:.4rem .9rem}
 }
 @media(hover:none){#finra-pill{cursor:pointer}}
+
+/* ══════════════════════════════════════════
+   MOBILE COLLAPSE  (≤ 768 px only)
+══════════════════════════════════════════ */
+
+/* Hide all mobile-collapse UI on desktop */
+.stat-chev,.pr-chev,.rs-chev{display:none}
+.stat-mob-hd,.pr-mob-hd,.rs-mob-hd{display:contents}
+
+@media(max-width:768px){
+
+  /* ── NARROWER BOXES ── */
+  .stat{padding:2.2rem 1.5rem !important}
+  .pr-step{padding:2rem 1.5rem !important}
+  .rs-card{padding:2rem 1.5rem !important}
+
+  /* ── CHEVRONS ON ── */
+  .stat-chev,.pr-chev,.rs-chev{
+    display:block;flex-shrink:0;width:18px;height:18px;
+    color:var(--gold);opacity:.55;
+    transition:transform .38s cubic-bezier(.16,1,.3,1),opacity .25s;
+    margin-left:auto;
+  }
+
+  /* ── STATS ── */
+  .stat{cursor:pointer}
+  .stat-mob-hd{
+    display:flex;align-items:center;
+    justify-content:space-between;gap:1rem
+  }
+  .stat.mob-open .stat-chev{transform:rotate(180deg);opacity:1}
+  .stat-l{
+    max-height:0;overflow:hidden;opacity:0;margin-top:0;
+    transition:max-height .45s cubic-bezier(.16,1,.3,1),opacity .32s ease,margin-top .32s ease;
+  }
+  .stat.mob-open .stat-l{max-height:200px;opacity:1;margin-top:.9rem}
+
+  /* ── PROCESS ── */
+  .pr-step{cursor:pointer}
+  .pr-mob-hd{
+    display:flex;align-items:center;
+    justify-content:space-between;gap:1rem
+  }
+  .pr-step.mob-open .pr-chev{transform:rotate(180deg);opacity:1}
+  .pr-sb{
+    max-height:0;overflow:hidden;opacity:0;margin-top:0;
+    transition:max-height .45s cubic-bezier(.16,1,.3,1),opacity .32s ease,margin-top .32s ease;
+  }
+  .pr-step.mob-open .pr-sb{max-height:200px;opacity:1;margin-top:.75rem}
+
+  /* ── RESOURCES ── */
+  .rs-card{cursor:pointer}
+  .rs-mob-hd{
+    display:flex;align-items:center;
+    justify-content:space-between;gap:.75rem;
+    width:100%
+  }
+  .rs-card.mob-open .rs-chev{transform:rotate(180deg);opacity:1}
+  .rs-b,.rs-lk{
+    max-height:0;overflow:hidden;opacity:0;margin-top:0;
+    transition:max-height .45s cubic-bezier(.16,1,.3,1),opacity .32s ease,margin-top .32s ease;
+  }
+  .rs-card.mob-open .rs-b{max-height:160px;opacity:1;margin-top:.6rem}
+  .rs-card.mob-open .rs-lk{max-height:60px;opacity:1;margin-top:.5rem}
+}
 </style>
 </head>
 <body>
@@ -744,18 +809,24 @@ footer{
   <div class="s-ey rv">By the Numbers</div>
   <div class="s-row">
     <div class="stat rv d1">
-      <span class="stat-i">01</span>
-      <div class="stat-n"><span class="counter" data-t="100">0</span><span class="suf">%</span></div>
+      <div class="stat-mob-hd">
+        <div><span class="stat-i">01</span><div class="stat-n"><span class="counter" data-t="100">0</span><span class="suf">%</span></div></div>
+        <svg class="stat-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+      </div>
       <div class="stat-l">Fiduciary commitment — zero commission pressure, zero conflicts of interest, every recommendation driven solely by what's best for you</div>
     </div>
     <div class="stat rv d2">
-      <span class="stat-i">02</span>
-      <div class="stat-n"><span class="counter" data-t="360">0</span><span class="suf">°</span></div>
+      <div class="stat-mob-hd">
+        <div><span class="stat-i">02</span><div class="stat-n"><span class="counter" data-t="360">0</span><span class="suf">°</span></div></div>
+        <svg class="stat-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+      </div>
       <div class="stat-l">Comprehensive planning — retirement, estate, investment, tax, insurance, and lifestyle all coordinated under one roof</div>
     </div>
     <div class="stat rv d3">
-      <span class="stat-i">03</span>
-      <div class="stat-n"><span class="pre"></span><span class="counter" data-t="500">0</span><span class="suf">+</span></div>
+      <div class="stat-mob-hd">
+        <div><span class="stat-i">03</span><div class="stat-n"><span class="pre"></span><span class="counter" data-t="500">0</span><span class="suf">+</span></div></div>
+        <svg class="stat-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+      </div>
       <div class="stat-l">Families and individuals guided toward financial clarity, lasting security, and a legacy worth leaving behind</div>
     </div>
   </div>
@@ -931,10 +1002,10 @@ footer{
     <p class="pr-desc rv-r">Every engagement follows a disciplined four-phase framework that turns complexity into clarity — and goals into actionable financial plans.</p>
   </div>
   <div class="pr-grid">
-    <div class="pr-step rv" data-n="01"><div class="pr-sn">01</div><div class="pr-st">Discovery</div><div class="pr-sb">We begin by listening — deeply understanding your goals, values, current financial picture, and what wealth means to you personally.</div></div>
-    <div class="pr-step rv d1" data-n="02"><div class="pr-sn">02</div><div class="pr-st">Analysis</div><div class="pr-sb">A thorough review of your assets, liabilities, income, risk profile, tax situation, and estate needs to identify gaps and opportunities.</div></div>
-    <div class="pr-step rv d2" data-n="03"><div class="pr-sn">03</div><div class="pr-st">Strategy</div><div class="pr-sb">A personalized, integrated financial plan — connecting investment, retirement, tax, and estate strategies into one coherent roadmap.</div></div>
-    <div class="pr-step rv d3" data-n="04"><div class="pr-sn">04</div><div class="pr-st">Partnership</div><div class="pr-sb">Ongoing guidance and proactive adjustments as life evolves. We're a long-term partner committed to your success at every milestone.</div></div>
+    <div class="pr-step rv" data-n="01"><div class="pr-mob-hd"><div><div class="pr-sn">01</div><div class="pr-st">Discovery</div></div><svg class="pr-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div><div class="pr-sb">We begin by listening — deeply understanding your goals, values, current financial picture, and what wealth means to you personally.</div></div>
+    <div class="pr-step rv d1" data-n="02"><div class="pr-mob-hd"><div><div class="pr-sn">02</div><div class="pr-st">Analysis</div></div><svg class="pr-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div><div class="pr-sb">A thorough review of your assets, liabilities, income, risk profile, tax situation, and estate needs to identify gaps and opportunities.</div></div>
+    <div class="pr-step rv d2" data-n="03"><div class="pr-mob-hd"><div><div class="pr-sn">03</div><div class="pr-st">Strategy</div></div><svg class="pr-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div><div class="pr-sb">A personalized, integrated financial plan — connecting investment, retirement, tax, and estate strategies into one coherent roadmap.</div></div>
+    <div class="pr-step rv d3" data-n="04"><div class="pr-mob-hd"><div><div class="pr-sn">04</div><div class="pr-st">Partnership</div></div><svg class="pr-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div><div class="pr-sb">Ongoing guidance and proactive adjustments as life evolves. We're a long-term partner committed to your success at every milestone.</div></div>
   </div>
 </section>
 
@@ -961,33 +1032,33 @@ footer{
   </div>
   <div class="rs-grid">
     <div class="rs-card rv" tabindex="0" onclick="location.href='resource-retirement.html'">
-      <div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg></div>
-      <div class="rs-t">Retirement</div><div class="rs-b">Income modeling, distribution strategies, and retirement readiness frameworks for a secure financial future.</div>
+      <div class="rs-mob-hd"><div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg></div><div class="rs-t">Retirement</div><svg class="rs-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div>
+      <div class="rs-b">Income modeling, distribution strategies, and retirement readiness frameworks for a secure financial future.</div>
       <div class="rs-lk">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
     </div>
     <div class="rs-card rv d1" tabindex="0" onclick="location.href='resource-estate.html'">
-      <div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-      <div class="rs-t">Estate Planning</div><div class="rs-b">Guides on trusts, beneficiary designations, and ensuring your wealth transfers on your terms.</div>
+      <div class="rs-mob-hd"><div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="rs-t">Estate Planning</div><svg class="rs-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div>
+      <div class="rs-b">Guides on trusts, beneficiary designations, and ensuring your wealth transfers on your terms.</div>
       <div class="rs-lk">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
     </div>
     <div class="rs-card rv d2" tabindex="0" onclick="location.href='resource-investment.html'">
-      <div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-      <div class="rs-t">Investment</div><div class="rs-b">Portfolio construction and evidence-based approaches to long-term investment growth.</div>
+      <div class="rs-mob-hd"><div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="rs-t">Investment</div><svg class="rs-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div>
+      <div class="rs-b">Portfolio construction and evidence-based approaches to long-term investment growth.</div>
       <div class="rs-lk">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
     </div>
     <div class="rs-card rv d1" tabindex="0" onclick="location.href='resource-insurance.html'">
-      <div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-      <div class="rs-t">Insurance</div><div class="rs-b">Protection strategies for individuals and business owners — life, disability, and long-term care.</div>
+      <div class="rs-mob-hd"><div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="rs-t">Insurance</div><svg class="rs-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div>
+      <div class="rs-b">Protection strategies for individuals and business owners — life, disability, and long-term care.</div>
       <div class="rs-lk">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
     </div>
     <div class="rs-card rv d2" tabindex="0" onclick="location.href='resource-tax.html'">
-      <div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg></div>
-      <div class="rs-t">Tax Strategy</div><div class="rs-b">Tax-efficient investing and planning strategies to reduce burden across your wealth lifecycle.</div>
+      <div class="rs-mob-hd"><div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg></div><div class="rs-t">Tax Strategy</div><svg class="rs-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div>
+      <div class="rs-b">Tax-efficient investing and planning strategies to reduce burden across your wealth lifecycle.</div>
       <div class="rs-lk">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
     </div>
     <div class="rs-card rv d3" tabindex="0" onclick="location.href='resource-money.html'">
-      <div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-      <div class="rs-t">Money &amp; Lifestyle</div><div class="rs-b">Financial habits, budgeting frameworks, and lifestyle planning to build lasting confidence.</div>
+      <div class="rs-mob-hd"><div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="rs-t">Money &amp; Lifestyle</div><svg class="rs-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div>
+      <div class="rs-b">Financial habits, budgeting frameworks, and lifestyle planning to build lasting confidence.</div>
       <div class="rs-lk">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
     </div>
   </div>
@@ -1272,6 +1343,56 @@ if(tilt){
   });
 }
 </script>
+
+<!-- MOBILE COLLAPSE JS -->
+<script>
+/* ── MOBILE COLLAPSE — always bind, CSS controls visibility ── */
+document.addEventListener('DOMContentLoaded', function(){
+
+  // STATS
+  document.querySelectorAll('.stat').forEach(function(el){
+    el.addEventListener('click', function(){
+      el.classList.toggle('mob-open');
+    });
+  });
+
+  // PROCESS
+  document.querySelectorAll('.pr-step').forEach(function(el){
+    el.addEventListener('click', function(){
+      el.classList.toggle('mob-open');
+    });
+  });
+
+  // RESOURCES — tap card to expand, tap Explore link to navigate
+  document.querySelectorAll('.rs-card').forEach(function(el){
+    var dest = el.getAttribute('onclick');
+    el.removeAttribute('onclick');
+    el.addEventListener('click', function(e){
+      if(window.innerWidth > 768){
+        // Desktop: behave exactly as before — navigate on click
+        if(dest){ (new Function(dest))(); }
+        return;
+      }
+      // Mobile: Explore link navigates, card tap toggles
+      if(e.target.closest('.rs-lk')){
+        if(dest){ (new Function(dest))(); }
+        return;
+      }
+      el.classList.toggle('mob-open');
+    });
+  });
+
+  // On resize to desktop, clear any open states so nothing stays stuck
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 768){
+      document.querySelectorAll('.stat,.pr-step,.rs-card').forEach(function(el){
+        el.classList.remove('mob-open');
+      });
+    }
+  });
+});
+</script>
+
 <!-- DISCLOSURE PILL -->
 <a id="disc-pill" href="disclosure.html" aria-label="View Disclosures">
   <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line x1="10" y1="9" x2="10" y2="14"/><circle cx="10" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
