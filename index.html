@@ -603,6 +603,34 @@ footer{
   #disc-pill{bottom:1.4rem;right:1.2rem;font-size:.54rem;padding:.4rem .9rem}
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
+
+/* ── FIXED FINRA BROKERCHECK PILL ── */
+#finra-pill{
+  position:fixed;bottom:2rem;left:2.2rem;z-index:900;
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.46rem 1.1rem;
+  border-radius:9999px;
+  background:rgba(9,9,12,.72);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(200,164,106,.18);
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500;
+  color:rgba(242,236,224,.38);
+  text-decoration:none;
+  transition:color .28s,border-color .28s,background .28s;
+  cursor:none;
+}
+#finra-pill:hover{
+  color:rgba(242,236,224,.82);
+  border-color:rgba(200,164,106,.45);
+  background:rgba(9,9,12,.88);
+}
+#finra-pill svg{flex-shrink:0;opacity:.55;transition:opacity .28s}
+#finra-pill:hover svg{opacity:1}
+@media(max-width:480px){
+  #finra-pill{bottom:1.4rem;left:1.2rem;font-size:.54rem;padding:.4rem .9rem}
+}
+@media(hover:none){#finra-pill{cursor:pointer}}
 </style>
 </head>
 <body>
@@ -1040,7 +1068,7 @@ footer{
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* ── CURSOR ─────────────────────────────────────── */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-r'),lbl=document.getElementById('cur-lbl');
 let mx=0,my=0,rx=0,ry=0;
@@ -1244,25 +1272,17 @@ if(tilt){
   });
 }
 </script>
-<style>
-#disc-pill{
-  position:fixed;bottom:2rem;right:2.2rem;z-index:900;
-  display:inline-flex;align-items:center;gap:.5rem;
-  padding:.46rem 1.1rem;border-radius:9999px;
-  font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
-  font-weight:600;
-  background:rgba(9,9,12,.78);backdrop-filter:blur(14px);
-  border:1px solid rgba(200,164,106,.22);
-  color:rgba(242,236,224,.65);
-  transition:color .25s,border-color .25s,background .25s;
-  text-decoration:none;
-}
-#disc-pill:hover{color:var(--gold);border-color:rgba(200,164,106,.55);background:rgba(9,9,12,.92)}
-#disc-pill svg{opacity:.7}
-</style>
-<a href="disclosure.html" id="disc-pill" aria-label="Important Disclosures">
-  <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="5"/><path d="M6 5v4M6 3.5v.5"/></svg>
+<!-- DISCLOSURE PILL -->
+<a id="disc-pill" href="disclosure.html" aria-label="View Disclosures">
+  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line x1="10" y1="9" x2="10" y2="14"/><circle cx="10" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
   Disclosures
 </a>
+
+<!-- FINRA BROKERCHECK PILL -->
+<a id="finra-pill" href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer" aria-label="FINRA BrokerCheck">
+  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 2L12.5 7.5H18L13.5 11L15.5 17L10 13.5L4.5 17L6.5 11L2 7.5H7.5Z"/></svg>
+  FINRA BrokerCheck
+</a>
+
 </body>
 </html>
