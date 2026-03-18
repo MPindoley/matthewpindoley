@@ -35,11 +35,11 @@ a{color:inherit;text-decoration:none}
 
 /* CURSOR */
 #cur{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;
-  background:var(--ivory);pointer-events:none;z-index:10000;
+  background:var(--sage);pointer-events:none;z-index:10000;
   transform:translate(-50%,-50%);
-  transition:width .3s var(--e1),height .3s var(--e1),background .3s}
+  transition:width .3s var(--e1),height .3s var(--e1)}
 #cur-r{position:fixed;top:0;left:0;width:38px;height:38px;border-radius:50%;
-  border:1px solid rgba(122,170,126,.3);pointer-events:none;z-index:9999;
+  border:1px solid rgba(122,170,126,.55);pointer-events:none;z-index:9999;
   transform:translate(-50%,-50%);
   transition:width .35s var(--e1),height .35s var(--e1),border-color .3s}
 body.hov #cur{width:48px;height:48px;opacity:.1}
@@ -108,8 +108,8 @@ body.pressing #cur{width:22px;height:22px}
 .nav-btn:hover::before{transform:scaleX(1)}
 .nav-btn:hover{color:var(--ink);border-color:var(--sage)}
 .nav-btn span{position:relative;z-index:1}
-.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px}
-.hbg i{display:block;width:22px;height:1px;background:var(--ivory);transition:all .3s}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:7px 9px;border-radius:6px;background:rgba(8,12,10,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(122,170,126,.2)}
+.hbg i{display:block;width:22px;height:2px;background:var(--sage);border-radius:2px;transition:all .3s}
 
 /* MOBILE DRAWER */
 #mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
@@ -1098,7 +1098,7 @@ footer{
   <div class="cta-right rv">
     <div class="cta-dets">
       <div><div class="cta-dl">Phone</div><div class="cta-dv"><a href="tel:+14198871002">(419) 887-1002</a></div></div>
-      <div><div class="cta-dl">Email</div><div class="cta-dv"><a href="mailto:Matthew.Pindoley@osaicwealth.com">Matthew.Pindoley@osaicwealth.com</a></div></div>
+      <div><div class="cta-dl">Email</div><div class="cta-dv"><a href="/cdn-cgi/l/email-protection#3f725e4b4b575a48116f56515b50535a467f504c5e565c485a5e534b57115c5052"><span class="__cf_email__" data-cfemail="0f426e7b7b676a78215f66616b60636a764f607c6e666c786a6e637b67216c6062">[email&#160;protected]</span></a></div></div>
       <div><div class="cta-dl">Consultations</div><div class="cta-dv">Complimentary, no pressure</div></div>
       <div><div class="cta-dl">Availability</div><div class="cta-dv">Mon – Fri, 9am – 5pm</div></div>
     </div>
@@ -1152,7 +1152,7 @@ footer{
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ─── CURSOR ─────────────────────────────────────────── */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
@@ -1285,9 +1285,4 @@ function runLifeCalc(){
   </div>`;
 }
 </script>
-<a href="disclosure.html" id="disc-pill" aria-label="Important Disclosures">
-  <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="5"/><path d="M6 5v4M6 3.5v.5"/></svg>
-  Disclosures
-</a>
-</body>
-</html>
+<a href

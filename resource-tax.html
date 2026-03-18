@@ -37,7 +37,7 @@ a{color:inherit;text-decoration:none}
   background:var(--bronze);pointer-events:none;z-index:10000;
   transform:translate(-50%,-50%);
   transition:width .3s var(--e1),height .3s var(--e1),opacity .2s;
-  mix-blend-mode:normal}
+}
 #cur-r{position:fixed;top:0;left:0;width:36px;height:36px;border-radius:50%;
   border:1.5px solid rgba(154,124,82,.5);pointer-events:none;z-index:9999;
   transform:translate(-50%,-50%);
@@ -110,8 +110,8 @@ body.pressing #cur{width:20px;height:20px}
 .nav-btn:hover::before{transform:scaleX(1)}
 .nav-btn:hover{color:var(--ink);border-color:var(--bronze)}
 .nav-btn span{position:relative;z-index:1}
-.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px}
-.hbg i{display:block;width:22px;height:1px;background:var(--cream);transition:all .3s}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:7px 9px;border-radius:6px;background:rgba(12,11,9,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(154,124,82,.25)}
+.hbg i{display:block;width:22px;height:2px;background:var(--bronze);border-radius:2px;transition:all .3s}
 
 /* MOBILE DRAWER */
 #mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
@@ -1220,7 +1220,7 @@ footer{
   </div>
   <div class="cta-details rv d4">
     <div class="cta-det-item"><div class="cta-dl">Phone</div><div class="cta-dv"><a href="tel:+14198871002">(419) 887-1002</a></div></div>
-    <div><div class="cta-dl">Email</div><div class="cta-dv"><a href="mailto:Matthew.Pindoley@osaicwealth.com">Matthew.Pindoley@osaicwealth.com</a></div></div>
+    <div><div class="cta-dl">Email</div><div class="cta-dv"><a href="/cdn-cgi/l/email-protection#df92beababb7baa8f18fb6b1bbb0b3baa69fb0acbeb6bca8babeb3abb7f1bcb0b2"><span class="__cf_email__" data-cfemail="3974584d4d515c4e176950575d56555c4079564a58505a4e5c58554d51175a5654">[email&#160;protected]</span></a></div></div>
     <div class="cta-det-item"><div class="cta-dl">Consultations</div><div class="cta-dv">Complimentary</div></div>
     <div class="cta-det-item"><div class="cta-dl">Availability</div><div class="cta-dv">Mon – Fri, 9am – 5pm</div></div>
   </div>
@@ -1281,7 +1281,7 @@ footer{
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ─── CURSOR ───────────────────────────────────────── */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
@@ -1451,9 +1451,4 @@ function runCapGains(){
       <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Est. Federal Tax</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--ink)">${fmt(totalTax)}</div></div>
     </div>
     <div style="font-size:.75rem;color:var(--im);line-height:1.65">
-      ${rate*100}% ${isLT?'LTCG':'ordinary income'} + 3.8% NIIT = <strong style="color:var(--ink)">${effectiveRate}% effective rate</strong> on gain · Net proceeds after tax: <strong style="color:var(--ink)">${fmt(netProceeds)}</strong>.<br><br>${isLT?'':'<strong>Short-term gains are taxed as ordinary income.</strong> Waiting to cross the 1-year long-term threshold would reduce the effective rate significantly.'}
-    <br><br><em style="font-size:.75em;color:var(--im)">Estimate only. Does not account for state taxes, deductions, or individual tax situation. Consult a tax advisor.</em>
-  </div></div>`;
-}
-</script>
-<a href
+      ${rate*100}% ${isLT?'LTCG':'ordinary income'} + 3.8% NIIT = <strong style="color:var(--ink)">${effectiveRate}% effective rate</strong> on gain · Net proceeds after tax: <strong style="color:var(--ink)">${fmt(netProceeds)}</strong>.<br><br>${isLT?'':'<strong>Short-term gains are taxed as ordinary income.</strong> Waiting to cross the 1-year long-term t
