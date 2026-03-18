@@ -32,13 +32,14 @@ a{color:inherit;text-decoration:none}
 
 /* CURSOR */
 #cur{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;
-  background:var(--ink);pointer-events:none;z-index:10000;
-  transform:translate(-50%,-50%);transition:width .3s var(--e1),height .3s var(--e1),background .3s}
+  background:var(--gold);pointer-events:none;z-index:10000;
+  transform:translate(-50%,-50%);mix-blend-mode:difference;
+  transition:width .3s var(--e1),height .3s var(--e1)}
 #cur-r{position:fixed;top:0;left:0;width:38px;height:38px;border-radius:50%;
-  border:1px solid rgba(9,9,12,.25);pointer-events:none;z-index:9999;
+  border:1px solid rgba(200,164,106,.45);pointer-events:none;z-index:9999;
   transform:translate(-50%,-50%);
-  transition:width .35s var(--e1),height .35s var(--e1),border-color .3s}
-body.hov #cur{width:48px;height:48px;opacity:.1}
+  transition:width .35s var(--e1),height .35s var(--e1),border-color .3s,opacity .3s}
+body.hov #cur{width:48px;height:48px;opacity:.15}
 body.hov #cur-r{width:66px;height:66px;border-color:var(--gold)}
 body.pressing #cur{width:22px;height:22px}
 
@@ -830,7 +831,7 @@ footer{
     <div class="cta-bignum">✦</div>
     <div class="cta-dets rv-r">
       <div><div class="cta-dl">Phone</div><div class="cta-dv"><a href="tel:+14198871002">(419) 887-1002</a></div></div>
-      <div><div class="cta-dl">Email</div><div class="cta-dv"><a href="mailto:Matthew.Pindoley@osaicwealth.com">Matthew.Pindoley@osaicwealth.com</a></div></div>
+      <div><div class="cta-dl">Email</div><div class="cta-dv"><a href="/cdn-cgi/l/email-protection#125f7366667a77653c427b7c767d7e776b527d61737b716577737e667a3c717d7f"><span class="__cf_email__" data-cfemail="cc81adb8b8a4a9bbe29ca5a2a8a3a0a9b58ca3bfada5afbba9ada0b8a4e2afa3a1">[email&#160;protected]</span></a></div></div>
       <div><div class="cta-dl">Office Hours</div><div class="cta-dv">Mon – Fri, 9am – 5pm</div></div>
       <div><div class="cta-dl">Consultations</div><div class="cta-dv">Complimentary</div></div>
     </div>
@@ -884,7 +885,7 @@ footer{
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* CURSOR */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
@@ -1006,9 +1007,4 @@ document.querySelectorAll('.nav-drop').forEach(drop=>{
   drop.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrop();});
 });
 </script>
-<a href="disclosure.html" id="disc-pill" aria-label="Important Disclosures">
-  <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="5"/><path d="M6 5v4M6 3.5v.5"/></svg>
-  Disclosures
-</a>
-</body>
-</html>
+<a href
