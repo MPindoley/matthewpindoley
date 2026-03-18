@@ -110,8 +110,8 @@ body.pressing #cur{width:20px;height:20px}
 .nav-btn:hover::before{transform:scaleX(1)}
 .nav-btn:hover{color:var(--ink);border-color:var(--bronze)}
 .nav-btn span{position:relative;z-index:1}
-.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px}
-.hbg i{display:block;width:22px;height:1px;background:var(--cream);transition:all .3s}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:7px 9px;border-radius:6px;background:rgba(12,11,9,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(196,163,90,.25)}
+.hbg i{display:block;width:22px;height:2px;background:var(--gold);border-radius:2px;transition:all .3s}
 
 /* MOBILE DRAWER */
 #mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
@@ -1193,7 +1193,7 @@ footer{
     </div>
     <div class="cta-det-item">
       <div class="cta-dl">Email</div>
-      <div class="cta-dv"><a href="mailto:Matthew.Pindoley@osaicwealth.com">Matthew.Pindoley@osaicwealth.com</a></div>
+      <div class="cta-dv"><a href="/cdn-cgi/l/email-protection#6a270b1e1e020f1d443a03040e05060f132a05190b03091d0f0b061e0244090507"><span class="__cf_email__" data-cfemail="d499b5a0a0bcb1a3fa84bdbab0bbb8b1ad94bba7b5bdb7a3b1b5b8a0bcfab7bbb9">[email&#160;protected]</span></a></div>
     </div>
     <div class="cta-det-item">
       <div class="cta-dl">Response Time</div>
@@ -1249,7 +1249,7 @@ footer{
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ─── CURSOR ─────────────────────────────────────── */
 const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
@@ -1372,9 +1372,4 @@ function runEmergencyFund(){
   </div>`;
 }
 </script>
-<a href="disclosure.html" id="disc-pill" aria-label="Important Disclosures">
-  <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="5"/><path d="M6 5v4M6 3.5v.5"/></svg>
-  Disclosures
-</a>
-</body>
-</html>
+<a href
