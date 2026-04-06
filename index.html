@@ -72,8 +72,10 @@ body.pressing #cur{width:28px;height:28px}
   padding:2.2rem 4.5rem;
   transition:padding .45s var(--e2),background .4s,backdrop-filter .4s,border-color .4s;
   border-bottom:1px solid transparent}
-#nav.stk{padding:1.1rem 4.5rem;background:rgba(9,9,12,.85);
-  backdrop-filter:blur(22px);border-bottom-color:var(--border)}
+#nav.stk{padding:1.1rem 4.5rem;background:rgba(9,9,12,.88);
+  backdrop-filter:blur(28px) saturate(1.4);-webkit-backdrop-filter:blur(28px) saturate(1.4);
+  border-bottom-color:rgba(200,164,106,.18);
+  box-shadow:0 1px 0 rgba(200,164,106,.10),0 8px 32px rgba(0,0,0,.28),0 0 60px rgba(200,164,106,.03)}
 .nav-logo{font-family:var(--ff);font-size:1rem;font-weight:300;
   letter-spacing:.06em;line-height:1.3;color:var(--paper)}
 .nav-logo b{color:var(--gold);font-weight:400;font-style:italic}
@@ -195,7 +197,7 @@ body.pressing #cur{width:28px;height:28px}
 .tk-dot{width:3px;height:3px;border-radius:50%;background:var(--gold);flex-shrink:0}
 
 /* STATS */
-#stats{padding:9rem 4.5rem;background:var(--ink2);position:relative;overflow:hidden}
+#stats{padding:7rem 4.5rem;background:var(--ink2);position:relative;overflow:hidden}
 #stats::before{content:'';position:absolute;left:-15%;top:-20%;
   width:55%;height:140%;
   background:radial-gradient(ellipse,rgba(200,164,106,.045) 0%,transparent 65%);
@@ -228,8 +230,8 @@ body.pressing #cur{width:28px;height:28px}
   color:var(--muted);font-weight:300;max-width:24ch}
 
 /* ABOUT */
-#about{padding:11rem 4.5rem;background:var(--ink);
-  display:grid;grid-template-columns:1fr 1fr;gap:9rem;align-items:center}
+#about{padding:10rem 4.5rem;background:var(--ink);
+  display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center}
 .ab-ky{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
   color:var(--gold);font-weight:600;margin-bottom:2.2rem;
   display:inline-flex;align-items:center;gap:.85rem}
@@ -275,7 +277,7 @@ body.pressing #cur{width:28px;height:28px}
   color:var(--gold);margin-top:.4rem;font-weight:600}
 
 /* SERVICES */
-#services{padding:11rem 4.5rem;background:var(--paper);color:var(--ink)}
+#services{padding:9rem 4.5rem;background:var(--paper);color:var(--ink)}
 .sv-hd{display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:end;margin-bottom:7rem}
 .sv-ky{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
   color:var(--gold);font-weight:600;margin-bottom:2rem;
@@ -331,7 +333,7 @@ body.pressing #cur{width:28px;height:28px}
 .sv-panel-why-text strong{color:var(--ink);font-weight:500}
 
 /* PROCESS */
-#process{padding:11rem 4.5rem;background:var(--ink3)}
+#process{padding:9rem 4.5rem;background:var(--ink3)}
 .pr-hd{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-bottom:7rem;align-items:end}
 .pr-ky{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
   color:var(--gold);font-weight:600;margin-bottom:2.2rem;
@@ -343,6 +345,16 @@ body.pressing #cur{width:28px;height:28px}
 .pr-desc{font-size:.88rem;line-height:1.78;color:var(--muted);font-weight:300;align-self:end}
 .pr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
   background:var(--border);border:1px solid var(--border);border-radius:2px;overflow:hidden}
+/* ── FORCE DESKTOP PROCESS GRID BACK TO ORIGINAL ── */
+.pr-grid.desktop-only{
+  display:grid !important;
+  grid-template-columns:repeat(4,1fr) !important;
+  gap:1px !important;
+  background:var(--border) !important;
+  border:1px solid var(--border) !important;
+  border-radius:2px !important;
+  overflow:hidden !important;
+}
 .pr-step{background:var(--ink3);padding:3.5rem 2.5rem;
   transition:background .38s;position:relative;overflow:hidden}
 .pr-step::after{content:attr(data-n);position:absolute;bottom:-2rem;right:-1rem;
@@ -366,7 +378,7 @@ body.pressing #cur{width:28px;height:28px}
 .mq-i.ac{color:var(--gold);opacity:.42;font-style:italic}
 
 /* RESOURCES */
-#resources{padding:11rem 4.5rem;background:var(--ink2)}
+#resources{padding:9rem 4.5rem;background:var(--ink2)}
 .rs-hd{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:6rem}
 .rs-ky{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
   color:var(--gold);font-weight:600;margin-bottom:2rem;
@@ -449,6 +461,7 @@ body.pressing #cur{width:28px;height:28px}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 @keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes dotPulse{0%,100%{r:6;opacity:.95}50%{r:9;opacity:.6}}
 
 /* RESPONSIVE */
 @media(max-width:1100px){
@@ -463,11 +476,13 @@ body.pressing #cur{width:28px;height:28px}
 }
 @media(max-width:768px){
   .nav-links,.nav-btn{display:none}.hbg{display:flex}
+  /* Hide mega dropdown completely on mobile */
+  .nav-mega{display:none!important}
   .h1{font-size:clamp(5rem,13vw,9rem)}
   #hero{padding-bottom:3rem;padding-left:1.5rem;padding-right:1.5rem}
   .h-bot{flex-direction:column;align-items:flex-start;margin-bottom:2rem;gap:1.5rem}
-  .h-ctas{flex-direction:column;align-items:flex-start;gap:.8rem;width:100%}
-  .h-ctas .btn{width:100%;justify-content:center}
+  .h-ctas{flex-direction:column;align-items:stretch;gap:.75rem;width:100%}
+  .h-ctas .btn{width:100%;justify-content:center;padding:1.1rem 1.5rem;font-size:.78rem}
   .h-desc{max-width:100%;font-size:.88rem}
   .pr-hd,.rs-hd{grid-template-columns:1fr}
   .pr-grid,.rs-grid{grid-template-columns:1fr}
@@ -479,17 +494,14 @@ body.pressing #cur{width:28px;height:28px}
   /* Stats compact on mobile */
   #stats{padding:5rem 1.5rem}
   .stat{padding:3rem 2rem}
-  /* About section */
+  /* Section paddings — luxurious but tight */
+  #hero{padding-top:0}
   #about{padding:6rem 1.5rem}
-  /* Services section */
   #services{padding:6rem 1.5rem}
-  /* Process section */
   #process{padding:6rem 1.5rem}
   .pr-grid{gap:2px}
   .pr-step{padding:2.5rem 1.8rem}
-  /* Resources section */
   #resources{padding:6rem 1.5rem}
-  /* Contact section */
   #contact{padding:8rem 1.5rem}
   .ct-h{font-size:clamp(3.2rem,12vw,5rem)}
   .ct-p{font-size:.85rem;max-width:100%}
@@ -640,61 +652,171 @@ footer{
 .stat-chev,.pr-chev,.rs-chev{display:none}
 .stat-mob-hd,.pr-mob-hd,.rs-mob-hd{display:contents}
 
+/* desktop-only / mobile-only visibility helpers */
+.desktop-only{display:block}
+.mobile-only{display:none}
+
 @media(max-width:768px){
 
-  /* ── NARROWER BOXES ── */
-  .stat{padding:2.2rem 1.5rem !important}
-  .pr-step{padding:2rem 1.5rem !important}
-  .rs-card{padding:2rem 1.5rem !important}
-
-  /* ── CHEVRONS ON ── */
-  .stat-chev,.pr-chev,.rs-chev{
-    display:block;flex-shrink:0;width:18px;height:18px;
-    color:var(--gold);opacity:.55;
-    transition:transform .38s cubic-bezier(.16,1,.3,1),opacity .25s;
-    margin-left:auto;
+  /* ── SHOW/HIDE helpers ── */
+  .desktop-only{display:none !important}
+  .mobile-only{display:block !important}
+  /* ── FORCE HIDE DESKTOP PROCESS GRID ON MOBILE ── */
+  .pr-grid.desktop-only {
+    display: none !important;
   }
 
-  /* ── STATS ── */
-  .stat{cursor:pointer}
-  .stat-mob-hd{
-    display:flex;align-items:center;
-    justify-content:space-between;gap:1rem
+  /* ═══ STATS & RESOURCES CAROUSELS ═══ */
+  #stats .s-row,#resources .rs-grid{
+    display:flex !important;grid-template-columns:none !important;
+    overflow-x:auto !important;scroll-snap-type:x mandatory !important;
+    gap:1.25rem !important;padding:1.5rem 0 2rem !important;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
   }
-  .stat.mob-open .stat-chev{transform:rotate(180deg);opacity:1}
-  .stat-l{
-    max-height:0;overflow:hidden;opacity:0;margin-top:0;
-    transition:max-height .45s cubic-bezier(.16,1,.3,1),opacity .32s ease,margin-top .32s ease;
+  #stats .s-row::-webkit-scrollbar,#resources .rs-grid::-webkit-scrollbar{display:none}
+  #stats .stat,#resources .rs-card{
+    flex:0 0 82vw !important;min-width:280px !important;
+    scroll-snap-align:center !important;border-radius:12px;
+    box-shadow:0 12px 32px rgba(200,164,106,.12);
   }
-  .stat.mob-open .stat-l{max-height:200px;opacity:1;margin-top:.9rem}
+  #stats .stat{
+    border-bottom:none !important;border-right:none !important;
+    padding:2.5rem 2rem !important;
+  }
+  #resources .rs-card{padding:2.5rem 2rem !important}
+  .stat-chev,.stat-mob-hd svg{display:none !important}
+  .stat-l{max-height:none !important;opacity:1 !important;padding-top:1.25rem}
+  .stat-mob-hd{display:flex !important;flex-direction:column;gap:.4rem}
+  .rs-chev{display:none !important}
+  .rs-b,.rs-lk{max-height:none !important;opacity:1 !important;padding-top:.75rem}
 
-  /* ── PROCESS ── */
-  .pr-step{cursor:pointer}
-  .pr-mob-hd{
-    display:flex;align-items:center;
-    justify-content:space-between;gap:1rem
-  }
-  .pr-step.mob-open .pr-chev{transform:rotate(180deg);opacity:1}
-  .pr-sb{
-    max-height:0;overflow:hidden;opacity:0;margin-top:0;
-    transition:max-height .45s cubic-bezier(.16,1,.3,1),opacity .32s ease,margin-top .32s ease;
-  }
-  .pr-step.mob-open .pr-sb{max-height:200px;opacity:1;margin-top:.75rem}
+  /* ═══ PROCESS DIAL — premium & smooth ═══ */
+  .pr-dial-container{margin:2.8rem auto 0;max-width:440px;padding:0 1.5rem}
+  .dial-wrapper{position:relative}
+  .dial-labels{position:absolute;inset:0;pointer-events:none}
 
-  /* ── RESOURCES ── */
-  .rs-card{cursor:pointer}
-  .rs-mob-hd{
-    display:flex;align-items:center;
-    justify-content:space-between;gap:.75rem;
-    width:100%
+  .dial-step{
+    position:absolute;text-align:center;font-family:var(--ff);
+    font-size:1.1rem;font-weight:300;color:rgba(242,236,224,.65);
+    line-height:1.05;pointer-events:auto;cursor:pointer;
+    transition:all .45s cubic-bezier(.16,1,.3,1);
+    transform:translateX(-50%);
   }
-  .rs-card.mob-open .rs-chev{transform:rotate(180deg);opacity:1}
-  .rs-b,.rs-lk{
-    max-height:0;overflow:hidden;opacity:0;margin-top:0;
-    transition:max-height .45s cubic-bezier(.16,1,.3,1),opacity .32s ease,margin-top .32s ease;
+  .dial-step span{
+    display:block;font-size:.68rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--gold);margin-top:6px;
+    font-family:var(--fb);
   }
-  .rs-card.mob-open .rs-b{max-height:160px;opacity:1;margin-top:.6rem}
-  .rs-card.mob-open .rs-lk{max-height:60px;opacity:1;margin-top:.5rem}
+  .dial-step.active{color:var(--paper);transform:translateX(-50%) scale(1.22)}
+  .dial-step.active span{color:var(--gold2)}
+
+  #dial-desc{
+    margin-top:2.2rem;background:rgba(200,164,106,.06);
+    border:1px solid var(--border);border-left:4px solid var(--gold);
+    border-radius:18px;padding:2.2rem 2rem;
+    box-shadow:0 25px 45px rgba(0,0,0,.35);
+  }
+  .dial-desc-inner{transition:opacity .3s ease}
+  .dial-desc-inner.fading{opacity:0}
+  .dial-desc-number{
+    font-family:var(--ff);font-size:4rem;font-weight:300;
+    color:rgba(200,164,106,.18);line-height:1;margin-bottom:-1rem;
+  }
+  .dial-desc-title{
+    font-family:var(--ff);font-size:1.95rem;font-weight:300;
+    letter-spacing:-.025em;color:var(--paper);
+  }
+  #dial-desc p{font-size:.9rem;line-height:1.75;color:var(--muted);font-weight:300;margin-top:.75rem}
+
+  /* Tap hint */
+  #process .pr-hd::after{
+    content:"Tap any step to rotate the journey →";
+    display:block;font-size:.68rem;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--gold);
+    margin-top:1.6rem;opacity:.75;font-family:var(--fb);text-align:center;
+  }
+}
+/* ── LEGACY PATH ANIMATION ── */
+#legacy-path-section .legacy-container{position:relative;max-width:1200px;margin:0 auto}
+.legacy-svg{width:100%;height:auto;filter:drop-shadow(0 0 18px rgba(200,164,106,.35)) drop-shadow(0 12px 28px rgba(200,164,106,.18))}
+#legacy-line{stroke-dasharray:0;stroke-dashoffset:0}
+.path-labels{display:flex;justify-content:space-between;max-width:1200px;margin:-18px auto 0;padding:0 5%;font-family:var(--ff);font-size:clamp(1.05rem,2.2vw,1.35rem);font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--paper);z-index:2;position:relative}
+.today-label,.legacy-label{opacity:0;transition:opacity .8s var(--e1)}
+.today-label.vis,.legacy-label.vis{opacity:1}
+.legacy-label.vis{color:var(--gold2)}
+.path-subtitle{max-width:42ch;margin:2.2rem auto 0;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:500;font-family:var(--fb);opacity:.85;text-align:center}
+@media(max-width:768px){#legacy-path-section{padding:3rem 1.5rem 2rem}.path-labels{padding:0 8%}}
+/* ── MEGA DROPDOWN ── */
+.nav-dd{position:relative}
+.nav-dd>a{display:inline-flex;align-items:center;gap:.38rem;cursor:none}
+.nav-dd>a .dd-arrow{
+  font-size:.48rem;display:inline-block;
+  transition:transform .42s var(--e1);
+  color:var(--gold);opacity:.75}
+.nav-dd:hover>a .dd-arrow{transform:rotate(180deg)}
+.nav-dd:hover>a{color:var(--paper)}
+.nav-mega{
+  position:absolute;top:calc(100% + .5rem);left:0;
+  padding-top:.5rem;
+  transform:translateY(-10px) scale(.97);transform-origin:top left;
+  min-width:400px;
+  background:transparent;
+  opacity:0;pointer-events:none;
+  transition:opacity .38s var(--e1),transform .42s var(--e1)}
+.nav-dd:hover .nav-mega{
+  opacity:1;pointer-events:auto;
+  transform:translateY(0) scale(1)}
+.nav-mega-inner{
+  background:rgba(9,9,12,.97);
+  backdrop-filter:blur(36px) saturate(1.6);-webkit-backdrop-filter:blur(36px) saturate(1.6);
+  border:1px solid rgba(200,164,106,.2);
+  border-top:2px solid var(--gold);
+  border-radius:3px;
+  box-shadow:0 24px 64px rgba(0,0,0,.55),0 4px 24px rgba(0,0,0,.3),0 0 0 1px rgba(200,164,106,.05);
+  position:relative;overflow:hidden}
+.nav-mega-inner::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--gold) 0%,rgba(200,164,106,.35) 55%,transparent 100%)}
+.mega-label{
+  font-size:.52rem;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;
+  padding:.95rem 1.65rem .75rem;
+  opacity:.55;border-bottom:1px solid rgba(200,164,106,.1)}
+.mega-grid{display:grid;grid-template-columns:1fr 1fr}
+.mega-item{
+  display:flex;align-items:center;gap:.85rem;
+  padding:1rem 1.65rem;
+  background:transparent;
+  font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;
+  font-weight:500;color:rgba(242,236,224,.42);
+  border-bottom:1px solid rgba(200,164,106,.055);
+  transition:color .3s var(--e1),background .3s var(--e1),padding-left .3s var(--e1),letter-spacing .3s var(--e1)}
+.mega-item:last-child,.mega-item:nth-last-child(2):nth-child(odd){border-bottom:none}
+.mega-item:hover{
+  color:var(--paper);
+  background:rgba(200,164,106,.065);
+  padding-left:2.1rem;
+  letter-spacing:.15em}
+.mega-item::after{
+  content:'';display:block;width:0;height:1px;
+  background:var(--gold);margin-left:auto;flex-shrink:0;
+  transition:width .35s var(--e1)}
+.mega-item:hover::after{width:18px}
+.mega-item svg{
+  width:12px;height:12px;flex-shrink:0;
+  color:var(--gold);opacity:.5;
+  transition:opacity .28s,transform .32s var(--e1)}
+.mega-item:hover svg{opacity:.9;transform:scale(1.1)}
+
+/* ── TRUST BAR ── */
+.trust-bar{background:var(--ink2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:1.2rem 4.5rem;text-align:center}
+.trust-inner{display:inline-flex;align-items:center;gap:1.8rem;flex-wrap:wrap;justify-content:center;
+  font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;color:var(--muted)}
+.trust-dot{width:3px;height:3px;border-radius:50%;background:var(--gold);flex-shrink:0}
+@media(max-width:768px){
+  .trust-bar{padding:1rem 1.5rem}
+  .trust-inner{gap:1rem;font-size:.6rem}
 }
 </style>
 </head>
@@ -733,7 +855,40 @@ footer{
     <li><a href="#services">Services</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="fee.html">Fee</a></li>
-    <li><a href="#resources">Resources</a></li>
+    <li class="nav-dd">
+      <a href="#resources">Resources <span class="dd-arrow">▾</span></a>
+      <div class="nav-mega">
+        <div class="nav-mega-inner">
+        <div class="mega-label">Resources</div>
+        <div class="mega-grid">
+          <a href="resource-retirement.html" class="mega-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 5v5l3 3"/></svg>
+            Retirement Planning
+          </a>
+          <a href="resource-estate.html" class="mega-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            Estate &amp; Legacy
+          </a>
+          <a href="resource-investment.html" class="mega-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            Investment Strategy
+          </a>
+          <a href="resource-tax.html" class="mega-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+            Tax Strategy
+          </a>
+          <a href="resource-insurance.html" class="mega-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Insurance &amp; Risk
+          </a>
+          <a href="resource-money.html" class="mega-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Money &amp; Lifestyle
+          </a>
+        </div>
+        </div>
+      </div>
+    </li>
   </ul>
   <a href="contact.html" class="nav-btn"><span>Book Consultation</span></a>
   <div class="hbg" id="hbg" role="button" tabindex="0" aria-label="Open menu">
@@ -743,7 +898,7 @@ footer{
 
 <!-- ═══════════ HERO ═══════════ -->
 <section id="hero">
-  <video id="hero-video" autoplay muted loop playsinline preload="auto"
+  <video id="hero-video" autoplay muted loop playsinline preload="none" loading="lazy"
     aria-hidden="true"
     oncanplaythrough="this.classList.add('loaded')">
     <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1772661549/mediahero-video_jpjx6a.mp4" type="video/mp4">
@@ -780,6 +935,32 @@ footer{
     </div>
     Scroll
   </div>
+</section>
+
+<!-- ═══════════ LEGACY PATH ═══════════ -->
+<section id="legacy-path-section" style="padding:4rem 4.5rem 3rem;background:var(--ink);position:relative;overflow:hidden">
+  <div class="legacy-container">
+    <svg width="100%" height="140" viewBox="0 0 1200 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="legacy-svg" aria-hidden="true">
+      <path id="legacy-line" d="M80 90 Q300 40 600 90 Q900 40 1120 90" stroke="url(#goldGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <defs>
+        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#c8a46a;stop-opacity:1"/>
+          <stop offset="50%" style="stop-color:#f0d090;stop-opacity:1"/>
+          <stop offset="100%" style="stop-color:#c8a46a;stop-opacity:1"/>
+        </linearGradient>
+        <filter id="dotGlow">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <circle id="path-dot" r="6" fill="#f2ece0" opacity="0" filter="url(#dotGlow)" style="animation:dotPulse 1.6s ease-in-out infinite"/>
+    </svg>
+    <div class="path-labels">
+      <div class="today-label">TODAY</div>
+      <div class="legacy-label">LEGACY</div>
+    </div>
+  </div>
+  <p class="path-subtitle">Your journey from where you stand today to the legacy you leave behind</p>
 </section>
 
 <!-- TICKER -->
@@ -993,7 +1174,7 @@ footer{
 </section>
 
 <!-- ═══════════ PROCESS ═══════════ -->
-<section id="process">
+<section id="process" style="padding:9rem 4.5rem;background:var(--ink3)">
   <div class="pr-hd">
     <div class="rv-l">
       <div class="pr-ky">How We Work</div>
@@ -1001,11 +1182,64 @@ footer{
     </div>
     <p class="pr-desc rv-r">Every engagement follows a disciplined four-phase framework that turns complexity into clarity — and goals into actionable financial plans.</p>
   </div>
-  <div class="pr-grid">
+
+  <!-- DESKTOP GRID — exactly as it was before -->
+  <div class="pr-grid desktop-only">
     <div class="pr-step rv" data-n="01"><div class="pr-mob-hd"><div><div class="pr-sn">01</div><div class="pr-st">Discovery</div></div><svg class="pr-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div><div class="pr-sb">We begin by listening — deeply understanding your goals, values, current financial picture, and what wealth means to you personally.</div></div>
     <div class="pr-step rv d1" data-n="02"><div class="pr-mob-hd"><div><div class="pr-sn">02</div><div class="pr-st">Analysis</div></div><svg class="pr-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div><div class="pr-sb">A thorough review of your assets, liabilities, income, risk profile, tax situation, and estate needs to identify gaps and opportunities.</div></div>
     <div class="pr-step rv d2" data-n="03"><div class="pr-mob-hd"><div><div class="pr-sn">03</div><div class="pr-st">Strategy</div></div><svg class="pr-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div><div class="pr-sb">A personalized, integrated financial plan — connecting investment, retirement, tax, and estate strategies into one coherent roadmap.</div></div>
     <div class="pr-step rv d3" data-n="04"><div class="pr-mob-hd"><div><div class="pr-sn">04</div><div class="pr-st">Partnership</div></div><svg class="pr-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div><div class="pr-sb">Ongoing guidance and proactive adjustments as life evolves. We're a long-term partner committed to your success at every milestone.</div></div>
+  </div>
+
+  <!-- MOBILE ROTATING DIAL — upgraded with glow + polish -->
+  <div class="pr-dial-container mobile-only">
+    <div class="dial-wrapper">
+      <svg id="process-dial" width="100%" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="goldGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="blur"/>
+            <feFlood flood-color="#c8a46a" flood-opacity="0.6"/>
+            <feComposite in="blur" in2="SourceGraphic" operator="out"/>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <!-- Half-circle track -->
+        <path id="dial-track" d="M40 210 Q180 55 320 210" stroke="rgba(200,164,106,.15)" stroke-width="22" stroke-linecap="round"/>
+        <!-- Glow track -->
+        <path id="dial-glow" d="M40 210 Q180 55 320 210" stroke="#c8a46a" stroke-width="11" stroke-linecap="round" opacity="0.25"/>
+        <!-- Rotating pointer group -->
+        <g id="pointer-group" style="transform-origin:180px 210px">
+          <line id="pointer" x1="180" y1="210" x2="180" y2="72" stroke="#c8a46a" stroke-width="8" stroke-linecap="round" filter="url(#goldGlow)"/>
+          <circle cx="180" cy="210" r="22" fill="#111318"/>
+          <circle cx="180" cy="210" r="13" fill="#c8a46a"/>
+        </g>
+        <!-- Step markers -->
+        <circle id="step-dot-1" cx="65" cy="195" r="13" fill="#c8a46a"/>
+        <circle id="step-dot-2" cx="125" cy="105" r="13" fill="#c8a46a"/>
+        <circle id="step-dot-3" cx="235" cy="105" r="13" fill="#c8a46a"/>
+        <circle id="step-dot-4" cx="295" cy="195" r="13" fill="#c8a46a"/>
+      </svg>
+
+      <!-- Step labels -->
+      <div class="dial-labels">
+        <div class="dial-step active" data-step="1" style="left:12%;top:66%">01<br><span>Discovery</span></div>
+        <div class="dial-step" data-step="2" style="left:29%;top:26%">02<br><span>Analysis</span></div>
+        <div class="dial-step" data-step="3" style="left:62%;top:26%">03<br><span>Strategy</span></div>
+        <div class="dial-step" data-step="4" style="left:79%;top:66%">04<br><span>Partnership</span></div>
+      </div>
+    </div>
+
+    <!-- Description panel -->
+    <div id="dial-desc" class="dial-desc">
+      <div class="dial-desc-inner">
+        <div class="dial-desc-number">01</div>
+        <div class="dial-desc-title">Discovery</div>
+        <p>We begin by listening — deeply understanding your goals, values, current financial picture, and what wealth means to you personally.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1083,7 +1317,7 @@ footer{
       </a>
     </div>
     <div class="ct-dets rv">
-      <div class="ct-d"><div class="ct-dl">Email</div><div class="ct-dv"><a href="mailto:Matthew.Pindoley@osaicwealth.com">Matthew.Pindoley@osaicwealth.com</a></div></div>
+      <div class="ct-d"><div class="ct-dl">Email</div><div class="ct-dv"><a href="/cdn-cgi/l/email-protection#216c4055554944560f71484f454e4d4458614e524048425644404d55490f424e4c"><span class="__cf_email__" data-cfemail="d19cb0a5a5b9b4a6ff81b8bfb5bebdb4a891bea2b0b8b2a6b4b0bda5b9ffb2bebc">[email&#160;protected]</span></a></div></div>
 		<div class="ct-d"><div class="ct-dl">Phone</div><div class="ct-dv"><a href="tel:+14198871002">(419) 887-1002</a></div></div>
       <div class="ct-d"><div class="ct-dl">Availability</div><div class="ct-dv">Nationwide</div></div>
     </div>
@@ -1139,7 +1373,7 @@ footer{
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── CURSOR ─────────────────────────────────────── */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-r'),lbl=document.getElementById('cur-lbl');
 let mx=0,my=0,rx=0,ry=0;
@@ -1344,53 +1578,123 @@ if(tilt){
 }
 </script>
 
-<!-- MOBILE COLLAPSE JS -->
+<!-- MOBILE COLLAPSE JS — carousels + rotating dial -->
 <script>
-/* ── MOBILE COLLAPSE — always bind, CSS controls visibility ── */
 document.addEventListener('DOMContentLoaded', function(){
+  if(window.innerWidth > 768) return; // desktop completely unchanged
 
-  // STATS
-  document.querySelectorAll('.stat').forEach(function(el){
+  // ── Services accordion (vertical, stays as-is) ──
+  document.querySelectorAll('.sv-row').forEach(function(el){
     el.addEventListener('click', function(){
       el.classList.toggle('mob-open');
     });
   });
 
-  // PROCESS
-  document.querySelectorAll('.pr-step').forEach(function(el){
-    el.addEventListener('click', function(){
-      el.classList.toggle('mob-open');
+  // ── PROCESS ROTATING DIAL ──
+  const dialSteps = document.querySelectorAll('.dial-step');
+  const pointerGroup = document.getElementById('pointer-group');
+  const descInner = document.querySelector('.dial-desc-inner');
+  const descNumber = document.querySelector('.dial-desc-number');
+  const descTitle = document.querySelector('.dial-desc-title');
+  const descText = document.querySelector('#dial-desc p');
+  const stepDots = [
+    document.getElementById('step-dot-1'),
+    document.getElementById('step-dot-2'),
+    document.getElementById('step-dot-3'),
+    document.getElementById('step-dot-4')
+  ];
+
+  if(!pointerGroup || !descInner) return;
+
+  const content = {
+    1: { num:'01', title:'Discovery',    text:'We begin by listening — deeply understanding your goals, values, current financial picture, and what wealth means to you personally.' },
+    2: { num:'02', title:'Analysis',     text:'A thorough review of your assets, liabilities, income, risk profile, tax situation, and estate needs to identify gaps and opportunities.' },
+    3: { num:'03', title:'Strategy',     text:'A personalized, integrated financial plan — connecting investment, retirement, tax, and estate strategies into one coherent roadmap.' },
+    4: { num:'04', title:'Partnership',  text:'Ongoing guidance and proactive adjustments as life evolves. We\'re a long-term partner committed to your success at every milestone.' }
+  };
+
+  // Pointer pivots from centre-bottom of the SVG (180, 200)
+  // Maps step 1–4 across the half-circle: left → right
+  const angles = { 1: -68, 2: -23, 3: 23, 4: 68 };
+
+  function rotateTo(step) {
+    // Animate pointer
+    pointerGroup.style.transition = 'transform 0.85s cubic-bezier(.16,1,.3,1)';
+    pointerGroup.style.transform = 'rotate(' + angles[step] + 'deg)';
+
+    // Highlight active label
+    dialSteps.forEach(function(s){ s.classList.remove('active'); });
+    var activeStep = document.querySelector('.dial-step[data-step="' + step + '"]');
+    if(activeStep) activeStep.classList.add('active');
+
+    // Pulse active dot, dim others
+    stepDots.forEach(function(dot, i){
+      if(!dot) return;
+      dot.setAttribute('opacity', (i + 1 === step) ? '1' : '0.3');
+    });
+
+    // Fade description out → swap → fade in
+    descInner.classList.add('fading');
+    setTimeout(function(){
+      var data = content[step];
+      descNumber.textContent = data.num;
+      descTitle.textContent = data.title;
+      descText.textContent = data.text;
+      descInner.classList.remove('fading');
+    }, 250);
+  }
+
+  dialSteps.forEach(function(step){
+    step.addEventListener('click', function(){
+      rotateTo(parseInt(step.dataset.step));
     });
   });
 
-  // RESOURCES — tap card to expand, tap Explore link to navigate
-  document.querySelectorAll('.rs-card').forEach(function(el){
-    var dest = el.getAttribute('onclick');
-    el.removeAttribute('onclick');
-    el.addEventListener('click', function(e){
-      if(window.innerWidth > 768){
-        // Desktop: behave exactly as before — navigate on click
-        if(dest){ (new Function(dest))(); }
-        return;
-      }
-      // Mobile: Explore link navigates, card tap toggles
-      if(e.target.closest('.rs-lk')){
-        if(dest){ (new Function(dest))(); }
-        return;
-      }
-      el.classList.toggle('mob-open');
-    });
-  });
+  // Initialise on step 1
+  rotateTo(1);
+});
+</script>
 
-  // On resize to desktop, clear any open states so nothing stays stuck
-  window.addEventListener('resize', function(){
-    if(window.innerWidth > 768){
-      document.querySelectorAll('.stat,.pr-step,.rs-card').forEach(function(el){
-        el.classList.remove('mob-open');
-      });
+<script>
+/* ── LEGACY PATH — scroll-triggered -second draw ── */
+function initLegacyPath() {
+  const line = document.getElementById('legacy-line');
+  if (!line) return;
+  const length = line.getTotalLength();
+  line.style.strokeDasharray = length;
+  line.style.strokeDashoffset = length;
+  const duration = 5500;
+  const start = performance.now();
+  const eased = t => t < 0.5 ? 4*t*t*t : 1-((-2*t+2)**3)/2;
+  const dot = document.getElementById('path-dot');
+  const todayLbl = document.querySelector('.today-label');
+  const legacyLbl = document.querySelector('.legacy-label');
+  if (todayLbl) setTimeout(() => todayLbl.classList.add('vis'), 200);
+  function frame(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const ep = eased(progress);
+    line.style.strokeDashoffset = length * (1 - ep);
+    if (dot) {
+      const pt = line.getPointAtLength(length * ep);
+      dot.setAttribute('cx', pt.x);
+      dot.setAttribute('cy', pt.y);
+      dot.setAttribute('opacity', progress > 0.05 && progress < 0.97 ? '1' : '0');
+    }
+    if (progress >= 0.75 && legacyLbl) legacyLbl.classList.add('vis');
+    if (progress < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+const lpObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      initLegacyPath();
+      lpObserver.disconnect();
     }
   });
-});
+}, { threshold: 0.3 });
+const lpSection = document.getElementById('legacy-path-section');
+if (lpSection) lpObserver.observe(lpSection);
 </script>
 
 <!-- DISCLOSURE PILL -->
@@ -1400,10 +1704,4 @@ document.addEventListener('DOMContentLoaded', function(){
 </a>
 
 <!-- FINRA BROKERCHECK PILL -->
-<a id="finra-pill" href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer" aria-label="FINRA BrokerCheck">
-  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 2L12.5 7.5H18L13.5 11L15.5 17L10 13.5L4.5 17L6.5 11L2 7.5H7.5Z"/></svg>
-  FINRA BrokerCheck
-</a>
-
-</body>
-</html>
+<a id="finra-pill" href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer" aria-label=
