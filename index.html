@@ -690,34 +690,86 @@ footer{
   .rs-chev{display:none !important}
   .rs-b,.rs-lk{max-height:none !important;opacity:1 !important;padding-top:.75rem}
 
-  /* ═══ PROCESS DIAL — premium & smooth ═══ */
-  .pr-dial-container{margin:2.8rem auto 0;max-width:440px;padding:0 1.5rem}
-  .dial-wrapper{position:relative}
-  .dial-labels{position:absolute;inset:0;pointer-events:none}
+  /* ── MOBILE DIAL — ULTRA PREMIUM UPGRADE ── */
+  .pr-dial-container{
+    margin:3.2rem auto 0;
+    max-width:460px;
+    padding:0 1.5rem;
+  }
 
+  .dial-wrapper{
+    position:relative;
+    filter:drop-shadow(0 25px 40px rgba(200,164,106,.18));
+  }
+
+  #process-dial{
+    filter:drop-shadow(0 10px 25px rgba(200,164,106,.25));
+  }
+
+  /* Stronger, richer gold glow track */
+  #dial-glow{
+    stroke:#c8a46a;
+    stroke-width:13;
+    opacity:0.35;
+    filter:drop-shadow(0 0 18px #c8a46a);
+  }
+
+  /* Pointer glow & premium feel */
+  #pointer{
+    stroke:#c8a46a;
+    stroke-width:9;
+    filter:drop-shadow(0 0 22px #c8a46a) drop-shadow(0 0 8px #c8a46a);
+  }
+
+  /* Step dots — more luxurious */
+  #step-dot-1,
+  #step-dot-2,
+  #step-dot-3,
+  #step-dot-4{
+    filter:drop-shadow(0 0 12px #c8a46a);
+    transition:all .4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  /* Active state on mobile labels */
   .dial-step{
     position:absolute;text-align:center;font-family:var(--ff);
     font-size:1.1rem;font-weight:300;color:rgba(242,236,224,.65);
     line-height:1.05;pointer-events:auto;cursor:pointer;
-    transition:all .45s cubic-bezier(.16,1,.3,1);
+    transition:all .45s cubic-bezier(0.16,1,0.3,1);
     transform:translateX(-50%);
+  }
+  .dial-step.active{
+    color:var(--paper);
+    transform:translateX(-50%) scale(1.28);
+    text-shadow:0 0 25px rgba(200,164,106,.6);
   }
   .dial-step span{
     display:block;font-size:.68rem;letter-spacing:.16em;
     text-transform:uppercase;color:var(--gold);margin-top:6px;
     font-family:var(--fb);
+    transition:all .45s cubic-bezier(0.16,1,0.3,1);
   }
-  .dial-step.active{color:var(--paper);transform:translateX(-50%) scale(1.22)}
-  .dial-step.active span{color:var(--gold2)}
+  .dial-step.active span{
+    color:#ddb878;
+    opacity:1;
+  }
 
+  /* Description panel — much more premium */
   #dial-desc{
-    margin-top:2.2rem;background:rgba(200,164,106,.06);
-    border:1px solid var(--border);border-left:4px solid var(--gold);
-    border-radius:18px;padding:2.2rem 2rem;
-    box-shadow:0 25px 45px rgba(0,0,0,.35);
+    margin-top:2.8rem;
+    background:rgba(200,164,106,.055);
+    border:1px solid var(--border);
+    border-left:5px solid var(--gold);
+    border-radius:22px;
+    padding:2.8rem 2.4rem;
+    box-shadow:0 30px 60px rgba(0,0,0,.45),
+               0 0 0 1px rgba(200,164,106,.12) inset;
+    transition:transform .3s cubic-bezier(0.16,1,0.3,1);
   }
-  .dial-desc-inner{transition:opacity .3s ease}
-  .dial-desc-inner.fading{opacity:0}
+  #dial-desc:active{
+    transform:scale(0.98);
+  }
+  .dial-desc-inner{transition:opacity .28s ease, transform .28s ease}
   .dial-desc-number{
     font-family:var(--ff);font-size:4rem;font-weight:300;
     color:rgba(200,164,106,.18);line-height:1;margin-bottom:-1rem;
@@ -727,6 +779,12 @@ footer{
     letter-spacing:-.025em;color:var(--paper);
   }
   #dial-desc p{font-size:.9rem;line-height:1.75;color:var(--muted);font-weight:300;margin-top:.75rem}
+
+  /* Touch feedback on whole dial */
+  .dial-wrapper:active{
+    transform:scale(0.97);
+    transition:transform .15s ease;
+  }
 
   /* Tap hint */
   #process .pr-hd::after{
@@ -807,6 +865,126 @@ footer{
   color:var(--gold);opacity:.5;
   transition:opacity .28s,transform .32s var(--e1)}
 .mega-item:hover svg{opacity:.9;transform:scale(1.1)}
+
+/* ── DESKTOP PROCESS DIAL ── */
+.pr-desktop-dial{
+  display:grid;
+  grid-template-columns:1.1fr 0.9fr;
+  gap:5.5rem;
+  align-items:center;
+}
+.pr-dt-dial-outer{
+  position:relative;
+  width:100%;
+  padding-bottom:53.57%; /* 300÷560 — locks aspect ratio */
+}
+.pr-dt-dial-outer > svg,
+.dt-labels-wrap{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+.dt-labels-wrap{pointer-events:none}
+.dt-dial-step-dt{
+  position:absolute;
+  text-align:center;
+  font-family:var(--ff);
+  font-size:1.2rem;
+  font-weight:300;
+  color:rgba(242,236,224,.42);
+  line-height:1.05;
+  pointer-events:auto;
+  cursor:none;
+  transform:translateX(-50%);
+  transition:color .5s var(--e1),transform .5s var(--e1),opacity .5s var(--e1);
+}
+.dt-dial-step-dt span{
+  display:block;
+  font-size:.6rem;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+  color:var(--gold);
+  opacity:.6;
+  margin-top:5px;
+  font-family:var(--fb);
+  transition:opacity .4s,color .4s;
+}
+.dt-dial-step-dt.active{
+  color:var(--paper);
+  transform:translateX(-50%) scale(1.22);
+}
+.dt-dial-step-dt.active span{color:var(--gold2);opacity:1}
+#dt-dial-desc{
+  background:rgba(200,164,106,.055);
+  border:1px solid var(--border);
+  border-left:4px solid var(--gold);
+  border-radius:20px;
+  padding:3.6rem 3.2rem 3rem;
+  box-shadow:0 32px 64px rgba(0,0,0,.42);
+  position:relative;
+}
+.dt-dial-desc-inner{transition:opacity .28s ease}
+.dt-dial-desc-inner.fading{opacity:0}
+.dt-dial-desc-number{
+  font-family:var(--ff);
+  font-size:5rem;
+  font-weight:300;
+  color:rgba(200,164,106,.13);
+  line-height:1;
+  margin-bottom:-.75rem;
+  letter-spacing:-.04em;
+}
+.dt-dial-desc-title{
+  font-family:var(--ff);
+  font-size:2.7rem;
+  font-weight:300;
+  letter-spacing:-.032em;
+  color:var(--paper);
+  line-height:1.05;
+}
+#dt-dial-desc p{
+  font-size:.87rem;
+  line-height:1.82;
+  color:var(--muted);
+  font-weight:300;
+  margin-top:.9rem;
+}
+.dt-dial-divider{
+  height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  margin:1.8rem 0;
+  opacity:.28;
+}
+.dt-prog-dots{
+  display:flex;gap:.55rem;margin-top:2.4rem;
+}
+.dt-prog-dot{
+  width:22px;height:2px;border-radius:99px;
+  background:rgba(200,164,106,.18);
+  transition:background .5s var(--e1),width .5s var(--e1);
+}
+.dt-prog-dot.active{background:var(--gold);width:38px}
+.dt-dial-hint{
+  display:block;
+  font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);opacity:.38;
+  font-family:var(--fb);margin-top:1.6rem;
+}
+/* tablet breakpoint — stack */
+@media(max-width:1000px){
+  .pr-desktop-dial{grid-template-columns:1fr;gap:3rem}
+}
+@media(hover:none){.dt-dial-step-dt{cursor:pointer}}
+
+/* Desktop dial micro-polish */
+.dt-dial-step-dt:hover{
+  color:var(--paper);
+  text-shadow:0 0 20px rgba(200,164,106,.5);
+}
+.dt-dial-step-dt.active{
+  text-shadow:0 0 28px rgba(200,164,106,.7);
+}
 
 /* ── TRUST BAR ── */
 .trust-bar{background:var(--ink2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
@@ -1183,12 +1361,81 @@ footer{
     <p class="pr-desc rv-r">Every engagement follows a disciplined four-phase framework that turns complexity into clarity — and goals into actionable financial plans.</p>
   </div>
 
-  <!-- DESKTOP GRID — exactly as it was before -->
-  <div class="pr-grid desktop-only">
-    <div class="pr-step rv" data-n="01"><div class="pr-mob-hd"><div><div class="pr-sn">01</div><div class="pr-st">Discovery</div></div><svg class="pr-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div><div class="pr-sb">We begin by listening — deeply understanding your goals, values, current financial picture, and what wealth means to you personally.</div></div>
-    <div class="pr-step rv d1" data-n="02"><div class="pr-mob-hd"><div><div class="pr-sn">02</div><div class="pr-st">Analysis</div></div><svg class="pr-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div><div class="pr-sb">A thorough review of your assets, liabilities, income, risk profile, tax situation, and estate needs to identify gaps and opportunities.</div></div>
-    <div class="pr-step rv d2" data-n="03"><div class="pr-mob-hd"><div><div class="pr-sn">03</div><div class="pr-st">Strategy</div></div><svg class="pr-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div><div class="pr-sb">A personalized, integrated financial plan — connecting investment, retirement, tax, and estate strategies into one coherent roadmap.</div></div>
-    <div class="pr-step rv d3" data-n="04"><div class="pr-mob-hd"><div><div class="pr-sn">04</div><div class="pr-st">Partnership</div></div><svg class="pr-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div><div class="pr-sb">Ongoing guidance and proactive adjustments as life evolves. We're a long-term partner committed to your success at every milestone.</div></div>
+  <!-- DESKTOP ROTATING DIAL -->
+  <div class="pr-desktop-dial desktop-only">
+
+    <!-- Left: SVG dial -->
+    <div class="pr-dt-dial-outer">
+      <svg id="dt-process-dial" viewBox="0 0 560 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Needle gradient: fades from hub upward -->
+          <linearGradient id="dtNeedleGrad" x1="280" y1="270" x2="280" y2="65" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="rgba(200,164,106,0.22)"/>
+            <stop offset="100%" stop-color="#c8a46a"/>
+          </linearGradient>
+          <!-- Hub glow -->
+          <filter id="dtHubGlow" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <!-- Active dot pulse -->
+          <filter id="dtDotGlow" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="4" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Outer fill band (soft glow backdrop) -->
+        <path d="M65 270 Q280 30 495 270" stroke="rgba(200,164,106,.06)" stroke-width="38" stroke-linecap="round"/>
+        <!-- Inner arc track -->
+        <path d="M65 270 Q280 30 495 270" stroke="rgba(200,164,106,.16)" stroke-width="2.5" stroke-linecap="round"/>
+
+        <!-- Step dots (fixed, not rotating) -->
+        <circle id="dt-step-dot-1" cx="90"  cy="193" r="10" fill="#c8a46a" opacity="1" filter="url(#dtDotGlow)"/>
+        <circle id="dt-step-dot-2" cx="200" cy="81"  r="10" fill="#c8a46a" opacity="0.28"/>
+        <circle id="dt-step-dot-3" cx="360" cy="81"  r="10" fill="#c8a46a" opacity="0.28"/>
+        <circle id="dt-step-dot-4" cx="470" cy="193" r="10" fill="#c8a46a" opacity="0.28"/>
+
+        <!-- Rotating pointer (pivots around hub at 280, 270) -->
+        <g id="dt-pointer-group" style="transform-origin:280px 270px">
+          <!-- Needle -->
+          <line x1="280" y1="270" x2="280" y2="68" stroke="url(#dtNeedleGrad)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Hub outer ring -->
+          <circle cx="280" cy="270" r="28" fill="var(--ink3)" stroke="rgba(200,164,106,.22)" stroke-width="1.5"/>
+          <!-- Hub fill -->
+          <circle cx="280" cy="270" r="16" fill="#c8a46a" filter="url(#dtHubGlow)"/>
+          <!-- Hub inner dot -->
+          <circle cx="280" cy="270" r="5" fill="var(--ink3)"/>
+        </g>
+      </svg>
+
+      <!-- Overlay step labels -->
+      <div class="dt-labels-wrap">
+        <div class="dt-dial-step-dt active" data-step="1" style="left:16%;top:50%">01<br><span>Discovery</span></div>
+        <div class="dt-dial-step-dt"        data-step="2" style="left:36%;top:15%">02<br><span>Analysis</span></div>
+        <div class="dt-dial-step-dt"        data-step="3" style="left:64%;top:15%">03<br><span>Strategy</span></div>
+        <div class="dt-dial-step-dt"        data-step="4" style="left:84%;top:50%">04<br><span>Partnership</span></div>
+      </div>
+    </div>
+
+    <!-- Right: description panel -->
+    <div id="dt-dial-desc">
+      <div class="dt-dial-desc-inner">
+        <div class="dt-dial-desc-number">01</div>
+        <div class="dt-dial-desc-title">Discovery</div>
+        <div class="dt-dial-divider"></div>
+        <p>We begin by listening — deeply understanding your goals, values, current financial picture, and what wealth means to you personally.</p>
+      </div>
+      <!-- Step progress indicator -->
+      <div class="dt-prog-dots">
+        <span class="dt-prog-dot active" data-prog="1"></span>
+        <span class="dt-prog-dot"        data-prog="2"></span>
+        <span class="dt-prog-dot"        data-prog="3"></span>
+        <span class="dt-prog-dot"        data-prog="4"></span>
+      </div>
+      <span class="dt-dial-hint">Click any step — auto-advances every 4 seconds</span>
+    </div>
+
   </div>
 
   <!-- MOBILE ROTATING DIAL — upgraded with glow + polish -->
@@ -1317,7 +1564,7 @@ footer{
       </a>
     </div>
     <div class="ct-dets rv">
-      <div class="ct-d"><div class="ct-dl">Email</div><div class="ct-dv"><a href="/cdn-cgi/l/email-protection#216c4055554944560f71484f454e4d4458614e524048425644404d55490f424e4c"><span class="__cf_email__" data-cfemail="d19cb0a5a5b9b4a6ff81b8bfb5bebdb4a891bea2b0b8b2a6b4b0bda5b9ffb2bebc">[email&#160;protected]</span></a></div></div>
+      	<div class="ct-d"><div class="ct-dl">Email</div><div class="ct-dv"><a href="mailto:Matthew.Pindoley@osaicwealth.com">Matthew.Pindoley@osaicwealth.com</a></div></div>
 		<div class="ct-d"><div class="ct-dl">Phone</div><div class="ct-dv"><a href="tel:+14198871002">(419) 887-1002</a></div></div>
       <div class="ct-d"><div class="ct-dl">Availability</div><div class="ct-dv">Nationwide</div></div>
     </div>
@@ -1578,12 +1825,132 @@ if(tilt){
 }
 </script>
 
-<!-- MOBILE COLLAPSE JS — carousels + rotating dial -->
+<!-- DESKTOP PROCESS DIAL JS -->
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-  if(window.innerWidth > 768) return; // desktop completely unchanged
+  if(window.innerWidth <= 768) return; // mobile handled separately
 
-  // ── Services accordion (vertical, stays as-is) ──
+  var dtPointerGroup = document.getElementById('dt-pointer-group');
+  var dtDescInner    = document.querySelector('.dt-dial-desc-inner');
+  var dtDescNumber   = document.querySelector('.dt-dial-desc-number');
+  var dtDescTitle    = document.querySelector('.dt-dial-desc-title');
+  var dtDescText     = document.querySelector('#dt-dial-desc p');
+  var dtSteps        = document.querySelectorAll('.dt-dial-step-dt');
+  var dtProgDots     = document.querySelectorAll('.dt-prog-dot');
+  var dtContainer    = document.querySelector('.pr-desktop-dial');
+  var dtDotEls       = [
+    document.getElementById('dt-step-dot-1'),
+    document.getElementById('dt-step-dot-2'),
+    document.getElementById('dt-step-dot-3'),
+    document.getElementById('dt-step-dot-4')
+  ];
+
+  if(!dtPointerGroup || !dtDescInner || !dtContainer) return;
+
+  var dtContent = {
+    1:{ num:'01', title:'Discovery',
+        text:'We begin by listening — deeply understanding your goals, values, current financial picture, and what wealth means to you personally.' },
+    2:{ num:'02', title:'Analysis',
+        text:'A thorough review of your assets, liabilities, income, risk profile, tax situation, and estate needs to identify gaps and opportunities.' },
+    3:{ num:'03', title:'Strategy',
+        text:'A personalized, integrated financial plan — connecting investment, retirement, tax, and estate strategies into one coherent roadmap.' },
+    4:{ num:'04', title:'Partnership',
+        text:"Ongoing guidance and proactive adjustments as life evolves. We're a long-term partner committed to your success at every milestone." }
+  };
+
+  // Angles from vertical (up) to each step position
+  var dtAngles = { 1:-68, 2:-23, 3:23, 4:68 };
+  var currentStep = 0; // forces first rotation to animate
+  var autoTimer   = null;
+  var paused      = false;
+
+  function dtRotateTo(step) {
+    if(step === currentStep) return;
+    currentStep = step;
+
+    // Pointer
+    dtPointerGroup.style.transition = 'transform 0.92s cubic-bezier(.16,1,.3,1)';
+    dtPointerGroup.style.transform  = 'rotate(' + dtAngles[step] + 'deg)';
+
+    // Step labels
+    dtSteps.forEach(function(s){ s.classList.remove('active'); });
+    var lbl = document.querySelector('.dt-dial-step-dt[data-step="' + step + '"]');
+    if(lbl) lbl.classList.add('active');
+
+    // SVG dots
+    dtDotEls.forEach(function(dot, i){
+      if(!dot) return;
+      dot.setAttribute('opacity', (i + 1 === step) ? '1' : '0.28');
+      // glow filter only on active
+      dot.setAttribute('filter', (i + 1 === step) ? 'url(#dtDotGlow)' : '');
+    });
+
+    // Progress bar dots
+    dtProgDots.forEach(function(pd, i){
+      pd.classList.toggle('active', i + 1 === step);
+    });
+
+    // Fade description out → in
+    dtDescInner.classList.add('fading');
+    setTimeout(function(){
+      var d = dtContent[step];
+      dtDescNumber.textContent = d.num;
+      dtDescTitle.textContent  = d.title;
+      dtDescText.textContent   = d.text;
+      dtDescInner.classList.remove('fading');
+    }, 270);
+  }
+
+  function advance(){
+    dtRotateTo((currentStep % 4) + 1);
+  }
+
+  function startAuto(){
+    if(autoTimer) clearInterval(autoTimer);
+    autoTimer = setInterval(advance, 4000);
+  }
+
+  function stopAuto(){
+    clearInterval(autoTimer);
+    autoTimer = null;
+  }
+
+  // Click on any step label
+  dtSteps.forEach(function(s){
+    s.addEventListener('click', function(){
+      stopAuto();
+      dtRotateTo(parseInt(s.dataset.step));
+      if(!paused) startAuto();
+    });
+  });
+
+  // Click on progress dots
+  dtProgDots.forEach(function(pd){
+    pd.addEventListener('click', function(){
+      stopAuto();
+      dtRotateTo(parseInt(pd.dataset.prog));
+      if(!paused) startAuto();
+    });
+  });
+
+  // Hover — pause auto-advance
+  dtContainer.addEventListener('mouseenter', function(){ paused = true;  stopAuto(); });
+  dtContainer.addEventListener('mouseleave', function(){ paused = false; startAuto(); });
+
+  // Boot: slight delay so pointer transition is visible on load
+  setTimeout(function(){
+    dtRotateTo(1);
+    startAuto();
+  }, 600);
+});
+</script>
+
+<!-- MOBILE DIAL — PREMIUM UPGRADE -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  if(window.innerWidth > 768) return;
+
+  // ── Services accordion ──
   document.querySelectorAll('.sv-row').forEach(function(el){
     el.addEventListener('click', function(){
       el.classList.toggle('mob-open');
@@ -1591,13 +1958,13 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 
   // ── PROCESS ROTATING DIAL ──
-  const dialSteps = document.querySelectorAll('.dial-step');
+  const dialSteps    = document.querySelectorAll('.dial-step');
   const pointerGroup = document.getElementById('pointer-group');
-  const descInner = document.querySelector('.dial-desc-inner');
-  const descNumber = document.querySelector('.dial-desc-number');
-  const descTitle = document.querySelector('.dial-desc-title');
-  const descText = document.querySelector('#dial-desc p');
-  const stepDots = [
+  const descInner    = document.querySelector('.dial-desc-inner');
+  const descNumber   = document.querySelector('.dial-desc-number');
+  const descTitle    = document.querySelector('.dial-desc-title');
+  const descText     = document.querySelector('#dial-desc p');
+  const stepDots     = [
     document.getElementById('step-dot-1'),
     document.getElementById('step-dot-2'),
     document.getElementById('step-dot-3'),
@@ -1607,51 +1974,59 @@ document.addEventListener('DOMContentLoaded', function(){
   if(!pointerGroup || !descInner) return;
 
   const content = {
-    1: { num:'01', title:'Discovery',    text:'We begin by listening — deeply understanding your goals, values, current financial picture, and what wealth means to you personally.' },
-    2: { num:'02', title:'Analysis',     text:'A thorough review of your assets, liabilities, income, risk profile, tax situation, and estate needs to identify gaps and opportunities.' },
-    3: { num:'03', title:'Strategy',     text:'A personalized, integrated financial plan — connecting investment, retirement, tax, and estate strategies into one coherent roadmap.' },
-    4: { num:'04', title:'Partnership',  text:'Ongoing guidance and proactive adjustments as life evolves. We\'re a long-term partner committed to your success at every milestone.' }
+    1: { num:'01', title:'Discovery',   text:'We begin by listening — deeply understanding your goals, values, current financial picture, and what wealth means to you personally.' },
+    2: { num:'02', title:'Analysis',    text:'A thorough review of your assets, liabilities, income, risk profile, tax situation, and estate needs to identify gaps and opportunities.' },
+    3: { num:'03', title:'Strategy',    text:'A personalized, integrated financial plan — connecting investment, retirement, tax, and estate strategies into one coherent roadmap.' },
+    4: { num:'04', title:'Partnership', text:"Ongoing guidance and proactive adjustments as life evolves. We're a long-term partner committed to your success at every milestone." }
   };
 
-  // Pointer pivots from centre-bottom of the SVG (180, 200)
-  // Maps step 1–4 across the half-circle: left → right
   const angles = { 1: -68, 2: -23, 3: 23, 4: 68 };
 
   function rotateTo(step) {
-    // Animate pointer
-    pointerGroup.style.transition = 'transform 0.85s cubic-bezier(.16,1,.3,1)';
-    pointerGroup.style.transform = 'rotate(' + angles[step] + 'deg)';
+    // Smooth premium rotation
+    pointerGroup.style.transition = 'transform 0.95s cubic-bezier(0.16,1,0.3,1)';
+    pointerGroup.style.transform  = `rotate(${angles[step]}deg)`;
 
-    // Highlight active label
-    dialSteps.forEach(function(s){ s.classList.remove('active'); });
-    var activeStep = document.querySelector('.dial-step[data-step="' + step + '"]');
-    if(activeStep) activeStep.classList.add('active');
+    // Active label
+    dialSteps.forEach(s => s.classList.remove('active'));
+    const activeLabel = document.querySelector(`.dial-step[data-step="${step}"]`);
+    if(activeLabel) activeLabel.classList.add('active');
 
     // Pulse active dot, dim others
-    stepDots.forEach(function(dot, i){
+    stepDots.forEach((dot, i) => {
       if(!dot) return;
-      dot.setAttribute('opacity', (i + 1 === step) ? '1' : '0.3');
+      dot.setAttribute('opacity', (i + 1 === step) ? '1' : '0.32');
     });
 
-    // Fade description out → swap → fade in
-    descInner.classList.add('fading');
-    setTimeout(function(){
-      var data = content[step];
+    // Premium slide-fade transition on description
+    descInner.style.opacity   = '0';
+    descInner.style.transform = 'translateY(12px)';
+
+    setTimeout(() => {
+      const data = content[step];
       descNumber.textContent = data.num;
-      descTitle.textContent = data.title;
-      descText.textContent = data.text;
-      descInner.classList.remove('fading');
-    }, 250);
+      descTitle.textContent  = data.title;
+      descText.textContent   = data.text;
+
+      descInner.style.transition = 'opacity 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.4s cubic-bezier(0.16,1,0.3,1)';
+      descInner.style.opacity    = '1';
+      descInner.style.transform  = 'translateY(0)';
+    }, 180);
   }
 
-  dialSteps.forEach(function(step){
-    step.addEventListener('click', function(){
+  // Click handlers with haptic-style scale feedback
+  dialSteps.forEach(step => {
+    step.addEventListener('click', () => {
+      step.style.transition = 'transform 0.12s ease';
+      step.style.transform  = 'translateX(-50%) scale(0.88)';
+      setTimeout(() => { step.style.transform = ''; }, 120);
+
       rotateTo(parseInt(step.dataset.step));
     });
   });
 
-  // Initialise on step 1
-  rotateTo(1);
+  // Initial load
+  setTimeout(() => rotateTo(1), 400);
 });
 </script>
 
