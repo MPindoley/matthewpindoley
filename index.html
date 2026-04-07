@@ -523,9 +523,16 @@ body.pressing #cur{width:28px;height:28px}
   #hero{padding-top:0}
   #about{padding:6rem 1.5rem}
   #services{padding:6rem 1.5rem}
-  #process{padding:6rem 1.2rem}
-  .pr-grid{gap:2px}
-  .pr-step{padding:2.5rem 1.8rem}
+  #process{padding:6rem 0rem}
+  .pr-grid{gap:1px}
+  .pr-step{padding:0rem 1.5rem}
+  .pr-mob-dial {
+    padding: 0 !important;           /* ← makes dial + SVG touch the edges */
+  }
+
+  .pr-hd {
+    padding: 0 1.5rem;               /* ← keeps the heading text readable / inset */
+  }
   #resources{padding:6rem 1.5rem}
   #contact{padding:8rem 1.5rem}
   .ct-h{font-size:clamp(3.2rem,12vw,5rem)}
@@ -720,7 +727,7 @@ footer{
     margin:2.2rem auto 0;
     width:100%;
     max-width:100%;
-    padding:0 1rem;
+    padding:0;
   }
 
   /* Aspect-ratio wrapper — SVG scales naturally via height:auto */
@@ -1132,7 +1139,23 @@ footer{
 <div id="cur-r" aria-hidden="true"></div>
 <div id="cur-lbl" aria-hidden="true">VIEW</div>
 
-<!-- DISCLOSURE PILL -->
+<a id="disc-pill" href="disclosure.html" aria-label="View Disclosures">
+  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+    <circle cx="10" cy="10" r="8"/>
+    <line x1="10" y1="9" x2="10" y2="14"/>
+    <circle cx="10" cy="6.5" r=".8" fill="currentColor" stroke="none"/>
+  </svg>
+  Disclosures
+</a>
+
+<!-- FINRA BROKERCHECK PILL -->
+<a id="finra-pill" href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer" aria-label="FINRA BrokerCheck">
+  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+    <path d="M10 2L12.5 7.5H18L13.5 11L15.5 17L10 13.5L4.5 17L6.5 11L2 7.5H7.5Z"/>
+  </svg>
+  FINRA BrokerCheck
+</a>
+
 <!-- LOADER -->
 <div id="ld" role="status">
   <div class="ld-label">Matthew Pindoley &mdash; SE-AWMA<sup>®</sup></div>
@@ -2247,7 +2270,3 @@ const lpObserver = new IntersectionObserver((entries) => {
 const lpSection = document.getElementById('legacy-path-section');
 if (lpSection) lpObserver.observe(lpSection);
 </script>
-
-<!-- DISCLOSURE PILL -->
-<a id="disc-pill" href="disclosure.html" aria-label="View Disclosures">
-  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line x1="10
