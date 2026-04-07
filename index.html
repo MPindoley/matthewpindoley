@@ -373,14 +373,33 @@ body.pressing #cur{width:28px;height:28px}
 .pr-sb{font-size:.82rem;line-height:1.72;color:var(--muted);font-weight:300}
 
 /* MARQUEE */
-.mq{padding:4.8rem 0;overflow:hidden;
-  border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--ink)}
-.mq-t{display:inline-flex;animation:mq 20s linear infinite;white-space:nowrap}
+.mq{
+  padding:2.2rem 0;
+  overflow:hidden;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:var(--ink);
+}
+.mq-t{
+  display:inline-flex;
+  animation:mq 25s linear infinite;
+  white-space:nowrap;
+}
 .mq-t:hover{animation-play-state:paused}
-.mq-i{font-family:var(--ff);font-size:clamp(2.8rem,5.5vw,5.5rem);
-  font-weight:300;letter-spacing:-.025em;padding:0 2.5rem;
-  color:rgba(242,236,224,.07);flex-shrink:0}
-.mq-i.ac{color:var(--gold);opacity:.42;font-style:italic}
+.mq-i{
+  font-family:var(--ff);
+  font-size:clamp(1.35rem,2.8vw,1.8rem);
+  font-weight:300;
+  letter-spacing:-.015em;
+  padding:0 2.2rem;
+  color:rgba(242,236,224,.12);
+  flex-shrink:0;
+}
+.mq-i.ac{
+  color:var(--gold);
+  opacity:.55;
+  font-style:italic;
+}
 
 /* RESOURCES */
 #resources{padding:9rem 4.5rem;background:var(--ink2)}
@@ -489,7 +508,8 @@ body.pressing #cur{width:28px;height:28px}
   .h-ctas{flex-direction:column;align-items:stretch;gap:.75rem;width:100%}
   .h-ctas .btn{width:100%;justify-content:center;padding:1.1rem 1.5rem;font-size:.78rem}
   .h-desc{max-width:100%;font-size:.88rem}
-  .pr-hd,.rs-hd{grid-template-columns:1fr}
+  .pr-hd,.rs-hd{grid-template-columns:1fr;gap:1.8rem;margin-bottom:3rem}
+  .pr-h{font-size:clamp(2.2rem,8vw,3.5rem)}
   .pr-grid,.rs-grid{grid-template-columns:1fr}
   /* Service accordion — collapse to 3-col grid, hide tag to prevent overflow */
   .sv-row-head{grid-template-columns:2.5rem 1fr auto;gap:1rem;padding:1.6rem 0}
@@ -503,7 +523,7 @@ body.pressing #cur{width:28px;height:28px}
   #hero{padding-top:0}
   #about{padding:6rem 1.5rem}
   #services{padding:6rem 1.5rem}
-  #process{padding:6rem 1.5rem}
+  #process{padding:6rem 1.2rem}
   .pr-grid{gap:2px}
   .pr-step{padding:2.5rem 1.8rem}
   #resources{padding:6rem 1.5rem}
@@ -697,16 +717,16 @@ footer{
 
   /* ── MOBILE DIAL — REBUILT TO MATCH DESKTOP ── */
   .pr-mob-dial{
-    margin:3.5rem auto 0;
+    margin:2.2rem auto 0;
     width:100%;
     max-width:100%;
-    padding:0 0.5rem;
+    padding:0 1rem;
   }
 
   /* Aspect-ratio wrapper — SVG scales naturally via height:auto */
   .mob-dial-outer{
     position:relative;
-    filter:drop-shadow(0 18px 36px rgba(200,164,106,.18));
+    filter:drop-shadow(0 12px 28px rgba(200,164,106,.18));
   }
 
   #process-dial{
@@ -727,7 +747,7 @@ footer{
     position:absolute;
     text-align:center;
     font-family:var(--ff);
-    font-size:1.08rem;
+    font-size:1.05rem;
     font-weight:300;
     color:rgba(242,236,224,.42);
     line-height:1.05;
@@ -736,8 +756,8 @@ footer{
     transform:translateX(-50%);
     transition:color .45s var(--e1), text-shadow .45s var(--e1), opacity .45s var(--e1);
     /* ── Fat invisible hit box ── */
-    padding:18px 22px;
-    margin:-18px -22px;
+    padding:14px 18px;
+    margin:-14px -18px;
   }
   .dial-step.active{
     color:var(--paper);
@@ -745,7 +765,7 @@ footer{
   }
   .dial-step span{
     display:block;
-    font-size:.6rem;
+    font-size:.58rem;
     letter-spacing:.17em;
     text-transform:uppercase;
     color:var(--gold);
@@ -756,16 +776,17 @@ footer{
   }
   .dial-step.active span{ color:var(--gold2); opacity:1; }
 
-  /* Description panel — identical structure/style to desktop */
+  /* Description panel — fuller width, comfortable padding, legible text */
   #mob-dial-desc{
-    margin-top:2.4rem;
+    margin-top:1.6rem;
     background:rgba(200,164,106,.055);
     border:1px solid var(--border);
     border-left:4px solid var(--gold);
-    border-radius:20px;
-    padding:2.2rem 1.5rem 1.8rem;
-    box-shadow:0 32px 64px rgba(0,0,0,.42);
+    border-radius:16px;
+    padding:2.2rem 2rem 2rem;
+    box-shadow:0 24px 48px rgba(0,0,0,.35);
     position:relative;
+    width:100%;
   }
   .mob-dial-desc-inner{
     transition:opacity .22s ease;
@@ -773,40 +794,40 @@ footer{
   .mob-dial-desc-inner.fading{ opacity:0; }
   .mob-dial-desc-number{
     font-family:var(--ff);
-    font-size:4.8rem;
+    font-size:3.8rem;
     font-weight:300;
     color:rgba(200,164,106,.13);
     line-height:1;
-    margin-bottom:-.75rem;
+    margin-bottom:-.65rem;
     letter-spacing:-.04em;
   }
   .mob-dial-desc-title{
     font-family:var(--ff);
-    font-size:2.5rem;
+    font-size:2.15rem;
     font-weight:300;
     letter-spacing:-.032em;
     color:var(--paper);
-    line-height:1.05;
+    line-height:1.1;
   }
   .mob-dial-divider{
     height:1px;
     background:linear-gradient(90deg,var(--gold),transparent);
-    margin:1.5rem 0;
+    margin:1.2rem 0;
     opacity:.28;
   }
   #mob-dial-desc p{
-    font-size:.88rem;
-    line-height:1.82;
+    font-size:.87rem;
+    line-height:1.75;
     color:var(--muted);
     font-weight:300;
-    margin-top:.9rem;
+    margin-top:1rem;
   }
 
   /* Progress dots — same as desktop */
   .mob-prog-dots{
     display:flex;
     gap:.55rem;
-    margin-top:2.2rem;
+    margin-top:1.8rem;
   }
   .mob-prog-dot{
     width:22px;height:2px;border-radius:99px;
@@ -824,7 +845,7 @@ footer{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    margin-top:2rem;
+    margin-top:1.6rem;
   }
   .mob-dial-arrow{
     display:inline-flex;
@@ -867,8 +888,33 @@ footer{
 .today-label.vis,.legacy-label.vis{opacity:1}
 .legacy-label.vis{color:var(--gold2)}
 .path-subtitle{max-width:42ch;margin:2.2rem auto 0;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:500;font-family:var(--fb);opacity:.85;text-align:center}
-@media(max-width:768px){#legacy-path-section{padding:3rem 1.5rem 2rem}.path-labels{padding:0 8%}}
+@media(max-width:768px){
+  #legacy-path-section{padding:2.5rem 1rem 1.8rem}
+  /* Taller SVG so the arc has breathing room and sits higher visually */
+  .legacy-svg{
+    height:auto;
+    /* extra bottom padding pushes the visible arc upward in the frame */
+    margin-bottom:0;
+  }
+  .path-labels{
+    padding:0 2%;
+    margin:-8px auto 0;
+    font-size:clamp(.85rem,4.5vw,1.05rem);
+    letter-spacing:.1em;
+    gap:1rem;
+  }
+  /* Thicker stroke on mobile */
+  #legacy-line{stroke-width:5.5}
+  .path-subtitle{
+    font-size:.6rem;
+    letter-spacing:.15em;
+    margin-top:1.2rem;
+    max-width:30ch;
+    line-height:1.65;
+  }
+}
 /* ── MEGA DROPDOWN ── */
+
 .nav-dd{position:relative}
 .nav-dd>a{display:inline-flex;align-items:center;gap:.38rem;cursor:none}
 .nav-dd>a .dd-arrow{
@@ -877,58 +923,67 @@ footer{
   color:var(--gold);opacity:.75}
 .nav-dd:hover>a .dd-arrow{transform:rotate(180deg)}
 .nav-dd:hover>a{color:var(--paper)}
+
 .nav-mega{
-  position:absolute;top:calc(100% + .5rem);left:0;
-  padding-top:.5rem;
-  transform:translateY(-10px) scale(.97);transform-origin:top left;
-  min-width:400px;
+  position:absolute;
+  top:calc(100% + .8rem);
+  left:50%;
+  transform:translateX(-50%) translateY(-20px) scale(0.92);
+  min-width:520px;
   background:transparent;
   opacity:0;pointer-events:none;
-  transition:opacity .38s var(--e1),transform .42s var(--e1)}
+  transition:all .45s cubic-bezier(.16,1,.3,1);
+}
 .nav-dd:hover .nav-mega{
   opacity:1;pointer-events:auto;
-  transform:translateY(0) scale(1)}
+  transform:translateX(-50%) translateY(0) scale(1);
+}
 .nav-mega-inner{
   background:rgba(9,9,12,.97);
-  backdrop-filter:blur(36px) saturate(1.6);-webkit-backdrop-filter:blur(36px) saturate(1.6);
-  border:1px solid rgba(200,164,106,.2);
-  border-top:2px solid var(--gold);
-  border-radius:3px;
-  box-shadow:0 24px 64px rgba(0,0,0,.55),0 4px 24px rgba(0,0,0,.3),0 0 0 1px rgba(200,164,106,.05);
-  position:relative;overflow:hidden}
-.nav-mega-inner::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,var(--gold) 0%,rgba(200,164,106,.35) 55%,transparent 100%)}
+  backdrop-filter:blur(40px) saturate(1.8);
+  border:1px solid rgba(200,164,106,.28);
+  border-top:4px solid var(--gold);
+  border-radius:16px;
+  box-shadow:0 40px 90px rgba(0,0,0,.7),0 12px 40px rgba(0,0,0,.45);
+  padding:28px 24px 20px;
+  position:relative;
+}
 .mega-label{
-  font-size:.52rem;letter-spacing:.26em;text-transform:uppercase;
+  font-size:.52rem;letter-spacing:.32em;text-transform:uppercase;
   color:var(--gold);font-weight:600;
-  padding:.95rem 1.65rem .75rem;
-  opacity:.55;border-bottom:1px solid rgba(200,164,106,.1)}
-.mega-grid{display:grid;grid-template-columns:1fr 1fr}
+  padding:0 0 1.4rem 0;
+  text-align:center;
+  opacity:.75;
+}
+.mega-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+}
 .mega-item{
-  display:flex;align-items:center;gap:.85rem;
-  padding:1rem 1.65rem;
-  background:transparent;
-  font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;
-  font-weight:500;color:rgba(242,236,224,.42);
-  border-bottom:1px solid rgba(200,164,106,.055);
-  transition:color .3s var(--e1),background .3s var(--e1),padding-left .3s var(--e1),letter-spacing .3s var(--e1)}
-.mega-item:last-child,.mega-item:nth-last-child(2):nth-child(odd){border-bottom:none}
+  display:flex;flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:1.8rem 1.4rem 1.6rem;
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:500;color:rgba(242,236,224,.75);
+  border-radius:12px;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+  position:relative;
+}
 .mega-item:hover{
   color:var(--paper);
-  background:rgba(200,164,106,.065);
-  padding-left:2.1rem;
-  letter-spacing:.15em}
-.mega-item::after{
-  content:'';display:block;width:0;height:1px;
-  background:var(--gold);margin-left:auto;flex-shrink:0;
-  transition:width .35s var(--e1)}
-.mega-item:hover::after{width:18px}
+  transform:translateY(-4px);
+  box-shadow:0 20px 40px rgba(200,164,106,.15);
+}
 .mega-item svg{
-  width:12px;height:12px;flex-shrink:0;
-  color:var(--gold);opacity:.5;
-  transition:opacity .28s,transform .32s var(--e1)}
-.mega-item:hover svg{opacity:.9;transform:scale(1.1)}
+  width:28px;height:28px;margin-bottom:1.1rem;
+  color:var(--gold);opacity:.85;
+  transition:all .35s var(--e1);
+}
+.mega-item:hover svg{
+  opacity:1;
+  transform:scale(1.12);
+}
+
 
 /* ── DESKTOP PROCESS DIAL ── */
 .pr-desktop-dial{
@@ -954,7 +1009,7 @@ footer{
   position:absolute;
   text-align:center;
   font-family:var(--ff);
-  font-size:1.2rem;
+  font-size:5.0rem;
   font-weight:300;
   color:rgba(242,236,224,.42);
   line-height:1.05;
@@ -980,7 +1035,7 @@ footer{
 }
 .dt-dial-step-dt.active{
   color:var(--paper);
-  transform:translateX(-50%) scale(1.22);
+  transform:translateX(-50%) scale(1.5);
 }
 .dt-dial-step-dt.active span{color:var(--gold2);opacity:1}
 #dt-dial-desc{
@@ -1190,8 +1245,8 @@ footer{
 <!-- ═══════════ LEGACY PATH ═══════════ -->
 <section id="legacy-path-section" style="padding:4rem 4.5rem 3rem;background:var(--ink);position:relative;overflow:hidden">
   <div class="legacy-container">
-    <svg width="100%" height="140" viewBox="0 0 1200 140" fill="none" xmlns="http://www.w3.org/2000/svg" class="legacy-svg" aria-hidden="true">
-      <path id="legacy-line" d="M80 90 Q300 40 600 90 Q900 40 1120 90" stroke="url(#goldGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <svg width="100%" height="160" viewBox="0 0 1200 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="legacy-svg" aria-hidden="true">
+      <path id="legacy-line" d="M80 110 Q300 48 600 110 Q900 48 1120 110" stroke="url(#goldGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
       <defs>
         <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" style="stop-color:#c8a46a;stop-opacity:1"/>
@@ -1441,7 +1496,7 @@ footer{
       <svg id="dt-process-dial" viewBox="0 0 560 300" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <!-- Needle gradient: fades from hub upward -->
-          <linearGradient id="dtNeedleGrad" x1="280" y1="270" x2="280" y2="65" gradientUnits="userSpaceOnUse">
+          <linearGradient id="dtNeedleGrad" x1="280" y1="270" x2="280" y2="126" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stop-color="rgba(200,164,106,0.22)"/>
             <stop offset="100%" stop-color="#c8a46a"/>
           </linearGradient>
@@ -1463,15 +1518,15 @@ footer{
         <path d="M65 270 Q280 30 495 270" stroke="rgba(200,164,106,.16)" stroke-width="2.5" stroke-linecap="round"/>
 
         <!-- Step dots (fixed, not rotating) -->
-        <circle id="dt-step-dot-1" cx="90"  cy="193" r="10" fill="#c8a46a" opacity="1" filter="url(#dtDotGlow)"/>
-        <circle id="dt-step-dot-2" cx="200" cy="81"  r="10" fill="#c8a46a" opacity="0.28"/>
-        <circle id="dt-step-dot-3" cx="360" cy="81"  r="10" fill="#c8a46a" opacity="0.28"/>
-        <circle id="dt-step-dot-4" cx="470" cy="193" r="10" fill="#c8a46a" opacity="0.28"/>
+        <circle id="dt-step-dot-1" cx="90"  cy="237" r="10" fill="#c8a46a" opacity="1" filter="url(#dtDotGlow)"/>
+        <circle id="dt-step-dot-2" cx="200" cy="160"  r="10" fill="#c8a46a" opacity="0.28"/>
+        <circle id="dt-step-dot-3" cx="360" cy="160"  r="10" fill="#c8a46a" opacity="0.28"/>
+        <circle id="dt-step-dot-4" cx="470" cy="237" r="10" fill="#c8a46a" opacity="0.28"/>
 
         <!-- Rotating pointer (pivots around hub at 280, 270) -->
         <g id="dt-pointer-group" style="transform-origin:280px 270px">
           <!-- Needle -->
-          <line x1="280" y1="270" x2="280" y2="68" stroke="url(#dtNeedleGrad)" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="280" y1="270" x2="280" y2="134" stroke="url(#dtNeedleGrad)" stroke-width="2.5" stroke-linecap="round"/>
           <!-- Hub outer ring -->
           <circle cx="280" cy="270" r="28" fill="var(--ink3)" stroke="rgba(200,164,106,.22)" stroke-width="1.5"/>
           <!-- Hub fill -->
@@ -1483,10 +1538,10 @@ footer{
 
       <!-- Overlay step labels -->
       <div class="dt-labels-wrap">
-        <div class="dt-dial-step-dt active" data-step="1" style="left:16%;top:50%">01<br><span>Discovery</span></div>
-        <div class="dt-dial-step-dt"        data-step="2" style="left:36%;top:15%">02<br><span>Analysis</span></div>
-        <div class="dt-dial-step-dt"        data-step="3" style="left:64%;top:15%">03<br><span>Strategy</span></div>
-        <div class="dt-dial-step-dt"        data-step="4" style="left:84%;top:50%">04<br><span>Partnership</span></div>
+        <div class="dt-dial-step-dt active" data-step="1" style="left:8%;top:58%">01<br><span>Discovery</span></div>
+        <div class="dt-dial-step-dt"        data-step="2" style="left:36%;top:20%">02<br><span>Analysis</span></div>
+        <div class="dt-dial-step-dt"        data-step="3" style="left:66%;top:20%">03<br><span>Strategy</span></div>
+        <div class="dt-dial-step-dt"        data-step="4" style="left:95%;top:55%">04<br><span>Partnership</span></div>
       </div>
     </div>
 
@@ -1515,7 +1570,7 @@ footer{
     <div class="mob-dial-outer">
       <svg id="process-dial" viewBox="0 0 360 240" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="mobNeedleGrad" x1="180" y1="200" x2="180" y2="52" gradientUnits="userSpaceOnUse">
+          <linearGradient id="mobNeedleGrad" x1="180" y1="200" x2="180" y2="112" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stop-color="rgba(200,164,106,0.22)"/>
             <stop offset="100%" stop-color="#c8a46a"/>
           </linearGradient>
@@ -1548,7 +1603,7 @@ footer{
 
         <!-- Rotating pointer (pivots at hub 180,200) -->
         <g id="pointer-group" style="transform-origin:180px 200px">
-          <line x1="180" y1="200" x2="180" y2="55" stroke="url(#mobNeedleGrad)" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="180" y1="200" x2="180" y2="115" stroke="url(#mobNeedleGrad)" stroke-width="2.5" stroke-linecap="round"/>
           <circle cx="180" cy="200" r="22" fill="var(--ink3)" stroke="rgba(200,164,106,.22)" stroke-width="1.5"/>
           <circle cx="180" cy="200" r="13" fill="#c8a46a" filter="url(#mobHubGlow)"/>
           <circle cx="180" cy="200" r="4"  fill="var(--ink3)"/>
@@ -1557,10 +1612,10 @@ footer{
 
       <!-- Step labels overlay — % positions align with SVG viewBox -->
       <div class="dial-labels">
-        <div class="dial-step active" data-step="1" style="left:14%;top:48%">01<br><span>Discovery</span></div>
-        <div class="dial-step"        data-step="2" style="left:38%;top:22%">02<br><span>Analysis</span></div>
-        <div class="dial-step"        data-step="3" style="left:63%;top:22%">03<br><span>Strategy</span></div>
-        <div class="dial-step"        data-step="4" style="left:86%;top:48%">04<br><span>Partnership</span></div>
+        <div class="dial-step active" data-step="1" style="left:14%;top:38%">01<br><span>Discovery</span></div>
+        <div class="dial-step"        data-step="2" style="left:38%;top:10%">02<br><span>Analysis</span></div>
+        <div class="dial-step"        data-step="3" style="left:63%;top:10%">03<br><span>Strategy</span></div>
+        <div class="dial-step"        data-step="4" style="left:86%;top:38%">04<br><span>Partnership</span></div>
       </div>
     </div>
 
@@ -1600,6 +1655,14 @@ footer{
     <span class="mq-i">Accumulate</span><span class="mq-i ac">— Preserve —</span>
     <span class="mq-i">Distribute</span><span class="mq-i ac">— Grow —</span>
     <span class="mq-i">Protect</span><span class="mq-i ac">— Legacy —</span>
+
+  <span class="mq-i">Accumulate</span><span class="mq-i ac">— Preserve —</span>
+    <span class="mq-i">Protect</span><span class="mq-i ac">— Grow —</span>
+    <span class="mq-i">Legacy</span><span class="mq-i ac">— Clarity —</span>
+    <span class="mq-i">Intention</span><span class="mq-i ac">— Partnership —</span>
+    <span class="mq-i">Stewardship</span><span class="mq-i ac">— Precision —</span>
+    <span class="mq-i">Security</span><span class="mq-i ac">— Purpose —</span>
+    <span class="mq-i">Fiduciary</span><span class="mq-i ac">— Trust —</span>
   </div>
 </div>
 
@@ -1665,7 +1728,7 @@ footer{
       </a>
     </div>
     <div class="ct-dets rv">
-      <div class="ct-d"><div class="ct-dl">Email</div><div class="ct-dv"><a href="mailto:Matthew.Pindoley@osaicwealth.com">Matthew.Pindoley@osaicwealth.com</a></div></div>
+      <div class="ct-d"><div class="ct-dl">Email</div><div class="ct-dv"><a href="/cdn-cgi/l/email-protection#9cd1fde8e8f4f9ebb2ccf5f2f8f3f0f9e5dcf3effdf5ffebf9fdf0e8f4b2fff3f1"><span class="__cf_email__" data-cfemail="c885a9bcbca0adbfe698a1a6aca7a4adb188a7bba9a1abbfada9a4bca0e6aba7a5">[email&#160;protected]</span></a></div></div>
 		<div class="ct-d"><div class="ct-dl">Phone</div><div class="ct-dv"><a href="tel:+14198871002">(419) 887-1002</a></div></div>
       <div class="ct-d"><div class="ct-dl">Availability</div><div class="ct-dv">Nationwide</div></div>
     </div>
@@ -1721,7 +1784,7 @@ footer{
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── CURSOR ─────────────────────────────────────── */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-r'),lbl=document.getElementById('cur-lbl');
 let mx=0,my=0,rx=0,ry=0;
@@ -1960,7 +2023,7 @@ document.addEventListener('DOMContentLoaded', function(){
   };
 
   // Angles from vertical (up) to each step position
-  var dtAngles = { 1:-68, 2:-23, 3:23, 4:68 };
+  var dtAngles = { 1:-80, 2:-36, 3:36, 4:80 };
   var currentStep = 0; // forces first rotation to animate
   var autoTimer   = null;
   var paused      = false;
@@ -2187,16 +2250,4 @@ if (lpSection) lpObserver.observe(lpSection);
 
 <!-- DISCLOSURE PILL -->
 <a id="disc-pill" href="disclosure.html" aria-label="View Disclosures">
-  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line x1="10" y1="9" x2="10" y2="14"/><circle cx="10" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
-  Disclosures
-</a>
-
-<!-- FINRA BROKERCHECK PILL -->
-<a id="finra-pill" href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer" aria-label="FINRA BrokerCheck">
-  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-    <path d="M10 2L12.5 7.5H18L13.5 11L15.5 17L10 13.5L4.5 17L6.5 11L2 7.5H7.5Z"/>
-  </svg>
-  FINRA BrokerCheck
-</a>
-</body>
-</html>
+  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line x1="10
