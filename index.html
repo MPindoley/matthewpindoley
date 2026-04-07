@@ -338,7 +338,7 @@ body.pressing #cur{width:28px;height:28px}
 .sv-panel-why-text strong{color:var(--ink);font-weight:500}
 
 /* PROCESS */
-#process{padding:9rem 4.5rem;background:var(--ink3)}
+#process{padding:9rem 4.5rem;background:var(--ink3);position:relative;overflow:hidden}
 .pr-hd{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-bottom:7rem;align-items:end}
 .pr-ky{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
   color:var(--gold);font-weight:600;margin-bottom:2.2rem;
@@ -523,16 +523,8 @@ body.pressing #cur{width:28px;height:28px}
   #hero{padding-top:0}
   #about{padding:6rem 1.5rem}
   #services{padding:6rem 1.5rem}
-  #process{padding:6rem 0rem}
-  .pr-grid{gap:1px}
-  .pr-step{padding:0rem 1.5rem}
-  .pr-mob-dial {
-    padding: 0 !important;           /* ← makes dial + SVG touch the edges */
-  }
+ #process{padding:6rem 1.5rem;}
 
-  .pr-hd {
-    padding: 0 1.5rem;               /* ← keeps the heading text readable / inset */
-  }
   #resources{padding:6rem 1.5rem}
   #contact{padding:8rem 1.5rem}
   .ct-h{font-size:clamp(3.2rem,12vw,5rem)}
@@ -548,6 +540,10 @@ body.pressing #cur{width:28px;height:28px}
   .stat{padding:2.5rem 1.5rem}
   .stat-n{font-size:clamp(4rem,15vw,7rem)}
   #about,#services,#process,#resources{padding:5rem 1.25rem}
+  /* Tighten even further on very small screens */
+  #process{ padding:4rem 1rem !important; }
+  .pr-dial-wrapper{ padding:1.4rem .9rem !important; }
+  .dial-step{ font-size:.72rem !important; }
   #contact{padding:6rem 1.25rem}
 }
 @media(hover:none){
@@ -885,6 +881,39 @@ footer{
 
   /* Remove old pseudo-element tap hint */
   #process .pr-hd::after{ content:none; }
+
+  /* ── PROCESS SECTION MOBILE FIXES ── */
+  /* Section padding — was stuck at 9rem 4.5rem due to inline style; now controlled here */
+  #process{ padding:5rem 1.5rem !important; }
+
+  /* Dial wrapper — reduce padding so SVG has room */
+  .pr-dial-wrapper{
+    padding:1.8rem 1.2rem !important;
+  }
+
+  /* Header grid — single column, tighter spacing */
+  .pr-hd{
+    margin-bottom:2rem !important;
+    gap:1.2rem !important;
+  }
+
+  /* Dial labels — scale down so they don't collide on narrow screens */
+  .dial-step{
+    font-size:.82rem !important;
+    line-height:1;
+  }
+  .dial-step span{
+    font-size:.5rem !important;
+    margin-top:3px;
+  }
+
+  /* Description panel — comfortable on mobile */
+  #mob-dial-desc{
+    border-radius:12px !important;
+    padding:1.8rem 1.4rem 1.6rem !important;
+  }
+  .mob-dial-desc-title{ font-size:1.8rem !important; }
+  .mob-dial-desc-number{ font-size:3rem !important; }
 }
 /* ── LEGACY PATH ANIMATION ── */
 #legacy-path-section .legacy-container{position:relative;max-width:1200px;margin:0 auto}
@@ -1119,6 +1148,52 @@ footer{
 .dt-dial-step-dt.active{
   text-shadow:0 0 28px rgba(200,164,106,.7);
 }
+
+/* ── PROCESS BACKGROUND VIDEO — matches hero/contact exactly ── */
+#process-video{
+  position:absolute;inset:0;z-index:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  opacity:0;transition:opacity 1.8s ease;
+  filter:saturate(0.45) brightness(0.58) contrast(1.1);
+}
+#process-video.loaded{opacity:1}
+.process-video-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(
+    to bottom,
+    rgba(9,9,12,0.65) 0%,
+    rgba(9,9,12,0.35) 35%,
+    rgba(9,9,12,0.55) 75%,
+    rgba(9,9,12,0.92) 100%
+  );
+}
+.process-vig{
+  position:absolute;inset:0;z-index:2;
+  background:radial-gradient(ellipse at 50% 40%,transparent 40%,rgba(9,9,12,.78) 100%);
+}
+.process-grid{
+  position:absolute;inset:0;z-index:3;
+  background-image:linear-gradient(rgba(200,164,106,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(200,164,106,.018) 1px,transparent 1px);
+  background-size:88px 88px;
+  opacity:.6;
+}
+/* Dial container — cohesive card like About/Resources */
+.pr-dial-wrapper{
+  position:relative;z-index:4;
+  background:rgba(25,28,36,0.72);
+  border:1px solid var(--border);
+  border-radius:2px;
+  padding:3.5rem 3rem;
+  transition:transform .5s var(--e1),box-shadow .5s;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.pr-dial-wrapper:hover{
+  transform:translateY(-4px);
+  box-shadow:0 40px 80px rgba(0,0,0,.5);
+}
+/* Ensure header sits above video layers */
+.pr-hd{position:relative;z-index:4}
 
 /* ── TRUST BAR ── */
 .trust-bar{background:var(--ink2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
@@ -1502,7 +1577,16 @@ footer{
 </section>
 
 <!-- ═══════════ PROCESS ═══════════ -->
-<section id="process" style="padding:9rem 4.5rem;background:var(--ink3)">
+<section id="process">
+
+  <!-- BACKGROUND VIDEO — artistic black & gold atmosphere -->
+  <video id="process-video" autoplay muted loop playsinline preload="none" aria-hidden="true">
+    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1775586369/12676888_3840_2160_30fps_e3esuh.mp4">
+  </video>
+  <div class="process-video-overlay" aria-hidden="true"></div>
+  <div class="process-vig" aria-hidden="true"></div>
+  <div class="process-grid" aria-hidden="true"></div>
+
   <div class="pr-hd">
     <div class="rv-l">
       <div class="pr-ky">How We Work</div>
@@ -1510,6 +1594,9 @@ footer{
     </div>
     <p class="pr-desc rv-r">Every engagement follows a disciplined four-phase framework that turns complexity into clarity — and goals into actionable financial plans.</p>
   </div>
+
+  <!-- DIAL WRAPPER — cohesive card matching About/Resources depth -->
+  <div class="pr-dial-wrapper rv">
 
   <!-- DESKTOP ROTATING DIAL -->
   <div class="pr-desktop-dial desktop-only">
@@ -1666,10 +1753,8 @@ footer{
         </button>
       </div>
     </div>
-  </div>
+  </div><!-- /.pr-dial-wrapper -->
 </section>
-
-<!-- MARQUEE -->
 <div class="mq" aria-hidden="true">
   <div class="mq-t">
     <span class="mq-i">Accumulate</span><span class="mq-i ac">— Preserve —</span>
@@ -1807,7 +1892,7 @@ footer{
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── CURSOR ─────────────────────────────────────── */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-r'),lbl=document.getElementById('cur-lbl');
 let mx=0,my=0,rx=0,ry=0;
@@ -2270,3 +2355,17 @@ const lpObserver = new IntersectionObserver((entries) => {
 const lpSection = document.getElementById('legacy-path-section');
 if (lpSection) lpObserver.observe(lpSection);
 </script>
+
+<script>
+/* PROCESS VIDEO FADE-IN — matches hero/contact */
+(function(){
+  const v = document.getElementById('process-video');
+  if(!v) return;
+  if(v.readyState >= 3) v.classList.add('loaded');
+  v.addEventListener('canplaythrough', () => v.classList.add('loaded'), {once:true});
+  setTimeout(() => v.classList.add('loaded'), 2200);
+})();
+</script>
+
+</body>
+</html>
