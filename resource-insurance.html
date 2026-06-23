@@ -635,6 +635,8 @@ footer{
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
 </style>
+  <!-- sitewide experience refinements -->
+  <link rel="stylesheet" href="assets/enhance.css"/>
 </head>
 <body>
 <div id="grain"></div>
@@ -708,7 +710,7 @@ footer{
 <!-- ─── SIDEBAR PANEL ───────────────────────────────── -->
 <div id="sb-panel" role="dialog" aria-modal="true" aria-label="Insurance resources panel">
   <div class="sb-head">
-    <div class="sb-title"><em>Insurance</em> Resources</div>
+    <div class="sb-title"><em>Insurance</em> Tools</div>
     <button class="sb-close" id="sb-close" aria-label="Close panel">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l10 10M13 3L3 13"/></svg>
     </button>
@@ -1284,6 +1286,61 @@ function runLifeCalc(){
     <div style="font-size:.75rem;color:rgba(8,12,10,.44);line-height:1.62">Income replacement value: <strong style="color:var(--ink)">${fmt(pvIncome)}</strong> &middot; Equivalent to <strong style="color:var(--ink)">${multipleOfIncome}&times; income</strong>. ${netNeed>0?`<strong>Consider adding ${fmt(netNeed)} in additional coverage.</strong>`:'Your existing coverage appears sufficient based on these inputs.'}<br><br><em style="font-size:.7rem;color:rgba(8,12,10,.32)">Estimate only. Assumes 4% discount rate. Does not account for Social Security, spouse income, or detailed expense projections. Consult an advisor for a full needs analysis.</em></div>
   </div>`;
 }
+
+/* ─── DISABILITY INCOME GAP ─────────────────────────── */
+function runDisability(){
+  var num=function(id){var el=document.getElementById(id);return el?(parseFloat(el.value)||0):0;};
+  var r=document.getElementById('di-result');if(!r)return;
+  var income=num('di-income'),current=num('di-current'),expenses=num('di-expenses');
+  if(!income||!expenses){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please enter your monthly income and expenses.</div>';return;}
+  var pctReplaced=Math.round(current/income*100);
+  var gap=Math.max(0,expenses-current);
+  var target=Math.round(income*0.65); /* common 60–70% replacement target */
+  var fmt=function(n){return '$'+Math.round(n).toLocaleString('en-US');};
+  var status=gap===0?'sb-r-ok':(gap>expenses*0.4?'sb-r-warn':'sb-r-info');
+  var ACC="var(--accent,var(--bronze,var(--gold,#9a7c52)))";
+  var IM="var(--im,rgba(12,11,9,.45))";
+  var INK="var(--ink,#111)";
+  var verdict;
+  if(gap===0) verdict='Your current coverage fully meets your monthly expenses. Confirm your policy is <strong style="color:'+INK+'">own-occupation</strong> and that benefits are tax-free if you pay premiums with after-tax dollars.';
+  else verdict='If you couldn’t work, you’d face a <strong style="color:#a0271e">'+fmt(gap)+'/mo shortfall</strong> against your expenses. A typical target is 60–70% of gross income (about '+fmt(target)+'/mo). Consider supplementing group coverage with an individual policy.';
+  r.innerHTML='<div class="sb-tool-result '+status+'">'
+    +'<div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:'+ACC+';font-weight:600;margin-bottom:.75rem">Disability Income Gap</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.75rem">'
+      +'<div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:'+IM+';font-weight:600;margin-bottom:.2rem">Income Replaced</div><div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:1.3rem;font-weight:300;color:'+INK+'">'+pctReplaced+'%</div></div>'
+      +'<div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:'+IM+';font-weight:600;margin-bottom:.2rem">Monthly Gap</div><div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:1.3rem;font-weight:300;color:'+INK+'">'+fmt(gap)+'</div></div>'
+    +'</div>'
+    +'<div style="font-size:.78rem;color:'+IM+';line-height:1.65">'+verdict
+      +'<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">Educational estimate only. Actual benefits depend on policy definitions, elimination periods, and tax treatment.</em></div>'
+    +'</div>';
+}
+
+/* ─── UMBRELLA COVERAGE GUIDE ───────────────────────── */
+function runUmbrella(){
+  var num=function(id){var el=document.getElementById(id);return el?(parseFloat(el.value)||0):0;};
+  var r=document.getElementById('umb-result');if(!r)return;
+  var nw=num('umb-nw'),cars=num('umb-cars'),risk=(document.getElementById('umb-risk')||{}).value||'';
+  if(!nw){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please enter your total net worth.</div>';return;}
+  if(!risk){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please select your risk profile.</div>';return;}
+  var base=Math.ceil(nw/1000000)*1000000;            /* cover net worth, round up to $1M */
+  var riskAdd={low:0,moderate:1000000,high:2000000}[risk]||0;
+  var carAdd=Math.max(0,cars-2)*500000;              /* extra exposure beyond 2 vehicles */
+  var rec=Math.max(1000000,base+riskAdd+carAdd);
+  var fmt=function(n){return '$'+Math.round(n).toLocaleString('en-US');};
+  var riskLabel={low:'Low',moderate:'Moderate',high:'High'}[risk];
+  var ACC="var(--accent,var(--bronze,var(--gold,#9a7c52)))";
+  var IM="var(--im,rgba(12,11,9,.45))";
+  var INK="var(--ink,#111)";
+  r.innerHTML='<div class="sb-tool-result sb-r-ok">'
+    +'<div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:'+ACC+';font-weight:600;margin-bottom:.75rem">Umbrella Coverage Guide — '+riskLabel+' risk</div>'
+    +'<div style="display:flex;align-items:baseline;gap:.6rem;margin-bottom:.75rem">'
+      +'<div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:2.1rem;font-weight:300;color:'+INK+';line-height:1">'+fmt(rec)+'</div>'
+      +'<div style="font-size:.78rem;color:'+IM+'">suggested coverage</div>'
+    +'</div>'
+    +'<div style="font-size:.78rem;color:'+IM+';line-height:1.65">A common rule is to carry umbrella liability at least equal to your net worth ('+fmt(nw)+'), then add a layer for elevated exposure. Umbrella coverage is inexpensive relative to the protection it provides and sits above your auto and home liability limits.'
+      +'<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">General guidance only. Your carrier may require specific underlying limits. Review with a licensed agent.</em></div>'
+    +'</div>';
+}
 </script>
 <a id="disc-pill" href="disclosure.html" aria-label="View Disclosures">
   <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line x1="10" y1="9" x2="10" y2="14"/><circle cx="10" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
@@ -1293,5 +1350,6 @@ function runLifeCalc(){
   <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 2L12.5 7.5H18L13.5 11L15.5 17L10 13.5L4.5 17L6.5 11L2 7.5H7.5Z"/></svg>
   FINRA BrokerCheck
 </a>
+<script src="assets/enhance.js" defer></script>
 </body>
 </html>

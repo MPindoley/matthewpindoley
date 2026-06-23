@@ -1,0 +1,76 @@
+/* ============================================================
+   enhance.css — sitewide experience refinements
+   ------------------------------------------------------------
+   Loaded after each page's inline <style> so it can refine,
+   never replace, the existing design. Three goals:
+     1. Smooth, offset-aware in-page navigation
+     2. Clear keyboard focus (the UI hides the system cursor)
+     3. First-class "reduce motion" support
+   ============================================================ */
+
+/* ── Smooth, offset-aware anchor navigation ──────────────────
+   Anchored sections used to land hidden behind the fixed nav.
+   scroll-padding keeps them clear; smooth scrolling makes
+   in-page jumps glide instead of snapping.                     */
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:6rem;
+}
+@media(max-width:768px){
+  html{scroll-padding-top:4.75rem}
+}
+
+/* ── Keyboard focus ──────────────────────────────────────────
+   With the system cursor hidden, a visible focus ring is
+   essential for anyone navigating by keyboard.                 */
+:focus-visible{
+  outline:2px solid #c8a46a;
+  outline-offset:3px;
+  border-radius:3px;
+}
+:focus:not(:focus-visible){outline:none}
+
+/* ── Mobile menu: lock the page behind the drawer ────────────
+   Toggled by enhance.js whenever the #mob drawer opens.        */
+body.menu-open{overflow:hidden}
+
+/* Let the drawer scroll on short / landscape screens so links
+   are never clipped or unreachable.                            */
+@media(max-height:620px){
+  #mob{
+    justify-content:flex-start;
+    overflow-y:auto;
+    padding-top:5.5rem;
+    padding-bottom:3rem;
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   Honour the OS-level "reduce motion" preference. The site is
+   rich with looping, auto-advancing and parallax motion; here
+   we calm all of it while keeping every entrance reveal in its
+   final, visible state (so nothing disappears).
+   ============================================================ */
+@media(prefers-reduced-motion:reduce){
+
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-delay:0ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    transition-delay:0ms !important;
+    scroll-behavior:auto !important;
+  }
+  html{scroll-behavior:auto !important}
+
+  /* Decorative, purely-motion layers — remove entirely */
+  #grain,#hc,#cc{display:none !important}
+
+  /* Stop the slow-spinning background orbitals / breathing glow */
+  #arc-main,#arc-2,#arc-3,#arc-4,#orb-glow,
+  #legacy-line,#path-dot{animation:none !important}
+
+  /* Keep marquees / tickers readable and still */
+  .ticker-t,.mq-t{animation:none !important;transform:none !important}
+}

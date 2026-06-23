@@ -747,6 +747,8 @@ footer{
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
 </style>
+  <!-- sitewide experience refinements -->
+  <link rel="stylesheet" href="assets/enhance.css"/>
 </head>
 <body>
 <div id="grain"></div>
@@ -818,7 +820,7 @@ footer{
 <!-- ─── SIDEBAR PANEL ───────────────────────────── -->
 <div id="sb-panel" role="dialog" aria-modal="true" aria-label="Tax strategy resources">
   <div class="sb-head">
-    <div class="sb-title"><em>Tax</em> Resources</div>
+    <div class="sb-title"><em>Tax</em> Tools</div>
     <button class="sb-close" id="sb-close" aria-label="Close panel">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l10 10M13 3L3 13"/></svg>
     </button>
@@ -1466,10 +1468,37 @@ function runCapGains(){
     </div>
   </div>`;
 }
+
+/* ─── DEDUCTION VALUE CALCULATOR ────────────────────── */
+function runDeductionValue(){
+  var num=function(id){var el=document.getElementById(id);return el?(parseFloat(el.value)||0):0;};
+  var r=document.getElementById('dv-result');if(!r)return;
+  var amount=num('dv-amount'),rate=num('dv-rate'),state=num('dv-state');
+  if(!amount||!rate){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please enter the deduction amount and your marginal rate.</div>';return;}
+  var fed=amount*(rate/100);
+  var st=amount*(state/100);
+  var total=fed+st;
+  var effRate=rate+state;
+  var net=amount-total; /* real out-of-pocket cost of the deductible expense */
+  var fmt=function(n){return '$'+Math.round(n).toLocaleString('en-US');};
+  var ACC="var(--accent,var(--bronze,var(--gold,#9a7c52)))";
+  var IM="var(--im,rgba(12,11,9,.45))";
+  var INK="var(--ink,#111)";
+  r.innerHTML='<div class="sb-tool-result sb-r-ok">'
+    +'<div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:'+ACC+';font-weight:600;margin-bottom:.75rem">Deduction Value</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.75rem">'
+      +'<div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:'+IM+';font-weight:600;margin-bottom:.2rem">Tax Saved</div><div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:1.3rem;font-weight:300;color:'+INK+'">'+fmt(total)+'</div></div>'
+      +'<div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:'+IM+';font-weight:600;margin-bottom:.2rem">Effective Rate</div><div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:1.3rem;font-weight:300;color:'+INK+'">'+effRate.toFixed(1)+'%</div></div>'
+    +'</div>'
+    +'<div style="font-size:.78rem;color:'+IM+';line-height:1.65">A <strong style="color:'+INK+'">'+fmt(amount)+'</strong> deduction saves about <strong style="color:'+INK+'">'+fmt(total)+'</strong>'+(st>0?' ('+fmt(fed)+' federal + '+fmt(st)+' state)':'')+' at your marginal rate — so the real cost of that deductible expense is closer to <strong style="color:'+INK+'">'+fmt(net)+'</strong>.'
+      +'<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">A deduction reduces taxable income, not your tax bill dollar-for-dollar. Assumes the amount falls entirely within your stated bracket and that you itemize. Not tax advice.</em></div>'
+    +'</div>';
+}
 </script>
 <a id="finra-pill" href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer" aria-label="FINRA BrokerCheck">
   <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 2L12.5 7.5H18L13.5 11L15.5 17L10 13.5L4.5 17L6.5 11L2 7.5H7.5Z"/></svg>
   FINRA BrokerCheck
 </a>
+<script src="assets/enhance.js" defer></script>
 </body>
 </html>

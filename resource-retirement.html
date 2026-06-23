@@ -548,6 +548,8 @@ footer{
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
 </style>
+  <!-- sitewide experience refinements -->
+  <link rel="stylesheet" href="assets/enhance.css"/>
 </head>
 <body>
 <div id="grain"></div>
@@ -1007,4 +1009,10 @@ document.querySelectorAll('.nav-drop').forEach(drop=>{
   drop.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrop();});
 });
 </script>
-<a href
+<a href="disclosure.html" id="disc-pill" aria-label="Important Disclosures">
+  <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="5"/><path d="M6 5v4M6 3.5v.5"/></svg>
+  Disclosures
+</a>
+<script src="assets/enhance.js" defer></script>
+</body>
+</html>

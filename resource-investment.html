@@ -630,6 +630,8 @@ footer{
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
 </style>
+  <!-- sitewide experience refinements -->
+  <link rel="stylesheet" href="assets/enhance.css"/>
 </head>
 <body>
 <div id="grain"></div>
@@ -967,7 +969,7 @@ footer{
 
   <!-- Header -->
   <div class="sb-head">
-    <div class="sb-title">Investment <em>Tools</em></div>
+    <div class="sb-title"><em>Investment</em> Tools</div>
     <button id="sb-close" aria-label="Close panel">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
@@ -975,16 +977,16 @@ footer{
 
   <!-- Tabs -->
   <div class="sb-tabs">
-    <button class="sb-tab active" data-pane="tools">Calculators</button>
+    <button class="sb-tab active" data-pane="nav">Navigate</button>
     <button class="sb-tab" data-pane="ck">Checklist</button>
-    <button class="sb-tab" data-pane="nav">Resources</button>
+    <button class="sb-tab" data-pane="tools">Calculators</button>
   </div>
 
   <!-- Body -->
   <div class="sb-body">
 
     <!-- ── TOOLS PANE ── -->
-    <div class="sb-pane active" id="pane-tools">
+    <div class="sb-pane" id="pane-tools">
 
       <!-- Compound Growth Calculator -->
       <div class="sb-tool-card">
@@ -1125,7 +1127,7 @@ footer{
     </div><!-- /pane-ck -->
 
     <!-- ── NAV PANE ── -->
-    <div class="sb-pane" id="pane-nav">
+    <div class="sb-pane active" id="pane-nav">
       <a href="resource-retirement.html" class="sb-res-item">
         <div class="sb-res-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg></div>
         <div><div class="sb-res-name">Retirement</div><div class="sb-res-desc">Income architecture & withdrawal strategy</div></div>
@@ -1306,7 +1308,7 @@ function runAllocation(){
   const bonds=parseFloat(document.getElementById('al-bonds').value)||0;
   const alt=parseFloat(document.getElementById('al-alt').value)||0;
   const risk=document.getElementById('al-risk').value;
-  const r=document.getElementById('al-result');
+  const r=document.getElementById('alloc-result');
 
   const total=us+intl+bonds+alt;
   if(total===0){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please enter your portfolio allocations.</div>';return;}
@@ -1350,5 +1352,6 @@ function runAllocation(){
   <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 2L12.5 7.5H18L13.5 11L15.5 17L10 13.5L4.5 17L6.5 11L2 7.5H7.5Z"/></svg>
   FINRA BrokerCheck
 </a>
+<script src="assets/enhance.js" defer></script>
 </body>
 </html>

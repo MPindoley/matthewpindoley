@@ -751,6 +751,8 @@ footer{
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
 </style>
+  <!-- sitewide experience refinements -->
+  <link rel="stylesheet" href="assets/enhance.css"/>
 </head>
 <body>
 <div id="grain"></div>
@@ -822,7 +824,7 @@ footer{
 <!-- ─── SIDEBAR PANEL ───────────────────────────── -->
 <div id="sb-panel" role="dialog" aria-modal="true" aria-label="Money and lifestyle resources">
   <div class="sb-head">
-    <div class="sb-title"><em>Money &amp; Lifestyle</em> Resources</div>
+    <div class="sb-title"><em>Money &amp; Lifestyle</em> Tools</div>
     <button class="sb-close" id="sb-close" aria-label="Close panel">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l10 10M13 3L3 13"/></svg>
     </button>
@@ -1371,6 +1373,36 @@ function runEmergencyFund(){
     <div style="font-size:.75rem;color:var(--im);line-height:1.65">Based on <strong style="color:var(--ink)">${fmt(monthly)}/month</strong> in essential expenses, your target emergency fund is <strong style="color:var(--ink)">${fmt(target)}</strong>. Keep this in a high-yield savings account or money market fund — accessible within 1–2 business days, never invested in equities.<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">Guideline only. Adjust based on job stability, health, dependents, and other personal factors.</em></div>
   </div>`;
 }
+
+/* ─── SAVINGS RATE ANALYZER ─────────────────────────── */
+function runSavingsRate(){
+  var num=function(id){var el=document.getElementById(id);return el?(parseFloat(el.value)||0):0;};
+  var r=document.getElementById('sr-result');if(!r)return;
+  var income=num('sr-income'),savings=num('sr-savings');
+  if(!income||!savings){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please enter your annual income and savings.</div>';return;}
+  var rate=savings/income*100;
+  /* Years to financial independence: 25x annual expenses, 5% real return */
+  var expenses=Math.max(1,income-savings);
+  var target=25*expenses;
+  var rr=0.05;
+  var years=Math.log(1+(target*rr/savings))/Math.log(1+rr);
+  years=Math.max(0,Math.min(60,years));
+  var fmt=function(n){return '$'+Math.round(n).toLocaleString('en-US');};
+  var band=rate>=50?'exceptional':rate>=30?'strong':rate>=20?'solid':rate>=10?'building':'getting started';
+  var status=rate>=20?'sb-r-ok':(rate>=10?'sb-r-info':'sb-r-warn');
+  var ACC="var(--accent,var(--bronze,var(--gold,#9a7c52)))";
+  var IM="var(--im,rgba(12,11,9,.45))";
+  var INK="var(--ink,#111)";
+  r.innerHTML='<div class="sb-tool-result '+status+'">'
+    +'<div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:'+ACC+';font-weight:600;margin-bottom:.75rem">Savings Rate</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.75rem">'
+      +'<div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:'+IM+';font-weight:600;margin-bottom:.2rem">Savings Rate</div><div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:1.3rem;font-weight:300;color:'+INK+'">'+rate.toFixed(1)+'%</div></div>'
+      +'<div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:'+IM+';font-weight:600;margin-bottom:.2rem">Est. Years to Independence</div><div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:1.3rem;font-weight:300;color:'+INK+'">'+Math.round(years)+'</div></div>'
+    +'</div>'
+    +'<div style="font-size:.78rem;color:'+IM+';line-height:1.65">A <strong style="color:'+INK+'">'+rate.toFixed(0)+'%</strong> savings rate is <strong style="color:'+INK+'">'+band+'</strong>. At this pace you’d reach 25× your spending (a common financial-independence benchmark, '+fmt(target)+') in roughly <strong style="color:'+INK+'">'+Math.round(years)+' years</strong>. Raising your rate even a few points meaningfully shortens that timeline.'
+      +'<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">Illustrative only. Assumes a 5% average real return and that spending stays constant. Markets vary; this is not a projection of actual results.</em></div>'
+    +'</div>';
+}
 </script>
 <a id="disc-pill" href="disclosure.html" aria-label="View Disclosures">
   <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line x1="10" y1="9" x2="10" y2="14"/><circle cx="10" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
@@ -1380,5 +1412,6 @@ function runEmergencyFund(){
   <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 2L12.5 7.5H18L13.5 11L15.5 17L10 13.5L4.5 17L6.5 11L2 7.5H7.5Z"/></svg>
   FINRA BrokerCheck
 </a>
+<script src="assets/enhance.js" defer></script>
 </body>
 </html>

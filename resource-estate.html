@@ -574,6 +574,8 @@ footer{
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
 </style>
+  <!-- sitewide experience refinements -->
+  <link rel="stylesheet" href="assets/enhance.css"/>
 </head>
 <body>
 <div id="grain"></div>
@@ -636,9 +638,9 @@ footer{
 </div>
 
 <!-- ─── SIDEBAR TRIGGER ───────────────────────────── -->
-<button id="sb-trigger" class="nudge" aria-label="Open resources panel">
+<button id="sb-trigger" class="nudge" aria-label="Open tools panel">
   <div class="sb-trig-icon"><span></span><span></span><span></span></div>
-  <span class="sb-trig-label">Resources</span>
+  <span class="sb-trig-label">Tools</span>
 </button>
 
 <!-- ─── SIDEBAR OVERLAY ──────────────────────────── -->
@@ -647,7 +649,7 @@ footer{
 <!-- ─── SIDEBAR PANEL ────────────────────────────── -->
 <div id="sb-panel" role="dialog" aria-modal="true" aria-label="Estate planning resources">
   <div class="sb-head">
-    <div class="sb-title"><em>Estate</em> Resources</div>
+    <div class="sb-title"><em>Estate</em> Tools</div>
     <button class="sb-close" id="sb-close" aria-label="Close panel">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l10 10M13 3L3 13"/></svg>
     </button>
@@ -655,7 +657,7 @@ footer{
   <div class="sb-tabs">
     <button class="sb-tab active" data-pane="nav">Navigate</button>
     <button class="sb-tab" data-pane="checklist">Checklist</button>
-    <button class="sb-tab" data-pane="tools">Tools</button>
+    <button class="sb-tab" data-pane="tools">Calculators</button>
   </div>
   <div class="sb-body">
 
@@ -1122,10 +1124,82 @@ document.querySelectorAll('.sb-ck-item').forEach(item=>{
   item.addEventListener('click',()=>toggleCk(item));
 });
 updateProgress();
+
+/* ─── BENEFICIARY AUDIT ─────────────────────────────── */
+function runBenAudit(){
+  var val=function(id){var el=document.getElementById(id);return el?(el.value||'').trim():'';};
+  var r=document.getElementById('ben-result');if(!r)return;
+  var fields=[
+    {id:'b1',label:'IRA / 401(k) — primary beneficiary',critical:true},
+    {id:'b2',label:'IRA / 401(k) — contingent beneficiary',critical:false},
+    {id:'b3',label:'Life insurance — primary beneficiary',critical:true},
+    {id:'b4',label:'Life insurance — contingent beneficiary',critical:false},
+    {id:'b5',label:'Brokerage / bank — titled or POD beneficiary',critical:false}
+  ];
+  var gaps=fields.filter(function(f){return !val(f.id);});
+  var crit=gaps.filter(function(f){return f.critical;});
+  var filled=fields.length-gaps.length;
+  var score=Math.round(filled/fields.length*100);
+  var status=crit.length?'sb-r-warn':(gaps.length?'sb-r-info':'sb-r-ok');
+  var ACC="var(--accent,var(--bronze,var(--gold,#9a7c52)))";
+  var IM="var(--im,rgba(12,11,9,.45))";
+  var INK="var(--ink,#111)";
+  var head=(status==='sb-r-ok')?'Designations look complete'
+        :(crit.length?'Critical gaps found':'Minor gaps found');
+  var body;
+  if(gaps.length===0){
+    body='Every key account has a named beneficiary. Revisit these annually and after any marriage, divorce, birth, or death — beneficiary forms override your will.';
+  } else {
+    body='<strong style="color:'+INK+'">Missing designations:</strong><ul style="margin:.5rem 0 0 1.1rem;display:flex;flex-direction:column;gap:.35rem">'
+      +gaps.map(function(g){return '<li style="font-size:.78rem">'+g.label+(g.critical?' <span style="color:#a0271e;font-weight:600">— priority</span>':'')+'</li>';}).join('')
+      +'</ul>';
+  }
+  r.innerHTML='<div class="sb-tool-result '+status+'">'
+    +'<div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:'+ACC+';font-weight:600;margin-bottom:.75rem">Beneficiary Audit</div>'
+    +'<div style="display:flex;align-items:baseline;gap:.5rem;margin-bottom:.75rem">'
+      +'<div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:2.1rem;font-weight:300;color:'+INK+';line-height:1">'+score+'%</div>'
+      +'<div style="font-size:.78rem;color:'+IM+'">'+head+' &middot; '+filled+' of '+fields.length+' set</div>'
+    +'</div>'
+    +'<div style="font-size:.78rem;color:'+IM+';line-height:1.65">'+body
+      +'<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">Educational tool — not legal advice. Confirm all designations with your custodian and estate attorney.</em></div>'
+    +'</div>';
+}
+
+/* ─── LIQUIDITY PLANNER ─────────────────────────────── */
+function runLiquidity(){
+  var num=function(id){var el=document.getElementById(id);return el?(parseFloat(el.value)||0):0;};
+  var r=document.getElementById('liq-result');if(!r)return;
+  var estate=num('liq-estate'),liquid=num('liq-liquid'),ins=num('liq-ins');
+  if(!estate){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please enter your total estate value.</div>';return;}
+  var EXEMPTION=15000000,RATE=0.40;
+  var taxable=Math.max(0,estate-EXEMPTION);
+  var tax=taxable*RATE;
+  var available=liquid+ins;
+  var net=available-tax;
+  var fmt=function(n){return '$'+Math.round(n).toLocaleString('en-US');};
+  var status=tax===0?'sb-r-ok':(net>=0?'sb-r-info':'sb-r-warn');
+  var ACC="var(--accent,var(--bronze,var(--gold,#9a7c52)))";
+  var IM="var(--im,rgba(12,11,9,.45))";
+  var INK="var(--ink,#111)";
+  var verdict;
+  if(tax===0) verdict='Your estate is below the <strong style="color:'+INK+'">'+fmt(EXEMPTION)+'</strong> federal exemption — no federal estate tax is projected. State-level estate or inheritance taxes may still apply.';
+  else if(net>=0) verdict='Your liquid assets and insurance <strong style="color:'+INK+'">cover the projected tax</strong> with '+fmt(net)+' to spare — heirs likely won’t be forced to sell illiquid assets.';
+  else verdict='Projected <strong style="color:#a0271e">liquidity shortfall of '+fmt(Math.abs(net))+'</strong>. Without more liquidity, heirs may have to sell property or investments under deadline. Consider an ILIT or additional life insurance.';
+  r.innerHTML='<div class="sb-tool-result '+status+'">'
+    +'<div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:'+ACC+';font-weight:600;margin-bottom:.75rem">Liquidity & Estate Tax Estimate</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.75rem">'
+      +'<div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:'+IM+';font-weight:600;margin-bottom:.2rem">Est. Federal Estate Tax</div><div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:1.3rem;font-weight:300;color:'+INK+'">'+fmt(tax)+'</div></div>'
+      +'<div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:'+IM+';font-weight:600;margin-bottom:.2rem">Available Liquidity</div><div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:1.3rem;font-weight:300;color:'+INK+'">'+fmt(available)+'</div></div>'
+    +'</div>'
+    +'<div style="font-size:.78rem;color:'+IM+';line-height:1.65">'+verdict
+      +'<br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">Simplified estimate using the 2026 $15M federal exemption and 40% top rate for a single estate. Portability, gifting, trusts, and state taxes are not modeled. Consult an estate attorney.</em></div>'
+    +'</div>';
+}
 </script>
 <a href="disclosure.html" id="disc-pill" aria-label="Important Disclosures">
   <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="5"/><path d="M6 5v4M6 3.5v.5"/></svg>
   Disclosures
 </a>
+<script src="assets/enhance.js" defer></script>
 </body>
 </html>
