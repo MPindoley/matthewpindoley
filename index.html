@@ -1424,7 +1424,7 @@ footer{
 
 <!-- ═══════════ HERO ═══════════ -->
 <section id="hero">
-  <video id="hero-video" autoplay muted loop playsinline preload="none" loading="lazy"
+  <video id="hero-video" autoplay muted loop playsinline preload="auto"
     aria-hidden="true"
     oncanplaythrough="this.classList.add('loaded')">
     <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1772661549/mediahero-video_jpjx6a.mp4" type="video/mp4">
@@ -1703,8 +1703,8 @@ footer{
 <section id="process">
 
   <!-- BACKGROUND VIDEO — artistic black & gold atmosphere -->
-  <video id="process-video" autoplay muted loop playsinline preload="none" aria-hidden="true">
-    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1775586369/12676888_3840_2160_30fps_e3esuh.mp4">
+  <video id="process-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1775586369/12676888_3840_2160_30fps_e3esuh.mp4" type="video/mp4">
   </video>
   <div class="process-video-overlay" aria-hidden="true"></div>
   <div class="process-vig" aria-hidden="true"></div>
@@ -1935,6 +1935,10 @@ document.querySelectorAll('.rs-card,.sv-row').forEach(c=>c.addEventListener('mou
   // If already ready (cached), show immediately
   if(v.readyState >= 3) v.classList.add('loaded');
   v.addEventListener('canplaythrough', () => v.classList.add('loaded'), {once:true});
+  // Nudge playback in case the browser stalls autoplay
+  const kick = () => { const p = v.play(); if(p) p.catch(()=>{}); };
+  v.addEventListener('loadeddata', kick, {once:true});
+  kick();
   // Fallback: show after 2.5s regardless
   setTimeout(() => v.classList.add('loaded'), 2500);
 })();
@@ -2272,6 +2276,10 @@ if (lpSection) lpObserver.observe(lpSection);
   if(!v) return;
   if(v.readyState >= 3) v.classList.add('loaded');
   v.addEventListener('canplaythrough', () => v.classList.add('loaded'), {once:true});
+  // Nudge playback in case the browser stalls autoplay
+  const kick = () => { const p = v.play(); if(p) p.catch(()=>{}); };
+  v.addEventListener('loadeddata', kick, {once:true});
+  kick();
   setTimeout(() => v.classList.add('loaded'), 2200);
 })();
 </script>
