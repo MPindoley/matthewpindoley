@@ -4,9 +4,26 @@
 	<link rel="icon" type="image/png" href="favicon.png">
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Matthew Pindoley, SE-AWMA® — Wealth Management</title>
+  <title>Matthew Pindoley, SE-AWMA® — Wealth Management Advisor | Toledo, Ohio</title>
+  <meta name="description" content="Matthew Pindoley, SE-AWMA® — a fiduciary wealth management advisor in Toledo, Ohio. Comprehensive financial, retirement, investment, tax, insurance, and estate planning — from first steps to generational wealth.">
+  <link rel="canonical" href="https://matthewpindoley.com/">
+  <meta name="theme-color" content="#09090c">
+
+  <!-- Open Graph / social sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://matthewpindoley.com/">
+  <meta property="og:site_name" content="Matthew Pindoley — SE-AWMA®">
+  <meta property="og:title" content="Matthew Pindoley, SE-AWMA® — Wealth Management Advisor">
+  <meta property="og:description" content="A fiduciary approach to building, protecting, and transferring wealth across every chapter of your life. Toledo, Ohio.">
+  <meta property="og:image" content="https://res.cloudinary.com/dfabtxqiy/image/upload/q_auto:good,w_1200/v1772661877/headshot_ztmhku.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Matthew Pindoley, SE-AWMA® — Wealth Management Advisor">
+  <meta name="twitter:description" content="A fiduciary approach to building, protecting, and transferring wealth across every chapter of your life. Toledo, Ohio.">
+  <meta name="twitter:image" content="https://res.cloudinary.com/dfabtxqiy/image/upload/q_auto:good,w_1200/v1772661877/headshot_ztmhku.jpg">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://res.cloudinary.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -27,7 +44,7 @@ a{color:inherit;text-decoration:none}
 
 /* GRAIN */
 #grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.028;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='https://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size:160px;animation:grn .08s steps(1) infinite}
 @keyframes grn{0%{transform:translate(0,0)}20%{transform:translate(-4%,-3%)}40%{transform:translate(3%,5%)}60%{transform:translate(-2%,2%)}80%{transform:translate(5%,-4%)}100%{transform:translate(0,0)}}
 
@@ -502,7 +519,8 @@ body.pressing #cur{width:28px;height:28px}
   .nav-links,.nav-btn{display:none}.hbg{display:flex}
   /* Hide mega dropdown completely on mobile */
   .nav-mega{display:none!important}
-  .h1{font-size:clamp(5rem,13vw,9rem)}
+  /* Sized so the longest line ("Generational") never clips on narrow screens */
+  .h1{font-size:clamp(3.4rem,14.5vw,9rem)}
   #hero{padding-bottom:3rem;padding-left:1.5rem;padding-right:1.5rem}
   .h-bot{flex-direction:column;align-items:flex-start;margin-bottom:2rem;gap:1.5rem}
   .h-ctas{flex-direction:column;align-items:stretch;gap:.75rem;width:100%}
@@ -1326,9 +1344,50 @@ footer{
   .proc-step-k{font-size:.46rem;letter-spacing:.03em}
   .proc-step-n{font-size:1.12rem}
 }
+
+/* ── EXPERIENCE POLISH ── */
+html{scroll-behavior:smooth}
+#hero,#stats,#about,#services,#process,#resources,#contact{scroll-margin-top:5rem}
+::selection{background:var(--gold);color:var(--ink)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  #grain{animation:none}
+  .ticker-t,.mq-t{animation:none}
+  .h-scroll-ring{animation:none}
+  #path-dot{animation:none !important}
+}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "name": "Matthew Pindoley Financial Advisory",
+    "url": "https://matthewpindoley.com/",
+    "image": "https://res.cloudinary.com/dfabtxqiy/image/upload/q_auto:good,w_1200/v1772661877/headshot_ztmhku.jpg",
+    "telephone": "+1-419-887-1002",
+    "email": "Matthew.Pindoley@osaicwealth.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Toledo",
+      "addressRegion": "OH",
+      "addressCountry": "US"
+    },
+    "areaServed": ["OH", "FL", "MI", "IL", "PA", "TX", "SC", "NV"],
+    "description": "Fiduciary wealth management: financial planning, retirement planning, investment management, tax strategy, insurance, and estate & legacy planning.",
+    "founder": {
+      "@type": "Person",
+      "name": "Matthew Pindoley",
+      "honorificSuffix": "SE-AWMA®",
+      "jobTitle": "Wealth Management Advisor",
+      "url": "https://matthewpindoley.com/"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -1426,8 +1485,9 @@ footer{
 <section id="hero">
   <video id="hero-video" autoplay muted loop playsinline preload="auto"
     aria-hidden="true"
+    poster="https://res.cloudinary.com/dfabtxqiy/video/upload/so_0,q_auto:eco,f_auto,w_1600/v1772661549/mediahero-video_jpjx6a.jpg"
     oncanplaythrough="this.classList.add('loaded')">
-    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1772661549/mediahero-video_jpjx6a.mp4" type="video/mp4">
+    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/q_auto,vc_auto,w_1600/v1772661549/mediahero-video_jpjx6a.mp4" type="video/mp4">
   </video>
   <div class="h-video-overlay" aria-hidden="true"></div>
   <canvas id="hc" aria-hidden="true"></canvas>
@@ -1556,7 +1616,7 @@ footer{
   </div>
   <div class="ab-vis rv-r">
     <div class="ab-card" id="tilt">
-	  <img src="https://res.cloudinary.com/dfabtxqiy/image/upload/v1772661877/headshot_ztmhku.jpg" alt="Matthew Pindoley" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;">
+	  <img src="https://res.cloudinary.com/dfabtxqiy/image/upload/q_auto:best,f_auto,w_1600/v1772661877/headshot_ztmhku.jpg" alt="Matthew Pindoley, SE-AWMA® wealth management advisor" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;">
       <div class="ab-grid" aria-hidden="true"></div>
       <div class="ab-veil" aria-hidden="true"></div>
       <div class="ab-info">
@@ -1703,8 +1763,9 @@ footer{
 <section id="process">
 
   <!-- BACKGROUND VIDEO — artistic black & gold atmosphere -->
-  <video id="process-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1775586369/12676888_3840_2160_30fps_e3esuh.mp4" type="video/mp4">
+  <video id="process-video" autoplay muted loop playsinline preload="auto" aria-hidden="true"
+    poster="https://res.cloudinary.com/dfabtxqiy/video/upload/so_0,q_auto:eco,f_auto,w_1600/v1775586369/12676888_3840_2160_30fps_e3esuh.jpg">
+    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/q_auto,vc_auto,w_1600/v1775586369/12676888_3840_2160_30fps_e3esuh.mp4" type="video/mp4">
   </video>
   <div class="process-video-overlay" aria-hidden="true"></div>
   <div class="process-vig" aria-hidden="true"></div>
@@ -1831,8 +1892,9 @@ footer{
 
 <!-- ═══════════ CONTACT ═══════════ -->
 <section id="contact">
-  <video id="ct-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1772661524/contact-bg_u0a64u.mp4" type="video/mp4">
+  <video id="ct-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true"
+    poster="https://res.cloudinary.com/dfabtxqiy/video/upload/so_0,q_auto:eco,f_auto,w_1600/v1772661524/contact-bg_u0a64u.jpg">
+    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/q_auto,vc_auto,w_1600/v1772661524/contact-bg_u0a64u.mp4" type="video/mp4">
   </video>
   <div class="ct-overlay" aria-hidden="true"></div>
   <div class="ct-vignette" aria-hidden="true"></div>
@@ -1904,7 +1966,7 @@ footer{
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── MOTION + VISIT PREFERENCES ─────────────────── */
 const prefersReduced = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
 window.__prefersReduced = prefersReduced;
@@ -2035,12 +2097,18 @@ window.addEventListener('scroll',()=>nav.classList.toggle('stk',scrollY>60),{pas
 /* ── MOBILE NAV ─────────────────────────────────── */
 const mob=document.getElementById('mob'),hbg=document.getElementById('hbg'),mobX=document.getElementById('mob-x');
 hbg.addEventListener('click',()=>mob.classList.add('open'));
+hbg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();mob.classList.add('open');}});
 mobX.addEventListener('click',()=>mob.classList.remove('open'));
 document.querySelectorAll('.mob-a').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
 
 /* ── REVEAL ─────────────────────────────────────── */
 const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');io.unobserve(x.target)}})},{threshold:.09,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>io.observe(el));
+
+/* Mobile carousels scroll horizontally — the vertical observer never sees
+   off-screen cards, so reveal a carousel's cards together when it appears */
+const carIo=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.querySelectorAll('.rv:not(.vis)').forEach(el=>el.classList.add('vis'));carIo.unobserve(x.target)}})},{threshold:.15});
+document.querySelectorAll('#stats .s-row,#resources .rs-grid').forEach(el=>carIo.observe(el));
 
 /* ── COUNTERS ───────────────────────────────────── */
 const cio=new IntersectionObserver(e=>{e.forEach(x=>{
