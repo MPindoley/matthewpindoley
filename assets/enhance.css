@@ -1,76 +1,296 @@
 /* ============================================================
-   enhance.css — sitewide experience refinements
-   ------------------------------------------------------------
-   Loaded after each page's inline <style> so it can refine,
-   never replace, the existing design. Three goals:
-     1. Smooth, offset-aware in-page navigation
-     2. Clear keyboard focus (the UI hides the system cursor)
-     3. First-class "reduce motion" support
-   ============================================================ */
+   enhance.css — sitewide experience system
+   ============================================================
+   This layer is loaded after every page's local styles. It adds
+   shared accessibility, motion, and finish without changing the
+   static-site deployment model.
+============================================================ */
 
-/* ── Smooth, offset-aware anchor navigation ──────────────────
-   Anchored sections used to land hidden behind the fixed nav.
-   scroll-padding keeps them clear; smooth scrolling makes
-   in-page jumps glide instead of snapping.                     */
-html{
-  scroll-behavior:smooth;
-  scroll-padding-top:6rem;
-}
-@media(max-width:768px){
-  html{scroll-padding-top:4.75rem}
+:root {
+  --experience-gold: #c8a46a;
+  --experience-paper: #f2ece0;
+  --experience-ink: #09090c;
+  --experience-ease: cubic-bezier(.16, 1, .3, 1);
 }
 
-/* ── Keyboard focus ──────────────────────────────────────────
-   With the system cursor hidden, a visible focus ring is
-   essential for anyone navigating by keyboard.                 */
-:focus-visible{
-  outline:2px solid #c8a46a;
-  outline-offset:3px;
-  border-radius:3px;
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
 }
-:focus:not(:focus-visible){outline:none}
 
-/* ── Mobile menu: lock the page behind the drawer ────────────
-   Toggled by enhance.js whenever the #mob drawer opens.        */
-body.menu-open{overflow:hidden}
+::selection {
+  background: var(--experience-gold);
+  color: var(--experience-ink);
+}
 
-/* Let the drawer scroll on short / landscape screens so links
-   are never clipped or unreachable.                            */
-@media(max-height:620px){
-  #mob{
-    justify-content:flex-start;
-    overflow-y:auto;
-    padding-top:5.5rem;
-    padding-bottom:3rem;
+:focus-visible {
+  outline: 2px solid var(--experience-gold) !important;
+  outline-offset: 4px;
+  border-radius: 3px;
+}
+
+:focus:not(:focus-visible) { outline: none; }
+
+/* Prevent a hidden mobile drawer from leaving background content active. */
+body.menu-open { overflow: hidden; }
+
+@media (max-height: 620px) {
+  #mob {
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding-top: 5.5rem;
+    padding-bottom: 3rem;
   }
 }
 
-/* ============================================================
-   REDUCED MOTION
-   Honour the OS-level "reduce motion" preference. The site is
-   rich with looping, auto-advancing and parallax motion; here
-   we calm all of it while keeping every entrance reveal in its
-   final, visible state (so nothing disappears).
-   ============================================================ */
-@media(prefers-reduced-motion:reduce){
+/* A delicate reading progress line; injected by enhance.js on every page. */
+.site-progress {
+  position: fixed;
+  inset: 0 auto auto 0;
+  z-index: 1100;
+  width: 100%;
+  height: 2px;
+  transform: scaleX(var(--reading-progress, 0));
+  transform-origin: left center;
+  background: linear-gradient(90deg, #f0d090 0%, var(--experience-gold) 55%, rgba(200,164,106,.25) 100%);
+  box-shadow: 0 0 16px rgba(200,164,106,.42);
+  pointer-events: none;
+}
 
-  *,*::before,*::after{
-    animation-duration:.001ms !important;
-    animation-delay:0ms !important;
-    animation-iteration-count:1 !important;
-    transition-duration:.001ms !important;
-    transition-delay:0ms !important;
-    scroll-behavior:auto !important;
+/* Shared refinement for the light and dark page variants. */
+input, select, textarea, button { font: inherit; }
+input, select, textarea {
+  transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--experience-gold) !important;
+  box-shadow: 0 0 0 4px rgba(200,164,106,.14);
+}
+
+/* =====================================================================
+   HOMEPAGE — quieter luxury, measured contrast, stronger hierarchy
+===================================================================== */
+
+body:has(#hero) {
+  background: #09090c;
+}
+
+body:has(#hero)::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 86% 18%, rgba(200,164,106,.055), transparent 28rem),
+    radial-gradient(circle at 6% 66%, rgba(200,164,106,.035), transparent 26rem);
+}
+
+body:has(#hero) > * { position: relative; }
+body:has(#hero) > #cur,
+body:has(#hero) > #cur-r,
+body:has(#hero) > #cur-lbl,
+body:has(#hero) > #grain,
+body:has(#hero) > #ld,
+body:has(#hero) > #nav,
+body:has(#hero) > #mob,
+body:has(#hero) > #disc-pill,
+body:has(#hero) > #finra-pill,
+body:has(#hero) > .site-progress { position: fixed; }
+
+/* Navigation becomes an understated frame rather than competing content. */
+#nav {
+  padding-top: 1.85rem;
+  padding-bottom: 1.85rem;
+}
+#nav.stk {
+  background: rgba(9,9,12,.78);
+  border-bottom-color: rgba(200,164,106,.22);
+  box-shadow: 0 14px 40px rgba(0,0,0,.18);
+}
+.nav-logo {
+  letter-spacing: .07em;
+}
+.nav-links { gap: clamp(1.35rem, 2.5vw, 3rem); }
+.nav-links a { color: rgba(242,236,224,.56); }
+.nav-links a.is-active { color: var(--experience-paper); }
+.nav-links a.is-active::after { width: 100%; }
+.nav-btn {
+  border-color: rgba(200,164,106,.5);
+  box-shadow: inset 0 0 0 1px rgba(242,236,224,.035);
+}
+
+/* Hero: maintain scale, remove visual fighting, prioritize the promise. */
+#hero {
+  min-height: max(44rem, 100svh);
+  isolation: isolate;
+  padding-bottom: clamp(3.25rem, 7vh, 6rem);
+}
+#hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: .72;
+  background:
+    linear-gradient(90deg, rgba(9,9,12,.72) 0%, rgba(9,9,12,.31) 48%, rgba(9,9,12,.12) 100%),
+    linear-gradient(0deg, rgba(9,9,12,.93) 0%, transparent 42%);
+}
+#hero-video { filter: saturate(.38) brightness(.55) contrast(1.08); }
+.h-video-overlay { background: linear-gradient(to bottom, rgba(9,9,12,.32), rgba(9,9,12,.07) 38%, rgba(9,9,12,.78)); }
+.h-grid { opacity: .68; }
+.h-content { max-width: 79rem; }
+.h-tag {
+  letter-spacing: .27em;
+  margin-bottom: clamp(1.6rem, 4vh, 2.8rem);
+  text-shadow: 0 1px 20px rgba(0,0,0,.65);
+}
+.h1 {
+  max-width: 10.8ch;
+  font-size: clamp(4.25rem, 10.1vw, 11.5rem);
+  text-wrap: balance;
+  text-shadow: 0 18px 70px rgba(0,0,0,.4);
+}
+.h1 em { text-shadow: 0 12px 42px rgba(200,164,106,.14); }
+.h-bot { margin-top: clamp(2.5rem, 6vh, 5rem); }
+.h-desc {
+  color: rgba(242,236,224,.66);
+  padding-left: 1.1rem;
+  border-left: 1px solid rgba(200,164,106,.6);
+}
+.h-desc strong { color: var(--experience-paper); }
+.btn { min-height: 3.05rem; }
+.btn-gold {
+  background: linear-gradient(120deg, #e0bd7e 0%, #c8a46a 48%, #a87f42 100%);
+  box-shadow: 0 12px 26px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.28);
+}
+.btn-gold:hover { transform: translateY(-2px); }
+.btn-outline:hover { transform: translateY(-2px); }
+
+/* A signature "today to legacy" marker replaces excess decoration with narrative. */
+#legacy-path-section {
+  padding-top: clamp(3rem, 6vw, 5rem) !important;
+  padding-bottom: clamp(2.5rem, 4vw, 4rem) !important;
+  border-top: 1px solid rgba(200,164,106,.12);
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(200,164,106,.065), transparent 55%),
+    var(--ink) !important;
+}
+.legacy-svg { opacity: .88; }
+.path-subtitle { max-width: 42ch; margin-inline: auto; }
+.ticker {
+  background: rgba(17,19,24,.84);
+  border-color: rgba(200,164,106,.12);
+}
+
+/* Give repeated sections a precise editorial grid and improve text measure. */
+#stats, #about, #services, #process, #resources { position: relative; }
+#stats { padding-top: clamp(5.5rem, 9vw, 8rem); padding-bottom: clamp(5.5rem, 9vw, 8rem); }
+.s-row { box-shadow: 0 24px 65px rgba(0,0,0,.13); }
+.stat { min-height: 18rem; }
+.stat-l { max-width: 30ch; color: rgba(242,236,224,.52); }
+#about { gap: clamp(3.5rem, 7vw, 8rem); }
+.ab-p { max-width: 66ch; color: rgba(242,236,224,.58); }
+.ab-p + .ab-p {
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(200,164,106,.14);
+}
+.ab-card { box-shadow: 0 28px 60px rgba(0,0,0,.26); }
+.ab-card::after {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  z-index: 3;
+  pointer-events: none;
+  border: 1px solid rgba(242,236,224,.12);
+}
+.ab-info { z-index: 4; }
+.sv-hd, .pr-hd, .rs-hd { margin-bottom: clamp(3.6rem, 7vw, 7rem); }
+.sv-sub, .pr-desc, .rs-de { line-height: 1.9; }
+.sv-row { transition: background .45s var(--experience-ease); }
+.sv-row:hover, .sv-row.open { background: rgba(122,90,40,.045); }
+.sv-row-head { min-height: 6.5rem; }
+.sv-panel-desc, .sv-panel-why-text { line-height: 1.92; }
+#process { background-color: #111318; }
+.pr-dial-wrapper { box-shadow: 0 28px 64px rgba(0,0,0,.2); }
+.rs-grid { box-shadow: 0 22px 55px rgba(0,0,0,.12); }
+.rs-card { min-height: 17rem; display: flex; flex-direction: column; }
+.rs-lk { margin-top: auto; }
+
+/* Contact conversion moment: keep compliance utility subordinate to primary action. */
+#contact { padding-top: clamp(8rem, 15vw, 15rem); padding-bottom: clamp(8rem, 15vw, 15rem); }
+.ct-p { color: rgba(242,236,224,.64); }
+#disc-pill, #finra-pill {
+  bottom: 1.35rem;
+  background: rgba(9,9,12,.58);
+  border-color: rgba(200,164,106,.14);
+  opacity: .84;
+}
+#disc-pill:hover, #finra-pill:hover { opacity: 1; }
+#disc-pill { right: 1.35rem; }
+#finra-pill { left: 1.35rem; }
+
+/* Controlled entrance motion with no reliance on JavaScript. */
+@media (prefers-reduced-motion: no-preference) {
+  body.experience-ready #hero .h-tag,
+  body.experience-ready #hero .h-bot { animation-duration: .8s; }
+  .sv-row, .rs-card, .stat, .ab-card { will-change: transform; }
+}
+
+@media (max-width: 1100px) {
+  #hero { min-height: 46rem; }
+  .h1 { max-width: 9.5ch; }
+  .ab-p { max-width: 72ch; }
+}
+
+@media (max-width: 768px) {
+  html { scroll-padding-top: 4.75rem; }
+  .site-progress { height: 1px; }
+  #nav, #nav.stk { padding-top: 1.15rem; padding-bottom: 1.15rem; }
+  #hero { min-height: 100svh; }
+  #hero::after { background: linear-gradient(180deg, rgba(9,9,12,.34), rgba(9,9,12,.2) 35%, rgba(9,9,12,.94) 93%); }
+  #hero-video { object-position: 59% center; }
+  .h-grid, #hc { display: none; }
+  .h-content { max-width: 100%; }
+  .h1 { font-size: clamp(3.55rem, 14.25vw, 6.25rem); max-width: 9.6ch; }
+  .h-tag { font-size: .59rem; margin-bottom: 1.75rem; }
+  .h-bot { margin-top: 2.5rem; }
+  .h-desc { font-size: .84rem; }
+  .btn { min-height: 3.35rem; }
+  #legacy-path-section { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
+  .s-row { box-shadow: none; }
+  .stat, .rs-card { box-shadow: 0 14px 30px rgba(0,0,0,.16); }
+  .sv-row-head { min-height: 5.4rem; }
+  .rs-card { min-height: 0; }
+  .ct-dv { overflow-wrap: anywhere; }
+  #finra-pill { display: none; }
+  #disc-pill { bottom: 1rem; right: 1rem; }
+}
+
+@media (max-width: 480px) {
+  #hero { min-height: 46rem; }
+  .h1 { font-size: clamp(3.25rem, 14vw, 4.8rem); }
+  #legacy-path-section { padding-left: 1.15rem !important; padding-right: 1.15rem !important; }
+}
+
+/* Motion is optional, never a barrier to content or battery life. */
+@media (prefers-reduced-motion: reduce), (update: slow) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
   }
-  html{scroll-behavior:auto !important}
+  html { scroll-behavior: auto !important; }
+  #grain, #hc, #cc { display: none !important; }
+  .ticker-t, .mq-t { animation: none !important; transform: none !important; }
+  #ld { display: none !important; }
+}
 
-  /* Decorative, purely-motion layers — remove entirely */
-  #grain,#hc,#cc{display:none !important}
-
-  /* Stop the slow-spinning background orbitals / breathing glow */
-  #arc-main,#arc-2,#arc-3,#arc-4,#orb-glow,
-  #legacy-line,#path-dot{animation:none !important}
-
-  /* Keep marquees / tickers readable and still */
-  .ticker-t,.mq-t{animation:none !important;transform:none !important}
+@media (hover: none) {
+  #cur, #cur-r, #cur-lbl { display: none !important; }
+  body { cursor: auto !important; }
+  .btn, .sv-row, .rs-card, .hbg { cursor: pointer !important; }
 }

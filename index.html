@@ -2016,29 +2016,28 @@ if(prefersReduced||alreadyVisited){
   /* Returning in the same session, or motion-reduced: skip straight to content */
   dismissLoader();
 }else{
-  const subs=['Loading experience','Crafting your plan','Almost ready','Welcome'];
-  let p=0,si=0;
-  const ldT=setInterval(()=>{
-    p+=Math.floor(Math.random()*5)+2;if(p>100)p=100;
+  /* A brief, deterministic opening avoids a fake loading wait. */
+  const start=performance.now(),duration=520;
+  function tick(now){
+    const p=Math.min(100,Math.round(((now-start)/duration)*100));
     if(ldPct)ldPct.innerHTML=p+'<sup>%</sup>';if(ldFill)ldFill.style.width=p+'%';
-    if(p>25&&si===0){si=1;if(ldSub)ldSub.textContent=subs[1]}
-    if(p>60&&si===1){si=2;if(ldSub)ldSub.textContent=subs[2]}
-    if(p>85&&si===2){si=3;if(ldSub)ldSub.textContent=subs[3]}
-    if(p>=100){
-      clearInterval(ldT);
-      try{sessionStorage.setItem('mp_seen','1');}catch(e){}
-      setTimeout(()=>{
-        if(ld)ld.classList.add('out');
-        setTimeout(dismissLoader,950);
-      },350);
-    }
-  },38);
+    if(p<100){requestAnimationFrame(tick);return;}
+    if(ldSub)ldSub.textContent='Welcome';
+    try{sessionStorage.setItem('mp_seen','1');}catch(e){}
+    setTimeout(()=>{
+      if(ld)ld.classList.add('out');
+      setTimeout(dismissLoader,560);
+    },80);
+  }
+  requestAnimationFrame(tick);
 }
 
 /* ── HERO PARTICLE CANVAS ───────────────────────── */
 (function(){
   const c=document.getElementById('hc');if(!c)return;
-  if(prefersReduced)return;
+  const connection=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+  const lowPower=window.matchMedia('(max-width: 768px)').matches||(connection&&(connection.saveData||/(^|-)2g/.test(connection.effectiveType||'')));
+  if(prefersReduced||lowPower)return;
   const ctx=c.getContext('2d');let W,H,pts=[];
   function sz(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
   sz();window.addEventListener('resize',()=>{sz();init()});
@@ -2072,7 +2071,9 @@ if(prefersReduced||alreadyVisited){
 /* ── CONTACT CANVAS ─────────────────────────────── */
 (function(){
   const c=document.getElementById('cc');if(!c)return;
-  if(prefersReduced)return;
+  const connection=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+  const lowPower=window.matchMedia('(max-width: 768px)').matches||(connection&&(connection.saveData||/(^|-)2g/.test(connection.effectiveType||'')));
+  if(prefersReduced||lowPower)return;
   const ctx=c.getContext('2d');let W,H,t=0;
   function sz(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}sz();
   window.addEventListener('resize',sz);
