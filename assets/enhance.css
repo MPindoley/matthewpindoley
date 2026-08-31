@@ -74,3 +74,64 @@ body.menu-open{overflow:hidden}
   /* Keep marquees / tickers readable and still */
   .ticker-t,.mq-t{animation:none !important;transform:none !important}
 }
+
+/* ============================================================
+   MOBILE ERGONOMICS  (≤768px)
+   Measured fixes, not guesses:
+     • iOS Safari zooms the whole page whenever a focused field is
+       under 16px. The calculator inputs were 13.6px, so every tap
+       on a calculator zoomed the page and forced a pinch back out.
+     • Primary calculator buttons were 31px tall; Apple's minimum
+       touch target is 44×44.
+     • Calculator field labels were ~10.4px — hard to read on a phone.
+   ============================================================ */
+@media(max-width:768px){
+
+  /* ── Stop iOS zoom-on-focus in the calculators ── */
+  .sb-tool-input,.sb-tool-select,
+  .sb-tool-card input,.sb-tool-card select,.sb-tool-card textarea{
+    font-size:16px !important;
+  }
+
+  /* ── Comfortable touch targets ── */
+  .sb-tool-input,.sb-tool-select,
+  .sb-tool-card input,.sb-tool-card select{min-height:44px}
+
+  .sb-tool-btn{
+    min-height:44px;
+    padding-top:.75rem;padding-bottom:.75rem;
+    justify-content:center;
+  }
+  .btn-p,.calc-btn,.c-btn{min-height:44px}
+
+  /* Close / menu buttons — keep their own layout, just grow the hit area */
+  #sb-close,.sb-close,#mob-x,#dp-close,.dp-close{
+    min-width:44px;min-height:44px;
+    align-items:center;justify-content:center;
+  }
+  #hbg,.hbg{                     /* stays a vertical bar stack */
+    min-width:44px;min-height:44px;
+    align-items:center;justify-content:center;
+  }
+
+  /* Retirement page has an inline calculator (not in the tools panel) */
+  #calc .fi{font-size:16px !important;min-height:44px}
+
+  /* ── Legibility of functional form labels ── */
+  .sb-tool-lbl{font-size:11.5px !important;letter-spacing:.08em}
+}
+
+/* Paired calculator fields are cramped side-by-side on a phone: long labels
+   wrap to three lines and the two inputs fall out of vertical alignment.
+   Tablets keep the two-column layout. */
+@media(max-width:640px){
+  .sb-tool-row{grid-template-columns:1fr}
+}
+
+/* The floating Disclosures / BrokerCheck pills sit at z-index 900 — the same
+   layer as the tools panel and above the mobile drawer — and because they come
+   later in the DOM they painted on top, covering calculator fields and menu
+   items. Lift the overlays above them so they read as true modals. */
+#sb-overlay{z-index:950}
+#sb-panel{z-index:960}
+#mob{z-index:955}
