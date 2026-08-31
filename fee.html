@@ -933,6 +933,30 @@ footer{
   #disc-pill{bottom:1.4rem;right:1.2rem;font-size:.54rem;padding:.4rem .9rem}
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
+
+/* ── Calculator: type-in portfolio value ── */
+.calc-entry{margin:1.4rem 0 .2rem}
+.calc-entry-lbl{display:block;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:rgba(244,241,234,.3);margin-bottom:.55rem}
+.calc-entry-ctrl{position:relative;display:flex;align-items:center;max-width:300px}
+.calc-entry-prefix{position:absolute;left:.9rem;font-family:var(--ff);font-size:1.15rem;color:rgba(244,241,234,.32);pointer-events:none}
+#aum-input{width:100%;background:rgba(244,241,234,.04);border:1px solid rgba(244,241,234,.13);border-radius:10px;
+  padding:.68rem .9rem .68rem 1.95rem;font-family:var(--ff);font-size:1.2rem;font-weight:300;letter-spacing:-.01em;
+  color:var(--w);outline:none;transition:border-color .25s,background .25s,box-shadow .25s}
+#aum-input::placeholder{color:rgba(244,241,234,.18)}
+#aum-input:focus{border-color:var(--g);background:rgba(244,241,234,.07);box-shadow:0 0 0 3px rgba(200,164,106,.14)}
+.calc-entry-hint{font-size:.62rem;color:rgba(244,241,234,.24);margin-top:.5rem;font-weight:300}
+.calc-entry-hint b{color:rgba(244,241,234,.48);font-weight:500}
+
+/* ── Calculator: comparison vs a typical 1% fee ── */
+.calc-save{margin-top:1.8rem;padding:1.15rem 1.25rem;border-radius:12px;
+  background:rgba(200,164,106,.07);border:1px solid rgba(200,164,106,.18);border-left:3px solid var(--g)}
+.calc-save[hidden]{display:none}
+.cs-top{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
+.cs-label{font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;font-weight:600;color:rgba(244,241,234,.44)}
+.cs-amt{font-family:var(--ff);font-size:1.8rem;font-weight:300;color:var(--g2);letter-spacing:-.02em;white-space:nowrap}
+.cs-note{font-size:.71rem;line-height:1.7;color:rgba(244,241,234,.34);font-weight:300;margin-top:.55rem}
+.cs-note b{color:rgba(244,241,234,.66);font-weight:500}
+@media(max-width:560px){.cs-top{flex-direction:column;gap:.15rem}.calc-entry-ctrl{max-width:100%}}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
@@ -1040,7 +1064,7 @@ footer{
     <div class="ev-vline"></div>
     <div class="ev-label" style="top:12%">$30M+</div>
     <div class="ev-label" style="top:20%">$15M</div>
-    <div class="ev-label" style="top:28%">$7.5M</div>
+    <div class="ev-label" style="top:28%">$5M</div>
     <div class="ev-label" style="top:37%">$1M</div>
     <div class="ev-label" style="top:46%">$500K</div>
     <div class="ev-label" style="top:56%">$250K</div>
@@ -1105,11 +1129,11 @@ footer{
     <div class="mkr-lbl">0.25%</div>
   </div>
 
-  <!-- Tier 6: 0.125% -->
-  <div class="mkr" data-id="t6" style="left:74%;top:19.5%" tabindex="0" role="button" aria-label="0.125% tier">
+  <!-- Tier 6: 0.175% -->
+  <div class="mkr" data-id="t6" style="left:74%;top:19.5%" tabindex="0" role="button" aria-label="0.175% tier">
     <div class="mkr-ring"></div><div class="mkr-ring2"></div><div class="mkr-ring3"></div>
     <div class="mkr-dot"></div>
-    <div class="mkr-lbl">0.125%</div>
+    <div class="mkr-lbl">0.175%</div>
   </div>
 
   <!-- Flat rate / Summit -->
@@ -1149,8 +1173,16 @@ footer{
         <span>$0</span>
         <span>$250K</span>
         <span>$1M</span>
-        <span>$7.5M</span>
+        <span>$5M</span>
         <span>$30M+</span>
+      </div>
+      <div class="calc-entry">
+        <label class="calc-entry-lbl" for="aum-input">Or type your portfolio value</label>
+        <div class="calc-entry-ctrl">
+          <span class="calc-entry-prefix">$</span>
+          <input type="text" id="aum-input" inputmode="decimal" autocomplete="off" placeholder="2,500,000" aria-label="Portfolio value"/>
+        </div>
+        <div class="calc-entry-hint">Shorthand works — type <b>2.5m</b> or <b>750k</b></div>
       </div>
       <p class="calc-note">This calculator covers actively managed portfolios only. Clients holding solely a money market, single bond, or single CD are not subject to an advisory fee.</p>
     </div>
@@ -1169,6 +1201,13 @@ footer{
       <div class="calc-stat-row">
         <span class="calc-stat-label">Quarterly Cost</span>
         <span class="calc-stat-val" id="calc-quarterly">—</span>
+      </div>
+      <div class="calc-save" id="calc-save" hidden>
+        <div class="cs-top">
+          <span class="cs-label">You keep vs. a typical 1% fee</span>
+          <span class="cs-amt" id="calc-save-amt">—</span>
+        </div>
+        <div class="cs-note" id="calc-save-note"></div>
       </div>
       <div class="calc-tiers">
         <div class="ct-label">Tier Breakdown</div>
@@ -1227,7 +1266,7 @@ footer{
         <span class="fq-qt">How does the tiered structure work in practice?</span>
         <div class="fq-ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10h12M10 4l6 6-6 6"/></svg></div>
       </div>
-      <div class="fq-a"><div class="fq-ai">There are actually three different structures depending on your portfolio size. <strong>Under $1M, breakpoint pricing applies</strong> — like mutual fund breakpoints. Once your portfolio crosses $250K, your <em>entire</em> portfolio moves to 0.80%. Cross $500K and everything shifts to 0.70%. <strong>From $1M to $30M, marginal rates apply</strong> — like tax brackets. The first $7.5M is charged at 0.50%, the next portion up to $15M at 0.25%, and the next up to $30M at 0.125%. <strong>Above $30M, a single flat rate of 0.25% applies to everything.</strong></div></div>
+      <div class="fq-a"><div class="fq-ai">There are actually three different structures depending on your portfolio size. <strong>Under $1M, breakpoint pricing applies</strong> — like mutual fund breakpoints. Once your portfolio crosses $250K, your <em>entire</em> portfolio moves to 0.80%. Cross $500K and everything shifts to 0.70%. <strong>From $1M to $30M, marginal rates apply</strong> — like tax brackets. The first $5M is charged at 0.50%, the next portion up to $15M at 0.25%, and the next up to $30M at 0.175%. <strong>Above $30M, a single flat rate of 0.25% applies to everything.</strong></div></div>
     </div>
 
     <div class="fq-item">
@@ -1367,30 +1406,30 @@ const TIERS = {
   },
   t4:{
     navLabel:'Tier 04 · Marginal Rates Begin',
-    rate:'0.50',tag:'Marginal — $1M to $7.5M',
-    range:'$1,000,000 – $7,500,000',
-    desc:'At $1M, the structure shifts to marginal pricing. Your entire portfolio starts at 0.50%. As your wealth grows past $7.5M, only the excess is charged at the next lower rate — each portion taxed at its own tier.',
+    rate:'0.50',tag:'Marginal — $1M to $5M',
+    range:'$1,000,000 – $5,000,000',
+    desc:'At $1M, the structure shifts to marginal pricing. Your entire portfolio starts at 0.50%. As your wealth grows past $5M, only the excess is charged at the next lower rate — each portion priced at its own tier.',
     dark:false,
   },
   t5:{
     navLabel:'Tier 05 · Marginal',
-    rate:'0.25',tag:'Marginal — $7.5M to $15M',
-    range:'$7,500,000 – $15,000,000 portion',
-    desc:'Only assets above $7.5M up to $15M are charged at 0.25%. Your first $7.5M continues at 0.50%. Like a tax bracket — the lower rate applies only to what sits in this range.',
+    rate:'0.25',tag:'Marginal — $5M to $15M',
+    range:'$5,000,000 – $15,000,000 portion',
+    desc:'Only assets above $5M up to $15M are charged at 0.25%. Your first $5M continues at 0.50%. Like a tax bracket — the lower rate applies only to what sits in this range.',
     dark:false,
   },
   t6:{
     navLabel:'Tier 06 · Marginal',
-    rate:'0.125',tag:'Marginal — $15M to $30M',
+    rate:'0.175',tag:'Marginal — $15M to $30M',
     range:'$15,000,000 – $30,000,000 portion',
-    desc:'The most efficient marginal tier. Only the portion of assets between $15M and $30M is charged at 0.125%. Portions below remain at their respective rates.',
+    desc:'The final marginal tier. Only the portion of assets between $15M and $30M is charged at 0.175% — portions below remain at their respective rates. Cross $30M and the whole portfolio moves to the flat 0.25%, which lands below this blended rate.',
     dark:false,
   },
   flat:{
     navLabel:'Summit — Flat Rate',
     rate:'0.25',tag:'Flat Rate · $30M+',
     range:'Greater than $30,000,000',
-    desc:'Above $30M, all three structures give way to simplicity: one flat rate of 0.25% on the full portfolio. No brackets, no breakpoints — just a single transparent rate for a long-term partnership.',
+    desc:'Above $30M, all three structures give way to simplicity: one flat rate of 0.25% on the full portfolio. Because that sits below the blended marginal rate just beneath it, crossing $30M actually lowers your fee. No brackets, no breakpoints — just a single transparent rate for a long-term partnership.',
     dark:true,
   },
 };
@@ -1581,13 +1620,28 @@ function sliderToAum(v){
   return Math.round(Math.exp(logMin+(logMax-logMin)*(v/100)));
 }
 
+function aumToSlider(aum){
+  if(!aum||aum<=0) return 0;
+  const logMin=Math.log(50000), logMax=Math.log(35000000);
+  const c=Math.max(50000,Math.min(35000000,aum));
+  return Math.round(((Math.log(c)-logMin)/(logMax-logMin))*100);
+}
+function parseMoney(str){
+  if(str===null||str===undefined) return NaN;
+  let s=String(str).toLowerCase().replace(/[$,\s]/g,'');
+  if(!s) return NaN;
+  let mult=1;
+  if(/[km]$/.test(s)){ mult=s.slice(-1)==='m'?1e6:1e3; s=s.slice(0,-1); }
+  const n=parseFloat(s);
+  return isNaN(n)?NaN:n*mult;
+}
 function fmtFull(n){
   if(n<1) return '$0';
   return '$'+Math.round(n).toLocaleString('en-US');
 }
 function fmtAum(n){
   if(n===0) return '—';
-  if(n>=1000000) return '$'+(n/1000000).toFixed(n%1000000===0?0:2).replace(/\.?0+$/,'')+'M';
+  if(n>=1000000) return '$'+parseFloat((n/1000000).toFixed(2))+'M';
   if(n>=1000) return '$'+(n/1000).toFixed(0)+'K';
   return '$'+n;
 }
@@ -1613,21 +1667,21 @@ function calcFee(aum){
     // ── STRUCTURE 2: Marginal (tax-bracket style)
     const bd=[];let fee=0;
 
-    const s1=Math.min(aum,7500000);
+    const s1=Math.min(aum,5000000);
     const f1=s1*0.005;
-    bd.push({label:'First $7.5M',display:'0.50%',fee:f1,bracket:s1});
+    bd.push({label:'First $5M',display:'0.50%',fee:f1,bracket:s1});
     fee+=f1;
 
-    if(aum>7500000){
-      const s2=Math.min(aum-7500000,7500000);
+    if(aum>5000000){
+      const s2=Math.min(aum-5000000,10000000);
       const f2=s2*0.0025;
-      bd.push({label:'$7.5M – $15M portion',display:'0.25%',fee:f2,bracket:s2});
+      bd.push({label:'$5M – $15M portion',display:'0.25%',fee:f2,bracket:s2});
       fee+=f2;
     }
     if(aum>15000000){
       const s3=aum-15000000;
-      const f3=s3*0.00125;
-      bd.push({label:'$15M – $30M portion',display:'0.125%',fee:f3,bracket:s3});
+      const f3=s3*0.00175;
+      bd.push({label:'$15M – $30M portion',display:'0.175%',fee:f3,bracket:s3});
       fee+=f3;
     }
     return {fee,structure:'marginal',bd};
@@ -1651,20 +1705,27 @@ function calcFee(aum){
 const STRUCT_META={
   breakpoint:{cls:'sb-bp',name:'Breakpoint Pricing',tip:'Your entire portfolio moves to the lower rate when you cross each threshold — like mutual fund breakpoints.'},
   marginal:  {cls:'sb-mg',name:'Marginal Rate Pricing',tip:'Each successive portion of assets is charged its own rate, like tax brackets. Lower rates apply only to what sits above each threshold.'},
-  flat:      {cls:'sb-fl',name:'Flat Rate Pricing',tip:'At $30M and above, a single flat rate of 0.25% applies to the full portfolio — simplicity for a long-term partnership.'},
+  flat:      {cls:'sb-fl',name:'Flat Rate Pricing',tip:'At $30M and above, a single flat rate of 0.25% applies to the full portfolio — and it lands below the blended rate just beneath it, so crossing $30M lowers your fee.'},
   none:      {cls:'',name:'',tip:''},
 };
 
-function updateCalc(){
-  const v=parseInt(document.getElementById('aum-slider').value);
-  const aum=sliderToAum(v);
+function updateCalc(overrideAum){
+  const slider=document.getElementById('aum-slider');
+  const fromType=(typeof overrideAum==='number'&&overrideAum>0);
+  const aum=fromType?overrideAum:sliderToAum(parseInt(slider.value));
+  const v=fromType?aumToSlider(aum):parseInt(slider.value);
+
+  // keep the type-in field in sync when the slider is driving
+  // (typing sets fromType=true, so this can never overwrite what is being typed)
+  const inp=document.getElementById('aum-input');
+  if(inp&&!fromType) inp.value=aum>0?Math.round(aum).toLocaleString('en-US'):'';
 
   // Track fill
-  const slider=document.getElementById('aum-slider');
   slider.style.background=`linear-gradient(90deg,var(--g) ${v}%,rgba(244,241,234,.12) ${v}%)`;
 
   if(aum===0){
-    document.getElementById('calc-aum-display').innerHTML='<span style="color:rgba(244,241,234,.25)">Move slider</span>';
+    document.getElementById('calc-aum-display').innerHTML='<span style="color:rgba(244,241,234,.25)">Move slider or type a value</span>';
+    const _sv=document.getElementById('calc-save'); if(_sv) _sv.hidden=true;
     document.getElementById('calc-fee').textContent='—';
     document.getElementById('calc-eff-rate').textContent='—';
     document.getElementById('calc-monthly').textContent='—';
@@ -1684,6 +1745,20 @@ function updateCalc(){
   document.getElementById('calc-monthly').textContent=fmtFull(fee/12);
   document.getElementById('calc-quarterly').textContent=fmtFull(fee/4);
 
+  // ── vs. a typical 1% advisory fee ──
+  const saveEl=document.getElementById("calc-save");
+  if(saveEl){
+    const typical=aum*0.01, diff=typical-fee;
+    if(diff>0.5){
+      saveEl.hidden=false;
+      document.getElementById("calc-save-amt").textContent=fmtFull(diff)+"/yr";
+      document.getElementById("calc-save-note").innerHTML=
+        "A common 1.00% advisory fee would run <b>"+fmtFull(typical)+"</b> a year on "+fmtAum(aum)+
+        ". This schedule comes to <b>"+fmtFull(fee)+"</b> — about <b>"+fmtFull(diff*10)+
+        "</b> kept over ten years at today’s balance.";
+    } else { saveEl.hidden=true; }
+  }
+
   // Structure badge
   const badgeEl=document.getElementById('calc-structure-badge');
   badgeEl.style.display='block';
@@ -1702,7 +1777,27 @@ function updateCalc(){
     </div>`).join('');
 }
 
-document.getElementById('aum-slider').addEventListener('input',updateCalc);
+document.getElementById('aum-slider').addEventListener('input',function(){updateCalc();});
+
+/* type-in portfolio value → drives the same calculation */
+(function(){
+  const inp=document.getElementById('aum-input');
+  if(!inp) return;
+  inp.addEventListener('input',function(){
+    const n=parseMoney(inp.value);
+    if(!isNaN(n)&&n>0){
+      document.getElementById('aum-slider').value=aumToSlider(n);
+      updateCalc(n);
+    }else if(inp.value.trim()===''){
+      document.getElementById('aum-slider').value=0;
+      updateCalc();
+    }
+  });
+  inp.addEventListener('blur',function(){
+    const n=parseMoney(inp.value);
+    if(!isNaN(n)&&n>0) inp.value=Math.round(n).toLocaleString('en-US');
+  });
+}());
 updateCalc();
 
 /* ─── MOBILE DRAWER ─────────────────────────── */
