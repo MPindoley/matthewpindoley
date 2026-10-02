@@ -237,6 +237,14 @@
 #mob .mob-login svg{width:13px;height:13px;flex-shrink:0}
 
 /* ── Responsive ──────────────────────────────────────────── */
+/* Wider screens: the menu links sit on the page's centre line. Where the
+   buttons on the right leave too little room for that, the links stop
+   4.5rem short of them. Narrower screens keep the links evenly spaced. */
+@media(min-width:1280px){
+  #nav{display:grid;grid-template-columns:minmax(max-content,1fr) auto minmax(max-content,1fr);column-gap:4.5rem}
+  #nav .nav-logo{justify-self:start}
+  #nav .nav-right{justify-self:end}
+}
 @media(max-width:1100px){
   #nav{padding-left:var(--nav-pad-x-md);padding-right:var(--nav-pad-x-md)}
   #nav .nav-links{gap:2.2rem}
