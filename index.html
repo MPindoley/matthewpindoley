@@ -137,7 +137,7 @@ body.pressing #cur{width:28px;height:28px}
 
 /* HERO */
 #hero{min-height:100svh;display:flex;flex-direction:column;
-  justify-content:flex-end;padding:0 4.5rem 6rem;
+  justify-content:flex-end;padding:6.5rem 4.5rem clamp(4.75rem,8vh,6rem);
   position:relative;overflow:hidden}
 #hero-video{position:absolute;inset:0;z-index:0;width:100%;height:100%;
   object-fit:cover;object-position:center;
@@ -163,11 +163,11 @@ body.pressing #cur{width:28px;height:28px}
 .h-content{position:relative;z-index:5}
 .h-tag{display:inline-flex;align-items:center;gap:.8rem;
   font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--gold);font-weight:600;margin-bottom:2.8rem;
+  color:var(--gold);font-weight:600;margin-bottom:clamp(1.2rem,3.5vh,2.8rem);
   opacity:0;animation:rUp .9s var(--e1) .5s forwards}
 .h-tag::before{content:'';width:32px;height:1px;background:var(--gold)}
 .h1{font-family:var(--ff);font-weight:300;
-  font-size:clamp(4.5rem,11.5vw,13rem);
+  font-size:clamp(3.4rem,min(11.5vw,15vh),13rem);
   line-height:.87;letter-spacing:-.04em;color:var(--paper)}
 .h1 .ln{overflow:hidden;display:block}
 .h1 .wd{display:block;transform:translateY(115%);
@@ -178,7 +178,7 @@ body.pressing #cur{width:28px;height:28px}
 .h1 .ln:nth-child(3) .wd{transition-delay:.2s}
 .h1 .ln:nth-child(4) .wd{transition-delay:.3s}
 .h-bot{display:flex;align-items:flex-end;justify-content:space-between;
-  margin-top:5rem;gap:3rem;flex-wrap:wrap;
+  margin-top:clamp(1.8rem,5vh,5rem);gap:3rem;flex-wrap:wrap;
   opacity:0;animation:rUp .9s var(--e1) 1.6s forwards}
 .h-desc{font-size:.94rem;line-height:1.75;color:var(--muted);
   max-width:40ch;font-weight:300}
@@ -520,7 +520,7 @@ body.pressing #cur{width:28px;height:28px}
   /* Hide mega dropdown completely on mobile */
   .nav-mega{display:none!important}
   /* Sized so the longest line ("Generational") never clips on narrow screens */
-  .h1{font-size:clamp(3.4rem,14.5vw,9rem)}
+  .h1{font-size:clamp(2.6rem,min(14.5vw,9.5vh),9rem)}
   #hero{padding-bottom:3rem;padding-left:1.5rem;padding-right:1.5rem}
   .h-bot{flex-direction:column;align-items:flex-start;margin-bottom:2rem;gap:1.5rem}
   .h-ctas{flex-direction:column;align-items:stretch;gap:.75rem;width:100%}
@@ -538,7 +538,7 @@ body.pressing #cur{width:28px;height:28px}
   #stats{padding:5rem 1.5rem}
   .stat{padding:3rem 2rem}
   /* Section paddings — luxurious but tight */
-  #hero{padding-top:0}
+  #hero{padding-top:6.5rem}
   #about{padding:6rem 1.5rem}
   #services{padding:6rem 1.5rem}
  #process{padding:6rem 1.5rem;}
@@ -988,10 +988,14 @@ footer{
   opacity:0;pointer-events:none;
   transition:all .45s cubic-bezier(.16,1,.3,1);
 }
-.nav-dd:hover .nav-mega{
+.nav-dd:hover .nav-mega,
+.nav-dd:focus-within .nav-mega{
   opacity:1;pointer-events:auto;
   transform:translateX(-50%) translateY(0) scale(1);
 }
+.nav-dd:focus-within>a .dd-arrow{transform:rotate(180deg)}
+/* invisible bridge across the gap so the menu doesn't close on the way down */
+.nav-mega::before{content:'';position:absolute;left:0;right:0;top:-1rem;height:1rem}
 .nav-mega-inner{
   background:rgba(9,9,12,.97);
   backdrop-filter:blur(40px) saturate(1.8);
@@ -1318,7 +1322,7 @@ footer{
   flex:1;height:2px;background:rgba(200,164,106,.14);
   border-radius:99px;overflow:hidden;min-width:40px;
 }
-.proc-autobar-fill{display:block;height:100%;width:0;background:var(--gold);border-radius:99px}
+.proc-autobar-fill{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left center;background:var(--gold);border-radius:99px}
 
 /* Editorial 2-column stage on wider screens */
 @media(min-width:900px){
@@ -1357,6 +1361,24 @@ html{scroll-behavior:smooth}
   .h-scroll-ring{animation:none}
   #path-dot{animation:none !important}
 }
+
+/* ── READABILITY ─────────────────────────────────────────────
+   Body copy: larger, steadier weight on small text, and contrast
+   near 7:1 (was ~3:1). Headlines and ornaments are unchanged. ── */
+.h-desc{font-size:1rem;color:rgba(242,236,224,.82)}
+.ab-p{font-size:1rem;line-height:1.8;color:rgba(242,236,224,.76)}
+.ab-creds li{font-size:.84rem;color:rgba(242,236,224,.74)}
+.stat-l{font-size:.9rem;font-weight:400;color:rgba(242,236,224,.72)}
+.pr-desc,.rs-de{font-size:1rem;color:rgba(242,236,224,.76)}
+.proc-stage-text{color:rgba(242,236,224,.8)}
+.rs-b{font-size:.9rem;font-weight:400;color:rgba(242,236,224,.72)}
+.ct-p{font-size:1rem;color:rgba(242,236,224,.82)}
+.nav-links a{color:rgba(242,236,224,.66)}
+.sv-ky{color:#8a6420}.sv-ky::before{background:#8a6420}
+.sv-sub{font-size:.92rem;color:rgba(9,9,12,.68)}
+.sv-panel-desc{font-size:.95rem;font-weight:400;color:rgba(9,9,12,.72)}
+.sv-panel-why-text{font-size:.92rem;font-weight:400;color:rgba(9,9,12,.7)}
+.tk{color:rgba(242,236,224,.52)}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
@@ -1475,7 +1497,7 @@ html{scroll-behavior:smooth}
       </div>
     </li>
   </ul>
-  <a href="contact.html" class="nav-btn"><span>Book Consultation</span></a>
+  <a href="contact.html" class="nav-btn"><span>Book a Consultation</span></a>
   <div class="hbg" id="hbg" role="button" tabindex="0" aria-label="Open menu">
     <i></i><i></i><i></i>
   </div>
@@ -1539,7 +1561,7 @@ html{scroll-behavior:smooth}
           <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-      <circle id="path-dot" r="6" fill="#f2ece0" opacity="0" filter="url(#dotGlow)" style="animation:dotPulse 1.6s ease-in-out infinite"/>
+      <circle id="path-dot" r="6" fill="#f2ece0" opacity="0" filter="url(#dotGlow)"/>
     </svg>
     <div class="path-labels">
       <div class="today-label">TODAY</div>
@@ -1559,7 +1581,7 @@ html{scroll-behavior:smooth}
     <span class="tk"><span class="tk-dot"></span>Tax Strategy</span>
     <span class="tk"><span class="tk-dot"></span>Insurance Planning</span>
     <span class="tk"><span class="tk-dot"></span>Legacy Building</span>
-    <span class="tk"><span class="tk-dot"></span>SE-AWMA® Certified</span>
+    <span class="tk"><span class="tk-dot"></span>SE-AWMA® Accredited</span>
     <span class="tk"><span class="tk-dot"></span>Retirement Planning</span>
     <span class="tk"><span class="tk-dot"></span>Wealth Accumulation</span>
     <span class="tk"><span class="tk-dot"></span>Estate Planning</span>
@@ -1567,7 +1589,7 @@ html{scroll-behavior:smooth}
     <span class="tk"><span class="tk-dot"></span>Tax Strategy</span>
     <span class="tk"><span class="tk-dot"></span>Insurance Planning</span>
     <span class="tk"><span class="tk-dot"></span>Legacy Building</span>
-    <span class="tk"><span class="tk-dot"></span>SE-AWMA® Certified</span>
+    <span class="tk"><span class="tk-dot"></span>SE-AWMA® Accredited</span>
   </div>
 </div>
 
@@ -1580,7 +1602,7 @@ html{scroll-behavior:smooth}
         <div><span class="stat-i">01</span><div class="stat-n"><span class="counter" data-t="100">0</span><span class="suf">%</span></div></div>
         <svg class="stat-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
       </div>
-      <div class="stat-l">Fiduciary commitment — zero commission pressure, zero conflicts of interest, every recommendation driven solely by what's best for you</div>
+      <div class="stat-l">Transparent by design — every fee, cost, and potential conflict disclosed before you decide, and every recommendation made in your best interest</div>
     </div>
     <div class="stat rv d2">
       <div class="stat-mob-hd">
@@ -1604,13 +1626,15 @@ html{scroll-behavior:smooth}
   <div class="rv-l">
     <div class="ab-ky">Who We Are</div>
     <h2 class="ab-h">Clarity.<br><em>Precision.</em><br>Purpose.</h2>
-    <p class="ab-p">Matthew Pindoley is a <strong>Sports and Entertainment — Accredited Wealth Management Advisor (SE-AWMA®)</strong>, based in Toledo, Ohio. Long before he entered financial planning, Matt wanted to be an architect, then considered law, drawn in both cases to the same two things: building something that lasts, and being genuinely useful to people navigating what matters most. A Finance degree from the University of Toledo gave those instincts a foundation, and wealth management turned out to be where they converged. He has seen too many families struggle to find an advisor they could truly trust, someone with both the <strong>integrity and the expertise</strong> to guide them well. That is the standard he holds himself to for every client. <strong>Faith</strong> is central to who Matt is. As a practicing Catholic and active member of the Toledo community, he understands that true wealth is never just about numbers. It is about alignment between your <strong>resources</strong>, your <strong>values</strong>, and the <strong>life</strong> you are called to build.</p>
+    <p class="ab-p">Matthew Pindoley is a <strong>Sports &amp; Entertainment Accredited Wealth Management Advisor (SE-AWMA®)</strong>, based in Toledo, Ohio. Long before he entered financial planning, Matt wanted to be an architect, then considered law, drawn in both cases to the same two things: building something that lasts, and being genuinely useful to people navigating what matters most. A Finance degree from the University of Toledo gave those instincts a foundation, and wealth management turned out to be where they converged.</p>
+    <p class="ab-p">He has seen too many families struggle to find an advisor they could truly trust, someone with both the <strong>integrity and the expertise</strong> to guide them well. That is the standard he holds himself to for every client.</p>
+    <p class="ab-p"><strong>Faith</strong> is central to who Matt is. As a practicing Catholic and active member of the Toledo community, he understands that true wealth is never just about numbers. It is about alignment between your <strong>resources</strong>, your <strong>values</strong>, and the <strong>life</strong> you are called to build.</p>
     <p class="ab-p">"I believe the most meaningful things in life are built slowly. Not through bold leaps or perfect moments, but through small, faithful choices made day after day, the kind that quietly compound into something real. That philosophy shapes everything about how I work. I am not here to rush you toward a decision or impress you with complexity. I am here to listen, to understand what you are actually building, and to walk alongside you with patience and genuine care. I have found that the best financial relationships, like the best ones in life, grow through <strong>trust</strong> earned over time, through honesty even when it is uncomfortable, and through showing up consistently for the people who matter. That is the kind of advisor I want to be for you."</p>
     <ul class="ab-creds">
-      <li>SE-AWMA® Certified Advisor</li>
-      <li>Fiduciary Standard of Care</li>
+      <li>SE-AWMA® Designation</li>
+      <li>Fiduciary Standard on Advisory Accounts</li>
       <li>Holistic, Comprehensive Planning</li>
-      <li>Independent & Conflict-Free</li>
+      <li>Fees &amp; Conflicts Disclosed Up Front</li>
       <li>Long-Term Relationship Focus</li>
     </ul>
   </div>
@@ -1626,7 +1650,7 @@ html{scroll-behavior:smooth}
     </div>
     <div class="ab-badge">
       <div class="ab-bv">SE-AWMA<sup>®</sup></div>
-      <div class="ab-bl">Certified Advisor</div>
+      <div class="ab-bl">Accredited Advisor</div>
     </div>
   </div>
 </section>
@@ -1763,7 +1787,7 @@ html{scroll-behavior:smooth}
 <section id="process">
 
   <!-- BACKGROUND VIDEO — artistic black & gold atmosphere -->
-  <video id="process-video" autoplay muted loop playsinline preload="auto" aria-hidden="true"
+  <video id="process-video" muted loop playsinline preload="none" aria-hidden="true"
     poster="https://res.cloudinary.com/dfabtxqiy/video/upload/so_0,q_auto:eco,f_auto,w_1600/v1775586369/12676888_3840_2160_30fps_e3esuh.jpg">
     <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/q_auto,vc_auto,w_1600/v1775586369/12676888_3840_2160_30fps_e3esuh.mp4" type="video/mp4">
   </video>
@@ -1892,7 +1916,7 @@ html{scroll-behavior:smooth}
 
 <!-- ═══════════ CONTACT ═══════════ -->
 <section id="contact">
-  <video id="ct-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true"
+  <video id="ct-bg" muted loop playsinline preload="none" aria-hidden="true"
     poster="https://res.cloudinary.com/dfabtxqiy/video/upload/so_0,q_auto:eco,f_auto,w_1600/v1772661524/contact-bg_u0a64u.jpg">
     <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/q_auto,vc_auto,w_1600/v1772661524/contact-bg_u0a64u.mp4" type="video/mp4">
   </video>
@@ -1912,7 +1936,7 @@ html{scroll-behavior:smooth}
     <div class="ct-dets rv">
       <div class="ct-d"><div class="ct-dl">Email</div><div class="ct-dv"><a href="mailto:Matthew.Pindoley@osaicwealth.com">Matthew.Pindoley@osaicwealth.com</a></div></div>
 		<div class="ct-d"><div class="ct-dl">Phone</div><div class="ct-dv"><a href="tel:+14198871002">(419) 887-1002</a></div></div>
-      <div class="ct-d"><div class="ct-dl">Availability</div><div class="ct-dv">Nationwide</div></div>
+      <div class="ct-d"><div class="ct-dl">Registered In</div><div class="ct-dv">OH · FL · MI · IL · PA · TX · SC · NV</div></div>
     </div>
   </div>
 </section>
@@ -1966,7 +1990,7 @@ html{scroll-behavior:smooth}
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* ── MOTION + VISIT PREFERENCES ─────────────────── */
 const prefersReduced = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
 window.__prefersReduced = prefersReduced;
@@ -2226,6 +2250,8 @@ if(tilt){
     4:{key:'Phase 04 — For the long run',title:'Partnership',text:"Ongoing guidance and proactive adjustments as life evolves. We're a long-term partner committed to your success at every milestone."}
   };
   var cur=1, timer=null, coords=null;
+  // only auto-advance while the section is on screen
+  var visible=!('IntersectionObserver' in window);
 
   function layout(){
     var r=rail.getBoundingClientRect(); if(!r.width) return;
@@ -2243,10 +2269,10 @@ if(tilt){
   }
   function restartBar(){
     if(!bar) return;
-    bar.style.transition='none'; bar.style.width='0%';
+    bar.style.transition='none'; bar.style.transform='scaleX(0)';
     if(reduce) return;
     requestAnimationFrame(function(){requestAnimationFrame(function(){
-      bar.style.transition='width '+DWELL+'ms linear'; bar.style.width='100%';
+      bar.style.transition='transform '+DWELL+'ms linear'; bar.style.transform='scaleX(1)';
     });});
   }
   function render(n,instant){
@@ -2267,13 +2293,19 @@ if(tilt){
   }
   function go(n){ render(((n-1+4)%4)+1); }
   function stop(){ if(timer){clearInterval(timer);timer=null;} }
-  function start(){ if(reduce) return; stop(); timer=setInterval(function(){go(cur+1);},DWELL); }
+  function start(){ if(reduce||!visible) return; stop(); restartBar(); timer=setInterval(function(){go(cur+1);},DWELL); }
 
   steps.forEach(function(s){ s.addEventListener('click',function(){stop();render(+s.dataset.step);start();}); });
   if(prev) prev.addEventListener('click',function(){stop();go(cur-1);start();});
   if(next) next.addEventListener('click',function(){stop();go(cur+1);start();});
   proc.addEventListener('mouseenter',stop);
   proc.addEventListener('mouseleave',start);
+  if(!visible){
+    new IntersectionObserver(function(es){
+      visible=es[es.length-1].isIntersecting;
+      if(visible) start(); else stop();
+    },{threshold:0.15}).observe(proc);
+  }
 
   var rt;
   window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(layout,150);},{passive:true});
@@ -2310,6 +2342,7 @@ function initLegacyPath() {
   const todayLbl = document.querySelector('.today-label');
   const legacyLbl = document.querySelector('.legacy-label');
   if (todayLbl) setTimeout(() => todayLbl.classList.add('vis'), 200);
+  if (dot) dot.style.animation = 'dotPulse 1.6s ease-in-out infinite';
   function frame(now) {
     const progress = Math.min((now - start) / duration, 1);
     const ep = eased(progress);
@@ -2322,6 +2355,7 @@ function initLegacyPath() {
     }
     if (progress >= 0.75 && legacyLbl) legacyLbl.classList.add('vis');
     if (progress < 1) requestAnimationFrame(frame);
+    else if (dot) { dot.style.animation = 'none'; dot.setAttribute('opacity', '0'); }
   }
   requestAnimationFrame(frame);
 }
@@ -2338,17 +2372,22 @@ if (lpSection) lpObserver.observe(lpSection);
 </script>
 
 <script>
-/* PROCESS VIDEO FADE-IN — matches hero/contact */
+/* PROCESS + CONTACT VIDEOS — load and play only as they approach the screen */
 (function(){
-  const v = document.getElementById('process-video');
-  if(!v) return;
-  if(v.readyState >= 3) v.classList.add('loaded');
-  v.addEventListener('canplaythrough', () => v.classList.add('loaded'), {once:true});
-  // Nudge playback in case the browser stalls autoplay
-  const kick = () => { const p = v.play(); if(p) p.catch(()=>{}); };
-  v.addEventListener('loadeddata', kick, {once:true});
-  kick();
-  setTimeout(() => v.classList.add('loaded'), 2200);
+  const pv = document.getElementById('process-video');
+  if(pv){
+    if(pv.readyState >= 3) pv.classList.add('loaded');
+    pv.addEventListener('canplaythrough', () => pv.classList.add('loaded'), {once:true});
+    setTimeout(() => pv.classList.add('loaded'), 2200);
+  }
+  const vids = [pv, document.getElementById('ct-bg')].filter(Boolean);
+  if(window.__prefersReduced || !vids.length) return;
+  const play = v => { const p = v.play(); if(p) p.catch(()=>{}); };
+  if(!('IntersectionObserver' in window)){ vids.forEach(play); return; }
+  const vio = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){ play(e.target); vio.unobserve(e.target); }
+  }), {rootMargin:'600px 0px'});
+  vids.forEach(v => vio.observe(v));
 })();
 </script>
 

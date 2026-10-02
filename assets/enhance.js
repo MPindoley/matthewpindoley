@@ -58,6 +58,50 @@
     });
   }
 
+  /* ── Skip link: first Tab stop on every page ─────────────── */
+  (function () {
+    if (document.querySelector('.skip-link')) return;
+    var target = document.querySelector('main, #hero, #wrap, section');
+    if (!target) return;
+    if (!target.id) target.id = 'main-content';
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    var a = document.createElement('a');
+    a.className = 'skip-link';
+    a.href = '#' + target.id;
+    a.textContent = 'Skip to content';
+    document.body.insertBefore(a, document.body.firstChild);
+  }());
+
+  /* ── Checklist items: keyboard + screen-reader support ────── */
+  Array.prototype.forEach.call(document.querySelectorAll('.sb-ck-item'), function (item) {
+    item.setAttribute('role', 'checkbox');
+    item.setAttribute('tabindex', '0');
+    function sync() { item.setAttribute('aria-checked', item.classList.contains('done') ? 'true' : 'false'); }
+    sync();
+    new MutationObserver(sync).observe(item, { attributes: true, attributeFilter: ['class'] });
+    item.addEventListener('keydown', function (e) {
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); item.click(); }
+    });
+  });
+
+  /* ── Floating pills step aside while reading ────────────────
+     Shown on load, on scroll up, and near the top/bottom of the page. */
+  if (document.querySelector('#disc-pill, #finra-pill')) {
+    var lastY = window.pageYOffset, ticking = false;
+    var update = function () {
+      ticking = false;
+      var y = window.pageYOffset;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var away = document.body.classList.contains('pills-away');
+      if (y < 160 || y > max - 240 || y < lastY - 6) { if (away) document.body.classList.remove('pills-away'); }
+      else if (y > lastY + 6) { if (!away) document.body.classList.add('pills-away'); }
+      if (Math.abs(y - lastY) > 6) lastY = y;
+    };
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+    }, { passive: true });
+  }
+
   /* ── Reduced motion: calm media the stylesheet can't reach ──
      Freeze autoplaying background videos on their first frame.  */
   if (reduce) {

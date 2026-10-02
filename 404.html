@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Page Not Found — Matthew Pindoley, SE-AWMA®</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <meta name="theme-color" content="#09090c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#09090c;--ink2:#111318;
+  --paper:#f2ece0;--gold:#c8a46a;--gold2:#ddb878;
+  --ff:'Cormorant Garamond',Georgia,serif;
+  --fb:'DM Sans',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--fb);background:var(--ink);color:var(--paper);-webkit-font-smoothing:antialiased;
+  min-height:100svh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+
+.top{padding:2.2rem clamp(1.25rem,5vw,4.5rem)}
+.logo{font-family:var(--ff);font-size:1rem;font-weight:300;letter-spacing:.06em;line-height:1.3}
+.logo b{color:var(--gold);font-weight:400;font-style:italic}
+
+main{flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:3rem clamp(1.25rem,5vw,4.5rem) 5rem;position:relative;overflow:hidden}
+main::before{content:'404';position:absolute;right:-1rem;bottom:-3rem;pointer-events:none;
+  font-family:var(--ff);font-weight:300;font-style:italic;font-size:clamp(12rem,32vw,30rem);
+  line-height:1;color:rgba(200,164,106,.05);letter-spacing:-.05em}
+.ey{display:inline-flex;align-items:center;gap:.8rem;margin-bottom:2rem;
+  font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.ey::before{content:'';width:28px;height:1px;background:var(--gold)}
+h1{font-family:var(--ff);font-weight:300;font-size:clamp(3.2rem,9vw,8rem);
+  line-height:.92;letter-spacing:-.04em;max-width:12ch}
+h1 em{font-style:italic;color:var(--gold2)}
+p.lead{margin-top:2rem;max-width:44ch;font-size:1rem;line-height:1.8;color:rgba(242,236,224,.76)}
+.acts{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.6rem}
+.btn{display:inline-flex;align-items:center;gap:.6rem;border-radius:9999px;padding:.95rem 2.2rem;
+  font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;transition:background .25s,border-color .25s}
+.btn-gold{background:var(--gold);color:var(--ink)}
+.btn-gold:hover{background:var(--gold2)}
+.btn-line{border:1px solid rgba(242,236,224,.28)}
+.btn-line:hover{border-color:var(--gold)}
+nav.links{margin-top:3rem;display:flex;gap:.6rem 1.6rem;flex-wrap:wrap;
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+nav.links a{color:rgba(242,236,224,.66);transition:color .2s}
+nav.links a:hover{color:var(--paper)}
+
+footer{background:var(--ink2);border-top:1px solid rgba(200,164,106,.18);
+  padding:2.2rem clamp(1.25rem,5vw,4.5rem) 2.4rem;display:flex;justify-content:space-between;gap:1.2rem 3rem;flex-wrap:wrap}
+.ft-cp{font-size:.72rem;color:rgba(242,236,224,.55);white-space:nowrap}
+.ft-di{font-size:.7rem;line-height:1.7;color:rgba(242,236,224,.62);max-width:62ch}
+.ft-di strong{color:rgba(242,236,224,.8);font-weight:500}
+.ft-di a{color:var(--gold)}
+@media(max-width:600px){footer{flex-direction:column}.ft-cp{white-space:normal}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a href="/" class="logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
+</header>
+
+<main id="main-content">
+  <div class="ey">Page not found</div>
+  <h1>This page has <em>moved on.</em></h1>
+  <p class="lead">The page you were looking for doesn’t exist or has moved. Everything else is right where you left it.</p>
+  <div class="acts">
+    <a href="/" class="btn btn-gold">Return Home</a>
+    <a href="/contact.html" class="btn btn-line">Book a Consultation</a>
+  </div>
+  <nav class="links" aria-label="Site pages">
+    <a href="/#about">About</a>
+    <a href="/#services">Services</a>
+    <a href="/fee.html">Fee Schedule</a>
+    <a href="/#resources">Resources</a>
+    <a href="/disclosure.html">Disclosures</a>
+  </nav>
+</main>
+
+<footer>
+  <div class="ft-cp">&copy; 2026 Matthew Pindoley Financial Advisory. All rights reserved.</div>
+  <div class="ft-di">
+    Securities and investment advisory services offered through <strong>Osaic Wealth, Inc.</strong>, Member
+    <a href="https://www.finra.org" target="_blank" rel="noopener noreferrer">FINRA</a>&thinsp;/&thinsp;<a href="https://www.sipc.org" target="_blank" rel="noopener noreferrer">SIPC</a>.
+    <strong>Osaic Wealth, Inc.</strong> is separately owned; Matthew Pindoley, Glass City Federal Credit Union,
+    and Glass City Federal Financial Solutions are not affiliated with <strong>Osaic Wealth, Inc.</strong>
+    &nbsp;&bull;&nbsp;
+    <a href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer">FINRA BrokerCheck</a>
+    &nbsp;&bull;&nbsp;
+    <a href="https://www.osaic.com/FormCRS" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
+  </div>
+</footer>
+
+</body>
+</html>

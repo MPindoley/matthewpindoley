@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Estate Planning — Matthew Pindoley, SE-AWMA®</title>
+  <title>Estate Planning — Matthew Pindoley, SE-AWMA® | Toledo, Ohio</title>
+  <meta name="description" content="An estate planning guide: the $15M federal exemption, the four documents every plan needs, a beneficiary audit, and an estate liquidity planner.">
+  <link rel="canonical" href="https://matthewpindoley.com/resource-estate.html">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://matthewpindoley.com/resource-estate.html">
+  <meta property="og:site_name" content="Matthew Pindoley — SE-AWMA®">
+  <meta property="og:title" content="Estate Planning — Matthew Pindoley, SE-AWMA® | Toledo, Ohio">
+  <meta property="og:description" content="An estate planning guide: the $15M federal exemption, the four documents every plan needs, a beneficiary audit, and an estate liquidity planner.">
+  <meta property="og:image" content="https://res.cloudinary.com/dfabtxqiy/image/upload/q_auto:good,w_1200/v1772661877/headshot_ztmhku.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
@@ -573,6 +583,19 @@ footer{
   #disc-pill{bottom:1.4rem;right:1.2rem;font-size:.54rem;padding:.4rem .9rem}
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
+
+/* ── READABILITY ─────────────────────────────────────────────
+   Body copy: larger, steadier weight on small text, and contrast
+   near 7:1 (was ~3:1). Headlines and ornaments are unchanged. ── */
+.hero-desc{font-size:1rem;color:rgba(9,9,12,.72)}
+.pil-sub{font-size:.95rem;font-weight:400;color:rgba(9,9,12,.72)}
+.st-note{font-size:.84rem;font-weight:400}
+.pil-body,.doc-body{font-size:.95rem;font-weight:400}
+.cta-p{font-size:1rem}
+/* small gold labels on cream were ~2:1; a deeper bronze keeps the tone at ~4.6:1 */
+.pil-ey,.docs-ey,.doc-sub,.cta-ey{color:#85601e}
+.pil-ey::before,.docs-ey::before,.cta-ey::before{background:#85601e}
+.st-lbl{color:rgba(9,9,12,.62)}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
@@ -615,7 +638,7 @@ footer{
       </div>
     </li>
   </ul>
-  <a href="contact.html" class="nav-btn"><span>Begin Your Plan</span></a>
+  <a href="contact.html" class="nav-btn"><span>Book a Consultation</span></a>
   <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
 </nav>
 
@@ -747,7 +770,7 @@ footer{
         <div class="sb-ck-title">Tax &amp; Liquidity</div>
         <div class="sb-ck-item" onclick="toggleCk(this)">
           <div class="sb-ck-box"></div>
-          <div class="sb-ck-text">Estate tax exposure estimated under current and post-2026 exemptions</div>
+          <div class="sb-ck-text">Estate tax exposure estimated against the permanent $15M federal exemption, plus any state estate or inheritance tax</div>
         </div>
         <div class="sb-ck-item" onclick="toggleCk(this)">
           <div class="sb-ck-box"></div>
@@ -1118,11 +1141,8 @@ function updateProgress(){
   const fill=document.querySelector('.sb-ck-prog-fill');
   const label=document.querySelector('.sb-ck-prog-label span:last-child');
   if(fill)fill.style.width=pct+'%';
-  if(label)label.textContent=pct+'%';
+  if(label)label.textContent=done.length+' / '+all.length;
 }
-document.querySelectorAll('.sb-ck-item').forEach(item=>{
-  item.addEventListener('click',()=>toggleCk(item));
-});
 updateProgress();
 
 /* ─── BENEFICIARY AUDIT ─────────────────────────────── */

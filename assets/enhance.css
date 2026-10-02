@@ -135,3 +135,87 @@ body.menu-open{overflow:hidden}
 #sb-overlay{z-index:950}
 #sb-panel{z-index:960}
 #mob{z-index:955}
+
+/* ============================================================
+   POINTER
+   The system cursor stays visible everywhere (it used to be
+   hidden and replaced by a gold dot). The gold ring remains as
+   a soft follower so the signature effect is kept.
+   ============================================================ */
+@media (hover:hover) and (pointer:fine){
+  body, body *{cursor:revert !important}
+  a[href], button:not([disabled]), [role="button"], [role="checkbox"], [role="tab"],
+  select, summary, label[for], input[type="range"], input[type="checkbox"], input[type="radio"],
+  [onclick], .sv-row, .rs-card, .mkr, .fq-q, .faq-q, .proc-step, .proc-arrow,
+  .sb-ck-item, .sb-tab, .hbg, .spine-dot, .dt-prog-dot{cursor:pointer !important}
+  #cur{display:none !important}
+}
+
+/* ============================================================
+   HIDDEN PANELS STAY OUT OF THE TAB ORDER
+   The mobile menu, tools panel and fee detail panel slide off
+   screen when closed; keyboard users were still tabbing into
+   them. visibility switches only after the slide-out finishes.
+   ============================================================ */
+#mob{visibility:hidden;transition:clip-path .75s cubic-bezier(.16,1,.3,1),visibility 0s linear .75s}
+#mob.open{visibility:visible;transition:clip-path .75s cubic-bezier(.16,1,.3,1),visibility 0s}
+#sb-panel{visibility:hidden;transition:transform .55s cubic-bezier(.16,1,.3,1),visibility 0s linear .55s}
+#sb-panel.open{visibility:visible;transition:transform .55s cubic-bezier(.16,1,.3,1),visibility 0s}
+#dp{visibility:hidden;transition:transform .55s cubic-bezier(.16,1,.3,1),visibility 0s linear .55s}
+#dp.open{visibility:visible;transition:transform .55s cubic-bezier(.16,1,.3,1),visibility 0s}
+
+/* ── Skip link (inserted by enhance.js) ── */
+.skip-link{position:fixed;left:1rem;top:1rem;z-index:10050;
+  padding:.75rem 1.2rem;border-radius:9999px;
+  background:#c8a46a;color:#09090c;text-decoration:none;
+  font:600 .8rem/1 'DM Sans',system-ui,sans-serif;letter-spacing:.06em;
+  transform:translateY(-200%);transition:transform .2s}
+.skip-link:focus{transform:none}
+[tabindex="-1"]:focus{outline:none}
+
+/* ============================================================
+   FLOATING DISCLOSURE / BROKERCHECK PILLS
+   Visible on load, when scrolling up, and near the top and bottom
+   of every page (the footer repeats both links). They step aside
+   while reading so they no longer sit on top of the text.
+   ============================================================ */
+/* The BrokerCheck pill was only styled on the home page. On the insurance,
+   investment, money and tax pages it fell below the footer as plain text,
+   so it gets the home page's floating pill everywhere. */
+#finra-pill{
+  position:fixed;bottom:2rem;left:2.2rem;z-index:900;
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.46rem 1.1rem;border-radius:9999px;
+  background:rgba(9,9,12,.72);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(200,164,106,.18);
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500;
+  text-decoration:none;
+}
+#finra-pill:hover{color:rgba(242,236,224,.82);border-color:rgba(200,164,106,.45);background:rgba(9,9,12,.88)}
+#finra-pill svg{flex-shrink:0;opacity:.55;transition:opacity .28s}
+#finra-pill:hover svg{opacity:1}
+@media(max-width:480px){#finra-pill{bottom:1.4rem;left:1.2rem;font-size:.54rem;padding:.4rem .9rem}}
+
+#disc-pill,#finra-pill{transition:opacity .35s ease,transform .35s cubic-bezier(.16,1,.3,1),color .28s,border-color .28s,background .28s}
+body.pills-away #disc-pill,body.pills-away #finra-pill{opacity:0;transform:translateY(14px);pointer-events:none}
+#disc-pill:focus-visible,#finra-pill:focus-visible{opacity:1 !important;transform:none !important;pointer-events:auto !important}
+
+/* ============================================================
+   READABILITY — shared footer and floating pills
+   The compliance text in the footer was ~2.5:1; now ~6:1.
+   ============================================================ */
+footer .ft-tg{color:rgba(242,236,224,.62)}
+footer .ft-col ul a{color:rgba(242,236,224,.7)}
+footer .ft-col ul a:hover{color:#f2ece0}
+footer .ft-col ul a[aria-current]{color:#c8a46a}
+footer .ft-cp{color:rgba(242,236,224,.55)}
+footer .ft-di{color:rgba(242,236,224,.62)}
+footer .ft-di strong{color:rgba(242,236,224,.8)}
+footer .ft-di a{color:#c8a46a}
+#disc-pill,#finra-pill{color:rgba(242,236,224,.74)}
+
+/* The copyright line was set never to wrap: on phones narrower than ~380px it
+   pushed the fee page sideways and was cut off at the screen edge elsewhere. */
+@media(max-width:480px){footer .ft-cp{white-space:normal}}

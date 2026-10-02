@@ -3,7 +3,17 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Fee Schedule — Matthew Pindoley, SE-AWMA®</title>
+<title>Fee Schedule — Matthew Pindoley, SE-AWMA® | Toledo, Ohio</title>
+<meta name="description" content="The published advisory fee schedule for Matthew Pindoley, SE-AWMA®: breakpoint and marginal tiers, a fee calculator, and plain answers on commissions and fund costs.">
+<link rel="canonical" href="https://matthewpindoley.com/fee.html">
+<link rel="icon" type="image/png" href="favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://matthewpindoley.com/fee.html">
+<meta property="og:site_name" content="Matthew Pindoley — SE-AWMA®">
+<meta property="og:title" content="Fee Schedule — Matthew Pindoley, SE-AWMA® | Toledo, Ohio">
+<meta property="og:description" content="The published advisory fee schedule for Matthew Pindoley, SE-AWMA®: breakpoint and marginal tiers, a fee calculator, and plain answers on commissions and fund costs.">
+<meta property="og:image" content="https://res.cloudinary.com/dfabtxqiy/image/upload/q_auto:good,w_1200/v1772661877/headshot_ztmhku.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
@@ -48,7 +58,8 @@ body.pressing #cur{width:18px;height:18px}
 #nav.sl{padding:1.1rem 4rem;background:rgba(244,241,234,.93);backdrop-filter:blur(20px);border-bottom-color:var(--bd)}
 #nav.sd{padding:1.1rem 4rem;background:rgba(10,9,8,.92);backdrop-filter:blur(22px);border-bottom-color:rgba(200,164,106,.12)}
 .nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;letter-spacing:.06em;line-height:1.3;color:var(--ink);transition:color .35s}
-.nav-logo b{color:var(--g2);font-weight:400;font-style:italic}
+.nav-logo b{color:#8a6420;font-weight:400;font-style:italic}
+#nav.sd .nav-logo b{color:var(--g2)}
 #nav.sd .nav-logo{color:var(--w)}
 .nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
 .nav-links a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;color:rgba(10,9,8,.38);position:relative;transition:color .25s}
@@ -289,7 +300,7 @@ body.rdy #trail-glow{animation:trailIn 3s var(--e1) 1.1s forwards}
 
 /* Bottom hint */
 #mhint{
-  position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:2.2rem;left:50%;translate:-50% 0;
   z-index:10;
   display:inline-flex;align-items:center;gap:.6rem;
   font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;
@@ -725,8 +736,10 @@ body.rdy #trail-glow{animation:trailIn 3s var(--e1) 1.1s forwards}
 @media(max-width:768px){
 
   /* NAV */
-  .nav-btn{display:none}
+  .nav-btn,.nav-links{display:none}
   .hbg{display:flex}
+  /* the title already says "Click any marker", and the hint collided with the Disclosures pill */
+  #mhint{display:none}
   #nav,#nav.sl,#nav.sd{padding:1.1rem 1.5rem}
 
   /* DISC PILL */
@@ -957,6 +970,62 @@ footer{
 .cs-note{font-size:.71rem;line-height:1.7;color:rgba(244,241,234,.34);font-weight:300;margin-top:.55rem}
 .cs-note b{color:rgba(244,241,234,.66);font-weight:500}
 @media(max-width:560px){.cs-top{flex-direction:column;gap:.15rem}.calc-entry-ctrl{max-width:100%}}
+
+/* ── MAP LABEL PLACEMENT ─────────────────────────────────────
+   Labels never sit on the menu, the title or a neighbouring marker. ── */
+@media(min-width:1101px){
+  .mkr[data-id="flat"] .mkr-lbl{bottom:auto;top:50%;left:calc(100% + 12px);transform:translateY(-50%)}
+  .mkr[data-id="flat"]:hover .mkr-lbl{transform:translateY(-50%) translateX(3px)}
+}
+@media(max-width:768px){
+  /* a gentler climb that starts below the header */
+  .mkr[data-id="intro"]{left:12% !important;top:86% !important}
+  .mkr[data-id="t1"]   {left:24% !important;top:77% !important}
+  .mkr[data-id="t2"]   {left:37% !important;top:68% !important}
+  .mkr[data-id="t3"]   {left:50% !important;top:59% !important}
+  .mkr[data-id="t4"]   {left:62% !important;top:50% !important}
+  .mkr[data-id="t5"]   {left:75% !important;top:41% !important}
+  .mkr[data-id="t6"]   {left:85% !important;top:32% !important}
+  .mkr[data-id="flat"] {left:90% !important;top:23% !important}
+  /* labels sit beside their dot: right of it low on the climb, left of it near the top */
+  .mkr .mkr-lbl{bottom:auto;top:50%;left:calc(100% + 10px);right:auto;transform:translateY(-50%) !important}
+  .mkr[data-id="t5"] .mkr-lbl,.mkr[data-id="t6"] .mkr-lbl,.mkr[data-id="flat"] .mkr-lbl{left:auto;right:calc(100% + 10px)}
+}
+@media(max-width:400px){
+  .mkr[data-id="t6"]{top:34% !important}
+  .mt-sub{max-width:21ch}
+}
+
+/* ── READABILITY ─────────────────────────────────────────────
+   Body copy: larger, steadier weight on small text, and contrast
+   near 7:1 (was ~3:1). Headlines and ornaments are unchanged. ── */
+.nav-links a{color:rgba(10,9,8,.6)}
+#nav.sd .nav-links a{color:rgba(244,241,234,.62)}
+.mt-sub{font-size:.78rem;color:rgba(10,9,8,.62)}
+#mhint{color:rgba(10,9,8,.6)}
+.calc-sub{font-size:.95rem;font-weight:400;color:rgba(244,241,234,.7)}
+.calc-note{font-size:.78rem;color:rgba(244,241,234,.6)}
+.calc-result-label,.calc-stat-label{color:rgba(244,241,234,.58)}
+.slider-labels,.ct-label{color:rgba(244,241,234,.5)}
+.ct-info{color:rgba(244,241,234,.62)}
+.calc-entry-lbl{color:rgba(244,241,234,.6)}
+.calc-entry-hint{color:rgba(244,241,234,.55)}
+.cs-note{color:rgba(244,241,234,.62)}
+#calc-structure-badge p{color:rgba(244,241,234,.6) !important}
+.comp-ky{color:rgba(10,9,8,.58)}
+.cc-b{font-size:.92rem;font-weight:400;color:rgba(10,9,8,.72)}
+.fq-p{font-size:.95rem;font-weight:400;color:rgba(244,241,234,.7)}
+.fq-ai{font-size:.92rem;font-weight:400;color:rgba(244,241,234,.74)}
+.cta-p{font-size:1rem;color:rgba(10,9,8,.7)}
+.dp-range{color:rgba(10,9,8,.66)}
+.dp-desc,.dp-intro-p{color:rgba(10,9,8,.72)}
+#dp.dp-dark .dp-desc{color:rgba(244,241,234,.72)}
+#dp.dp-dark .dp-range{color:rgba(244,241,234,.66)}
+/* the tiny comparison-card badges were 2.8–3.6:1 */
+.badge-note{color:rgba(10,9,8,.62)}
+.badge-gold{color:#85601e}
+.badge-green{color:#2e6b2e}
+.badge-blue{color:#2f5694}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
@@ -979,7 +1048,7 @@ footer{
     <li><a href="index.html">Home</a></li>
     <li><a href="fee.html" class="active">Fee</a></li>
   </ul>
-  <a href="contact.html" class="nav-btn"><span>Book Consultation</span></a>
+  <a href="contact.html" class="nav-btn"><span>Book a Consultation</span></a>
   <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
 </header>
 
@@ -987,9 +1056,8 @@ footer{
 <section id="map-section">
 
   <!-- Background video -->
-  <video id="map-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1772823492/8435835-uhd_4096_2160_25fps_xvdvhk.mp4" type="video/mp4">
-  </video>
+  <video id="map-video" muted loop playsinline preload="none" aria-hidden="true"
+    data-src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1772823492/8435835-uhd_4096_2160_25fps_xvdvhk.mp4"></video>
 
   <div id="map-video-overlay" aria-hidden="true"></div>
 
@@ -1249,7 +1317,6 @@ footer{
       <p class="cc-b">My advisory fee does not cover the internal expense ratios charged by the funds themselves — these are separate costs built into the fund. I take this seriously: minimizing expense ratios is a priority in every portfolio I build. Low-cost funds compound the benefit of every dollar you invest, and I actively seek the most cost-efficient options available for your strategy.</p>
     </div>
   </div>
-</section>
 </section>
 
 <!-- ═══════════ FAQ ═══════════ -->
@@ -1833,6 +1900,16 @@ document.querySelectorAll('.fq-item').forEach(item=>{
   q.addEventListener('click',toggle);
   q.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
 });
+
+/* ─── MAP VIDEO — the 4K clip loads on larger screens only; phones keep the still map ─── */
+(function(){
+  const v=document.getElementById('map-video'); if(!v||!v.dataset.src) return;
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const saveData=navigator.connection&&navigator.connection.saveData;
+  if(reduce||saveData||!window.matchMedia('(min-width: 769px)').matches) return;
+  v.src=v.dataset.src;
+  const p=v.play(); if(p) p.catch(()=>{});
+})();
 </script>
 <a href="disclosure.html" id="disc-pill" aria-label="Important Disclosures">
   <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="5"/><path d="M6 5v4M6 3.5v.5"/></svg>

@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Insurance Strategy — Matthew Pindoley, SE-AWMA®</title>
+  <title>Insurance Strategy — Matthew Pindoley, SE-AWMA® | Toledo, Ohio</title>
+  <meta name="description" content="Insurance and protection planning: life, disability, long-term care, property and umbrella coverage, with needs calculators and a coverage checklist.">
+  <link rel="canonical" href="https://matthewpindoley.com/resource-insurance.html">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://matthewpindoley.com/resource-insurance.html">
+  <meta property="og:site_name" content="Matthew Pindoley — SE-AWMA®">
+  <meta property="og:title" content="Insurance Strategy — Matthew Pindoley, SE-AWMA® | Toledo, Ohio">
+  <meta property="og:description" content="Insurance and protection planning: life, disability, long-term care, property and umbrella coverage, with needs calculators and a coverage checklist.">
+  <meta property="og:image" content="https://res.cloudinary.com/dfabtxqiy/image/upload/q_auto:good,w_1200/v1772661877/headshot_ztmhku.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
@@ -220,6 +230,9 @@ body.pressing #cur{width:22px;height:22px}
   line-height:1;letter-spacing:-.04em}
 .strip-val em{color:var(--sage);font-style:normal}
 .strip-note{font-size:.76rem;line-height:1.62;color:rgba(240,237,230,.58);margin-top:.6rem;font-weight:300}
+.strip-sources{grid-column:1/-1;margin:0;padding:1.1rem clamp(1.5rem,4vw,3.5rem) 1.3rem;border-top:1px solid var(--border);
+  font-size:.72rem;line-height:1.65;color:rgba(240,237,230,.62);font-weight:300}
+.strip-sources a{color:var(--sage2);text-decoration:underline;text-underline-offset:2px}
 
 /* ─── COVERAGE TYPES ─────────────────────────────── */
 #coverage{padding:9rem 5rem;background:var(--forest)}
@@ -634,6 +647,15 @@ footer{
   #disc-pill{bottom:1.4rem;right:1.2rem;font-size:.54rem;padding:.4rem .9rem}
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
+
+/* ── READABILITY ─────────────────────────────────────────────
+   Body copy: larger, steadier weight on small text, and contrast
+   near 7:1 (was ~3:1). Headlines and ornaments are unchanged. ── */
+.hero-desc{font-size:1rem;color:rgba(240,237,230,.76)}
+.strip-note{font-size:.84rem;font-weight:400;color:rgba(240,237,230,.7)}
+.cov-sub{font-size:1rem;color:rgba(240,237,230,.74)}
+.cov-body{font-size:.95rem;font-weight:400;color:rgba(240,237,230,.74)}
+.cta-p{font-size:1rem;color:rgba(240,237,230,.74)}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
@@ -676,7 +698,7 @@ footer{
       </div>
     </li>
   </ul>
-  <a href="contact.html" class="nav-btn"><span>Begin Your Plan</span></a>
+  <a href="contact.html" class="nav-btn"><span>Book a Consultation</span></a>
   <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
 </nav>
 
@@ -759,7 +781,7 @@ footer{
     <!-- CHECKLIST PANE -->
     <div class="sb-pane" id="pane-checklist">
       <div class="sb-ck-prog">
-        <div class="sb-ck-prog-label"><span>Coverage Review</span><span id="ck-pct">0 / 16</span></div>
+        <div class="sb-ck-prog-label"><span>Coverage Review</span><span id="ck-pct">0 / 15</span></div>
         <div class="sb-ck-prog-bar"><div class="sb-ck-prog-fill" id="ck-fill"></div></div>
       </div>
       <div class="sb-ck-section">
@@ -986,7 +1008,7 @@ footer{
     </div>
     <div class="strip-lbl">Most Overlooked</div>
     <div class="strip-val">Disability</div>
-    <div class="strip-note">A 35-year-old is 3× more likely to become disabled than to die before age 65.</div>
+    <div class="strip-note">About 1 in 4 of today's 20-year-olds will become disabled before reaching retirement age.</div>
   </div>
   <div class="strip-item rv d1">
     <div class="strip-icon">
@@ -1010,8 +1032,9 @@ footer{
     </div>
     <div class="strip-lbl">LTC Risk</div>
     <div class="strip-val">70<em>%</em></div>
-    <div class="strip-note">Chance a person over 65 will need some form of long-term care in their lifetime.</div>
+    <div class="strip-note">Chance someone turning 65 today will need some form of long-term care in their remaining years.</div>
   </div>
+  <p class="strip-sources">Sources: disability risk, <a href="https://www.ssa.gov/news/assets/materials/press/factsheets/basicfact-alt.pdf" target="_blank" rel="noopener noreferrer">Social Security Administration</a>; long-term care, <a href="https://acl.gov/ltc/basic-needs/how-much-care-will-you-need" target="_blank" rel="noopener noreferrer">Administration for Community Living</a> (U.S. Department of Health &amp; Human Services). Life insurance and umbrella figures are common planning guidelines, not guarantees of what you need.</p>
 </section>
 
 <!-- ─── COVERAGE TYPES ─────────────────────────────────── -->
@@ -1067,7 +1090,7 @@ footer{
       </div>
       <div class="cov-title">Long-Term Care</div>
       <div class="cov-type">Aging &amp; care planning</div>
-      <p class="cov-body">The average annual cost of a private nursing home room exceeds $100,000.</p>
+      <p class="cov-body">The average annual cost of a private nursing home room exceeds $100,000 (national median: $127,750 in 2024, per the Genworth / CareScout Cost of Care Survey).</p>
     </div>
 
     <div class="cov-card rv d1">
