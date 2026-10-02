@@ -257,8 +257,3 @@ footer .ft-di a{color:#c8a46a}
   #cta .cta-right{padding:2.4rem 1.5rem}
   #cta .cta-dv a[href^="mailto:"]{font-size:1.12rem;overflow-wrap:anywhere}
 }
-
-/* Film grain: the texture stays, but it no longer jumps position 12 times a
-   second. At 2–3% opacity the shimmer was barely visible, yet it made the
-   browser restyle a full-screen layer on every frame. */
-#grain{animation:none !important}
