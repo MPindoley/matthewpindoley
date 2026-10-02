@@ -57,92 +57,9 @@ body.hov #cur-r{width:62px;height:62px;border-color:var(--bronze)}
 body.pressing #cur{width:20px;height:20px}
 
 /* ─── NAV ─────────────────────────────────────────── */
-#nav{position:fixed;top:0;left:0;right:0;z-index:800;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:2rem 5rem;
-  transition:padding .45s var(--e2),background .4s,border-color .4s;
-  border-bottom:1px solid transparent;
-  background:rgba(12,11,9,.55);backdrop-filter:blur(16px)}
-#nav.stk{padding:1rem 5rem;background:rgba(12,11,9,.92);
-  border-bottom-color:rgba(154,124,82,.12)}
 /* Logo always cream on this page since hero is dark */
-.nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;
-  letter-spacing:.06em;line-height:1.3;color:var(--cream)}
-.nav-logo b{color:var(--bronze2);font-weight:400;font-style:italic}
-.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
-.nav-links a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
-  font-weight:500;color:rgba(250,248,244,.38);position:relative;transition:color .25s}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;
-  width:0;height:1px;background:var(--bronze);transition:width .38s var(--e1)}
-.nav-links a:hover,.nav-links a.active{color:var(--cream)}
-.nav-links a:hover::after,.nav-links a.active::after{width:100%}
-.nav-drop{position:relative}
-.nav-drop-trigger{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
-  font-weight:500;color:rgba(250,248,244,.38);position:relative;
-  display:inline-flex;align-items:center;gap:.45rem;
-  cursor:none;background:none;border:none;padding:0;
-  font-family:var(--fb);transition:color .25s}
-.nav-drop-trigger::after{content:'';position:absolute;bottom:-4px;left:0;
-  width:0;height:1px;background:var(--bronze);transition:width .38s var(--e1)}
-.nav-drop.open .nav-drop-trigger,.nav-drop-trigger.active{color:var(--cream)}
-.nav-drop.open .nav-drop-trigger::after,.nav-drop-trigger.active::after{width:calc(100% - 1.1rem)}
-.nav-drop-trigger svg{transition:transform .3s var(--e1);flex-shrink:0;opacity:.5}
-.nav-drop.open .nav-drop-trigger svg{transform:rotate(180deg);opacity:1}
-.nav-drop-panel{position:absolute;top:calc(100% + 14px);left:50%;
-  transform:translateX(-50%) translateY(-6px);
-  background:var(--ink2);border:1px solid rgba(154,124,82,.14);
-  min-width:220px;padding:.6rem 0;
-  box-shadow:0 24px 60px rgba(12,11,9,.35),0 4px 12px rgba(12,11,9,.2);
-  opacity:0;pointer-events:none;
-  transition:opacity .25s var(--e1),transform .25s var(--e1)}
-.nav-drop-panel::after{content:'';position:absolute;top:-20px;left:0;right:0;height:20px}
-.nav-drop.open .nav-drop-panel{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
-.nav-drop-panel::before{content:'';position:absolute;top:-5px;left:50%;
-  transform:translateX(-50%) rotate(45deg);
-  width:9px;height:9px;background:var(--ink2);
-  border-left:1px solid rgba(154,124,82,.14);border-top:1px solid rgba(154,124,82,.14)}
-.nav-drop-item{display:flex;align-items:center;gap:.75rem;
-  padding:.72rem 1.4rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
-  font-weight:600;color:rgba(250,248,244,.35);cursor:none;
-  transition:color .2s,background .2s;white-space:nowrap}
-.nav-drop-item:hover{color:var(--cream);background:rgba(154,124,82,.07)}
-.nav-drop-item.current{color:var(--bronze2)}
-.nav-drop-item svg{width:14px;height:14px;flex-shrink:0;opacity:.4;transition:opacity .2s}
-.nav-drop-item:hover svg,.nav-drop-item.current svg{opacity:1}
-.nav-drop-divider{height:1px;background:rgba(154,124,82,.1);margin:.4rem 0}
-.nav-btn{display:inline-flex;align-items:center;
-  padding:.6rem 1.5rem;border:1px solid rgba(154,124,82,.3);border-radius:9999px;
-  font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;
-  font-weight:600;color:var(--bronze2);position:relative;overflow:hidden;
-  transition:color .3s,border-color .3s}
-.nav-btn::before{content:'';position:absolute;inset:0;background:var(--bronze);
-  transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
-.nav-btn:hover::before{transform:scaleX(1)}
-.nav-btn:hover{color:var(--ink);border-color:var(--bronze)}
-.nav-btn span{position:relative;z-index:1}
-.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:7px 9px;border-radius:6px;background:rgba(12,11,9,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(154,124,82,.25)}
-.hbg i{display:block;width:22px;height:2px;background:var(--bronze);border-radius:2px;transition:all .3s}
 
 /* MOBILE DRAWER */
-#mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;
-  clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .75s var(--e1)}
-#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
-#mob a{font-family:var(--ff);font-size:clamp(2.5rem,9vw,5.5rem);font-weight:300;
-  color:var(--cream);letter-spacing:-.02em;transition:color .2s}
-#mob a:hover{color:var(--bronze2)}
-#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
-  cursor:none;font-family:var(--ff);font-size:1.8rem;color:var(--muted);transition:color .2s}
-#mob-x:hover{color:var(--cream)}
-.mob-resources{display:flex;flex-direction:column;gap:0;width:100%;align-items:center}
-.mob-res-label{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--bronze);font-weight:600;margin-bottom:1rem}
-.mob-res-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem}
-.mob-res-link{font-family:var(--fb);font-size:.65rem;letter-spacing:.14em;
-  text-transform:uppercase;font-weight:600;color:var(--muted);
-  padding:.45rem 1rem;border:1px solid var(--border);
-  transition:color .2s,border-color .2s}
-.mob-res-link:hover,.mob-res-link.current{color:var(--bronze);border-color:var(--border2)}
 
 /* ═══════════════════════════════════════════════════
    HERO — full-viewport, split diagonal, editorial
@@ -607,8 +524,7 @@ body.pressing #cur{width:20px;height:20px}
 
 /* ─── RESPONSIVE ──────────────────────────────────── */
 @media(max-width:1100px){
-  #nav,#nav.stk{padding-left:2.5rem;padding-right:2.5rem}
-  #hero{grid-template-columns:1fr}
+    #hero{grid-template-columns:1fr}
   .hero-right{padding:5rem 2.5rem}
   .hero-left{padding:10rem 2.5rem 5rem}
   .strat-intro,.strat-row.r-1-2,.strat-row.r-2-1,.strat-row.r-3,#feature{grid-template-columns:1fr}
@@ -627,8 +543,7 @@ body.pressing #cur{width:20px;height:20px}
   .cta-details{gap:2.5rem}
 }
 @media(max-width:768px){
-  .nav-links,.nav-btn{display:none}.hbg{display:flex}
-
+  
   /* Stack hero panels vertically instead of hiding the right one */
   #hero{grid-template-columns:1fr;min-height:auto}
   .hero-left{padding:9rem 1.5rem 3.5rem;justify-content:flex-start}
@@ -653,8 +568,7 @@ body.pressing #cur{width:20px;height:20px}
   .cta-details{flex-direction:column;gap:1.5rem}
 }
 @media(max-width:480px){
-  #nav,#nav.stk{padding-left:1.25rem;padding-right:1.25rem}
-  .hero-left{padding:8rem 1.25rem 3rem}
+    .hero-left{padding:8rem 1.25rem 3rem}
   .hero-h{font-size:clamp(4.5rem,22vw,8rem)}
   .strat-intro-left,.strat-intro-right,.strat-cell,.feat-left,.feat-right{padding-left:1.25rem;padding-right:1.25rem}
   #faq,#cta{padding-left:1.25rem;padding-right:1.25rem}
@@ -774,9 +688,25 @@ footer{
 .tax-disc-inner p{font-size:.8rem;color:rgba(12,11,9,.66)}
 .tax-disc-inner p strong{color:rgba(12,11,9,.82)}
 .cta-p{font-size:1rem;color:rgba(250,248,244,.76)}
+/* ── NAV THEME — colours for the shared navigation (assets/nav.css) ── */
+:root{
+  --nav-top-bg:rgba(12,11,9,.92);--nav-top-blur:blur(16px);
+  --nav-stuck-bg:rgba(12,11,9,.92);--nav-stuck-border:rgba(154,124,82,.14);
+  --nav-logo:var(--cream);--nav-mark:var(--bronze2);
+  --nav-link:rgba(250,248,244,.66);--nav-link-hover:var(--cream);
+  --nav-line:var(--bronze);--nav-current:var(--bronze2);
+  --nav-btn-border:rgba(154,124,82,.4);--nav-btn-text:var(--bronze2);--nav-btn-fill:var(--bronze);--nav-btn-fill-text:var(--ink);
+  --nav-panel-bg:var(--ink2);--nav-panel-border:rgba(154,124,82,.18);--nav-panel-text:rgba(250,248,244,.7);
+  --nav-panel-hover:var(--cream);--nav-panel-hover-bg:rgba(154,124,82,.08);--nav-panel-divider:rgba(154,124,82,.12);
+  --nav-panel-shadow:0 24px 60px rgba(12,11,9,.35),0 4px 12px rgba(12,11,9,.2);
+  --nav-hbg-line:var(--bronze2);--nav-hbg-bg:rgba(12,11,9,.55);--nav-hbg-border:rgba(154,124,82,.25);
+  --mob-bg:var(--ink2);--mob-text:var(--cream);--mob-accent:var(--bronze2);
+  --mob-muted:rgba(250,248,244,.66);--mob-border:var(--border2);--mob-border2:rgba(154,124,82,.55);
+}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
+  <link rel="stylesheet" href="assets/nav.css"/>
 </head>
 <body>
 <div id="grain"></div>
@@ -784,59 +714,51 @@ footer{
 <div id="cur-r"></div>
 
 <!-- ─── NAV ───────────────────────────────────────── -->
-<nav id="nav">
+<nav id="nav" aria-label="Main">
   <a href="index.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="fee.html">Fee</a></li>
     <li class="nav-drop">
-      <button class="nav-drop-trigger active" aria-haspopup="true" aria-expanded="false">
+      <button type="button" class="nav-drop-trigger active" aria-expanded="false" aria-controls="nav-resources">
         Resources
-        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M2 4l4 4 4-4"/></svg>
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
       </button>
-      <div class="nav-drop-panel" role="menu">
-        <a href="resource-retirement.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement
-        </a>
-        <a href="resource-investment.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment
-        </a>
-        <a href="resource-estate.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning
-        </a>
-        <a href="resource-tax.html" class="nav-drop-item current" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy
-        </a>
-        <a href="resource-insurance.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance
-        </a>
-        <div class="nav-drop-divider"></div>
-        <a href="resource-money.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle
-        </a>
+      <div class="nav-drop-panel" id="nav-resources">
+        <a href="resource-retirement.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement</a>
+        <a href="resource-investment.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment</a>
+        <a href="resource-estate.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning</a>
+        <a href="resource-tax.html" class="nav-drop-item current" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy</a>
+        <a href="resource-insurance.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance</a>
+        <div class="nav-drop-divider" aria-hidden="true"></div>
+        <a href="resource-money.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle</a>
       </div>
     </li>
   </ul>
   <a href="contact.html" class="nav-btn"><span>Book a Consultation</span></a>
-  <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
+  <button type="button" class="hbg" id="hbg" aria-label="Open menu" aria-controls="mob" aria-expanded="false"><i></i><i></i><i></i></button>
 </nav>
 
 <!-- MOBILE DRAWER -->
-<div id="mob">
-  <button id="mob-x">✕</button>
+<nav id="mob" aria-label="Menu">
+  <button type="button" id="mob-x" aria-label="Close menu">✕</button>
   <a href="index.html" class="mob-a">Home</a>
+  <a href="index.html#about" class="mob-a">About</a>
+  <a href="fee.html" class="mob-a">Fee</a>
   <div class="mob-resources">
     <div class="mob-res-label">Resources</div>
     <div class="mob-res-links">
       <a href="resource-retirement.html" class="mob-res-link">Retirement</a>
       <a href="resource-investment.html" class="mob-res-link">Investment</a>
       <a href="resource-estate.html" class="mob-res-link">Estate</a>
-      <a href="resource-tax.html" class="mob-res-link current">Tax</a>
+      <a href="resource-tax.html" class="mob-res-link current" aria-current="page">Tax</a>
       <a href="resource-insurance.html" class="mob-res-link">Insurance</a>
       <a href="resource-money.html" class="mob-res-link">Money &amp; Lifestyle</a>
     </div>
   </div>
   <a href="contact.html" class="mob-a">Contact</a>
-</div>
+</nav>
 
 <!-- ─── SIDEBAR TRIGGER ──────────────────────────── -->
 <button id="sb-trigger" class="nudge" aria-label="Open resources panel">
@@ -1325,7 +1247,7 @@ footer{
       &nbsp;&bull;&nbsp;
       <a href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer">FINRA BrokerCheck</a>
       &nbsp;&bull;&nbsp;
-      <a href="https://www.osaic.com/FormCRS" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
+      <a href="https://osaic.com/disclosures" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
     </div>
   </div>
 </footer>
@@ -1342,29 +1264,6 @@ document.querySelectorAll('a,button,.strat-cell,.feat-right-item,.tl-item,.sb-re
 });
 document.addEventListener('mousedown',()=>document.body.classList.add('pressing'));
 document.addEventListener('mouseup',()=>document.body.classList.remove('pressing'));
-
-/* ─── NAV ──────────────────────────────────────────── */
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('stk',scrollY>60),{passive:true});
-
-document.querySelectorAll('.nav-drop').forEach(drop=>{
-  const trigger=drop.querySelector('.nav-drop-trigger');
-  const panel=drop.querySelector('.nav-drop-panel');
-  if(!trigger||!panel)return;
-  let t=null;
-  const open=()=>{clearTimeout(t);drop.classList.add('open');trigger.setAttribute('aria-expanded','true')};
-  const close=()=>{t=setTimeout(()=>{drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')},120)};
-  drop.addEventListener('mouseenter',open);
-  drop.addEventListener('mouseleave',close);
-  trigger.addEventListener('click',()=>drop.classList.contains('open')?close():open());
-  drop.addEventListener('keydown',e=>{if(e.key==='Escape'){drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')}});
-  drop.addEventListener('focusout',e=>{if(!drop.contains(e.relatedTarget)){drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')}});
-});
-
-const mob=document.getElementById('mob'),hbg=document.getElementById('hbg'),mobX=document.getElementById('mob-x');
-hbg.addEventListener('click',()=>mob.classList.add('open'));
-mobX.addEventListener('click',()=>mob.classList.remove('open'));
-document.querySelectorAll('.mob-a,.mob-res-link').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
 
 /* ─── HERO WORDS — handled by CSS animation now ────── */
 
@@ -1396,7 +1295,7 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
 });
 
 /* ─── MAGNETIC ─────────────────────────────────────── */
-document.querySelectorAll('.mag,.nav-btn').forEach(btn=>{
+document.querySelectorAll('.mag').forEach(btn=>{
   btn.addEventListener('mousemove',e=>{
     const r=btn.getBoundingClientRect();
     btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.22}px,${(e.clientY-r.top-r.height/2)*.22}px)`;
@@ -1547,6 +1446,7 @@ function runDeductionValue(){
   <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 2L12.5 7.5H18L13.5 11L15.5 17L10 13.5L4.5 17L6.5 11L2 7.5H7.5Z"/></svg>
   FINRA BrokerCheck
 </a>
+<script src="assets/nav.js" defer></script>
 <script src="assets/enhance.js" defer></script>
 </body>
 </html>

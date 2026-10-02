@@ -50,41 +50,8 @@ body.hov #cur-r{width:68px;height:68px}
 body.pressing #cur{width:18px;height:18px}
 
 /* NAV */
-#nav{position:fixed;top:0;left:0;right:0;z-index:800;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.9rem 4rem;
-  transition:padding .4s var(--e1),background .35s,border-color .35s;
-  border-bottom:1px solid transparent}
-#nav.sl{padding:1.1rem 4rem;background:rgba(244,241,234,.93);backdrop-filter:blur(20px);border-bottom-color:var(--bd)}
-#nav.sd{padding:1.1rem 4rem;background:rgba(10,9,8,.92);backdrop-filter:blur(22px);border-bottom-color:rgba(200,164,106,.12)}
-.nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;letter-spacing:.06em;line-height:1.3;color:var(--ink);transition:color .35s}
-.nav-logo b{color:#8a6420;font-weight:400;font-style:italic}
-#nav.sd .nav-logo b{color:var(--g2)}
-#nav.sd .nav-logo{color:var(--w)}
-.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
-.nav-links a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;color:rgba(10,9,8,.38);position:relative;transition:color .25s}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--g);transition:width .38s var(--e1)}
-.nav-links a:hover,.nav-links a.active{color:var(--ink)}
-.nav-links a:hover::after,.nav-links a.active::after{width:100%}
-#nav.sd .nav-links a{color:rgba(244,241,234,.38)}
-#nav.sd .nav-links a:hover,#nav.sd .nav-links a.active{color:var(--w)}
-.nav-btn{display:inline-flex;align-items:center;padding:.55rem 1.4rem;border-radius:9999px;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink);border:1px solid rgba(10,9,8,.18);position:relative;overflow:hidden;transition:color .3s,border-color .3s}
-.nav-btn::before{content:'';position:absolute;inset:0;background:var(--g);transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
-.nav-btn:hover::before{transform:scaleX(1)}
-.nav-btn:hover{color:var(--ink);border-color:var(--g)}
-.nav-btn span{position:relative;z-index:1}
-#nav.sd .nav-btn{color:var(--w);border-color:rgba(200,164,106,.3)}
-.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px;background:none;border:none}
-.hbg i{display:block;width:20px;height:1px;background:var(--ink);transition:.3s}
-#nav.sd .hbg i{background:var(--w)}
 
 /* MOBILE DRAWER */
-#mob{position:fixed;inset:0;z-index:850;background:var(--k2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4rem;clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .7s var(--e1)}
-#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
-#mob a{font-family:var(--ff);font-size:clamp(3rem,10vw,6rem);font-weight:300;color:var(--w);transition:color .2s}
-#mob a:hover{color:var(--g)}
-#mob-x{position:absolute;top:2rem;right:2.2rem;background:none;border:none;cursor:none;font-size:1.5rem;color:rgba(244,241,234,.35);transition:color .2s}
-#mob-x:hover{color:var(--w)}
 
 /* DISC PILL */
 #disc svg{width:8px;height:8px}
@@ -721,8 +688,7 @@ body.rdy #trail-glow{animation:trailIn 3s var(--e1) 1.1s forwards}
    RESPONSIVE — TABLET (≤1100px)
 ═══════════════════════════════════ */
 @media(max-width:1100px){
-  #nav,#nav.sl,#nav.sd{padding-left:2rem;padding-right:2rem}
-  #comp,#faq,#cta,footer,#calc{padding-left:2rem;padding-right:2rem}
+    #comp,#faq,#cta,footer,#calc{padding-left:2rem;padding-right:2rem}
   .comp-hd{flex-direction:column;gap:1rem}
   #faq{grid-template-columns:1fr;gap:3rem}
   #faq .rv-l{position:static}
@@ -736,12 +702,9 @@ body.rdy #trail-glow{animation:trailIn 3s var(--e1) 1.1s forwards}
 @media(max-width:768px){
 
   /* NAV */
-  .nav-btn,.nav-links{display:none}
-  .hbg{display:flex}
-  /* the title already says "Click any marker", and the hint collided with the Disclosures pill */
+      /* the title already says "Click any marker", and the hint collided with the Disclosures pill */
   #mhint{display:none}
-  #nav,#nav.sl,#nav.sd{padding:1.1rem 1.5rem}
-
+  
   /* DISC PILL */
     /* ── MAP SECTION ── */
   #map-section{height:100svh;min-height:520px}
@@ -999,8 +962,6 @@ footer{
 /* ── READABILITY ─────────────────────────────────────────────
    Body copy: larger, steadier weight on small text, and contrast
    near 7:1 (was ~3:1). Headlines and ornaments are unchanged. ── */
-.nav-links a{color:rgba(10,9,8,.6)}
-#nav.sd .nav-links a{color:rgba(244,241,234,.62)}
 .mt-sub{font-size:.78rem;color:rgba(10,9,8,.62)}
 #mhint{color:rgba(10,9,8,.6)}
 .calc-sub{font-size:.95rem;font-weight:400;color:rgba(244,241,234,.7)}
@@ -1026,9 +987,35 @@ footer{
 .badge-gold{color:#85601e}
 .badge-green{color:#2e6b2e}
 .badge-blue{color:#2f5694}
+/* ── NAV THEME — colours for the shared navigation (assets/nav.css) ── */
+:root{
+  --nav-pad-x:4rem;--nav-pad-x-md:2rem;--nav-pad-x-sm:1.5rem;
+  --nav-stuck-bg:rgba(244,241,234,.93);--nav-stuck-border:var(--bd);
+  --nav-logo:var(--ink);--nav-mark:#8a6420;
+  --nav-link:rgba(10,9,8,.62);--nav-link-hover:var(--ink);
+  --nav-line:var(--g);--nav-current:#8a6420;
+  --nav-btn-border:rgba(10,9,8,.18);--nav-btn-text:var(--ink);--nav-btn-fill:var(--g);--nav-btn-fill-text:var(--ink);
+  --nav-panel-bg:var(--w);--nav-panel-border:rgba(10,9,8,.1);--nav-panel-text:rgba(10,9,8,.68);
+  --nav-panel-hover:var(--ink);--nav-panel-hover-bg:rgba(10,9,8,.04);--nav-panel-divider:rgba(10,9,8,.08);
+  --nav-hbg-line:var(--ink);
+  --mob-bg:var(--k2);--mob-text:var(--w);--mob-accent:var(--g);
+  --mob-muted:rgba(244,241,234,.66);--mob-border:rgba(200,164,106,.22);--mob-border2:rgba(200,164,106,.5);
+}
+/* over the dark calculator and FAQ sections the bar turns dark (see updateNav) */
+#nav.sd{
+  --nav-stuck-bg:rgba(10,9,8,.92);--nav-stuck-border:rgba(200,164,106,.12);
+  --nav-logo:var(--w);--nav-mark:var(--g2);
+  --nav-link:rgba(244,241,234,.66);--nav-link-hover:var(--w);--nav-current:var(--g2);
+  --nav-btn-border:rgba(200,164,106,.3);--nav-btn-text:var(--w);
+  --nav-panel-bg:var(--k2);--nav-panel-border:rgba(200,164,106,.2);--nav-panel-text:rgba(244,241,234,.72);
+  --nav-panel-hover:var(--w);--nav-panel-hover-bg:rgba(200,164,106,.07);--nav-panel-divider:rgba(200,164,106,.12);
+  --nav-panel-shadow:0 24px 60px rgba(0,0,0,.45),0 4px 12px rgba(0,0,0,.25);
+  --nav-hbg-line:var(--w);
+}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
+  <link rel="stylesheet" href="assets/nav.css"/>
 </head>
 <body>
 
@@ -1036,21 +1023,50 @@ footer{
 <div id="cur"   aria-hidden="true"></div>
 <div id="cur-r" aria-hidden="true"></div>
 
-<nav id="mob">
-  <button id="mob-x" aria-label="Close">✕</button>
-  <a href="index.html">Home</a>
-  <a href="fee.html">Fee</a>
+<nav id="mob" aria-label="Menu">
+  <button type="button" id="mob-x" aria-label="Close menu">✕</button>
+  <a href="index.html" class="mob-a">Home</a>
+  <a href="index.html#about" class="mob-a">About</a>
+  <a href="fee.html" class="mob-a active" aria-current="page">Fee</a>
+  <div class="mob-resources">
+    <div class="mob-res-label">Resources</div>
+    <div class="mob-res-links">
+      <a href="resource-retirement.html" class="mob-res-link">Retirement</a>
+      <a href="resource-investment.html" class="mob-res-link">Investment</a>
+      <a href="resource-estate.html" class="mob-res-link">Estate</a>
+      <a href="resource-tax.html" class="mob-res-link">Tax</a>
+      <a href="resource-insurance.html" class="mob-res-link">Insurance</a>
+      <a href="resource-money.html" class="mob-res-link">Money &amp; Lifestyle</a>
+    </div>
+  </div>
+  <a href="contact.html" class="mob-a">Contact</a>
 </nav>
 
-<header id="nav">
+<nav id="nav" aria-label="Main">
   <a href="index.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="fee.html" class="active">Fee</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="fee.html" class="active" aria-current="page">Fee</a></li>
+    <li class="nav-drop">
+      <button type="button" class="nav-drop-trigger" aria-expanded="false" aria-controls="nav-resources">
+        Resources
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
+      </button>
+      <div class="nav-drop-panel" id="nav-resources">
+        <a href="resource-retirement.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement</a>
+        <a href="resource-investment.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment</a>
+        <a href="resource-estate.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning</a>
+        <a href="resource-tax.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy</a>
+        <a href="resource-insurance.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance</a>
+        <div class="nav-drop-divider" aria-hidden="true"></div>
+        <a href="resource-money.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle</a>
+      </div>
+    </li>
   </ul>
   <a href="contact.html" class="nav-btn"><span>Book a Consultation</span></a>
-  <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
-</header>
+  <button type="button" class="hbg" id="hbg" aria-label="Open menu" aria-controls="mob" aria-expanded="false"><i></i><i></i><i></i></button>
+</nav>
 
 <!-- ═══════════ TOPOGRAPHIC MAP ═══════════ -->
 <section id="map-section">
@@ -1437,7 +1453,7 @@ footer{
       &nbsp;&bull;&nbsp;
       <a href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer">FINRA BrokerCheck</a>
       &nbsp;&bull;&nbsp;
-      <a href="https://www.osaic.com/FormCRS" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
+      <a href="https://osaic.com/disclosures" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
     </div>
   </div>
 </footer>
@@ -1867,13 +1883,6 @@ document.getElementById('aum-slider').addEventListener('input',function(){update
 }());
 updateCalc();
 
-/* ─── MOBILE DRAWER ─────────────────────────── */
-const mob=document.getElementById('mob');
-const hbg=document.getElementById('hbg');
-document.getElementById('mob-x').addEventListener('click',()=>mob.classList.remove('open'));
-hbg.addEventListener('click',()=>mob.classList.add('open'));
-mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
-
 /* ─── REVEAL OBSERVER ───────────────────────── */
 const io=new IntersectionObserver(es=>{
   es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}});
@@ -1915,6 +1924,7 @@ document.querySelectorAll('.fq-item').forEach(item=>{
   <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="5"/><path d="M6 5v4M6 3.5v.5"/></svg>
   Disclosures
 </a>
+<script src="assets/nav.js" defer></script>
 <script src="assets/enhance.js" defer></script>
 </body>
 </html>

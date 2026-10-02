@@ -84,56 +84,8 @@ body.pressing #cur{width:28px;height:28px}
   color:rgba(242,236,224,.22);margin-top:1.2rem;font-weight:500;font-family:var(--fb)}
 
 /* NAV */
-#nav{position:fixed;top:0;left:0;right:0;z-index:800;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:2.2rem 4.5rem;
-  transition:padding .45s var(--e2),background .4s,backdrop-filter .4s,border-color .4s;
-  border-bottom:1px solid transparent}
-#nav.stk{padding:1.1rem 4.5rem;background:rgba(9,9,12,.88);
-  backdrop-filter:blur(28px) saturate(1.4);-webkit-backdrop-filter:blur(28px) saturate(1.4);
-  border-bottom-color:rgba(200,164,106,.18);
-  box-shadow:0 1px 0 rgba(200,164,106,.10),0 8px 32px rgba(0,0,0,.28),0 0 60px rgba(200,164,106,.03)}
-.nav-logo{font-family:var(--ff);font-size:1rem;font-weight:300;
-  letter-spacing:.06em;line-height:1.3;color:var(--paper)}
-.nav-logo b{color:var(--gold);font-weight:400;font-style:italic}
-.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
-.nav-links a{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
-  font-weight:500;color:var(--muted);position:relative;transition:color .25s;
-  /* ── Enlarged hit area — invisible padding, zero visual impact ── */
-  padding:10px 4px;
-  margin:-10px -4px;}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;
-  width:0;height:1px;background:var(--gold);transition:width .38s var(--e1)}
-.nav-links a:hover{color:var(--paper)}
-.nav-links a:hover::after{width:100%}
-.nav-btn{display:inline-flex;align-items:center;gap:.6rem;
-  padding:.68rem 1.65rem;border:1px solid var(--border2);border-radius:9999px;
-  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
-  font-weight:600;color:var(--gold);position:relative;overflow:hidden;
-  transition:color .3s,border-color .3s}
-.nav-btn::before{content:'';position:absolute;inset:0;background:var(--gold);
-  transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
-.nav-btn:hover::before{transform:scaleX(1)}
-.nav-btn:hover{color:var(--ink);border-color:var(--gold)}
-.nav-btn span{position:relative;z-index:1}
-.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:12px;margin:-6px}
-.hbg i{display:block;width:22px;height:1px;background:var(--paper);transition:all .3s}
 
 /* MOBILE DRAWER */
-#mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;
-  clip-path:polygon(0 0,100% 0,100% 0,0 0);
-  transition:clip-path .75s var(--e1)}
-#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
-#mob a{font-family:var(--ff);font-size:clamp(2.5rem,9vw,5.5rem);font-weight:300;
-  color:var(--paper);letter-spacing:-.02em;transition:color .2s,letter-spacing .35s var(--e1);
-  /* Generous tap target */
-  padding:.35rem 1.5rem;}
-#mob a:hover{color:var(--gold);letter-spacing:.01em}
-#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
-  cursor:none;font-family:var(--ff);font-size:1.8rem;color:var(--muted);
-  transition:color .2s}
-#mob-x:hover{color:var(--paper)}
 
 /* HERO */
 #hero{min-height:100svh;display:flex;flex-direction:column;
@@ -485,6 +437,7 @@ body.pressing #cur{width:28px;height:28px}
   color:var(--gold);font-weight:600;margin-bottom:.5rem}
 .ct-dv{font-family:var(--ff);font-size:1.35rem;font-weight:300;color:var(--paper)}
 .ct-dv a{transition:color .2s}.ct-dv a:hover{color:var(--gold)}
+.ct-reg{margin-top:.55rem;font-size:.74rem;line-height:1.5;letter-spacing:.04em;color:rgba(242,236,224,.66);max-width:19rem}
 
 /* REVEAL */
 .rv{opacity:0;transform:translateY(38px);transition:opacity .95s var(--e1),transform .95s var(--e1)}
@@ -506,8 +459,7 @@ body.pressing #cur{width:28px;height:28px}
 
 /* RESPONSIVE */
 @media(max-width:1100px){
-  #nav,#nav.stk{padding-left:2.5rem;padding-right:2.5rem}
-  #hero,#stats,#about,#services,#process,#resources,#contact,footer{padding-left:2.5rem;padding-right:2.5rem}
+    #hero,#stats,#about,#services,#process,#resources,#contact,footer{padding-left:2.5rem;padding-right:2.5rem}
   #about{grid-template-columns:1fr;gap:4rem}.ab-badge{display:none}
   .pr-grid{grid-template-columns:repeat(2,1fr)}
   .rs-grid{grid-template-columns:repeat(2,1fr)}
@@ -516,10 +468,8 @@ body.pressing #cur{width:28px;height:28px}
   .sv-hd{grid-template-columns:1fr}.sv-sub{text-align:left}
 }
 @media(max-width:768px){
-  .nav-links,.nav-btn{display:none}.hbg{display:flex}
-  /* Hide mega dropdown completely on mobile */
-  .nav-mega{display:none!important}
-  /* Sized so the longest line ("Generational") never clips on narrow screens */
+    /* Hide mega dropdown completely on mobile */
+    /* Sized so the longest line ("Generational") never clips on narrow screens */
   .h1{font-size:clamp(2.6rem,min(14.5vw,9.5vh),9rem)}
   #hero{padding-bottom:3rem;padding-left:1.5rem;padding-right:1.5rem}
   .h-bot{flex-direction:column;align-items:flex-start;margin-bottom:2rem;gap:1.5rem}
@@ -551,8 +501,7 @@ body.pressing #cur{width:28px;height:28px}
   /* Footer */
 }
 @media(max-width:480px){
-  #nav,#nav.stk{padding-left:1.25rem;padding-right:1.25rem}
-  .h-tag{font-size:.58rem;letter-spacing:.18em}
+    .h-tag{font-size:.58rem;letter-spacing:.18em}
   .h-scroll{display:none}
   #stats{padding:4rem 1.25rem}
   .stat{padding:2.5rem 1.5rem}
@@ -969,78 +918,8 @@ footer{
 }
 /* ── MEGA DROPDOWN ── */
 
-.nav-dd{position:relative}
-.nav-dd>a{display:inline-flex;align-items:center;gap:.38rem;cursor:none}
-.nav-dd>a .dd-arrow{
-  font-size:.48rem;display:inline-block;
-  transition:transform .42s var(--e1);
-  color:var(--gold);opacity:.75}
-.nav-dd:hover>a .dd-arrow{transform:rotate(180deg)}
-.nav-dd:hover>a{color:var(--paper)}
 
-.nav-mega{
-  position:absolute;
-  top:calc(100% + .8rem);
-  left:50%;
-  transform:translateX(-50%) translateY(-20px) scale(0.92);
-  min-width:520px;
-  background:transparent;
-  opacity:0;pointer-events:none;
-  transition:all .45s cubic-bezier(.16,1,.3,1);
-}
-.nav-dd:hover .nav-mega,
-.nav-dd:focus-within .nav-mega{
-  opacity:1;pointer-events:auto;
-  transform:translateX(-50%) translateY(0) scale(1);
-}
-.nav-dd:focus-within>a .dd-arrow{transform:rotate(180deg)}
 /* invisible bridge across the gap so the menu doesn't close on the way down */
-.nav-mega::before{content:'';position:absolute;left:0;right:0;top:-1rem;height:1rem}
-.nav-mega-inner{
-  background:rgba(9,9,12,.97);
-  backdrop-filter:blur(40px) saturate(1.8);
-  border:1px solid rgba(200,164,106,.28);
-  border-top:4px solid var(--gold);
-  border-radius:16px;
-  box-shadow:0 40px 90px rgba(0,0,0,.7),0 12px 40px rgba(0,0,0,.45);
-  padding:28px 24px 20px;
-  position:relative;
-}
-.mega-label{
-  font-size:.52rem;letter-spacing:.32em;text-transform:uppercase;
-  color:var(--gold);font-weight:600;
-  padding:0 0 1.4rem 0;
-  text-align:center;
-  opacity:.75;
-}
-.mega-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:16px;
-}
-.mega-item{
-  display:flex;flex-direction:column;
-  align-items:center;
-  text-align:center;
-  padding:1.8rem 1.4rem 1.6rem;
-  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
-  font-weight:500;color:rgba(242,236,224,.75);
-  border-radius:12px;
-  transition:all .4s cubic-bezier(.16,1,.3,1);
-  position:relative;
-}
-.mega-item:hover{
-  color:var(--paper);
-  transform:translateY(-4px);
-  box-shadow:0 20px 40px rgba(200,164,106,.15);
-}
-.mega-item svg{
-  width:28px;height:28px;margin-bottom:1.1rem;
-  color:var(--gold);opacity:.85;
-  transition:all .35s var(--e1);
-}
-.mega-item:hover svg{
-  opacity:1;
-  transform:scale(1.12);
-}
 
 
 /* ── DESKTOP PROCESS DIAL ── */
@@ -1373,15 +1252,31 @@ html{scroll-behavior:smooth}
 .proc-stage-text{color:rgba(242,236,224,.8)}
 .rs-b{font-size:.9rem;font-weight:400;color:rgba(242,236,224,.72)}
 .ct-p{font-size:1rem;color:rgba(242,236,224,.82)}
-.nav-links a{color:rgba(242,236,224,.66)}
 .sv-ky{color:#8a6420}.sv-ky::before{background:#8a6420}
 .sv-sub{font-size:.92rem;color:rgba(9,9,12,.68)}
 .sv-panel-desc{font-size:.95rem;font-weight:400;color:rgba(9,9,12,.72)}
 .sv-panel-why-text{font-size:.92rem;font-weight:400;color:rgba(9,9,12,.7)}
 .tk{color:rgba(242,236,224,.52)}
+/* ── NAV THEME — colours for the shared navigation (assets/nav.css) ── */
+:root{
+  --nav-pad-x:4.5rem;
+  --nav-stuck-bg:rgba(9,9,12,.88);--nav-stuck-border:rgba(200,164,106,.18);
+  --nav-stuck-shadow:0 1px 0 rgba(200,164,106,.1),0 8px 32px rgba(0,0,0,.28);
+  --nav-logo:var(--paper);--nav-mark:var(--gold);
+  --nav-link:rgba(242,236,224,.66);--nav-link-hover:var(--paper);
+  --nav-line:var(--gold);--nav-current:var(--gold);
+  --nav-btn-border:var(--border2);--nav-btn-text:var(--gold);--nav-btn-fill:var(--gold);--nav-btn-fill-text:var(--ink);
+  --nav-panel-bg:var(--ink2);--nav-panel-border:var(--border2);--nav-panel-text:rgba(242,236,224,.72);
+  --nav-panel-hover:var(--paper);--nav-panel-hover-bg:rgba(200,164,106,.07);--nav-panel-divider:rgba(200,164,106,.12);
+  --nav-panel-shadow:0 24px 60px rgba(0,0,0,.45),0 4px 12px rgba(0,0,0,.25);
+  --nav-hbg-line:var(--paper);
+  --mob-bg:var(--ink2);--mob-text:var(--paper);--mob-accent:var(--gold);
+  --mob-muted:rgba(242,236,224,.66);--mob-border:var(--border2);--mob-border2:rgba(200,164,106,.5);
+}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
+  <link rel="stylesheet" href="assets/nav.css"/>
 
   <!-- Structured data for search engines -->
   <script type="application/ld+json">
@@ -1444,64 +1339,51 @@ html{scroll-behavior:smooth}
 </div>
 
 <!-- MOBILE NAV -->
-<nav id="mob">
-  <button id="mob-x" aria-label="Close">✕</button>
+<nav id="mob" aria-label="Menu">
+  <button type="button" id="mob-x" aria-label="Close menu">✕</button>
+  <a href="index.html" class="mob-a active" aria-current="page">Home</a>
   <a href="#about" class="mob-a">About</a>
-  <a href="#services" class="mob-a">Services</a>
-  <a href="#process" class="mob-a">Process</a>
   <a href="fee.html" class="mob-a">Fee</a>
-  <a href="#resources" class="mob-a">Resources</a>
+  <div class="mob-resources">
+    <div class="mob-res-label">Resources</div>
+    <div class="mob-res-links">
+      <a href="resource-retirement.html" class="mob-res-link">Retirement</a>
+      <a href="resource-investment.html" class="mob-res-link">Investment</a>
+      <a href="resource-estate.html" class="mob-res-link">Estate</a>
+      <a href="resource-tax.html" class="mob-res-link">Tax</a>
+      <a href="resource-insurance.html" class="mob-res-link">Insurance</a>
+      <a href="resource-money.html" class="mob-res-link">Money &amp; Lifestyle</a>
+    </div>
+  </div>
   <a href="contact.html" class="mob-a">Contact</a>
 </nav>
 
 <!-- NAV -->
-<header id="nav">
-  <div class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></div>
+<nav id="nav" aria-label="Main">
+  <a href="index.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
   <ul class="nav-links">
+    <li><a href="index.html" class="active" aria-current="page">Home</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#process">Process</a></li>
     <li><a href="fee.html">Fee</a></li>
-    <li class="nav-dd">
-      <a href="#resources">Resources <span class="dd-arrow">▾</span></a>
-      <div class="nav-mega">
-        <div class="nav-mega-inner">
-        <div class="mega-label">Resources</div>
-        <div class="mega-grid">
-          <a href="resource-retirement.html" class="mega-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 5v5l3 3"/></svg>
-            Retirement Planning
-          </a>
-          <a href="resource-estate.html" class="mega-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-            Estate &amp; Legacy
-          </a>
-          <a href="resource-investment.html" class="mega-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-            Investment Strategy
-          </a>
-          <a href="resource-tax.html" class="mega-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-            Tax Strategy
-          </a>
-          <a href="resource-insurance.html" class="mega-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Insurance &amp; Risk
-          </a>
-          <a href="resource-money.html" class="mega-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            Money &amp; Lifestyle
-          </a>
-        </div>
-        </div>
+    <li class="nav-drop">
+      <button type="button" class="nav-drop-trigger" aria-expanded="false" aria-controls="nav-resources">
+        Resources
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
+      </button>
+      <div class="nav-drop-panel" id="nav-resources">
+        <a href="resource-retirement.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement</a>
+        <a href="resource-investment.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment</a>
+        <a href="resource-estate.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning</a>
+        <a href="resource-tax.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy</a>
+        <a href="resource-insurance.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance</a>
+        <div class="nav-drop-divider" aria-hidden="true"></div>
+        <a href="resource-money.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle</a>
       </div>
     </li>
   </ul>
   <a href="contact.html" class="nav-btn"><span>Book a Consultation</span></a>
-  <div class="hbg" id="hbg" role="button" tabindex="0" aria-label="Open menu">
-    <i></i><i></i><i></i>
-  </div>
-</header>
+  <button type="button" class="hbg" id="hbg" aria-label="Open menu" aria-controls="mob" aria-expanded="false"><i></i><i></i><i></i></button>
+</nav>
 
 <!-- ═══════════ HERO ═══════════ -->
 <section id="hero">
@@ -1936,7 +1818,7 @@ html{scroll-behavior:smooth}
     <div class="ct-dets rv">
       <div class="ct-d"><div class="ct-dl">Email</div><div class="ct-dv"><a href="mailto:Matthew.Pindoley@osaicwealth.com">Matthew.Pindoley@osaicwealth.com</a></div></div>
 		<div class="ct-d"><div class="ct-dl">Phone</div><div class="ct-dv"><a href="tel:+14198871002">(419) 887-1002</a></div></div>
-      <div class="ct-d"><div class="ct-dl">Registered In</div><div class="ct-dv">OH · FL · MI · IL · PA · TX · SC · NV</div></div>
+      <div class="ct-d"><div class="ct-dl">Availability</div><div class="ct-dv">Nationwide</div><div class="ct-reg">Currently registered in OH · FL · MI · IL · PA · TX · SC · NV</div></div>
     </div>
   </div>
 </section>
@@ -1983,7 +1865,7 @@ html{scroll-behavior:smooth}
       &nbsp;&bull;&nbsp;
       <a href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer">FINRA BrokerCheck</a>
       &nbsp;&bull;&nbsp;
-      <a href="https://www.osaic.com/FormCRS" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
+      <a href="https://osaic.com/disclosures" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
       <br style="margin-bottom:.35rem">
       This communication is strictly intended for individuals residing in the states of OH, FL, MI, IL, PA, TX, SC, NV. No offers may be made or accepted from any resident outside the specific state(s) referenced.
     </div>
@@ -2114,17 +1996,6 @@ if(prefersReduced||alreadyVisited){
   draw();
 })();
 
-/* ── NAV ────────────────────────────────────────── */
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('stk',scrollY>60),{passive:true});
-
-/* ── MOBILE NAV ─────────────────────────────────── */
-const mob=document.getElementById('mob'),hbg=document.getElementById('hbg'),mobX=document.getElementById('mob-x');
-hbg.addEventListener('click',()=>mob.classList.add('open'));
-hbg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();mob.classList.add('open');}});
-mobX.addEventListener('click',()=>mob.classList.remove('open'));
-document.querySelectorAll('.mob-a').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
-
 /* ── REVEAL ─────────────────────────────────────── */
 const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');io.unobserve(x.target)}})},{threshold:.09,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>io.observe(el));
@@ -2157,7 +2028,7 @@ if(!prefersReduced){
 
 /* ── MAGNETIC BUTTONS ───────────────────────────── */
 if(!prefersReduced){
-  document.querySelectorAll('.mag,.nav-btn').forEach(btn=>{
+  document.querySelectorAll('.mag').forEach(btn=>{
     btn.addEventListener('mousemove',e=>{
       const r=btn.getBoundingClientRect();
       const x=(e.clientX-r.left-r.width/2)*.25;
@@ -2391,6 +2262,7 @@ if (lpSection) lpObserver.observe(lpSection);
 })();
 </script>
 
+<script src="assets/nav.js" defer></script>
 <script src="assets/enhance.js" defer></script>
 </body>
 </html>
