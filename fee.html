@@ -1064,7 +1064,7 @@ footer{
       </div>
     </li>
   </ul>
-  <a href="contact.html" class="nav-btn"><span>Book a Consultation</span></a>
+  <a href="contact.html" class="nav-btn"><span>Request a Consultation</span></a>
   <button type="button" class="hbg" id="hbg" aria-label="Open menu" aria-controls="mob" aria-expanded="false"><i></i><i></i><i></i></button>
 </nav>
 
@@ -1404,7 +1404,7 @@ footer{
     <p class="cta-p">The first conversation is complimentary — no commitment, just clarity on where you are and where you want to go.</p>
     <div class="cta-btns">
       <a href="contact.html" class="btn btn-dk">
-        Book a Consultation
+        Request a Consultation
         <svg viewBox="0 0 20 20" fill="none" width="14" height="14" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg>
       </a>
       <a href="index.html" class="btn btn-ol">Back to Home</a>
@@ -1881,7 +1881,8 @@ document.getElementById('aum-slider').addEventListener('input',function(){update
     if(!isNaN(n)&&n>0) inp.value=Math.round(n).toLocaleString('en-US');
   });
 }());
-updateCalc();
+/* open on a worked example rather than a row of dashes */
+(function(){const ex=1000000;const inp=document.getElementById('aum-input');document.getElementById('aum-slider').value=aumToSlider(ex);if(inp)inp.value=ex.toLocaleString('en-US');updateCalc(ex);})();
 
 /* ─── REVEAL OBSERVER ───────────────────────── */
 const io=new IntersectionObserver(es=>{

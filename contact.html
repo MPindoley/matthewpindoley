@@ -383,6 +383,23 @@ footer{
   --mob-bg:var(--cream2);--mob-text:var(--ink);--mob-accent:#85601e;
   --mob-muted:rgba(12,11,9,.62);--mob-border:var(--border2);--mob-border2:rgba(154,124,82,.55);
 }
+/* ── PORTRAIT AND NEXT STEPS ─────────────────────────────────
+   Beside the headline at every size (measured: 150px+ free there).
+   The steps set the expectation of an email-first process. ── */
+.ct-portrait{position:absolute;top:3.9rem;right:0;z-index:1;margin:0;width:clamp(96px,11vw,190px);
+  opacity:0;animation:fadeUp .9s var(--e1) 1.2s forwards}
+.ct-portrait img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;
+  outline:1px solid rgba(154,124,82,.32);outline-offset:6px}
+.ct-portrait figcaption{margin-top:1rem;font:600 .58rem/1.7 var(--fb);letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(12,11,9,.62)}
+.ct-next{margin-top:2.6rem;max-width:34rem;opacity:0;animation:fadeUp .8s var(--e1) 1.8s forwards}
+.ct-next-ey{margin:0 0 1.15rem;font:600 .62rem/1 var(--fb);letter-spacing:.2em;text-transform:uppercase;color:#85601e}
+.ct-steps{list-style:none;margin:0;padding:0;display:grid;gap:1rem}
+.ct-steps li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.8rem;align-items:baseline}
+.ct-step-n{font-family:var(--ff);font-size:1.45rem;font-weight:300;line-height:1;color:var(--bronze)}
+.ct-steps strong{display:block;margin-bottom:.15rem;font-family:var(--ff);font-weight:400;font-size:1.22rem;line-height:1.25;color:var(--ink)}
+.ct-steps p{margin:0;font-size:.9rem;line-height:1.6;color:rgba(12,11,9,.68)}
+@media(max-width:480px){.ct-portrait figcaption{font-size:.52rem;letter-spacing:.12em}}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
@@ -426,7 +443,7 @@ footer{
       </div>
     </li>
   </ul>
-  <a href="#contact-form" class="nav-btn"><span>Book a Consultation</span></a>
+  <a href="#contact-form" class="nav-btn"><span>Request a Consultation</span></a>
   <button type="button" class="hbg" id="hbg" aria-label="Open menu" aria-controls="mob" aria-expanded="false"><i></i><i></i><i></i></button>
 </nav>
 
@@ -464,6 +481,10 @@ footer{
         <span class="row"><span class="word">begin</span></span>
         <span class="row"><span class="word"><em>together.</em></span></span>
       </h1>
+      <figure class="ct-portrait">
+        <picture><source type="image/webp" srcset="assets/img/matthew-pindoley-portrait-tall.webp"><img src="assets/img/matthew-pindoley-portrait-tall.jpg" alt="Matthew Pindoley" width="600" height="800" decoding="async"></picture>
+        <figcaption>Matthew Pindoley<br>Toledo, Ohio</figcaption>
+      </figure>
       <p class="subline">
         Every extraordinary financial life starts with
         <strong>a single conversation.</strong>
@@ -472,6 +493,14 @@ footer{
         where you want to go, and whether I'm the right
         person to help you get there.
       </p>
+      <div class="ct-next">
+        <p class="ct-next-ey">What happens after you write</p>
+        <ol class="ct-steps">
+          <li><span class="ct-step-n" aria-hidden="true">1</span><div><strong>You send a short note</strong><p>A few lines about where you are and what you'd like to accomplish.</p></div></li>
+          <li><span class="ct-step-n" aria-hidden="true">2</span><div><strong>I reply personally</strong><p>I read every message myself and reach out to learn a little more.</p></div></li>
+          <li><span class="ct-step-n" aria-hidden="true">3</span><div><strong>We meet, if it's a fit</strong><p>A complimentary first conversation at a time that suits you.</p></div></li>
+        </ol>
+      </div>
     </div>
 
     <div class="left-bottom">

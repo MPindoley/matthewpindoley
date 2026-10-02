@@ -219,3 +219,46 @@ footer .ft-di a{color:#c8a46a}
 /* The copyright line was set never to wrap: on phones narrower than ~380px it
    pushed the fee page sideways and was cut off at the screen edge elsewhere. */
 @media(max-width:480px){footer .ft-cp{white-space:normal}}
+
+/* ============================================================
+   "TALK WITH MATTHEW" SIGN-OFF — closing panel of each guide
+   A portrait, one line and a name. Each page sets the colours
+   (--so-*) next to its NAV THEME block; defaults suit dark panels.
+   ============================================================ */
+:where(:root){
+  --so-title:#f2ece0; --so-text:rgba(242,236,224,.74); --so-name:#c8a46a;
+  --so-ring:rgba(200,164,106,.45); --so-rule:rgba(200,164,106,.2);
+}
+.signoff{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.4rem;align-items:center;
+  max-width:34rem;position:relative;z-index:1}
+.signoff img{display:block;width:92px;height:92px;border-radius:50%;object-fit:cover;
+  border:1px solid var(--so-ring);padding:3px;background:transparent}
+.signoff-q{margin:0 0 .45rem;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;
+  font-size:1.55rem;line-height:1.18;letter-spacing:-.005em;color:var(--so-title);text-wrap:balance}
+.signoff-p{margin:0;font-family:'DM Sans',system-ui,sans-serif;font-size:.95rem;line-height:1.7;
+  font-weight:400;color:var(--so-text)}
+.signoff-name{margin:.65rem 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;
+  font-size:1.08rem;color:var(--so-name)}
+/* inside the bordered contact panels: a hairline separates it from the details */
+.signoff--panel{padding-bottom:2.4rem;margin-bottom:2.6rem;border-bottom:1px solid var(--so-rule)}
+/* centred closing sections (tax, money): sits above the details row */
+.signoff--center{margin:5rem auto 0;text-align:left}
+@media(max-width:480px){
+  .signoff{grid-template-columns:1fr;gap:1rem}
+  .signoff img{width:80px;height:80px}
+  .signoff-q{font-size:1.4rem}
+}
+.signoff--center + .cta-details{margin-top:3.5rem}
+@media(max-width:480px){
+  /* centred closing sections stay centred on phones */
+  .signoff--center{justify-items:center;text-align:center}
+  /* the bordered contact panels kept 4rem of padding on phones, which squeezed
+     their content and clipped the email address at the panel edge */
+  #cta .cta-right{padding:2.4rem 1.5rem}
+  #cta .cta-dv a[href^="mailto:"]{font-size:1.12rem;overflow-wrap:anywhere}
+}
+
+/* Film grain: the texture stays, but it no longer jumps position 12 times a
+   second. At 2–3% opacity the shimmer was barely visible, yet it made the
+   browser restyle a full-screen layer on every frame. */
+#grain{animation:none !important}

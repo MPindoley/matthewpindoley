@@ -500,6 +500,13 @@ footer{
   --mob-bg:var(--ink2);--mob-text:var(--paper);--mob-accent:var(--gold);
   --mob-muted:rgba(242,236,224,.66);--mob-border:var(--border2);--mob-border2:rgba(200,164,106,.5);
 }
+/* ── SIGN-OFF colours ("Talk with Matthew", see assets/enhance.css) ── */
+:root{--so-title:var(--paper);--so-text:rgba(242,236,224,.74);--so-name:var(--gold);--so-ring:rgba(200,164,106,.45);--so-rule:var(--border)}
+.cta-bignum{display:none}
+/* on tablets and phones the details column is hidden; keep just the sign-off */
+@media(max-width:1100px){.cta-r{display:flex;padding:0 2.5rem 6rem}.cta-r .cta-dets{display:none}.cta-r .signoff--panel{border-bottom:0;padding-bottom:0;margin-bottom:0}}
+@media(max-width:768px){.cta-r{padding:0 1.5rem 5rem}}
+@media(max-width:480px){.cta-r{padding:0 1.25rem 4rem}}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
@@ -533,7 +540,7 @@ footer{
       </div>
     </li>
   </ul>
-  <a href="contact.html" class="nav-btn"><span>Book a Consultation</span></a>
+  <a href="contact.html" class="nav-btn"><span>Request a Consultation</span></a>
   <button type="button" class="hbg" id="hbg" aria-label="Open menu" aria-controls="mob" aria-expanded="false"><i></i><i></i><i></i></button>
 </nav>
 
@@ -576,7 +583,7 @@ footer{
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10"/></svg>
         Calculator
       </a>
-      <a href="contact.html" class="btn-p btn-ghost-p">Schedule Review</a>
+      <a href="contact.html" class="btn-p btn-ghost-p">Request a Consultation</a>
     </div>
   </div>
   <div class="hr">
@@ -589,7 +596,7 @@ footer{
           <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10"/></svg>
           Calculator
         </a>
-        <a href="contact.html" class="btn-p btn-ghost-p mag">Schedule Review</a>
+        <a href="contact.html" class="btn-p btn-ghost-p mag">Request a Consultation</a>
       </div>
     </div>
   </div>
@@ -765,11 +772,19 @@ footer{
     <h2 class="cta-h">Your plan<br>starts<br><em>here.</em></h2>
     <p class="cta-p">Every client's retirement is unique. A complimentary 30-minute discovery call is the first step toward a plan built specifically around your goals, timeline, and values.</p>
     <div class="cta-acts">
-      <a href="contact.html" class="btn-p btn-gold-p mag">Schedule a Review</a>
+      <a href="contact.html" class="btn-p btn-gold-p mag">Request a Consultation</a>
       <a href="index.html#resources" class="btn-p btn-ghost-lt mag">All Resources</a>
     </div>
   </div>
   <div class="cta-r">
+    <div class="signoff signoff--panel">
+      <picture><source type="image/webp" srcset="assets/img/matthew-pindoley-portrait-square.webp"><img src="assets/img/matthew-pindoley-portrait-square.jpg" alt="Matthew Pindoley" width="320" height="320" loading="lazy" decoding="async"></picture>
+      <div>
+        <p class="signoff-q">Questions about your retirement income?</p>
+        <p class="signoff-p">Send me a short note about where you are. I read every message myself and will reach out to set up a conversation.</p>
+        <p class="signoff-name">Matthew Pindoley, SE-AWMA®</p>
+      </div>
+    </div>
     <div class="cta-bignum">✦</div>
     <div class="cta-dets rv-r">
       <div><div class="cta-dl">Phone</div><div class="cta-dv"><a href="tel:+14198871002">(419) 887-1002</a></div></div>
@@ -891,7 +906,7 @@ function runCalc(){
       <div class="o-stitle">${ok?'On Track':'Shortfall Detected'}</div>
       <div class="o-smsg">${ok?'Projected surplus of $'+fmt(-gap)+'/mo. Your trajectory supports your income goal.':'Projected gap of $'+fmt(gap)+'/mo. Consider increasing contributions or adjusting your timeline.'}</div>
     </div>
-    <div class="o-disc">Hypothetical illustration, not a prediction or guarantee of future results. It compounds at the return you choose and does not include inflation, Social Security, taxes, or fees. <a href="contact.html" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px">Schedule a full analysis →</a></div>`;
+    <div class="o-disc">Hypothetical illustration, not a prediction or guarantee of future results. It compounds at the return you choose and does not include inflation, Social Security, taxes, or fees. <a href="contact.html" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px">Request a full analysis →</a></div>`;
 }
 runCalc();
 
