@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Money &amp; Lifestyle — Matthew Pindoley, SE-AWMA®</title>
+  <title>Money &amp; Lifestyle — Matthew Pindoley, SE-AWMA® | Toledo, Ohio</title>
+  <meta name="description" content="Money and lifestyle planning: intentional spending, major purchases, and generosity, with emergency fund, savings rate, and lifestyle cost tools.">
+  <link rel="canonical" href="https://matthewpindoley.com/resource-money.html">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://matthewpindoley.com/resource-money.html">
+  <meta property="og:site_name" content="Matthew Pindoley — SE-AWMA®">
+  <meta property="og:title" content="Money &amp; Lifestyle — Matthew Pindoley, SE-AWMA® | Toledo, Ohio">
+  <meta property="og:description" content="Money and lifestyle planning: intentional spending, major purchases, and generosity, with emergency fund, savings rate, and lifestyle cost tools.">
+  <meta property="og:image" content="https://res.cloudinary.com/dfabtxqiy/image/upload/q_auto:good,w_1200/v1772661877/headshot_ztmhku.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
@@ -48,91 +58,8 @@ body.hov #cur-r{width:62px;height:62px;border-color:var(--gold)}
 body.pressing #cur{width:20px;height:20px}
 
 /* ─── NAV ─────────────────────────────────────────── */
-#nav{position:fixed;top:0;left:0;right:0;z-index:800;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:2rem 5rem;
-  transition:padding .45s var(--e2),background .4s,border-color .4s;
-  border-bottom:1px solid transparent;
-  background:rgba(12,11,9,.55);backdrop-filter:blur(16px)}
-#nav.stk{padding:1rem 5rem;background:rgba(12,11,9,.92);
-  border-bottom-color:rgba(154,124,82,.12)}
-.nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;
-  letter-spacing:.06em;line-height:1.3;color:var(--cream)}
-.nav-logo b{color:var(--bronze2);font-weight:400;font-style:italic}
-.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
-.nav-links a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
-  font-weight:500;color:rgba(250,248,244,.38);position:relative;transition:color .25s}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;
-  width:0;height:1px;background:var(--bronze);transition:width .38s var(--e1)}
-.nav-links a:hover,.nav-links a.active{color:var(--cream)}
-.nav-links a:hover::after,.nav-links a.active::after{width:100%}
-.nav-drop{position:relative}
-.nav-drop-trigger{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
-  font-weight:500;color:rgba(250,248,244,.38);position:relative;
-  display:inline-flex;align-items:center;gap:.45rem;
-  cursor:none;background:none;border:none;padding:0;
-  font-family:var(--fb);transition:color .25s}
-.nav-drop-trigger::after{content:'';position:absolute;bottom:-4px;left:0;
-  width:0;height:1px;background:var(--bronze);transition:width .38s var(--e1)}
-.nav-drop.open .nav-drop-trigger,.nav-drop-trigger.active{color:var(--cream)}
-.nav-drop.open .nav-drop-trigger::after,.nav-drop-trigger.active::after{width:calc(100% - 1.1rem)}
-.nav-drop-trigger svg{transition:transform .3s var(--e1);flex-shrink:0;opacity:.5}
-.nav-drop.open .nav-drop-trigger svg{transform:rotate(180deg);opacity:1}
-.nav-drop-panel{position:absolute;top:calc(100% + 14px);left:50%;
-  transform:translateX(-50%) translateY(-6px);
-  background:var(--ink2);border:1px solid rgba(154,124,82,.14);
-  min-width:220px;padding:.6rem 0;
-  box-shadow:0 24px 60px rgba(12,11,9,.35),0 4px 12px rgba(12,11,9,.2);
-  opacity:0;pointer-events:none;
-  transition:opacity .25s var(--e1),transform .25s var(--e1)}
-.nav-drop-panel::after{content:'';position:absolute;top:-20px;left:0;right:0;height:20px}
-.nav-drop.open .nav-drop-panel{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
-.nav-drop-panel::before{content:'';position:absolute;top:-5px;left:50%;
-  transform:translateX(-50%) rotate(45deg);
-  width:9px;height:9px;background:var(--ink2);
-  border-left:1px solid rgba(154,124,82,.14);border-top:1px solid rgba(154,124,82,.14)}
-.nav-drop-item{display:flex;align-items:center;gap:.75rem;
-  padding:.72rem 1.4rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
-  font-weight:600;color:rgba(250,248,244,.35);cursor:none;
-  transition:color .2s,background .2s;white-space:nowrap}
-.nav-drop-item:hover{color:var(--cream);background:rgba(154,124,82,.07)}
-.nav-drop-item.current{color:var(--bronze2)}
-.nav-drop-item svg{width:14px;height:14px;flex-shrink:0;opacity:.4;transition:opacity .2s}
-.nav-drop-item:hover svg,.nav-drop-item.current svg{opacity:1}
-.nav-drop-divider{height:1px;background:rgba(154,124,82,.1);margin:.4rem 0}
-.nav-btn{display:inline-flex;align-items:center;
-  padding:.6rem 1.5rem;border:1px solid rgba(154,124,82,.3);border-radius:9999px;
-  font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;
-  font-weight:600;color:var(--bronze2);position:relative;overflow:hidden;
-  transition:color .3s,border-color .3s}
-.nav-btn::before{content:'';position:absolute;inset:0;background:var(--bronze);
-  transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
-.nav-btn:hover::before{transform:scaleX(1)}
-.nav-btn:hover{color:var(--ink);border-color:var(--bronze)}
-.nav-btn span{position:relative;z-index:1}
-.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:7px 9px;border-radius:6px;background:rgba(12,11,9,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(196,163,90,.25)}
-.hbg i{display:block;width:22px;height:2px;background:var(--gold);border-radius:2px;transition:all .3s}
 
 /* MOBILE DRAWER */
-#mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;
-  clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .75s var(--e1)}
-#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
-#mob a{font-family:var(--ff);font-size:clamp(2.5rem,9vw,5.5rem);font-weight:300;
-  color:var(--cream);letter-spacing:-.02em;transition:color .2s}
-#mob a:hover{color:var(--bronze2)}
-#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
-  cursor:none;font-family:var(--ff);font-size:1.8rem;color:var(--muted);transition:color .2s}
-#mob-x:hover{color:var(--cream)}
-.mob-resources{display:flex;flex-direction:column;gap:0;width:100%;align-items:center}
-.mob-res-label{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--bronze);font-weight:600;margin-bottom:1rem}
-.mob-res-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem}
-.mob-res-link{font-family:var(--fb);font-size:.65rem;letter-spacing:.14em;
-  text-transform:uppercase;font-weight:600;color:var(--muted);
-  padding:.45rem 1rem;border:1px solid var(--border);
-  transition:color .2s,border-color .2s}
-.mob-res-link:hover,.mob-res-link.current{color:var(--bronze);border-color:var(--border2)}
 
 /* ═══════════════════════════════════════════════════
    HERO — editorial lifestyle, full-height cinematic
@@ -598,8 +525,7 @@ body.pressing #cur{width:20px;height:20px}
 
 /* ─── RESPONSIVE ──────────────────────────────────── */
 @media(max-width:1100px){
-  #nav,#nav.stk{padding-left:2.5rem;padding-right:2.5rem}
-  #hero{grid-template-columns:1fr}
+    #hero{grid-template-columns:1fr}
   .hero-right{padding:5rem 2.5rem}
   .hero-left{padding:10rem 2.5rem 5rem}
   .phil-intro,.princ-row,#feature{grid-template-columns:1fr}
@@ -624,8 +550,7 @@ body.pressing #cur{width:20px;height:20px}
   .cta-details{gap:2.5rem}
 }
 @media(max-width:768px){
-  .nav-links,.nav-btn{display:none}.hbg{display:flex}
-  .hero-left{padding:5rem 1.5rem 5rem}
+    .hero-left{padding:5rem 1.5rem 5rem}
   .hero-right{padding:4rem 1.5rem 5rem;display:none}
   .hero-h{font-size:clamp(5.5rem,13vw,9rem)}
   .hero-left-mob-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:3rem}
@@ -646,8 +571,7 @@ body.pressing #cur{width:20px;height:20px}
   .cta-details{flex-direction:column;gap:1.5rem}
 }
 @media(max-width:480px){
-  #nav,#nav.stk{padding-left:1.25rem;padding-right:1.25rem}
-  .hero-left{padding:5rem 1.25rem 4rem}
+    .hero-left{padding:5rem 1.25rem 4rem}
   .hero-h{font-size:clamp(5rem,15vw,7rem)}
   .phil-intro-left,.phil-intro-right,.princ-cell,.feat-left,.feat-right{padding-left:1.25rem;padding-right:1.25rem}
   .pillars-head,.pillar-card,.habit-item,.habits-head{padding-left:1.25rem;padding-right:1.25rem}
@@ -750,9 +674,41 @@ footer{
   #disc-pill{bottom:1.4rem;right:1.2rem;font-size:.54rem;padding:.4rem .9rem}
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
+
+/* ── READABILITY ─────────────────────────────────────────────
+   Body copy: larger, steadier weight on small text, and contrast
+   near 7:1 (was ~3:1). Headlines and ornaments are unchanged. ── */
+.hero-tagline{font-size:1rem;color:rgba(250,248,244,.78)}
+.hero-right-note{font-size:.9rem;font-weight:400;color:rgba(12,11,9,.7)}
+.hero-footnote{font-size:.74rem;color:rgba(12,11,9,.62)}
+.phil-body,.pillars-sub{font-size:1rem;color:rgba(12,11,9,.72)}
+.pillar-body,.princ-cell-body{font-size:.95rem;font-weight:400;color:rgba(12,11,9,.72)}
+.princ-row.dark .princ-cell-body{color:rgba(250,248,244,.8)}
+.cta-p{font-size:1rem;color:rgba(250,248,244,.8)}
+/* small gold labels on cream were ~2:1; a deeper bronze keeps the tone at ~5:1 */
+.hero-right-label,.phil-ey,.pillars-ey,.princ-ey,.princ-cell-label{color:#85601e}
+.phil-ey::before,.pillars-ey::before,.princ-ey::before{background:#85601e}
+/* ── NAV THEME — colours for the shared navigation (assets/nav.css) ── */
+:root{
+  --nav-top-bg:rgba(12,11,9,.92);--nav-top-blur:blur(16px);
+  --nav-stuck-bg:rgba(12,11,9,.92);--nav-stuck-border:rgba(154,124,82,.14);
+  --nav-logo:var(--cream);--nav-mark:var(--bronze2);
+  --nav-link:rgba(250,248,244,.66);--nav-link-hover:var(--cream);
+  --nav-line:var(--bronze);--nav-current:var(--bronze2);
+  --nav-btn-border:rgba(154,124,82,.4);--nav-btn-text:var(--bronze2);--nav-btn-fill:var(--bronze);--nav-btn-fill-text:var(--ink);
+  --nav-panel-bg:var(--ink2);--nav-panel-border:rgba(154,124,82,.18);--nav-panel-text:rgba(250,248,244,.7);
+  --nav-panel-hover:var(--cream);--nav-panel-hover-bg:rgba(154,124,82,.08);--nav-panel-divider:rgba(154,124,82,.12);
+  --nav-panel-shadow:0 24px 60px rgba(12,11,9,.35),0 4px 12px rgba(12,11,9,.2);
+  --nav-hbg-line:var(--gold);--nav-hbg-bg:rgba(12,11,9,.55);--nav-hbg-border:rgba(154,124,82,.25);
+  --mob-bg:var(--ink2);--mob-text:var(--cream);--mob-accent:var(--bronze2);
+  --mob-muted:rgba(250,248,244,.66);--mob-border:var(--border2);--mob-border2:rgba(154,124,82,.55);
+}
+/* ── SIGN-OFF colours ("Talk with Matthew", see assets/enhance.css) ── */
+:root{--so-title:var(--cream);--so-text:rgba(250,248,244,.82);--so-name:var(--gold2);--so-ring:rgba(212,184,122,.5);--so-rule:rgba(250,248,244,.15)}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
+  <link rel="stylesheet" href="assets/nav.css"/>
 </head>
 <body>
 <div id="grain"></div>
@@ -760,46 +716,41 @@ footer{
 <div id="cur-r"></div>
 
 <!-- ─── NAV ───────────────────────────────────────── -->
-<nav id="nav">
+<nav id="nav" aria-label="Main">
   <a href="index.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="fee.html">Fee</a></li>
     <li class="nav-drop">
-      <button class="nav-drop-trigger active" aria-haspopup="true" aria-expanded="false">
+      <button type="button" class="nav-drop-trigger active" aria-expanded="false" aria-controls="nav-resources">
         Resources
-        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M2 4l4 4 4-4"/></svg>
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
       </button>
-      <div class="nav-drop-panel" role="menu">
-        <a href="resource-retirement.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement
-        </a>
-        <a href="resource-investment.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment
-        </a>
-        <a href="resource-estate.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning
-        </a>
-        <a href="resource-tax.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy
-        </a>
-        <a href="resource-insurance.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance
-        </a>
-        <div class="nav-drop-divider"></div>
-        <a href="resource-money.html" class="nav-drop-item current" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle
-        </a>
+      <div class="nav-drop-panel" id="nav-resources">
+        <a href="resource-retirement.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement</a>
+        <a href="resource-investment.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment</a>
+        <a href="resource-estate.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning</a>
+        <a href="resource-tax.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy</a>
+        <a href="resource-insurance.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance</a>
+        <div class="nav-drop-divider" aria-hidden="true"></div>
+        <a href="resource-money.html" class="nav-drop-item current" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle</a>
       </div>
     </li>
   </ul>
-  <a href="contact.html" class="nav-btn"><span>Begin Your Plan</span></a>
-  <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
+  <div class="nav-right">
+    <a href="https://app.osaic.com/equipt/" class="nav-login" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Client Login<span class="sr-only"> (opens Osaic’s secure site in a new tab)</span></a>
+    <a href="contact.html" class="nav-btn"><span>Request a Consultation</span></a>
+  </div>
+  <button type="button" class="hbg" id="hbg" aria-label="Open menu" aria-controls="mob" aria-expanded="false"><i></i><i></i><i></i></button>
 </nav>
 
 <!-- MOBILE DRAWER -->
-<div id="mob">
-  <button id="mob-x">✕</button>
-  <a href="index.html">Home</a>
+<nav id="mob" aria-label="Menu">
+  <button type="button" id="mob-x" aria-label="Close menu">✕</button>
+  <a href="index.html" class="mob-a">Home</a>
+  <a href="index.html#about" class="mob-a">About</a>
+  <a href="fee.html" class="mob-a">Fee</a>
   <div class="mob-resources">
     <div class="mob-res-label">Resources</div>
     <div class="mob-res-links">
@@ -808,11 +759,12 @@ footer{
       <a href="resource-estate.html" class="mob-res-link">Estate</a>
       <a href="resource-tax.html" class="mob-res-link">Tax</a>
       <a href="resource-insurance.html" class="mob-res-link">Insurance</a>
-      <a href="resource-money.html" class="mob-res-link current">Money &amp; Lifestyle</a>
+      <a href="resource-money.html" class="mob-res-link current" aria-current="page">Money &amp; Lifestyle</a>
     </div>
   </div>
-  <a href="contact.html">Contact</a>
-</div>
+  <a href="contact.html" class="mob-a">Contact</a>
+  <a href="https://app.osaic.com/equipt/" class="mob-login" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Client Login<span class="sr-only"> (opens Osaic’s secure site in a new tab)</span></a>
+</nav>
 
 <!-- ─── SIDEBAR TRIGGER ──────────────────────────── -->
 <button id="sb-trigger" class="nudge" aria-label="Open resources panel">
@@ -873,7 +825,7 @@ footer{
     <!-- CHECKLIST PANE -->
     <div class="sb-pane" id="pane-checklist">
       <div class="sb-ck-prog">
-        <div class="sb-ck-prog-label"><span>Lifestyle Alignment</span><span id="ck-pct">0 / 16</span></div>
+        <div class="sb-ck-prog-label"><span>Lifestyle Alignment</span><span id="ck-pct">0 / 15</span></div>
         <div class="sb-ck-prog-bar"><div class="sb-ck-prog-fill" id="ck-fill"></div></div>
       </div>
       <div class="sb-ck-section">
@@ -893,7 +845,7 @@ footer{
       <div class="sb-ck-section">
         <div class="sb-ck-title">Giving &amp; Generosity</div>
         <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Annual giving budget</strong> established and reflected in cash flow plan</div></div>
-        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Family gifting strategy reviewed — $18,000 annual exclusion utilized</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Family gifting strategy reviewed — $19,000 annual exclusion utilized</div></div>
         <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Donor-advised fund considered for bunching charitable deductions</div></div>
       </div>
       <div class="sb-ck-section">
@@ -998,7 +950,7 @@ footer{
     <p class="hero-tagline">Wealth isn't just a number — it's the freedom to design a life that <strong>actually fits you.</strong> We help you spend with intention, give generously, and build a plan that honors both your goals and your values.</p>
     <!-- buttons visible only on mobile — desktop version is in .hero-right -->
     <div class="hero-left-mob-actions">
-      <a href="contact.html" class="btn-p btn-solid">Design Your Lifestyle Plan</a>
+      <a href="contact.html" class="btn-p btn-solid">Request a Consultation</a>
       <button class="btn-p btn-ghost-p" onclick="openSidebar('tools')">Open Calculators</button>
     </div>
   </div>
@@ -1013,7 +965,7 @@ footer{
     </div>
     <div class="hero-right-bottom">
       <div class="hero-actions">
-        <a href="contact.html" class="btn-p btn-solid">Design Your Lifestyle Plan</a>
+        <a href="contact.html" class="btn-p btn-solid">Request a Consultation</a>
         <button class="btn-p btn-ghost-p" onclick="openSidebar('tools')">Open Calculators</button>
       </div>
       <p class="hero-footnote">Your lifestyle plan is reviewed at every major life event — career change, home purchase, inheritance, or family transition.</p>
@@ -1185,9 +1137,17 @@ footer{
   <h2 class="cta-h rv">Let's design<br>your <em>best</em><br>life together.</h2>
   <p class="cta-p rv d1">This is the conversation most advisors skip. We don't. <strong>Your life is the plan</strong> — everything else is just the mechanism to fund it. Let's talk about what that looks like for you.</p>
   <div class="cta-acts rv d2">
-    <a href="contact.html" class="btn-cta-primary">Schedule a Conversation</a>
+    <a href="contact.html" class="btn-cta-primary">Request a Consultation</a>
     <a href="index.html#resources" class="btn-cta-ghost">Browse All Resources</a>
   </div>
+    <div class="signoff signoff--center rv d2">
+      <picture><source type="image/webp" srcset="assets/img/matthew-pindoley-portrait-square.webp"><img src="assets/img/matthew-pindoley-portrait-square.jpg" alt="Matthew Pindoley" width="320" height="320" loading="lazy" decoding="async"></picture>
+      <div>
+        <p class="signoff-q">Want your money working for the life you want?</p>
+        <p class="signoff-p">Send me a short note. I read every message myself and will reach out to set up a conversation.</p>
+        <p class="signoff-name">Matthew Pindoley, SE-AWMA®</p>
+      </div>
+    </div>
   <div class="cta-details rv d3">
     <div class="cta-det-item">
       <div class="cta-dl">Phone</div>
@@ -1246,7 +1206,7 @@ footer{
       &nbsp;&bull;&nbsp;
       <a href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer">FINRA BrokerCheck</a>
       &nbsp;&bull;&nbsp;
-      <a href="https://www.osaic.com/FormCRS" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
+      <a href="https://osaic.com/disclosures" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
     </div>
   </div>
 </footer>
@@ -1263,20 +1223,6 @@ document.querySelectorAll('a,button,[onclick]').forEach(el=>{
 });
 document.addEventListener('mousedown',()=>document.body.classList.add('pressing'));
 document.addEventListener('mouseup',()=>document.body.classList.remove('pressing'));
-
-/* ─── NAV ────────────────────────────────────────── */
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('stk',scrollY>60));
-const drop=document.querySelector('.nav-drop');
-const trigger=drop.querySelector('.nav-drop-trigger');
-trigger.addEventListener('click',e=>{e.stopPropagation();const o=drop.classList.toggle('open');trigger.setAttribute('aria-expanded',o)});
-document.addEventListener('click',()=>{drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')});
-drop.querySelector('.nav-drop-panel').addEventListener('click',e=>e.stopPropagation());
-
-/* ─── MOBILE ─────────────────────────────────────── */
-const mob=document.getElementById('mob');
-document.getElementById('hbg').addEventListener('click',()=>mob.classList.add('open'));
-document.getElementById('mob-x').addEventListener('click',()=>mob.classList.remove('open'));
 
 /* ─── HERO WORDS ─────────────────────────────────── */
 setTimeout(()=>document.querySelectorAll('.hero-h .wd').forEach((el,i)=>{
@@ -1412,6 +1358,7 @@ function runSavingsRate(){
   <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 2L12.5 7.5H18L13.5 11L15.5 17L10 13.5L4.5 17L6.5 11L2 7.5H7.5Z"/></svg>
   FINRA BrokerCheck
 </a>
+<script src="assets/nav.js" defer></script>
 <script src="assets/enhance.js" defer></script>
 </body>
 </html>

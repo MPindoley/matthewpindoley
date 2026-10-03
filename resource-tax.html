@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Tax Strategy — Matthew Pindoley, SE-AWMA®</title>
+  <title>Tax Strategy — Matthew Pindoley, SE-AWMA® | Toledo, Ohio</title>
+  <meta name="description" content="Year-round tax strategy: asset location, tax-loss harvesting, Roth conversions, charitable giving, a tax calendar, and 2026 tax calculators.">
+  <link rel="canonical" href="https://matthewpindoley.com/resource-tax.html">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://matthewpindoley.com/resource-tax.html">
+  <meta property="og:site_name" content="Matthew Pindoley — SE-AWMA®">
+  <meta property="og:title" content="Tax Strategy — Matthew Pindoley, SE-AWMA® | Toledo, Ohio">
+  <meta property="og:description" content="Year-round tax strategy: asset location, tax-loss harvesting, Roth conversions, charitable giving, a tax calendar, and 2026 tax calculators.">
+  <meta property="og:image" content="https://res.cloudinary.com/dfabtxqiy/image/upload/q_auto:good,w_1200/v1772661877/headshot_ztmhku.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
@@ -47,92 +57,9 @@ body.hov #cur-r{width:62px;height:62px;border-color:var(--bronze)}
 body.pressing #cur{width:20px;height:20px}
 
 /* ─── NAV ─────────────────────────────────────────── */
-#nav{position:fixed;top:0;left:0;right:0;z-index:800;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:2rem 5rem;
-  transition:padding .45s var(--e2),background .4s,border-color .4s;
-  border-bottom:1px solid transparent;
-  background:rgba(12,11,9,.55);backdrop-filter:blur(16px)}
-#nav.stk{padding:1rem 5rem;background:rgba(12,11,9,.92);
-  border-bottom-color:rgba(154,124,82,.12)}
 /* Logo always cream on this page since hero is dark */
-.nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;
-  letter-spacing:.06em;line-height:1.3;color:var(--cream)}
-.nav-logo b{color:var(--bronze2);font-weight:400;font-style:italic}
-.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
-.nav-links a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
-  font-weight:500;color:rgba(250,248,244,.38);position:relative;transition:color .25s}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;
-  width:0;height:1px;background:var(--bronze);transition:width .38s var(--e1)}
-.nav-links a:hover,.nav-links a.active{color:var(--cream)}
-.nav-links a:hover::after,.nav-links a.active::after{width:100%}
-.nav-drop{position:relative}
-.nav-drop-trigger{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
-  font-weight:500;color:rgba(250,248,244,.38);position:relative;
-  display:inline-flex;align-items:center;gap:.45rem;
-  cursor:none;background:none;border:none;padding:0;
-  font-family:var(--fb);transition:color .25s}
-.nav-drop-trigger::after{content:'';position:absolute;bottom:-4px;left:0;
-  width:0;height:1px;background:var(--bronze);transition:width .38s var(--e1)}
-.nav-drop.open .nav-drop-trigger,.nav-drop-trigger.active{color:var(--cream)}
-.nav-drop.open .nav-drop-trigger::after,.nav-drop-trigger.active::after{width:calc(100% - 1.1rem)}
-.nav-drop-trigger svg{transition:transform .3s var(--e1);flex-shrink:0;opacity:.5}
-.nav-drop.open .nav-drop-trigger svg{transform:rotate(180deg);opacity:1}
-.nav-drop-panel{position:absolute;top:calc(100% + 14px);left:50%;
-  transform:translateX(-50%) translateY(-6px);
-  background:var(--ink2);border:1px solid rgba(154,124,82,.14);
-  min-width:220px;padding:.6rem 0;
-  box-shadow:0 24px 60px rgba(12,11,9,.35),0 4px 12px rgba(12,11,9,.2);
-  opacity:0;pointer-events:none;
-  transition:opacity .25s var(--e1),transform .25s var(--e1)}
-.nav-drop-panel::after{content:'';position:absolute;top:-20px;left:0;right:0;height:20px}
-.nav-drop.open .nav-drop-panel{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
-.nav-drop-panel::before{content:'';position:absolute;top:-5px;left:50%;
-  transform:translateX(-50%) rotate(45deg);
-  width:9px;height:9px;background:var(--ink2);
-  border-left:1px solid rgba(154,124,82,.14);border-top:1px solid rgba(154,124,82,.14)}
-.nav-drop-item{display:flex;align-items:center;gap:.75rem;
-  padding:.72rem 1.4rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
-  font-weight:600;color:rgba(250,248,244,.35);cursor:none;
-  transition:color .2s,background .2s;white-space:nowrap}
-.nav-drop-item:hover{color:var(--cream);background:rgba(154,124,82,.07)}
-.nav-drop-item.current{color:var(--bronze2)}
-.nav-drop-item svg{width:14px;height:14px;flex-shrink:0;opacity:.4;transition:opacity .2s}
-.nav-drop-item:hover svg,.nav-drop-item.current svg{opacity:1}
-.nav-drop-divider{height:1px;background:rgba(154,124,82,.1);margin:.4rem 0}
-.nav-btn{display:inline-flex;align-items:center;
-  padding:.6rem 1.5rem;border:1px solid rgba(154,124,82,.3);border-radius:9999px;
-  font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;
-  font-weight:600;color:var(--bronze2);position:relative;overflow:hidden;
-  transition:color .3s,border-color .3s}
-.nav-btn::before{content:'';position:absolute;inset:0;background:var(--bronze);
-  transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
-.nav-btn:hover::before{transform:scaleX(1)}
-.nav-btn:hover{color:var(--ink);border-color:var(--bronze)}
-.nav-btn span{position:relative;z-index:1}
-.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:7px 9px;border-radius:6px;background:rgba(12,11,9,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(154,124,82,.25)}
-.hbg i{display:block;width:22px;height:2px;background:var(--bronze);border-radius:2px;transition:all .3s}
 
 /* MOBILE DRAWER */
-#mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;
-  clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .75s var(--e1)}
-#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
-#mob a{font-family:var(--ff);font-size:clamp(2.5rem,9vw,5.5rem);font-weight:300;
-  color:var(--cream);letter-spacing:-.02em;transition:color .2s}
-#mob a:hover{color:var(--bronze2)}
-#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
-  cursor:none;font-family:var(--ff);font-size:1.8rem;color:var(--muted);transition:color .2s}
-#mob-x:hover{color:var(--cream)}
-.mob-resources{display:flex;flex-direction:column;gap:0;width:100%;align-items:center}
-.mob-res-label{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--bronze);font-weight:600;margin-bottom:1rem}
-.mob-res-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem}
-.mob-res-link{font-family:var(--fb);font-size:.65rem;letter-spacing:.14em;
-  text-transform:uppercase;font-weight:600;color:var(--muted);
-  padding:.45rem 1rem;border:1px solid var(--border);
-  transition:color .2s,border-color .2s}
-.mob-res-link:hover,.mob-res-link.current{color:var(--bronze);border-color:var(--border2)}
 
 /* ═══════════════════════════════════════════════════
    HERO — full-viewport, split diagonal, editorial
@@ -597,8 +524,7 @@ body.pressing #cur{width:20px;height:20px}
 
 /* ─── RESPONSIVE ──────────────────────────────────── */
 @media(max-width:1100px){
-  #nav,#nav.stk{padding-left:2.5rem;padding-right:2.5rem}
-  #hero{grid-template-columns:1fr}
+    #hero{grid-template-columns:1fr}
   .hero-right{padding:5rem 2.5rem}
   .hero-left{padding:10rem 2.5rem 5rem}
   .strat-intro,.strat-row.r-1-2,.strat-row.r-2-1,.strat-row.r-3,#feature{grid-template-columns:1fr}
@@ -617,8 +543,7 @@ body.pressing #cur{width:20px;height:20px}
   .cta-details{gap:2.5rem}
 }
 @media(max-width:768px){
-  .nav-links,.nav-btn{display:none}.hbg{display:flex}
-
+  
   /* Stack hero panels vertically instead of hiding the right one */
   #hero{grid-template-columns:1fr;min-height:auto}
   .hero-left{padding:9rem 1.5rem 3.5rem;justify-content:flex-start}
@@ -643,8 +568,7 @@ body.pressing #cur{width:20px;height:20px}
   .cta-details{flex-direction:column;gap:1.5rem}
 }
 @media(max-width:480px){
-  #nav,#nav.stk{padding-left:1.25rem;padding-right:1.25rem}
-  .hero-left{padding:8rem 1.25rem 3rem}
+    .hero-left{padding:8rem 1.25rem 3rem}
   .hero-h{font-size:clamp(4.5rem,22vw,8rem)}
   .strat-intro-left,.strat-intro-right,.strat-cell,.feat-left,.feat-right{padding-left:1.25rem;padding-right:1.25rem}
   #faq,#cta{padding-left:1.25rem;padding-right:1.25rem}
@@ -746,9 +670,45 @@ footer{
   #disc-pill{bottom:1.4rem;right:1.2rem;font-size:.54rem;padding:.4rem .9rem}
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
+
+/* ── READABILITY ─────────────────────────────────────────────
+   Body copy: larger, steadier weight on small text, and contrast
+   near 7:1 (was ~3:1). Headlines and ornaments are unchanged. ── */
+.hero-tagline{font-size:1rem;color:rgba(250,248,244,.76)}
+.hero-right-note{font-size:.9rem;font-weight:400;color:rgba(12,11,9,.7)}
+.hero-footnote{font-size:.74rem;color:rgba(12,11,9,.62)}
+.strat-intro-body{font-size:1rem;color:rgba(12,11,9,.72)}
+.sc-body{font-size:.95rem;font-weight:400;color:rgba(12,11,9,.72)}
+.strat-cell.large .sc-body{font-size:.98rem}
+.strat-cell.dark .sc-body{color:rgba(250,248,244,.76)}
+.sc-disclosure p{font-size:.76rem;color:rgba(12,11,9,.64)}
+.strat-cell.dark .sc-disclosure p{color:rgba(250,248,244,.62)}
+.tl-sub{font-size:1rem;color:rgba(12,11,9,.72)}
+.tl-body{font-size:.9rem;font-weight:400;color:rgba(12,11,9,.72)}
+.tax-disc-inner p{font-size:.8rem;color:rgba(12,11,9,.66)}
+.tax-disc-inner p strong{color:rgba(12,11,9,.82)}
+.cta-p{font-size:1rem;color:rgba(250,248,244,.76)}
+/* ── NAV THEME — colours for the shared navigation (assets/nav.css) ── */
+:root{
+  --nav-top-bg:rgba(12,11,9,.92);--nav-top-blur:blur(16px);
+  --nav-stuck-bg:rgba(12,11,9,.92);--nav-stuck-border:rgba(154,124,82,.14);
+  --nav-logo:var(--cream);--nav-mark:var(--bronze2);
+  --nav-link:rgba(250,248,244,.66);--nav-link-hover:var(--cream);
+  --nav-line:var(--bronze);--nav-current:var(--bronze2);
+  --nav-btn-border:rgba(154,124,82,.4);--nav-btn-text:var(--bronze2);--nav-btn-fill:var(--bronze);--nav-btn-fill-text:var(--ink);
+  --nav-panel-bg:var(--ink2);--nav-panel-border:rgba(154,124,82,.18);--nav-panel-text:rgba(250,248,244,.7);
+  --nav-panel-hover:var(--cream);--nav-panel-hover-bg:rgba(154,124,82,.08);--nav-panel-divider:rgba(154,124,82,.12);
+  --nav-panel-shadow:0 24px 60px rgba(12,11,9,.35),0 4px 12px rgba(12,11,9,.2);
+  --nav-hbg-line:var(--bronze2);--nav-hbg-bg:rgba(12,11,9,.55);--nav-hbg-border:rgba(154,124,82,.25);
+  --mob-bg:var(--ink2);--mob-text:var(--cream);--mob-accent:var(--bronze2);
+  --mob-muted:rgba(250,248,244,.66);--mob-border:var(--border2);--mob-border2:rgba(154,124,82,.55);
+}
+/* ── SIGN-OFF colours ("Talk with Matthew", see assets/enhance.css) ── */
+:root{--so-title:var(--cream);--so-text:rgba(250,248,244,.76);--so-name:var(--bronze2);--so-ring:rgba(154,124,82,.45);--so-rule:rgba(154,124,82,.2)}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
+  <link rel="stylesheet" href="assets/nav.css"/>
 </head>
 <body>
 <div id="grain"></div>
@@ -756,59 +716,55 @@ footer{
 <div id="cur-r"></div>
 
 <!-- ─── NAV ───────────────────────────────────────── -->
-<nav id="nav">
+<nav id="nav" aria-label="Main">
   <a href="index.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="fee.html">Fee</a></li>
     <li class="nav-drop">
-      <button class="nav-drop-trigger active" aria-haspopup="true" aria-expanded="false">
+      <button type="button" class="nav-drop-trigger active" aria-expanded="false" aria-controls="nav-resources">
         Resources
-        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M2 4l4 4 4-4"/></svg>
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
       </button>
-      <div class="nav-drop-panel" role="menu">
-        <a href="resource-retirement.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement
-        </a>
-        <a href="resource-investment.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment
-        </a>
-        <a href="resource-estate.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning
-        </a>
-        <a href="resource-tax.html" class="nav-drop-item current" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy
-        </a>
-        <a href="resource-insurance.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance
-        </a>
-        <div class="nav-drop-divider"></div>
-        <a href="resource-money.html" class="nav-drop-item" role="menuitem">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle
-        </a>
+      <div class="nav-drop-panel" id="nav-resources">
+        <a href="resource-retirement.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement</a>
+        <a href="resource-investment.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment</a>
+        <a href="resource-estate.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning</a>
+        <a href="resource-tax.html" class="nav-drop-item current" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy</a>
+        <a href="resource-insurance.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance</a>
+        <div class="nav-drop-divider" aria-hidden="true"></div>
+        <a href="resource-money.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle</a>
       </div>
     </li>
   </ul>
-  <a href="contact.html" class="nav-btn"><span>Begin Your Plan</span></a>
-  <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
+  <div class="nav-right">
+    <a href="https://app.osaic.com/equipt/" class="nav-login" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Client Login<span class="sr-only"> (opens Osaic’s secure site in a new tab)</span></a>
+    <a href="contact.html" class="nav-btn"><span>Request a Consultation</span></a>
+  </div>
+  <button type="button" class="hbg" id="hbg" aria-label="Open menu" aria-controls="mob" aria-expanded="false"><i></i><i></i><i></i></button>
 </nav>
 
 <!-- MOBILE DRAWER -->
-<div id="mob">
-  <button id="mob-x">✕</button>
+<nav id="mob" aria-label="Menu">
+  <button type="button" id="mob-x" aria-label="Close menu">✕</button>
   <a href="index.html" class="mob-a">Home</a>
+  <a href="index.html#about" class="mob-a">About</a>
+  <a href="fee.html" class="mob-a">Fee</a>
   <div class="mob-resources">
     <div class="mob-res-label">Resources</div>
     <div class="mob-res-links">
       <a href="resource-retirement.html" class="mob-res-link">Retirement</a>
       <a href="resource-investment.html" class="mob-res-link">Investment</a>
       <a href="resource-estate.html" class="mob-res-link">Estate</a>
-      <a href="resource-tax.html" class="mob-res-link current">Tax</a>
+      <a href="resource-tax.html" class="mob-res-link current" aria-current="page">Tax</a>
       <a href="resource-insurance.html" class="mob-res-link">Insurance</a>
       <a href="resource-money.html" class="mob-res-link">Money &amp; Lifestyle</a>
     </div>
   </div>
   <a href="contact.html" class="mob-a">Contact</a>
-</div>
+  <a href="https://app.osaic.com/equipt/" class="mob-login" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Client Login<span class="sr-only"> (opens Osaic’s secure site in a new tab)</span></a>
+</nav>
 
 <!-- ─── SIDEBAR TRIGGER ──────────────────────────── -->
 <button id="sb-trigger" class="nudge" aria-label="Open resources panel">
@@ -869,7 +825,7 @@ footer{
     <!-- CHECKLIST PANE -->
     <div class="sb-pane" id="pane-checklist">
       <div class="sb-ck-prog">
-        <div class="sb-ck-prog-label"><span>Tax Year Progress</span><span id="ck-pct">0 / 18</span></div>
+        <div class="sb-ck-prog-label"><span>Tax Year Progress</span><span id="ck-pct">0 / 17</span></div>
         <div class="sb-ck-prog-bar"><div class="sb-ck-prog-fill" id="ck-fill"></div></div>
       </div>
       <div class="sb-ck-section">
@@ -877,8 +833,8 @@ footer{
         <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Tax-efficient asset location</strong> — bonds/REITs in tax-deferred; equities in taxable</div></div>
         <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Tax-loss harvesting monitored — losses realized without triggering wash-sale rules</div></div>
         <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Charitable contributions</strong> — DAF or appreciated shares used where applicable</div></div>
-        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">401(k) / IRA contributions maximized — $23,000 / $7,000 limits for 2024</div></div>
-        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">HSA maxed if eligible — triple tax advantage ($4,150 / $8,300 in 2024)</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">401(k) / IRA contributions maximized — $24,500 / $7,500 limits for 2026</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">HSA maxed if eligible — triple tax advantage ($4,400 / $8,750 in 2026)</div></div>
       </div>
       <div class="sb-ck-section">
         <div class="sb-ck-title">Roth Conversion &amp; Planning</div>
@@ -891,7 +847,7 @@ footer{
         <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Capital gain / loss harvest before December 31</div></div>
         <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text"><strong>Estimated tax payments</strong> — Q4 payment made on time (Jan 15)</div></div>
         <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">RMDs taken by December 31 if age 73+</div></div>
-        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Qualified charitable distributions used if 70½+ (up to $105,000)</div></div>
+        <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Qualified charitable distributions used if 70½+ (up to $111,000 in 2026)</div></div>
         <div class="sb-ck-item" onclick="toggleCk(this)"><div class="sb-ck-box"></div><div class="sb-ck-text">Bunching strategy evaluated — itemize vs. standard deduction</div></div>
       </div>
       <div class="sb-ck-section">
@@ -943,25 +899,33 @@ footer{
         <div class="sb-tool-section">
           <div class="sb-tool-row">
             <div>
-              <label class="sb-tool-lbl">Sale Proceeds ($)</label>
+              <label class="sb-tool-lbl" for="cg-proceeds">Sale Proceeds ($)</label>
               <input class="sb-tool-input" id="cg-proceeds" type="number" placeholder="e.g. 250000">
             </div>
             <div>
-              <label class="sb-tool-lbl">Cost Basis ($)</label>
+              <label class="sb-tool-lbl" for="cg-basis">Cost Basis ($)</label>
               <input class="sb-tool-input" id="cg-basis" type="number" placeholder="e.g. 80000">
             </div>
           </div>
+          <div class="sb-tool-row">
+            <div>
+              <label class="sb-tool-lbl" for="cg-term">Holding Period</label>
+              <select class="sb-tool-select" id="cg-term">
+                <option value="lt">Long-term (over 1 year)</option>
+                <option value="st">Short-term (1 year or less)</option>
+              </select>
+            </div>
+            <div>
+              <label class="sb-tool-lbl" for="cg-status">Filing Status</label>
+              <select class="sb-tool-select" id="cg-status">
+                <option value="single">Single</option>
+                <option value="mfj">Married filing jointly</option>
+              </select>
+            </div>
+          </div>
           <div>
-            <label class="sb-tool-lbl">Holding Period &amp; Filing Status</label>
-            <select class="sb-tool-select" id="cg-type">
-              <option value="">Select...</option>
-              <option value="lt-single">Long-term — Single filer</option>
-              <option value="lt-mfj">Long-term — Married filing jointly</option>
-              <option value="st-22">Short-term — 22% bracket</option>
-              <option value="st-24">Short-term — 24% bracket</option>
-              <option value="st-32">Short-term — 32% bracket</option>
-              <option value="st-37">Short-term — 37% bracket</option>
-            </select>
+            <label class="sb-tool-lbl" for="cg-income">Other Taxable Income ($)</label>
+            <input class="sb-tool-input" id="cg-income" type="number" placeholder="e.g. 120000 (after deductions)">
           </div>
         </div>
         <button class="sb-tool-btn" onclick="runCapGains()">Calculate Tax</button>
@@ -1020,7 +984,7 @@ footer{
     </div>
     <div class="hero-right-bottom">
       <div class="hero-actions">
-        <a href="contact.html" class="btn-p btn-solid mag">Start Tax Planning</a>
+        <a href="contact.html" class="btn-p btn-solid mag">Request a Consultation</a>
         <button class="btn-p btn-ghost-p mag" onclick="openSidebar('tools')">Open Calculators</button>
       </div>
       <p class="hero-footnote">Tax strategy reviewed annually and after major life events — marriage, business sale, inheritance, retirement.</p>
@@ -1124,7 +1088,7 @@ footer{
         <div class="sc-num">05</div>
         <div class="sc-tag">Business Owners</div>
         <h3 class="sc-title">Entity &amp;<br><em>QBI Strategy</em></h3>
-        <p class="sc-body">The Sec.</p>
+        <p class="sc-body">The Section 199A deduction, made permanent in 2025, lets many owners of pass-through businesses deduct up to 20% of qualified business income, and your entity structure shapes how much of it you can claim.</p>
       </div>
     </div>
     <div class="strat-cell dark rv d1">
@@ -1228,9 +1192,17 @@ footer{
   <h2 class="cta-h rv d1">The best<br>tax strategy<br>is a <em>proactive</em><br>one.</h2>
   <p class="cta-p rv d2">Every year without a coordinated tax plan is a year of unnecessary leakage. <strong>A single well-timed move can be worth more than a year of investment returns.</strong> Let's find yours.</p>
   <div class="cta-acts rv d3">
-    <a href="contact.html" class="btn-p btn-solid mag">Begin Tax Planning</a>
+    <a href="contact.html" class="btn-p btn-solid mag">Request a Consultation</a>
     <button class="btn-p btn-ghost-p mag" onclick="openSidebar('checklist')">Run Tax Checklist</button>
   </div>
+    <div class="signoff signoff--center rv d3">
+      <picture><source type="image/webp" srcset="assets/img/matthew-pindoley-portrait-square.webp"><img src="assets/img/matthew-pindoley-portrait-square.jpg" alt="Matthew Pindoley" width="320" height="320" loading="lazy" decoding="async"></picture>
+      <div>
+        <p class="signoff-q">Questions about your tax picture this year?</p>
+        <p class="signoff-p">Send me a short note. I read every message myself and will reach out to set up a conversation.</p>
+        <p class="signoff-name">Matthew Pindoley, SE-AWMA®</p>
+      </div>
+    </div>
   <div class="cta-details rv d4">
     <div class="cta-det-item"><div class="cta-dl">Phone</div><div class="cta-dv"><a href="tel:+14198871002">(419) 887-1002</a></div></div>
     <div><div class="cta-dl">Email</div><div class="cta-dv"><a href="mailto:Matthew.Pindoley@osaicwealth.com">Matthew.Pindoley@osaicwealth.com</a></div></div>
@@ -1289,7 +1261,7 @@ footer{
       &nbsp;&bull;&nbsp;
       <a href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer">FINRA BrokerCheck</a>
       &nbsp;&bull;&nbsp;
-      <a href="https://www.osaic.com/FormCRS" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
+      <a href="https://osaic.com/disclosures" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
     </div>
   </div>
 </footer>
@@ -1306,29 +1278,6 @@ document.querySelectorAll('a,button,.strat-cell,.feat-right-item,.tl-item,.sb-re
 });
 document.addEventListener('mousedown',()=>document.body.classList.add('pressing'));
 document.addEventListener('mouseup',()=>document.body.classList.remove('pressing'));
-
-/* ─── NAV ──────────────────────────────────────────── */
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('stk',scrollY>60),{passive:true});
-
-document.querySelectorAll('.nav-drop').forEach(drop=>{
-  const trigger=drop.querySelector('.nav-drop-trigger');
-  const panel=drop.querySelector('.nav-drop-panel');
-  if(!trigger||!panel)return;
-  let t=null;
-  const open=()=>{clearTimeout(t);drop.classList.add('open');trigger.setAttribute('aria-expanded','true')};
-  const close=()=>{t=setTimeout(()=>{drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')},120)};
-  drop.addEventListener('mouseenter',open);
-  drop.addEventListener('mouseleave',close);
-  trigger.addEventListener('click',()=>drop.classList.contains('open')?close():open());
-  drop.addEventListener('keydown',e=>{if(e.key==='Escape'){drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')}});
-  drop.addEventListener('focusout',e=>{if(!drop.contains(e.relatedTarget)){drop.classList.remove('open');trigger.setAttribute('aria-expanded','false')}});
-});
-
-const mob=document.getElementById('mob'),hbg=document.getElementById('hbg'),mobX=document.getElementById('mob-x');
-hbg.addEventListener('click',()=>mob.classList.add('open'));
-mobX.addEventListener('click',()=>mob.classList.remove('open'));
-document.querySelectorAll('.mob-a,.mob-res-link').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
 
 /* ─── HERO WORDS — handled by CSS animation now ────── */
 
@@ -1360,7 +1309,7 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
 });
 
 /* ─── MAGNETIC ─────────────────────────────────────── */
-document.querySelectorAll('.mag,.nav-btn').forEach(btn=>{
+document.querySelectorAll('.mag').forEach(btn=>{
   btn.addEventListener('mousemove',e=>{
     const r=btn.getBoundingClientRect();
     btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.22}px,${(e.clientY-r.top-r.height/2)*.22}px)`;
@@ -1428,34 +1377,43 @@ function runRothConversion(){
 }
 
 /* ─── CAPITAL GAINS ESTIMATOR ──────────────────────── */
+// 2026 federal figures (IRS Rev. Proc. 2025-32). The gain is stacked on top of other taxable income.
+const CG_2026={
+  ord:{single:[[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[640600,.35],[Infinity,.37]],
+       mfj:[[24800,.10],[100800,.12],[211400,.22],[403550,.24],[512450,.32],[768700,.35],[Infinity,.37]]},
+  ltcg:{single:[[49450,0],[545500,.15],[Infinity,.20]],
+        mfj:[[98900,0],[613700,.15],[Infinity,.20]]},
+  niit:{single:200000,mfj:250000}
+};
+function cgSliceTax(table,from,to){
+  let tax=0,lo=0;
+  for(const [hi,rate] of table){
+    const a=Math.max(from,lo),b=Math.min(to,hi);
+    if(b>a) tax+=(b-a)*rate;
+    lo=hi; if(lo>=to) break;
+  }
+  return tax;
+}
 function runCapGains(){
-  const proceeds=parseFloat(document.getElementById('cg-proceeds').value)||0;
-  const basis=parseFloat(document.getElementById('cg-basis').value)||0;
-  const type=document.getElementById('cg-type').value;
+  const val=id=>document.getElementById(id).value;
+  const proceeds=parseFloat(val('cg-proceeds'));
+  const basis=parseFloat(val('cg-basis'));
+  const income=Math.max(0,parseFloat(val('cg-income'))||0);
+  const status=val('cg-status')==='mfj'?'mfj':'single';
+  const isLT=val('cg-term')!=='st';
   const r=document.getElementById('cg-cresult');
-  if(!proceeds||!basis||!type){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please fill in all fields.</div>';return;}
+  if(isNaN(proceeds)||isNaN(basis)){r.innerHTML='<div class="sb-tool-result sb-r-warn">Please enter the sale proceeds and your cost basis.</div>';return;}
 
   const gain=proceeds-basis;
-  if(gain<=0){r.innerHTML='<div class="sb-tool-result sb-r-info">No taxable gain — position is at a loss or break-even. Consider harvesting the loss to offset other gains.</div>';return;}
+  if(gain<=0){r.innerHTML='<div class="sb-tool-result sb-r-info">No taxable gain — this position is at a loss or break-even. Consider harvesting the loss to offset other gains.</div>';return;}
 
-  let rate=0,niit=0;
-  const ltRates={'lt-single':{0:0,47025:0.15,518900:0.2},'lt-mfj':{0:0,94050:0.15,583750:0.2}};
-
-  if(type.startsWith('lt')){
-    // Simplified: apply 20% + 3.8% NIIT for illustration
-    rate=0.20;niit=0.038;
-  } else {
-    const brackMap={'st-22':0.22,'st-24':0.24,'st-32':0.32,'st-37':0.37};
-    rate=brackMap[type]||0.24;niit=0.038;
-  }
-
-  const baseTax=gain*rate;
-  const niitTax=gain*niit;
-  const totalTax=baseTax+niitTax;
+  const base=cgSliceTax(isLT?CG_2026.ltcg[status]:CG_2026.ord[status],income,income+gain);
+  const niit=0.038*Math.max(0,Math.min(gain,income+gain-CG_2026.niit[status]));
+  const totalTax=base+niit;
   const netProceeds=proceeds-totalTax;
   const effectiveRate=((totalTax/gain)*100).toFixed(1);
+  const baseRate=((base/gain)*100).toFixed(1);
   const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
-  const isLT=type.startsWith('lt');
 
   r.innerHTML=`<div class="sb-tool-result sb-r-ok">
     <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:.75rem">Capital Gains Estimate — ${isLT?'Long-Term':'Short-Term'}</div>
@@ -1464,7 +1422,10 @@ function runCapGains(){
       <div><div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--im);font-weight:600;margin-bottom:.2rem">Est. Federal Tax</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--ink)">${fmt(totalTax)}</div></div>
     </div>
     <div style="font-size:.75rem;color:var(--im);line-height:1.65">
-      ${rate*100}% ${isLT?'LTCG':'ordinary income'} + 3.8% NIIT = <strong style="color:var(--ink)">${effectiveRate}% effective rate</strong> on gain &middot; Net proceeds after tax: <strong style="color:var(--ink)">${fmt(netProceeds)}</strong>.<br><br>${isLT?'':'<strong>Short-term gains are taxed as ordinary income.</strong> Waiting to cross the 1-year long-term threshold can significantly reduce your tax liability. Consider tax-loss harvesting or deferring the sale if you are close to the 1-year mark.</strong><br><br><em style="font-size:.7rem;color:rgba(12,11,9,.3)">Federal estimate only. Does not include state taxes or net investment income tax on amounts below the NIIT threshold. Consult a tax advisor before acting.</em></div>'}
+      ${isLT?'Long-term capital gains tax':'Ordinary income tax'}: <strong style="color:var(--ink)">${fmt(base)}</strong> (${baseRate}% of the gain)${niit>0?` + 3.8% net investment income tax: <strong style="color:var(--ink)">${fmt(niit)}</strong>`:'; no 3.8% net investment income tax at this income'}.
+      Effective rate on the gain: <strong style="color:var(--ink)">${effectiveRate}%</strong> &middot; Net proceeds after tax: <strong style="color:var(--ink)">${fmt(netProceeds)}</strong>.
+      ${isLT?'':'<br><br><strong>Short-term gains are taxed as ordinary income.</strong> Holding past the one-year mark can significantly reduce the tax. Consider tax-loss harvesting or deferring the sale if you are close.'}
+      <br><br><em style="font-size:.7rem;color:rgba(12,11,9,.5)">Federal estimate using 2026 brackets, with your other taxable income as the starting point (also used in place of modified AGI for the 3.8% tax). Excludes state tax, AMT, and phase-outs. Consult a tax advisor before acting.</em>
     </div>
   </div>`;
 }
@@ -1499,6 +1460,7 @@ function runDeductionValue(){
   <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 2L12.5 7.5H18L13.5 11L15.5 17L10 13.5L4.5 17L6.5 11L2 7.5H7.5Z"/></svg>
   FINRA BrokerCheck
 </a>
+<script src="assets/nav.js" defer></script>
 <script src="assets/enhance.js" defer></script>
 </body>
 </html>

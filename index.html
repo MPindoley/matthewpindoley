@@ -84,60 +84,12 @@ body.pressing #cur{width:28px;height:28px}
   color:rgba(242,236,224,.22);margin-top:1.2rem;font-weight:500;font-family:var(--fb)}
 
 /* NAV */
-#nav{position:fixed;top:0;left:0;right:0;z-index:800;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:2.2rem 4.5rem;
-  transition:padding .45s var(--e2),background .4s,backdrop-filter .4s,border-color .4s;
-  border-bottom:1px solid transparent}
-#nav.stk{padding:1.1rem 4.5rem;background:rgba(9,9,12,.88);
-  backdrop-filter:blur(28px) saturate(1.4);-webkit-backdrop-filter:blur(28px) saturate(1.4);
-  border-bottom-color:rgba(200,164,106,.18);
-  box-shadow:0 1px 0 rgba(200,164,106,.10),0 8px 32px rgba(0,0,0,.28),0 0 60px rgba(200,164,106,.03)}
-.nav-logo{font-family:var(--ff);font-size:1rem;font-weight:300;
-  letter-spacing:.06em;line-height:1.3;color:var(--paper)}
-.nav-logo b{color:var(--gold);font-weight:400;font-style:italic}
-.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
-.nav-links a{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
-  font-weight:500;color:var(--muted);position:relative;transition:color .25s;
-  /* ── Enlarged hit area — invisible padding, zero visual impact ── */
-  padding:10px 4px;
-  margin:-10px -4px;}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;
-  width:0;height:1px;background:var(--gold);transition:width .38s var(--e1)}
-.nav-links a:hover{color:var(--paper)}
-.nav-links a:hover::after{width:100%}
-.nav-btn{display:inline-flex;align-items:center;gap:.6rem;
-  padding:.68rem 1.65rem;border:1px solid var(--border2);border-radius:9999px;
-  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
-  font-weight:600;color:var(--gold);position:relative;overflow:hidden;
-  transition:color .3s,border-color .3s}
-.nav-btn::before{content:'';position:absolute;inset:0;background:var(--gold);
-  transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
-.nav-btn:hover::before{transform:scaleX(1)}
-.nav-btn:hover{color:var(--ink);border-color:var(--gold)}
-.nav-btn span{position:relative;z-index:1}
-.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:12px;margin:-6px}
-.hbg i{display:block;width:22px;height:1px;background:var(--paper);transition:all .3s}
 
 /* MOBILE DRAWER */
-#mob{position:fixed;inset:0;z-index:850;background:var(--ink2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;
-  clip-path:polygon(0 0,100% 0,100% 0,0 0);
-  transition:clip-path .75s var(--e1)}
-#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
-#mob a{font-family:var(--ff);font-size:clamp(2.5rem,9vw,5.5rem);font-weight:300;
-  color:var(--paper);letter-spacing:-.02em;transition:color .2s,letter-spacing .35s var(--e1);
-  /* Generous tap target */
-  padding:.35rem 1.5rem;}
-#mob a:hover{color:var(--gold);letter-spacing:.01em}
-#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
-  cursor:none;font-family:var(--ff);font-size:1.8rem;color:var(--muted);
-  transition:color .2s}
-#mob-x:hover{color:var(--paper)}
 
 /* HERO */
 #hero{min-height:100svh;display:flex;flex-direction:column;
-  justify-content:flex-end;padding:0 4.5rem 6rem;
+  justify-content:flex-end;padding:6.5rem 4.5rem clamp(4.75rem,8vh,6rem);
   position:relative;overflow:hidden}
 #hero-video{position:absolute;inset:0;z-index:0;width:100%;height:100%;
   object-fit:cover;object-position:center;
@@ -163,11 +115,11 @@ body.pressing #cur{width:28px;height:28px}
 .h-content{position:relative;z-index:5}
 .h-tag{display:inline-flex;align-items:center;gap:.8rem;
   font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--gold);font-weight:600;margin-bottom:2.8rem;
+  color:var(--gold);font-weight:600;margin-bottom:clamp(1.2rem,3.5vh,2.8rem);
   opacity:0;animation:rUp .9s var(--e1) .5s forwards}
 .h-tag::before{content:'';width:32px;height:1px;background:var(--gold)}
 .h1{font-family:var(--ff);font-weight:300;
-  font-size:clamp(4.5rem,11.5vw,13rem);
+  font-size:clamp(3.4rem,min(11.5vw,15vh),13rem);
   line-height:.87;letter-spacing:-.04em;color:var(--paper)}
 .h1 .ln{overflow:hidden;display:block}
 .h1 .wd{display:block;transform:translateY(115%);
@@ -178,7 +130,7 @@ body.pressing #cur{width:28px;height:28px}
 .h1 .ln:nth-child(3) .wd{transition-delay:.2s}
 .h1 .ln:nth-child(4) .wd{transition-delay:.3s}
 .h-bot{display:flex;align-items:flex-end;justify-content:space-between;
-  margin-top:5rem;gap:3rem;flex-wrap:wrap;
+  margin-top:clamp(1.8rem,5vh,5rem);gap:3rem;flex-wrap:wrap;
   opacity:0;animation:rUp .9s var(--e1) 1.6s forwards}
 .h-desc{font-size:.94rem;line-height:1.75;color:var(--muted);
   max-width:40ch;font-weight:300}
@@ -506,8 +458,7 @@ body.pressing #cur{width:28px;height:28px}
 
 /* RESPONSIVE */
 @media(max-width:1100px){
-  #nav,#nav.stk{padding-left:2.5rem;padding-right:2.5rem}
-  #hero,#stats,#about,#services,#process,#resources,#contact,footer{padding-left:2.5rem;padding-right:2.5rem}
+    #hero,#stats,#about,#services,#process,#resources,#contact,footer{padding-left:2.5rem;padding-right:2.5rem}
   #about{grid-template-columns:1fr;gap:4rem}.ab-badge{display:none}
   .pr-grid{grid-template-columns:repeat(2,1fr)}
   .rs-grid{grid-template-columns:repeat(2,1fr)}
@@ -516,11 +467,9 @@ body.pressing #cur{width:28px;height:28px}
   .sv-hd{grid-template-columns:1fr}.sv-sub{text-align:left}
 }
 @media(max-width:768px){
-  .nav-links,.nav-btn{display:none}.hbg{display:flex}
-  /* Hide mega dropdown completely on mobile */
-  .nav-mega{display:none!important}
-  /* Sized so the longest line ("Generational") never clips on narrow screens */
-  .h1{font-size:clamp(3.4rem,14.5vw,9rem)}
+    /* Hide mega dropdown completely on mobile */
+    /* Sized so the longest line ("Generational") never clips on narrow screens */
+  .h1{font-size:clamp(2.6rem,min(14.5vw,9.5vh),9rem)}
   #hero{padding-bottom:3rem;padding-left:1.5rem;padding-right:1.5rem}
   .h-bot{flex-direction:column;align-items:flex-start;margin-bottom:2rem;gap:1.5rem}
   .h-ctas{flex-direction:column;align-items:stretch;gap:.75rem;width:100%}
@@ -538,7 +487,7 @@ body.pressing #cur{width:28px;height:28px}
   #stats{padding:5rem 1.5rem}
   .stat{padding:3rem 2rem}
   /* Section paddings — luxurious but tight */
-  #hero{padding-top:0}
+  #hero{padding-top:6.5rem}
   #about{padding:6rem 1.5rem}
   #services{padding:6rem 1.5rem}
  #process{padding:6rem 1.5rem;}
@@ -551,8 +500,7 @@ body.pressing #cur{width:28px;height:28px}
   /* Footer */
 }
 @media(max-width:480px){
-  #nav,#nav.stk{padding-left:1.25rem;padding-right:1.25rem}
-  .h-tag{font-size:.58rem;letter-spacing:.18em}
+    .h-tag{font-size:.58rem;letter-spacing:.18em}
   .h-scroll{display:none}
   #stats{padding:4rem 1.25rem}
   .stat{padding:2.5rem 1.5rem}
@@ -941,6 +889,14 @@ footer{
 .today-label,.legacy-label{opacity:0;transition:opacity .8s var(--e1)}
 .today-label.vis,.legacy-label.vis{opacity:1}
 .legacy-label.vis{color:var(--gold2)}
+/* The line now rises from Today to Legacy (it used to dip and end level).
+   The labels follow its ends; cqw scales with the line's width. */
+#legacy-path-section .legacy-container{container-type:inline-size}
+.today-label{transform:translateY(1.7cqw)}
+.legacy-label{transform:translateY(-5.8cqw)}
+@media(max-width:1099px){.legacy-label{transform:translateY(-4.6cqw)}}
+@media(max-width:768px){.legacy-label{transform:translateY(-4.4cqw)}}
+@media(max-width:600px){.today-label{transform:translateY(3.2cqw)}.legacy-label{transform:none}}
 .path-subtitle{max-width:42ch;margin:2.2rem auto 0;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:500;font-family:var(--fb);opacity:.85;text-align:center}
 @media(max-width:768px){
   #legacy-path-section{padding:2.5rem 1rem 1.8rem}
@@ -969,74 +925,8 @@ footer{
 }
 /* ── MEGA DROPDOWN ── */
 
-.nav-dd{position:relative}
-.nav-dd>a{display:inline-flex;align-items:center;gap:.38rem;cursor:none}
-.nav-dd>a .dd-arrow{
-  font-size:.48rem;display:inline-block;
-  transition:transform .42s var(--e1);
-  color:var(--gold);opacity:.75}
-.nav-dd:hover>a .dd-arrow{transform:rotate(180deg)}
-.nav-dd:hover>a{color:var(--paper)}
 
-.nav-mega{
-  position:absolute;
-  top:calc(100% + .8rem);
-  left:50%;
-  transform:translateX(-50%) translateY(-20px) scale(0.92);
-  min-width:520px;
-  background:transparent;
-  opacity:0;pointer-events:none;
-  transition:all .45s cubic-bezier(.16,1,.3,1);
-}
-.nav-dd:hover .nav-mega{
-  opacity:1;pointer-events:auto;
-  transform:translateX(-50%) translateY(0) scale(1);
-}
-.nav-mega-inner{
-  background:rgba(9,9,12,.97);
-  backdrop-filter:blur(40px) saturate(1.8);
-  border:1px solid rgba(200,164,106,.28);
-  border-top:4px solid var(--gold);
-  border-radius:16px;
-  box-shadow:0 40px 90px rgba(0,0,0,.7),0 12px 40px rgba(0,0,0,.45);
-  padding:28px 24px 20px;
-  position:relative;
-}
-.mega-label{
-  font-size:.52rem;letter-spacing:.32em;text-transform:uppercase;
-  color:var(--gold);font-weight:600;
-  padding:0 0 1.4rem 0;
-  text-align:center;
-  opacity:.75;
-}
-.mega-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:16px;
-}
-.mega-item{
-  display:flex;flex-direction:column;
-  align-items:center;
-  text-align:center;
-  padding:1.8rem 1.4rem 1.6rem;
-  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
-  font-weight:500;color:rgba(242,236,224,.75);
-  border-radius:12px;
-  transition:all .4s cubic-bezier(.16,1,.3,1);
-  position:relative;
-}
-.mega-item:hover{
-  color:var(--paper);
-  transform:translateY(-4px);
-  box-shadow:0 20px 40px rgba(200,164,106,.15);
-}
-.mega-item svg{
-  width:28px;height:28px;margin-bottom:1.1rem;
-  color:var(--gold);opacity:.85;
-  transition:all .35s var(--e1);
-}
-.mega-item:hover svg{
-  opacity:1;
-  transform:scale(1.12);
-}
+/* invisible bridge across the gap so the menu doesn't close on the way down */
 
 
 /* ── DESKTOP PROCESS DIAL ── */
@@ -1318,7 +1208,7 @@ footer{
   flex:1;height:2px;background:rgba(200,164,106,.14);
   border-radius:99px;overflow:hidden;min-width:40px;
 }
-.proc-autobar-fill{display:block;height:100%;width:0;background:var(--gold);border-radius:99px}
+.proc-autobar-fill{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left center;background:var(--gold);border-radius:99px}
 
 /* Editorial 2-column stage on wider screens */
 @media(min-width:900px){
@@ -1357,9 +1247,43 @@ html{scroll-behavior:smooth}
   .h-scroll-ring{animation:none}
   #path-dot{animation:none !important}
 }
+
+/* ── READABILITY ─────────────────────────────────────────────
+   Body copy: larger, steadier weight on small text, and contrast
+   near 7:1 (was ~3:1). Headlines and ornaments are unchanged. ── */
+.h-desc{font-size:1rem;color:rgba(242,236,224,.82)}
+.ab-p{font-size:1rem;line-height:1.8;color:rgba(242,236,224,.76)}
+.ab-creds li{font-size:.84rem;color:rgba(242,236,224,.74)}
+.stat-l{font-size:.9rem;font-weight:400;color:rgba(242,236,224,.72)}
+.pr-desc,.rs-de{font-size:1rem;color:rgba(242,236,224,.76)}
+.proc-stage-text{color:rgba(242,236,224,.8)}
+.rs-b{font-size:.9rem;font-weight:400;color:rgba(242,236,224,.72)}
+.ct-p{font-size:1rem;color:rgba(242,236,224,.82)}
+.sv-ky{color:#8a6420}.sv-ky::before{background:#8a6420}
+.sv-sub{font-size:.92rem;color:rgba(9,9,12,.68)}
+.sv-panel-desc{font-size:.95rem;font-weight:400;color:rgba(9,9,12,.72)}
+.sv-panel-why-text{font-size:.92rem;font-weight:400;color:rgba(9,9,12,.7)}
+.tk{color:rgba(242,236,224,.52)}
+/* ── NAV THEME — colours for the shared navigation (assets/nav.css) ── */
+:root{
+  --nav-pad-x:4.5rem;
+  --nav-stuck-bg:rgba(9,9,12,.88);--nav-stuck-border:rgba(200,164,106,.18);
+  --nav-stuck-shadow:0 1px 0 rgba(200,164,106,.1),0 8px 32px rgba(0,0,0,.28);
+  --nav-logo:var(--paper);--nav-mark:var(--gold);
+  --nav-link:rgba(242,236,224,.66);--nav-link-hover:var(--paper);
+  --nav-line:var(--gold);--nav-current:var(--gold);
+  --nav-btn-border:var(--border2);--nav-btn-text:var(--gold);--nav-btn-fill:var(--gold);--nav-btn-fill-text:var(--ink);
+  --nav-panel-bg:var(--ink2);--nav-panel-border:var(--border2);--nav-panel-text:rgba(242,236,224,.72);
+  --nav-panel-hover:var(--paper);--nav-panel-hover-bg:rgba(200,164,106,.07);--nav-panel-divider:rgba(200,164,106,.12);
+  --nav-panel-shadow:0 24px 60px rgba(0,0,0,.45),0 4px 12px rgba(0,0,0,.25);
+  --nav-hbg-line:var(--paper);
+  --mob-bg:var(--ink2);--mob-text:var(--paper);--mob-accent:var(--gold);
+  --mob-muted:rgba(242,236,224,.66);--mob-border:var(--border2);--mob-border2:rgba(200,164,106,.5);
+}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
+  <link rel="stylesheet" href="assets/nav.css"/>
 
   <!-- Structured data for search engines -->
   <script type="application/ld+json">
@@ -1422,73 +1346,88 @@ html{scroll-behavior:smooth}
 </div>
 
 <!-- MOBILE NAV -->
-<nav id="mob">
-  <button id="mob-x" aria-label="Close">✕</button>
+<nav id="mob" aria-label="Menu">
+  <button type="button" id="mob-x" aria-label="Close menu">✕</button>
+  <a href="index.html" class="mob-a active" aria-current="page">Home</a>
   <a href="#about" class="mob-a">About</a>
-  <a href="#services" class="mob-a">Services</a>
-  <a href="#process" class="mob-a">Process</a>
   <a href="fee.html" class="mob-a">Fee</a>
-  <a href="#resources" class="mob-a">Resources</a>
+  <div class="mob-resources">
+    <div class="mob-res-label">Resources</div>
+    <div class="mob-res-links">
+      <a href="resource-retirement.html" class="mob-res-link">Retirement</a>
+      <a href="resource-investment.html" class="mob-res-link">Investment</a>
+      <a href="resource-estate.html" class="mob-res-link">Estate</a>
+      <a href="resource-tax.html" class="mob-res-link">Tax</a>
+      <a href="resource-insurance.html" class="mob-res-link">Insurance</a>
+      <a href="resource-money.html" class="mob-res-link">Money &amp; Lifestyle</a>
+    </div>
+  </div>
   <a href="contact.html" class="mob-a">Contact</a>
+  <a href="https://app.osaic.com/equipt/" class="mob-login" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Client Login<span class="sr-only"> (opens Osaic’s secure site in a new tab)</span></a>
 </nav>
 
 <!-- NAV -->
-<header id="nav">
-  <div class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></div>
+<nav id="nav" aria-label="Main">
+  <a href="index.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
   <ul class="nav-links">
+    <li><a href="index.html" class="active" aria-current="page">Home</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#process">Process</a></li>
     <li><a href="fee.html">Fee</a></li>
-    <li class="nav-dd">
-      <a href="#resources">Resources <span class="dd-arrow">▾</span></a>
-      <div class="nav-mega">
-        <div class="nav-mega-inner">
-        <div class="mega-label">Resources</div>
-        <div class="mega-grid">
-          <a href="resource-retirement.html" class="mega-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 5v5l3 3"/></svg>
-            Retirement Planning
-          </a>
-          <a href="resource-estate.html" class="mega-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-            Estate &amp; Legacy
-          </a>
-          <a href="resource-investment.html" class="mega-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-            Investment Strategy
-          </a>
-          <a href="resource-tax.html" class="mega-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-            Tax Strategy
-          </a>
-          <a href="resource-insurance.html" class="mega-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Insurance &amp; Risk
-          </a>
-          <a href="resource-money.html" class="mega-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            Money &amp; Lifestyle
-          </a>
-        </div>
-        </div>
+    <li class="nav-drop">
+      <button type="button" class="nav-drop-trigger" aria-expanded="false" aria-controls="nav-resources">
+        Resources
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
+      </button>
+      <div class="nav-drop-panel" id="nav-resources">
+        <a href="resource-retirement.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement</a>
+        <a href="resource-investment.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment</a>
+        <a href="resource-estate.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning</a>
+        <a href="resource-tax.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy</a>
+        <a href="resource-insurance.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance</a>
+        <div class="nav-drop-divider" aria-hidden="true"></div>
+        <a href="resource-money.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle</a>
       </div>
     </li>
   </ul>
-  <a href="contact.html" class="nav-btn"><span>Book Consultation</span></a>
-  <div class="hbg" id="hbg" role="button" tabindex="0" aria-label="Open menu">
-    <i></i><i></i><i></i>
+  <div class="nav-right">
+    <a href="https://app.osaic.com/equipt/" class="nav-login" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Client Login<span class="sr-only"> (opens Osaic’s secure site in a new tab)</span></a>
+    <a href="contact.html" class="nav-btn"><span>Request a Consultation</span></a>
   </div>
-</header>
+  <button type="button" class="hbg" id="hbg" aria-label="Open menu" aria-controls="mob" aria-expanded="false"><i></i><i></i><i></i></button>
+</nav>
 
 <!-- ═══════════ HERO ═══════════ -->
 <section id="hero">
   <video id="hero-video" autoplay muted loop playsinline preload="auto"
     aria-hidden="true"
-    poster="https://res.cloudinary.com/dfabtxqiy/video/upload/so_0,q_auto:eco,f_auto,w_1600/v1772661549/mediahero-video_jpjx6a.jpg"
-    oncanplaythrough="this.classList.add('loaded')">
-    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/q_auto,vc_auto,w_1600/v1772661549/mediahero-video_jpjx6a.mp4" type="video/mp4">
-  </video>
+    oncanplaythrough="this.classList.add('loaded')"></video>
+  <script>
+  /* BACKGROUND VIDEOS — each is fetched at the size it is drawn, so it stays sharp:
+     sections are often taller than the 16:9 clips, which enlarges them. Upright phones
+     and tablets get a portrait cut from the middle of the frame, the only part they
+     show. Copies are never enlarged past the original, and if a sharp copy can't be
+     fetched the browser falls back to the original 1600px copy. */
+  window.__bgVideo = function(v, id, withVideo){
+    const cld = 'https://res.cloudinary.com/dfabtxqiy/video/upload/';
+    const r = v.getBoundingClientRect(), w = r.width || innerWidth, h = r.height || innerHeight;
+    const need = Math.max(w, h * 16 / 9) * Math.min(window.devicePixelRatio || 1, 2) * .9;
+    const size = h > w ? 'c_fill,ar_9:16,w_1080'
+      : 'c_limit,w_' + (need <= 1920 ? 1920 : need <= 2560 ? 2560 : 3840);
+    const img = new Image();
+    img.onload = () => { v.poster = img.src; };
+    img.onerror = () => { v.poster = cld + 'so_0,q_auto:eco,f_auto,w_1600/' + id + '.jpg'; };
+    img.src = cld + 'so_0,q_auto,f_auto,' + size.replace('w_3840', 'w_2560') + '/' + id + '.jpg';
+    if(!withVideo) return;
+    [size, 'w_1600'].forEach(s => {
+      const el = document.createElement('source');
+      el.src = cld + 'q_auto,vc_auto,' + s + '/' + id + '.mp4';
+      el.type = 'video/mp4';
+      v.appendChild(el);
+    });
+  };
+  // the hero plays straight away, so its copy is chosen before anything is fetched
+  __bgVideo(document.getElementById('hero-video'), 'v1772661549/mediahero-video_jpjx6a', true);
+  </script>
   <div class="h-video-overlay" aria-hidden="true"></div>
   <canvas id="hc" aria-hidden="true"></canvas>
   <div class="h-grid" aria-hidden="true"></div>
@@ -1508,7 +1447,7 @@ html{scroll-behavior:smooth}
       </p>
       <div class="h-ctas">
         <a href="contact.html" class="btn btn-gold mag">
-          Book a Consultation
+          Request a Consultation
           <svg viewBox="0 0 20 20" fill="none" width="14" height="14" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg>
         </a>
         <a href="#services" class="btn btn-outline mag">Explore Services</a>
@@ -1527,7 +1466,7 @@ html{scroll-behavior:smooth}
 <section id="legacy-path-section" style="padding:4rem 4.5rem 3rem;background:var(--ink);position:relative;overflow:hidden">
   <div class="legacy-container">
     <svg width="100%" height="160" viewBox="0 0 1200 160" fill="none" xmlns="http://www.w3.org/2000/svg" class="legacy-svg" aria-hidden="true">
-      <path id="legacy-line" d="M80 110 Q300 48 600 110 Q900 48 1120 110" stroke="url(#goldGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <path id="legacy-line" d="M80 130 C480 130 800 104 1120 40" stroke="url(#goldGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
       <defs>
         <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" style="stop-color:#c8a46a;stop-opacity:1"/>
@@ -1539,7 +1478,7 @@ html{scroll-behavior:smooth}
           <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-      <circle id="path-dot" r="6" fill="#f2ece0" opacity="0" filter="url(#dotGlow)" style="animation:dotPulse 1.6s ease-in-out infinite"/>
+      <circle id="path-dot" r="6" fill="#f2ece0" opacity="0" filter="url(#dotGlow)"/>
     </svg>
     <div class="path-labels">
       <div class="today-label">TODAY</div>
@@ -1559,7 +1498,7 @@ html{scroll-behavior:smooth}
     <span class="tk"><span class="tk-dot"></span>Tax Strategy</span>
     <span class="tk"><span class="tk-dot"></span>Insurance Planning</span>
     <span class="tk"><span class="tk-dot"></span>Legacy Building</span>
-    <span class="tk"><span class="tk-dot"></span>SE-AWMA® Certified</span>
+    <span class="tk"><span class="tk-dot"></span>SE-AWMA® Accredited</span>
     <span class="tk"><span class="tk-dot"></span>Retirement Planning</span>
     <span class="tk"><span class="tk-dot"></span>Wealth Accumulation</span>
     <span class="tk"><span class="tk-dot"></span>Estate Planning</span>
@@ -1567,7 +1506,7 @@ html{scroll-behavior:smooth}
     <span class="tk"><span class="tk-dot"></span>Tax Strategy</span>
     <span class="tk"><span class="tk-dot"></span>Insurance Planning</span>
     <span class="tk"><span class="tk-dot"></span>Legacy Building</span>
-    <span class="tk"><span class="tk-dot"></span>SE-AWMA® Certified</span>
+    <span class="tk"><span class="tk-dot"></span>SE-AWMA® Accredited</span>
   </div>
 </div>
 
@@ -1580,7 +1519,7 @@ html{scroll-behavior:smooth}
         <div><span class="stat-i">01</span><div class="stat-n"><span class="counter" data-t="100">0</span><span class="suf">%</span></div></div>
         <svg class="stat-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
       </div>
-      <div class="stat-l">Fiduciary commitment — zero commission pressure, zero conflicts of interest, every recommendation driven solely by what's best for you</div>
+      <div class="stat-l">Transparent by design — every fee, cost, and potential conflict disclosed before you decide, and every recommendation made in your best interest</div>
     </div>
     <div class="stat rv d2">
       <div class="stat-mob-hd">
@@ -1604,13 +1543,15 @@ html{scroll-behavior:smooth}
   <div class="rv-l">
     <div class="ab-ky">Who We Are</div>
     <h2 class="ab-h">Clarity.<br><em>Precision.</em><br>Purpose.</h2>
-    <p class="ab-p">Matthew Pindoley is a <strong>Sports and Entertainment — Accredited Wealth Management Advisor (SE-AWMA®)</strong>, based in Toledo, Ohio. Long before he entered financial planning, Matt wanted to be an architect, then considered law, drawn in both cases to the same two things: building something that lasts, and being genuinely useful to people navigating what matters most. A Finance degree from the University of Toledo gave those instincts a foundation, and wealth management turned out to be where they converged. He has seen too many families struggle to find an advisor they could truly trust, someone with both the <strong>integrity and the expertise</strong> to guide them well. That is the standard he holds himself to for every client. <strong>Faith</strong> is central to who Matt is. As a practicing Catholic and active member of the Toledo community, he understands that true wealth is never just about numbers. It is about alignment between your <strong>resources</strong>, your <strong>values</strong>, and the <strong>life</strong> you are called to build.</p>
+    <p class="ab-p">Matthew Pindoley is a <strong>Sports &amp; Entertainment Accredited Wealth Management Advisor (SE-AWMA®)</strong>, based in Toledo, Ohio. Long before he entered financial planning, Matt wanted to be an architect, then considered law, drawn in both cases to the same two things: building something that lasts, and being genuinely useful to people navigating what matters most. A Finance degree from the University of Toledo gave those instincts a foundation, and wealth management turned out to be where they converged.</p>
+    <p class="ab-p">He has seen too many families struggle to find an advisor they could truly trust, someone with both the <strong>integrity and the expertise</strong> to guide them well. That is the standard he holds himself to for every client.</p>
+    <p class="ab-p"><strong>Faith</strong> is central to who Matt is. As a practicing Catholic and active member of the Toledo community, he understands that true wealth is never just about numbers. It is about alignment between your <strong>resources</strong>, your <strong>values</strong>, and the <strong>life</strong> you are called to build.</p>
     <p class="ab-p">"I believe the most meaningful things in life are built slowly. Not through bold leaps or perfect moments, but through small, faithful choices made day after day, the kind that quietly compound into something real. That philosophy shapes everything about how I work. I am not here to rush you toward a decision or impress you with complexity. I am here to listen, to understand what you are actually building, and to walk alongside you with patience and genuine care. I have found that the best financial relationships, like the best ones in life, grow through <strong>trust</strong> earned over time, through honesty even when it is uncomfortable, and through showing up consistently for the people who matter. That is the kind of advisor I want to be for you."</p>
     <ul class="ab-creds">
-      <li>SE-AWMA® Certified Advisor</li>
-      <li>Fiduciary Standard of Care</li>
+      <li>SE-AWMA® Designation</li>
+      <li>Fiduciary Standard on Advisory Accounts</li>
       <li>Holistic, Comprehensive Planning</li>
-      <li>Independent & Conflict-Free</li>
+      <li>Fees &amp; Conflicts Disclosed Up Front</li>
       <li>Long-Term Relationship Focus</li>
     </ul>
   </div>
@@ -1626,7 +1567,7 @@ html{scroll-behavior:smooth}
     </div>
     <div class="ab-badge">
       <div class="ab-bv">SE-AWMA<sup>®</sup></div>
-      <div class="ab-bl">Certified Advisor</div>
+      <div class="ab-bl">Accredited Advisor</div>
     </div>
   </div>
 </section>
@@ -1763,10 +1704,9 @@ html{scroll-behavior:smooth}
 <section id="process">
 
   <!-- BACKGROUND VIDEO — artistic black & gold atmosphere -->
-  <video id="process-video" autoplay muted loop playsinline preload="auto" aria-hidden="true"
-    poster="https://res.cloudinary.com/dfabtxqiy/video/upload/so_0,q_auto:eco,f_auto,w_1600/v1775586369/12676888_3840_2160_30fps_e3esuh.jpg">
-    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/q_auto,vc_auto,w_1600/v1775586369/12676888_3840_2160_30fps_e3esuh.mp4" type="video/mp4">
-  </video>
+  <!-- its sources and poster are added as a visitor nears the section (see __bgVideo) -->
+  <video id="process-video" muted loop playsinline preload="none" aria-hidden="true"
+    data-cld="v1775586369/12676888_3840_2160_30fps_e3esuh"></video>
   <div class="process-video-overlay" aria-hidden="true"></div>
   <div class="process-vig" aria-hidden="true"></div>
   <div class="process-grid" aria-hidden="true"></div>
@@ -1892,20 +1832,19 @@ html{scroll-behavior:smooth}
 
 <!-- ═══════════ CONTACT ═══════════ -->
 <section id="contact">
-  <video id="ct-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true"
-    poster="https://res.cloudinary.com/dfabtxqiy/video/upload/so_0,q_auto:eco,f_auto,w_1600/v1772661524/contact-bg_u0a64u.jpg">
-    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/q_auto,vc_auto,w_1600/v1772661524/contact-bg_u0a64u.mp4" type="video/mp4">
-  </video>
+  <!-- its sources and poster are added as a visitor nears the section (see __bgVideo) -->
+  <video id="ct-bg" muted loop playsinline preload="none" aria-hidden="true"
+    data-cld="v1772661524/contact-bg_u0a64u"></video>
   <div class="ct-overlay" aria-hidden="true"></div>
   <div class="ct-vignette" aria-hidden="true"></div>
   <canvas id="cc" aria-hidden="true"></canvas>
   <div class="ct-i">
     <div class="ct-ky rv">Let's Talk</div>
     <h2 class="ct-h rv">Let's Build<br>Your <em>Legacy.</em></h2>
-    <p class="ct-p rv">Ready to start the conversation about your financial future? Book a consultation — no pressure, just clarity about where you are and where you can go.</p>
+    <p class="ct-p rv">Ready to start the conversation about your financial future? Request a consultation — no pressure, just clarity about where you are and where you can go.</p>
     <div class="rv">
       <a href="contact.html" class="btn btn-gold mag" style="display:inline-flex;margin:0 auto;padding:1.1rem 3rem;font-size:.8rem">
-        Book a Consultation
+        Request a Consultation
         <svg viewBox="0 0 20 20" fill="none" width="14" height="14" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg>
       </a>
     </div>
@@ -1959,14 +1898,14 @@ html{scroll-behavior:smooth}
       &nbsp;&bull;&nbsp;
       <a href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer">FINRA BrokerCheck</a>
       &nbsp;&bull;&nbsp;
-      <a href="https://www.osaic.com/FormCRS" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
+      <a href="https://osaic.com/disclosures" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
       <br style="margin-bottom:.35rem">
       This communication is strictly intended for individuals residing in the states of OH, FL, MI, IL, PA, TX, SC, NV. No offers may be made or accepted from any resident outside the specific state(s) referenced.
     </div>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* ── MOTION + VISIT PREFERENCES ─────────────────── */
 const prefersReduced = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
 window.__prefersReduced = prefersReduced;
@@ -2064,8 +2003,11 @@ if(prefersReduced||alreadyVisited){
       const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);
       if(d<100){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(200,164,106,${(1-d/100)*.14})`;ctx.lineWidth=.5;ctx.stroke()}
     }
-    requestAnimationFrame(draw);
+    if(onScreen)requestAnimationFrame(draw);else running=false;
   }
+  // pause while the hero is scrolled out of view
+  let onScreen=true,running=true;
+  new IntersectionObserver(es=>{onScreen=es[0].isIntersecting;if(onScreen&&!running){running=true;requestAnimationFrame(draw)}}).observe(c);
   draw();
 })();
 
@@ -2085,21 +2027,13 @@ if(prefersReduced||alreadyVisited){
     const g2=ctx.createRadialGradient(W-x+W*.1,H-y+H*.1,0,W-x+W*.1,H-y+H*.1,Math.min(W,H)*.4);
     g2.addColorStop(0,'rgba(200,164,106,0.04)');g2.addColorStop(1,'transparent');
     ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);
-    requestAnimationFrame(draw);
+    if(onScreen)requestAnimationFrame(draw);else running=false;
   }
+  // pause while the contact section is out of view
+  let onScreen=false,running=true;
+  new IntersectionObserver(es=>{onScreen=es[0].isIntersecting;if(onScreen&&!running){running=true;requestAnimationFrame(draw)}}).observe(c);
   draw();
 })();
-
-/* ── NAV ────────────────────────────────────────── */
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('stk',scrollY>60),{passive:true});
-
-/* ── MOBILE NAV ─────────────────────────────────── */
-const mob=document.getElementById('mob'),hbg=document.getElementById('hbg'),mobX=document.getElementById('mob-x');
-hbg.addEventListener('click',()=>mob.classList.add('open'));
-hbg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();mob.classList.add('open');}});
-mobX.addEventListener('click',()=>mob.classList.remove('open'));
-document.querySelectorAll('.mob-a').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
 
 /* ── REVEAL ─────────────────────────────────────── */
 const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');io.unobserve(x.target)}})},{threshold:.09,rootMargin:'0px 0px -30px 0px'});
@@ -2133,7 +2067,7 @@ if(!prefersReduced){
 
 /* ── MAGNETIC BUTTONS ───────────────────────────── */
 if(!prefersReduced){
-  document.querySelectorAll('.mag,.nav-btn').forEach(btn=>{
+  document.querySelectorAll('.mag').forEach(btn=>{
     btn.addEventListener('mousemove',e=>{
       const r=btn.getBoundingClientRect();
       const x=(e.clientX-r.left-r.width/2)*.25;
@@ -2226,6 +2160,8 @@ if(tilt){
     4:{key:'Phase 04 — For the long run',title:'Partnership',text:"Ongoing guidance and proactive adjustments as life evolves. We're a long-term partner committed to your success at every milestone."}
   };
   var cur=1, timer=null, coords=null;
+  // only auto-advance while the section is on screen
+  var visible=!('IntersectionObserver' in window);
 
   function layout(){
     var r=rail.getBoundingClientRect(); if(!r.width) return;
@@ -2243,10 +2179,10 @@ if(tilt){
   }
   function restartBar(){
     if(!bar) return;
-    bar.style.transition='none'; bar.style.width='0%';
+    bar.style.transition='none'; bar.style.transform='scaleX(0)';
     if(reduce) return;
     requestAnimationFrame(function(){requestAnimationFrame(function(){
-      bar.style.transition='width '+DWELL+'ms linear'; bar.style.width='100%';
+      bar.style.transition='transform '+DWELL+'ms linear'; bar.style.transform='scaleX(1)';
     });});
   }
   function render(n,instant){
@@ -2267,13 +2203,19 @@ if(tilt){
   }
   function go(n){ render(((n-1+4)%4)+1); }
   function stop(){ if(timer){clearInterval(timer);timer=null;} }
-  function start(){ if(reduce) return; stop(); timer=setInterval(function(){go(cur+1);},DWELL); }
+  function start(){ if(reduce||!visible) return; stop(); restartBar(); timer=setInterval(function(){go(cur+1);},DWELL); }
 
   steps.forEach(function(s){ s.addEventListener('click',function(){stop();render(+s.dataset.step);start();}); });
   if(prev) prev.addEventListener('click',function(){stop();go(cur-1);start();});
   if(next) next.addEventListener('click',function(){stop();go(cur+1);start();});
   proc.addEventListener('mouseenter',stop);
   proc.addEventListener('mouseleave',start);
+  if(!visible){
+    new IntersectionObserver(function(es){
+      visible=es[es.length-1].isIntersecting;
+      if(visible) start(); else stop();
+    },{threshold:0.15}).observe(proc);
+  }
 
   var rt;
   window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(layout,150);},{passive:true});
@@ -2310,6 +2252,7 @@ function initLegacyPath() {
   const todayLbl = document.querySelector('.today-label');
   const legacyLbl = document.querySelector('.legacy-label');
   if (todayLbl) setTimeout(() => todayLbl.classList.add('vis'), 200);
+  if (dot) dot.style.animation = 'dotPulse 1.6s ease-in-out infinite';
   function frame(now) {
     const progress = Math.min((now - start) / duration, 1);
     const ep = eased(progress);
@@ -2322,6 +2265,7 @@ function initLegacyPath() {
     }
     if (progress >= 0.75 && legacyLbl) legacyLbl.classList.add('vis');
     if (progress < 1) requestAnimationFrame(frame);
+    else if (dot) { dot.style.animation = 'none'; dot.setAttribute('opacity', '0'); }
   }
   requestAnimationFrame(frame);
 }
@@ -2338,20 +2282,29 @@ if (lpSection) lpObserver.observe(lpSection);
 </script>
 
 <script>
-/* PROCESS VIDEO FADE-IN — matches hero/contact */
+/* PROCESS + CONTACT VIDEOS — load and play only as they approach the screen */
 (function(){
-  const v = document.getElementById('process-video');
-  if(!v) return;
-  if(v.readyState >= 3) v.classList.add('loaded');
-  v.addEventListener('canplaythrough', () => v.classList.add('loaded'), {once:true});
-  // Nudge playback in case the browser stalls autoplay
-  const kick = () => { const p = v.play(); if(p) p.catch(()=>{}); };
-  v.addEventListener('loadeddata', kick, {once:true});
-  kick();
-  setTimeout(() => v.classList.add('loaded'), 2200);
+  const pv = document.getElementById('process-video');
+  if(pv){
+    if(pv.readyState >= 3) pv.classList.add('loaded');
+    pv.addEventListener('canplaythrough', () => pv.classList.add('loaded'), {once:true});
+    setTimeout(() => pv.classList.add('loaded'), 2200);
+  }
+  const vids = [pv, document.getElementById('ct-bg')].filter(Boolean);
+  if(!vids.length) return;
+  const reduced = window.__prefersReduced;
+  const play = v => { const p = v.play(); if(p) p.catch(()=>{}); };
+  // with reduced motion only the still poster loads
+  const near = v => { __bgVideo(v, v.dataset.cld, !reduced); if(!reduced) play(v); };
+  if(!('IntersectionObserver' in window)){ vids.forEach(near); return; }
+  const vio = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){ near(e.target); vio.unobserve(e.target); }
+  }), {rootMargin:'600px 0px'});
+  vids.forEach(v => vio.observe(v));
 })();
 </script>
 
+<script src="assets/nav.js" defer></script>
 <script src="assets/enhance.js" defer></script>
 </body>
 </html>

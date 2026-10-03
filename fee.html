@@ -3,7 +3,17 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Fee Schedule — Matthew Pindoley, SE-AWMA®</title>
+<title>Fee Schedule — Matthew Pindoley, SE-AWMA® | Toledo, Ohio</title>
+<meta name="description" content="The published advisory fee schedule for Matthew Pindoley, SE-AWMA®: breakpoint and marginal tiers, a fee calculator, and plain answers on commissions and fund costs.">
+<link rel="canonical" href="https://matthewpindoley.com/fee.html">
+<link rel="icon" type="image/png" href="favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://matthewpindoley.com/fee.html">
+<meta property="og:site_name" content="Matthew Pindoley — SE-AWMA®">
+<meta property="og:title" content="Fee Schedule — Matthew Pindoley, SE-AWMA® | Toledo, Ohio">
+<meta property="og:description" content="The published advisory fee schedule for Matthew Pindoley, SE-AWMA®: breakpoint and marginal tiers, a fee calculator, and plain answers on commissions and fund costs.">
+<meta property="og:image" content="https://res.cloudinary.com/dfabtxqiy/image/upload/q_auto:good,w_1200/v1772661877/headshot_ztmhku.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
@@ -40,40 +50,8 @@ body.hov #cur-r{width:68px;height:68px}
 body.pressing #cur{width:18px;height:18px}
 
 /* NAV */
-#nav{position:fixed;top:0;left:0;right:0;z-index:800;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.9rem 4rem;
-  transition:padding .4s var(--e1),background .35s,border-color .35s;
-  border-bottom:1px solid transparent}
-#nav.sl{padding:1.1rem 4rem;background:rgba(244,241,234,.93);backdrop-filter:blur(20px);border-bottom-color:var(--bd)}
-#nav.sd{padding:1.1rem 4rem;background:rgba(10,9,8,.92);backdrop-filter:blur(22px);border-bottom-color:rgba(200,164,106,.12)}
-.nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;letter-spacing:.06em;line-height:1.3;color:var(--ink);transition:color .35s}
-.nav-logo b{color:var(--g2);font-weight:400;font-style:italic}
-#nav.sd .nav-logo{color:var(--w)}
-.nav-links{display:flex;align-items:center;gap:3rem;list-style:none}
-.nav-links a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;color:rgba(10,9,8,.38);position:relative;transition:color .25s}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--g);transition:width .38s var(--e1)}
-.nav-links a:hover,.nav-links a.active{color:var(--ink)}
-.nav-links a:hover::after,.nav-links a.active::after{width:100%}
-#nav.sd .nav-links a{color:rgba(244,241,234,.38)}
-#nav.sd .nav-links a:hover,#nav.sd .nav-links a.active{color:var(--w)}
-.nav-btn{display:inline-flex;align-items:center;padding:.55rem 1.4rem;border-radius:9999px;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink);border:1px solid rgba(10,9,8,.18);position:relative;overflow:hidden;transition:color .3s,border-color .3s}
-.nav-btn::before{content:'';position:absolute;inset:0;background:var(--g);transform:scaleX(0);transform-origin:left;transition:transform .38s var(--e1);border-radius:inherit}
-.nav-btn:hover::before{transform:scaleX(1)}
-.nav-btn:hover{color:var(--ink);border-color:var(--g)}
-.nav-btn span{position:relative;z-index:1}
-#nav.sd .nav-btn{color:var(--w);border-color:rgba(200,164,106,.3)}
-.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px;background:none;border:none}
-.hbg i{display:block;width:20px;height:1px;background:var(--ink);transition:.3s}
-#nav.sd .hbg i{background:var(--w)}
 
 /* MOBILE DRAWER */
-#mob{position:fixed;inset:0;z-index:850;background:var(--k2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4rem;clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .7s var(--e1)}
-#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
-#mob a{font-family:var(--ff);font-size:clamp(3rem,10vw,6rem);font-weight:300;color:var(--w);transition:color .2s}
-#mob a:hover{color:var(--g)}
-#mob-x{position:absolute;top:2rem;right:2.2rem;background:none;border:none;cursor:none;font-size:1.5rem;color:rgba(244,241,234,.35);transition:color .2s}
-#mob-x:hover{color:var(--w)}
 
 /* DISC PILL */
 #disc svg{width:8px;height:8px}
@@ -263,7 +241,8 @@ body.rdy #trail-glow{animation:trailIn 3s var(--e1) 1.1s forwards}
 }
 .mt-ky{font-size:.57rem;letter-spacing:.26em;text-transform:uppercase;font-weight:600;color:rgba(10,9,8,.38);margin-bottom:.55rem;display:inline-flex;align-items:center;gap:.7rem}
 .mt-ky::before{content:'';width:16px;height:1px;background:rgba(10,9,8,.32)}
-.mt-h{font-family:var(--ff);font-weight:300;font-size:clamp(2rem,4.5vw,4.5rem);line-height:.9;letter-spacing:-.04em;color:var(--ink)}
+/* the title also scales with height, so on short, wide windows it never meets the climb */
+.mt-h{font-family:var(--ff);font-weight:300;font-size:clamp(2rem,min(4.5vw,20.5vh - 5rem),4.5rem);line-height:.9;letter-spacing:-.04em;color:var(--ink)}
 .mt-h em{font-style:italic;color:#7a5820}
 .mt-sub{font-size:.7rem;color:rgba(10,9,8,.4);font-weight:300;margin-top:.65rem;letter-spacing:.01em}
 
@@ -289,7 +268,7 @@ body.rdy #trail-glow{animation:trailIn 3s var(--e1) 1.1s forwards}
 
 /* Bottom hint */
 #mhint{
-  position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:2.2rem;left:50%;translate:-50% 0;
   z-index:10;
   display:inline-flex;align-items:center;gap:.6rem;
   font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;
@@ -710,8 +689,7 @@ body.rdy #trail-glow{animation:trailIn 3s var(--e1) 1.1s forwards}
    RESPONSIVE — TABLET (≤1100px)
 ═══════════════════════════════════ */
 @media(max-width:1100px){
-  #nav,#nav.sl,#nav.sd{padding-left:2rem;padding-right:2rem}
-  #comp,#faq,#cta,footer,#calc{padding-left:2rem;padding-right:2rem}
+    #comp,#faq,#cta,footer,#calc{padding-left:2rem;padding-right:2rem}
   .comp-hd{flex-direction:column;gap:1rem}
   #faq{grid-template-columns:1fr;gap:3rem}
   #faq .rv-l{position:static}
@@ -725,10 +703,9 @@ body.rdy #trail-glow{animation:trailIn 3s var(--e1) 1.1s forwards}
 @media(max-width:768px){
 
   /* NAV */
-  .nav-btn{display:none}
-  .hbg{display:flex}
-  #nav,#nav.sl,#nav.sd{padding:1.1rem 1.5rem}
-
+      /* the title already says "Click any marker", and the hint collided with the Disclosures pill */
+  #mhint{display:none}
+  
   /* DISC PILL */
     /* ── MAP SECTION ── */
   #map-section{height:100svh;min-height:520px}
@@ -957,9 +934,100 @@ footer{
 .cs-note{font-size:.71rem;line-height:1.7;color:rgba(244,241,234,.34);font-weight:300;margin-top:.55rem}
 .cs-note b{color:rgba(244,241,234,.66);font-weight:500}
 @media(max-width:560px){.cs-top{flex-direction:column;gap:.15rem}.calc-entry-ctrl{max-width:100%}}
+
+/* ── MAP LABEL PLACEMENT ─────────────────────────────────────
+   Labels never sit on the menu, the title or a neighbouring marker. ── */
+@media(min-width:961px){
+  .mkr[data-id="flat"] .mkr-lbl{bottom:auto;top:50%;left:calc(100% + 12px);transform:translateY(-50%)}
+  .mkr[data-id="flat"]:hover .mkr-lbl{transform:translateY(-50%) translateX(3px)}
+}
+@media(min-width:769px){
+  /* short laptop windows: the top two markers stay below the menu bar and the
+     first one stays above the legend (taller screens are unchanged) */
+  .mkr[data-id="flat"] {top:max(12.5%,6.5rem) !important}
+  .mkr[data-id="t6"]   {top:max(19.5%,9.25rem) !important}
+  .mkr[data-id="intro"]{top:min(78%,calc(100% - 9.5rem)) !important}
+}
+@media(min-width:1101px){
+  /* the summit's label stays clear of the elevation scale on the right */
+  .mkr[data-id="flat"]{left:min(84%,calc(100% - 14rem)) !important}
+}
+@media(max-width:768px){
+  /* a gentler climb that starts below the header */
+  .mkr[data-id="intro"]{left:12% !important;top:86% !important}
+  .mkr[data-id="t1"]   {left:24% !important;top:77% !important}
+  .mkr[data-id="t2"]   {left:37% !important;top:68% !important}
+  .mkr[data-id="t3"]   {left:50% !important;top:59% !important}
+  .mkr[data-id="t4"]   {left:62% !important;top:50% !important}
+  .mkr[data-id="t5"]   {left:75% !important;top:41% !important}
+  .mkr[data-id="t6"]   {left:85% !important;top:32% !important}
+  .mkr[data-id="flat"] {left:90% !important;top:23% !important}
+  /* labels sit beside their dot: right of it low on the climb, left of it near the top */
+  .mkr .mkr-lbl{bottom:auto;top:50%;left:calc(100% + 10px);right:auto;transform:translateY(-50%) !important}
+  .mkr[data-id="t5"] .mkr-lbl,.mkr[data-id="t6"] .mkr-lbl,.mkr[data-id="flat"] .mkr-lbl{left:auto;right:calc(100% + 10px)}
+}
+@media(max-width:400px){
+  .mkr[data-id="t6"]{top:34% !important}
+  .mt-sub{max-width:21ch}
+}
+
+/* ── READABILITY ─────────────────────────────────────────────
+   Body copy: larger, steadier weight on small text, and contrast
+   near 7:1 (was ~3:1). Headlines and ornaments are unchanged. ── */
+.mt-sub{font-size:.78rem;color:rgba(10,9,8,.62)}
+#mhint{color:rgba(10,9,8,.6)}
+.calc-sub{font-size:.95rem;font-weight:400;color:rgba(244,241,234,.7)}
+.calc-note{font-size:.78rem;color:rgba(244,241,234,.6)}
+.calc-result-label,.calc-stat-label{color:rgba(244,241,234,.58)}
+.slider-labels,.ct-label{color:rgba(244,241,234,.5)}
+.ct-info{color:rgba(244,241,234,.62)}
+.calc-entry-lbl{color:rgba(244,241,234,.6)}
+.calc-entry-hint{color:rgba(244,241,234,.55)}
+.cs-note{color:rgba(244,241,234,.62)}
+#calc-structure-badge p{color:rgba(244,241,234,.6) !important}
+.comp-ky{color:rgba(10,9,8,.58)}
+.cc-b{font-size:.92rem;font-weight:400;color:rgba(10,9,8,.72)}
+.fq-p{font-size:.95rem;font-weight:400;color:rgba(244,241,234,.7)}
+.fq-ai{font-size:.92rem;font-weight:400;color:rgba(244,241,234,.74)}
+.cta-p{font-size:1rem;color:rgba(10,9,8,.7)}
+.dp-range{color:rgba(10,9,8,.66)}
+.dp-desc,.dp-intro-p{color:rgba(10,9,8,.72)}
+#dp.dp-dark .dp-desc{color:rgba(244,241,234,.72)}
+#dp.dp-dark .dp-range{color:rgba(244,241,234,.66)}
+/* the tiny comparison-card badges were 2.8–3.6:1 */
+.badge-note{color:rgba(10,9,8,.62)}
+.badge-gold{color:#85601e}
+.badge-green{color:#2e6b2e}
+.badge-blue{color:#2f5694}
+/* ── NAV THEME — colours for the shared navigation (assets/nav.css) ── */
+:root{
+  --nav-pad-x:4rem;--nav-pad-x-md:2rem;--nav-pad-x-sm:1.5rem;
+  --nav-stuck-bg:rgba(244,241,234,.93);--nav-stuck-border:var(--bd);
+  --nav-logo:var(--ink);--nav-mark:#8a6420;
+  --nav-link:rgba(10,9,8,.62);--nav-link-hover:var(--ink);
+  --nav-line:var(--g);--nav-current:#8a6420;
+  --nav-btn-border:rgba(10,9,8,.18);--nav-btn-text:var(--ink);--nav-btn-fill:var(--g);--nav-btn-fill-text:var(--ink);
+  --nav-panel-bg:var(--w);--nav-panel-border:rgba(10,9,8,.1);--nav-panel-text:rgba(10,9,8,.68);
+  --nav-panel-hover:var(--ink);--nav-panel-hover-bg:rgba(10,9,8,.04);--nav-panel-divider:rgba(10,9,8,.08);
+  --nav-hbg-line:var(--ink);
+  --mob-bg:var(--k2);--mob-text:var(--w);--mob-accent:var(--g);
+  --mob-muted:rgba(244,241,234,.66);--mob-border:rgba(200,164,106,.22);--mob-border2:rgba(200,164,106,.5);
+}
+/* over the dark calculator and FAQ sections the bar turns dark (see updateNav) */
+#nav.sd{
+  --nav-stuck-bg:rgba(10,9,8,.92);--nav-stuck-border:rgba(200,164,106,.12);
+  --nav-logo:var(--w);--nav-mark:var(--g2);
+  --nav-link:rgba(244,241,234,.66);--nav-link-hover:var(--w);--nav-current:var(--g2);
+  --nav-btn-border:rgba(200,164,106,.3);--nav-btn-text:var(--w);
+  --nav-panel-bg:var(--k2);--nav-panel-border:rgba(200,164,106,.2);--nav-panel-text:rgba(244,241,234,.72);
+  --nav-panel-hover:var(--w);--nav-panel-hover-bg:rgba(200,164,106,.07);--nav-panel-divider:rgba(200,164,106,.12);
+  --nav-panel-shadow:0 24px 60px rgba(0,0,0,.45),0 4px 12px rgba(0,0,0,.25);
+  --nav-hbg-line:var(--w);
+}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
+  <link rel="stylesheet" href="assets/nav.css"/>
 </head>
 <body>
 
@@ -967,29 +1035,61 @@ footer{
 <div id="cur"   aria-hidden="true"></div>
 <div id="cur-r" aria-hidden="true"></div>
 
-<nav id="mob">
-  <button id="mob-x" aria-label="Close">✕</button>
-  <a href="index.html">Home</a>
-  <a href="fee.html">Fee</a>
+<nav id="mob" aria-label="Menu">
+  <button type="button" id="mob-x" aria-label="Close menu">✕</button>
+  <a href="index.html" class="mob-a">Home</a>
+  <a href="index.html#about" class="mob-a">About</a>
+  <a href="fee.html" class="mob-a active" aria-current="page">Fee</a>
+  <div class="mob-resources">
+    <div class="mob-res-label">Resources</div>
+    <div class="mob-res-links">
+      <a href="resource-retirement.html" class="mob-res-link">Retirement</a>
+      <a href="resource-investment.html" class="mob-res-link">Investment</a>
+      <a href="resource-estate.html" class="mob-res-link">Estate</a>
+      <a href="resource-tax.html" class="mob-res-link">Tax</a>
+      <a href="resource-insurance.html" class="mob-res-link">Insurance</a>
+      <a href="resource-money.html" class="mob-res-link">Money &amp; Lifestyle</a>
+    </div>
+  </div>
+  <a href="contact.html" class="mob-a">Contact</a>
+  <a href="https://app.osaic.com/equipt/" class="mob-login" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Client Login<span class="sr-only"> (opens Osaic’s secure site in a new tab)</span></a>
 </nav>
 
-<header id="nav">
+<nav id="nav" aria-label="Main">
   <a href="index.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="fee.html" class="active">Fee</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="fee.html" class="active" aria-current="page">Fee</a></li>
+    <li class="nav-drop">
+      <button type="button" class="nav-drop-trigger" aria-expanded="false" aria-controls="nav-resources">
+        Resources
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
+      </button>
+      <div class="nav-drop-panel" id="nav-resources">
+        <a href="resource-retirement.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement</a>
+        <a href="resource-investment.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment</a>
+        <a href="resource-estate.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning</a>
+        <a href="resource-tax.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy</a>
+        <a href="resource-insurance.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance</a>
+        <div class="nav-drop-divider" aria-hidden="true"></div>
+        <a href="resource-money.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle</a>
+      </div>
+    </li>
   </ul>
-  <a href="contact.html" class="nav-btn"><span>Book Consultation</span></a>
-  <button class="hbg" id="hbg" aria-label="Open menu"><i></i><i></i><i></i></button>
-</header>
+  <div class="nav-right">
+    <a href="https://app.osaic.com/equipt/" class="nav-login" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Client Login<span class="sr-only"> (opens Osaic’s secure site in a new tab)</span></a>
+    <a href="contact.html" class="nav-btn"><span>Request a Consultation</span></a>
+  </div>
+  <button type="button" class="hbg" id="hbg" aria-label="Open menu" aria-controls="mob" aria-expanded="false"><i></i><i></i><i></i></button>
+</nav>
 
 <!-- ═══════════ TOPOGRAPHIC MAP ═══════════ -->
 <section id="map-section">
 
   <!-- Background video -->
-  <video id="map-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1772823492/8435835-uhd_4096_2160_25fps_xvdvhk.mp4" type="video/mp4">
-  </video>
+  <video id="map-video" muted loop playsinline preload="none" aria-hidden="true"
+    data-src="https://res.cloudinary.com/dfabtxqiy/video/upload/v1772823492/8435835-uhd_4096_2160_25fps_xvdvhk.mp4"></video>
 
   <div id="map-video-overlay" aria-hidden="true"></div>
 
@@ -1250,7 +1350,6 @@ footer{
     </div>
   </div>
 </section>
-</section>
 
 <!-- ═══════════ FAQ ═══════════ -->
 <section id="faq">
@@ -1321,7 +1420,7 @@ footer{
     <p class="cta-p">The first conversation is complimentary — no commitment, just clarity on where you are and where you want to go.</p>
     <div class="cta-btns">
       <a href="contact.html" class="btn btn-dk">
-        Book a Consultation
+        Request a Consultation
         <svg viewBox="0 0 20 20" fill="none" width="14" height="14" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg>
       </a>
       <a href="index.html" class="btn btn-ol">Back to Home</a>
@@ -1370,7 +1469,7 @@ footer{
       &nbsp;&bull;&nbsp;
       <a href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer">FINRA BrokerCheck</a>
       &nbsp;&bull;&nbsp;
-      <a href="https://www.osaic.com/FormCRS" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
+      <a href="https://osaic.com/disclosures" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
     </div>
   </div>
 </footer>
@@ -1798,14 +1897,8 @@ document.getElementById('aum-slider').addEventListener('input',function(){update
     if(!isNaN(n)&&n>0) inp.value=Math.round(n).toLocaleString('en-US');
   });
 }());
-updateCalc();
-
-/* ─── MOBILE DRAWER ─────────────────────────── */
-const mob=document.getElementById('mob');
-const hbg=document.getElementById('hbg');
-document.getElementById('mob-x').addEventListener('click',()=>mob.classList.remove('open'));
-hbg.addEventListener('click',()=>mob.classList.add('open'));
-mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
+/* open on a worked example rather than a row of dashes */
+(function(){const ex=1000000;const inp=document.getElementById('aum-input');document.getElementById('aum-slider').value=aumToSlider(ex);if(inp)inp.value=ex.toLocaleString('en-US');updateCalc(ex);})();
 
 /* ─── REVEAL OBSERVER ───────────────────────── */
 const io=new IntersectionObserver(es=>{
@@ -1833,11 +1926,22 @@ document.querySelectorAll('.fq-item').forEach(item=>{
   q.addEventListener('click',toggle);
   q.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
 });
+
+/* ─── MAP VIDEO — the 4K clip loads on larger screens only; phones keep the still map ─── */
+(function(){
+  const v=document.getElementById('map-video'); if(!v||!v.dataset.src) return;
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const saveData=navigator.connection&&navigator.connection.saveData;
+  if(reduce||saveData||!window.matchMedia('(min-width: 769px)').matches) return;
+  v.src=v.dataset.src;
+  const p=v.play(); if(p) p.catch(()=>{});
+})();
 </script>
 <a href="disclosure.html" id="disc-pill" aria-label="Important Disclosures">
   <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="5"/><path d="M6 5v4M6 3.5v.5"/></svg>
   Disclosures
 </a>
+<script src="assets/nav.js" defer></script>
 <script src="assets/enhance.js" defer></script>
 </body>
 </html>

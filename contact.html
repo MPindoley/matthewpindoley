@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Begin Your Plan — Matthew Pindoley, SE-AWMA®</title>
+  <title>Begin Your Plan — Matthew Pindoley, SE-AWMA® | Toledo, Ohio</title>
+  <meta name="description" content="Start a conversation with Matthew Pindoley, SE-AWMA®, a wealth management advisor in Toledo, Ohio. Complimentary first consultation, with no pressure.">
+  <link rel="canonical" href="https://matthewpindoley.com/contact.html">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://matthewpindoley.com/contact.html">
+  <meta property="og:site_name" content="Matthew Pindoley — SE-AWMA®">
+  <meta property="og:title" content="Begin Your Plan — Matthew Pindoley, SE-AWMA® | Toledo, Ohio">
+  <meta property="og:description" content="Start a conversation with Matthew Pindoley, SE-AWMA®, a wealth management advisor in Toledo, Ohio. Complimentary first consultation, with no pressure.">
+  <meta property="og:image" content="https://res.cloudinary.com/dfabtxqiy/image/upload/q_auto:good,w_1200/v1772661877/headshot_ztmhku.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
@@ -64,44 +74,8 @@ body.pressing #cur{width:14px;height:14px}
 }
 
 /* ── NAV ─────────────────────────────────────────── */
-#nav{position:fixed;top:0;left:0;right:0;z-index:800;
-  display:grid;grid-template-columns:1fr auto 1fr;
-  align-items:center;padding:2rem 5rem;
-  transition:padding .45s var(--e2),background .4s,border-color .4s;
-  border-bottom:1px solid transparent}
-#nav.stk{padding:1rem 5rem;
-  background:rgba(250,248,244,.94);
-  backdrop-filter:blur(18px);
-  border-bottom-color:rgba(154,124,82,.1)}
-.nav-logo{font-family:var(--ff);font-size:.95rem;font-weight:300;
-  letter-spacing:.06em;line-height:1.3;color:var(--ink);
-  justify-self:start;transition:opacity .25s}
-.nav-logo:hover{opacity:.7}
-.nav-logo b{color:var(--bronze2);font-weight:400;font-style:italic}
-.nav-center{display:flex;align-items:center;gap:3.5rem;list-style:none}
-.nav-center a{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
-  font-weight:500;color:rgba(12,11,9,.58);position:relative;transition:color .25s}
-.nav-center a::after{content:'';position:absolute;bottom:-4px;left:0;
-  width:0;height:1px;background:var(--bronze);transition:width .38s var(--e1)}
-.nav-center a:hover{color:var(--ink)}
-.nav-center a:hover::after{width:100%}
-.nav-center a.active{color:var(--bronze2)}
-.nav-center a.active::after{width:100%;background:var(--bronze)}
-.nav-spacer{justify-self:end}
-.hbg{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px;background:none;border:none}
-.hbg i{display:block;width:22px;height:1px;background:var(--ink);transition:all .3s}
 
 /* ── MOBILE DRAWER ─────────────────────────────── */
-#mob{position:fixed;inset:0;z-index:850;background:var(--cream2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4rem;
-  clip-path:polygon(0 0,100% 0,100% 0,0 0);transition:clip-path .7s var(--e1)}
-#mob.open{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
-#mob .mob-link{font-family:var(--ff);font-size:clamp(3rem,10vw,6rem);
-  font-weight:300;color:var(--ink);letter-spacing:-.02em;transition:color .2s}
-#mob .mob-link:hover{color:var(--bronze2)}
-#mob-x{position:absolute;top:2rem;right:2rem;background:none;border:none;
-  cursor:none;font-family:var(--ff);font-size:2rem;color:var(--dim);transition:color .2s}
-#mob-x:hover{color:var(--ink)}
 
 /* ── ORBITALS ───────────────────────────────────── */
 #orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
@@ -263,8 +237,7 @@ textarea.fi{resize:none;height:80px;line-height:1.75}
 
 /* ── RESPONSIVE ─────────────────────────────────── */
 @media(max-width:1100px){
-  #nav,#nav.stk{padding-left:2.5rem;padding-right:2.5rem}
-  #wrap{grid-template-columns:1fr;grid-template-rows:auto auto auto}
+    #wrap{grid-template-columns:1fr;grid-template-rows:auto auto auto}
   #wrap::before{display:none}
   #left{grid-column:1;grid-row:1;padding:7rem 2.5rem 4rem;overflow:hidden}
   #right{grid-column:1;grid-row:2;padding:4rem 2.5rem 5rem}
@@ -272,10 +245,7 @@ textarea.fi{resize:none;height:80px;line-height:1.75}
   .trust-item{flex:1 0 40%;border-bottom:1px solid rgba(154,124,82,.07)}
 }
 @media(max-width:768px){
-  #nav,#nav.stk{display:flex;justify-content:space-between;align-items:center}
-  .nav-center,.nav-spacer{display:none}
-  .hbg{display:flex}
-  #left{padding:7rem 1.5rem 3rem;overflow:hidden}
+        #left{padding:7rem 1.5rem 3rem;overflow:hidden}
   #right{padding:3rem 1.5rem 4rem}
   .ghost{font-size:clamp(8rem,22vw,16rem);left:-1rem;bottom:-2rem}
   .headline{font-size:clamp(4rem,13vw,8rem)}
@@ -288,8 +258,7 @@ textarea.fi{resize:none;height:80px;line-height:1.75}
   .thread{padding-right:0}
 }
 @media(max-width:480px){
-  #nav,#nav.stk{padding-left:1.25rem;padding-right:1.25rem}
-  #left{padding:7rem 1.25rem 3rem}
+    #left{padding:7rem 1.25rem 3rem}
   #right{padding:3rem 1.25rem 4rem}
   .ghost{display:none}
   .headline{font-size:clamp(3.5rem,16vw,7rem)}
@@ -387,9 +356,54 @@ footer{
   #disc-pill{bottom:1.4rem;right:1.2rem;font-size:.54rem;padding:.4rem .9rem}
 }
 @media(hover:none){#disc-pill{cursor:pointer}}
+
+/* ── READABILITY ─────────────────────────────────────────────
+   Body copy: larger, steadier weight on small text, and contrast
+   near 7:1 (was ~3:1). Headlines and ornaments are unchanged. ── */
+.subline{font-size:.95rem;color:rgba(12,11,9,.72)}
+.fi::placeholder{color:rgba(12,11,9,.45)}
+.submit-note{font-size:.76rem;color:rgba(12,11,9,.66)}
+/* the send button was a faint text link; it is the page's main action */
+.submit-btn{padding:1rem 1.9rem;border-radius:9999px;background:var(--ink);color:var(--cream);
+  font-size:.7rem;letter-spacing:.2em;transition:background .3s,color .3s}
+.submit-btn:hover{background:var(--bronze);color:var(--cream)}
+.submit-btn-line{display:none}
+/* logo mark and current-page link were light gold on cream (~2.5:1) */
+.field-label{color:rgba(12,11,9,.64)}
+/* ── NAV THEME — colours for the shared navigation (assets/nav.css) ── */
+:root{
+  --nav-stuck-bg:rgba(250,248,244,.94);--nav-stuck-border:rgba(12,11,9,.07);
+  --nav-logo:var(--ink);--nav-mark:#85601e;
+  --nav-link:rgba(12,11,9,.66);--nav-link-hover:var(--ink);
+  --nav-line:var(--bronze);--nav-current:#85601e;
+  --nav-btn-border:rgba(12,11,9,.18);--nav-btn-text:var(--ink);--nav-btn-fill:var(--ink);--nav-btn-fill-text:var(--cream);
+  --nav-panel-bg:var(--cream);--nav-panel-border:rgba(12,11,9,.1);--nav-panel-text:rgba(12,11,9,.68);
+  --nav-panel-hover:var(--ink);--nav-panel-hover-bg:rgba(12,11,9,.04);--nav-panel-divider:rgba(12,11,9,.08);
+  --nav-hbg-line:var(--ink);
+  --mob-bg:var(--cream2);--mob-text:var(--ink);--mob-accent:#85601e;
+  --mob-muted:rgba(12,11,9,.62);--mob-border:var(--border2);--mob-border2:rgba(154,124,82,.55);
+}
+/* ── PORTRAIT AND NEXT STEPS ─────────────────────────────────
+   Beside the headline at every size (measured: 150px+ free there).
+   The steps set the expectation of an email-first process. ── */
+.ct-portrait{position:absolute;top:3.9rem;right:0;z-index:1;margin:0;width:clamp(96px,11vw,190px);
+  opacity:0;animation:fadeUp .9s var(--e1) 1.2s forwards}
+.ct-portrait img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;
+  outline:1px solid rgba(154,124,82,.32);outline-offset:6px}
+.ct-portrait figcaption{margin-top:1rem;font:600 .58rem/1.7 var(--fb);letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(12,11,9,.62)}
+.ct-next{margin-top:2.6rem;max-width:34rem;opacity:0;animation:fadeUp .8s var(--e1) 1.8s forwards}
+.ct-next-ey{margin:0 0 1.15rem;font:600 .62rem/1 var(--fb);letter-spacing:.2em;text-transform:uppercase;color:#85601e}
+.ct-steps{list-style:none;margin:0;padding:0;display:grid;gap:1rem}
+.ct-steps li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.8rem;align-items:baseline}
+.ct-step-n{font-family:var(--ff);font-size:1.45rem;font-weight:300;line-height:1;color:var(--bronze)}
+.ct-steps strong{display:block;margin-bottom:.15rem;font-family:var(--ff);font-weight:400;font-size:1.22rem;line-height:1.25;color:var(--ink)}
+.ct-steps p{margin:0;font-size:.9rem;line-height:1.6;color:rgba(12,11,9,.68)}
+@media(max-width:480px){.ct-portrait figcaption{font-size:.52rem;letter-spacing:.12em}}
 </style>
   <!-- sitewide experience refinements -->
   <link rel="stylesheet" href="assets/enhance.css"/>
+  <link rel="stylesheet" href="assets/nav.css"/>
 </head>
 <body>
 <div id="grain"></div>
@@ -407,22 +421,55 @@ footer{
 </div>
 
 <!-- NAV -->
-<nav id="nav">
+<nav id="nav" aria-label="Main">
   <a href="index.html" class="nav-logo">Matthew Pindoley<br><b>SE-AWMA®</b></a>
-  <ul class="nav-center">
+  <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="contact.html" class="active">Contact</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="fee.html">Fee</a></li>
+    <li class="nav-drop">
+      <button type="button" class="nav-drop-trigger" aria-expanded="false" aria-controls="nav-resources">
+        Resources
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
+      </button>
+      <div class="nav-drop-panel" id="nav-resources">
+        <a href="resource-retirement.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg>Retirement</a>
+        <a href="resource-investment.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investment</a>
+        <a href="resource-estate.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Estate Planning</a>
+        <a href="resource-tax.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg>Tax Strategy</a>
+        <a href="resource-insurance.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Insurance</a>
+        <div class="nav-drop-divider" aria-hidden="true"></div>
+        <a href="resource-money.html" class="nav-drop-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Money &amp; Lifestyle</a>
+      </div>
+    </li>
   </ul>
-  <div class="nav-spacer"></div>
-  <button class="hbg" id="hbg" aria-label="Menu"><i></i><i></i><i></i></button>
+  <div class="nav-right">
+    <a href="https://app.osaic.com/equipt/" class="nav-login" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Client Login<span class="sr-only"> (opens Osaic’s secure site in a new tab)</span></a>
+    <a href="#contact-form" class="nav-btn"><span>Request a Consultation</span></a>
+  </div>
+  <button type="button" class="hbg" id="hbg" aria-label="Open menu" aria-controls="mob" aria-expanded="false"><i></i><i></i><i></i></button>
 </nav>
 
 <!-- MOBILE DRAWER -->
-<div id="mob">
-  <button id="mob-x">&#x2715;</button>
-  <a href="index.html" class="mob-link">Home</a>
-  <a href="contact.html" class="mob-link">Contact</a>
-</div>
+<nav id="mob" aria-label="Menu">
+  <button type="button" id="mob-x" aria-label="Close menu">✕</button>
+  <a href="index.html" class="mob-a">Home</a>
+  <a href="index.html#about" class="mob-a">About</a>
+  <a href="fee.html" class="mob-a">Fee</a>
+  <div class="mob-resources">
+    <div class="mob-res-label">Resources</div>
+    <div class="mob-res-links">
+      <a href="resource-retirement.html" class="mob-res-link">Retirement</a>
+      <a href="resource-investment.html" class="mob-res-link">Investment</a>
+      <a href="resource-estate.html" class="mob-res-link">Estate</a>
+      <a href="resource-tax.html" class="mob-res-link">Tax</a>
+      <a href="resource-insurance.html" class="mob-res-link">Insurance</a>
+      <a href="resource-money.html" class="mob-res-link">Money &amp; Lifestyle</a>
+    </div>
+  </div>
+  <a href="contact.html" class="mob-a active" aria-current="page">Contact</a>
+  <a href="https://app.osaic.com/equipt/" class="mob-login" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Client Login<span class="sr-only"> (opens Osaic’s secure site in a new tab)</span></a>
+</nav>
 
 <!-- MAIN GRID -->
 <div id="wrap">
@@ -438,6 +485,10 @@ footer{
         <span class="row"><span class="word">begin</span></span>
         <span class="row"><span class="word"><em>together.</em></span></span>
       </h1>
+      <figure class="ct-portrait">
+        <picture><source type="image/webp" srcset="assets/img/matthew-pindoley-portrait-tall.webp"><img src="assets/img/matthew-pindoley-portrait-tall.jpg" alt="Matthew Pindoley" width="600" height="800" decoding="async"></picture>
+        <figcaption>Matthew Pindoley<br>Toledo, Ohio</figcaption>
+      </figure>
       <p class="subline">
         Every extraordinary financial life starts with
         <strong>a single conversation.</strong>
@@ -446,6 +497,14 @@ footer{
         where you want to go, and whether I'm the right
         person to help you get there.
       </p>
+      <div class="ct-next">
+        <p class="ct-next-ey">What happens after you write</p>
+        <ol class="ct-steps">
+          <li><span class="ct-step-n" aria-hidden="true">1</span><div><strong>You send a short note</strong><p>A few lines about where you are and what you'd like to accomplish.</p></div></li>
+          <li><span class="ct-step-n" aria-hidden="true">2</span><div><strong>I reply personally</strong><p>I read every message myself and reach out to learn a little more.</p></div></li>
+          <li><span class="ct-step-n" aria-hidden="true">3</span><div><strong>We meet, if it's a fit</strong><p>A complimentary first conversation at a time that suits you.</p></div></li>
+        </ol>
+      </div>
     </div>
 
     <div class="left-bottom">
@@ -633,7 +692,7 @@ footer{
       &nbsp;&bull;&nbsp;
       <a href="https://brokercheck.finra.org" target="_blank" rel="noopener noreferrer">FINRA BrokerCheck</a>
       &nbsp;&bull;&nbsp;
-      <a href="https://www.osaic.com/FormCRS" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
+      <a href="https://osaic.com/disclosures" target="_blank" rel="noopener noreferrer">Osaic Form CRS</a>
     </div>
   </div>
 </footer>
@@ -687,20 +746,6 @@ footer{
   // Press shrink
   document.addEventListener('mousedown', function () { document.body.classList.add('pressing'); });
   document.addEventListener('mouseup',   function () { document.body.classList.remove('pressing'); });
-
-  /* ── STICKY NAV ─────────────────────────────── */
-  var nav = document.getElementById('nav');
-  window.addEventListener('scroll', function () {
-    nav.classList.toggle('stk', window.scrollY > 50);
-  }, { passive: true });
-
-  /* ── MOBILE DRAWER ──────────────────────────── */
-  document.getElementById('hbg').addEventListener('click', function () {
-    document.getElementById('mob').classList.add('open');
-  });
-  document.getElementById('mob-x').addEventListener('click', function () {
-    document.getElementById('mob').classList.remove('open');
-  });
 
   /* ── GHOST PARALLAX ─────────────────────────── */
   var ghost = document.getElementById('ghost');
@@ -834,6 +879,7 @@ footer{
   <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="5"/><path d="M6 5v4M6 3.5v.5"/></svg>
   Disclosures
 </a>
+<script src="assets/nav.js" defer></script>
 <script src="assets/enhance.js" defer></script>
 </body>
 </html>
