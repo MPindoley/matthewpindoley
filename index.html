@@ -1400,10 +1400,34 @@ html{scroll-behavior:smooth}
 <section id="hero">
   <video id="hero-video" autoplay muted loop playsinline preload="auto"
     aria-hidden="true"
-    poster="https://res.cloudinary.com/dfabtxqiy/video/upload/so_0,q_auto:eco,f_auto,w_1600/v1772661549/mediahero-video_jpjx6a.jpg"
-    oncanplaythrough="this.classList.add('loaded')">
-    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/q_auto,vc_auto,w_1600/v1772661549/mediahero-video_jpjx6a.mp4" type="video/mp4">
-  </video>
+    oncanplaythrough="this.classList.add('loaded')"></video>
+  <script>
+  /* BACKGROUND VIDEOS — each is fetched at the size it is drawn, so it stays sharp:
+     sections are often taller than the 16:9 clips, which enlarges them. Upright phones
+     and tablets get a portrait cut from the middle of the frame, the only part they
+     show. Copies are never enlarged past the original, and if a sharp copy can't be
+     fetched the browser falls back to the original 1600px copy. */
+  window.__bgVideo = function(v, id, withVideo){
+    const cld = 'https://res.cloudinary.com/dfabtxqiy/video/upload/';
+    const r = v.getBoundingClientRect(), w = r.width || innerWidth, h = r.height || innerHeight;
+    const need = Math.max(w, h * 16 / 9) * Math.min(window.devicePixelRatio || 1, 2) * .9;
+    const size = h > w ? 'c_fill,ar_9:16,w_1080'
+      : 'c_limit,w_' + (need <= 1920 ? 1920 : need <= 2560 ? 2560 : 3840);
+    const img = new Image();
+    img.onload = () => { v.poster = img.src; };
+    img.onerror = () => { v.poster = cld + 'so_0,q_auto:eco,f_auto,w_1600/' + id + '.jpg'; };
+    img.src = cld + 'so_0,q_auto,f_auto,' + size.replace('w_3840', 'w_2560') + '/' + id + '.jpg';
+    if(!withVideo) return;
+    [size, 'w_1600'].forEach(s => {
+      const el = document.createElement('source');
+      el.src = cld + 'q_auto,vc_auto,' + s + '/' + id + '.mp4';
+      el.type = 'video/mp4';
+      v.appendChild(el);
+    });
+  };
+  // the hero plays straight away, so its copy is chosen before anything is fetched
+  __bgVideo(document.getElementById('hero-video'), 'v1772661549/mediahero-video_jpjx6a', true);
+  </script>
   <div class="h-video-overlay" aria-hidden="true"></div>
   <canvas id="hc" aria-hidden="true"></canvas>
   <div class="h-grid" aria-hidden="true"></div>
@@ -1680,11 +1704,9 @@ html{scroll-behavior:smooth}
 <section id="process">
 
   <!-- BACKGROUND VIDEO — artistic black & gold atmosphere -->
-  <!-- the script below picks a sharp copy for the screen; the 1600px copy is the fallback -->
-  <video id="process-video" muted loop playsinline preload="none" aria-hidden="true">
-    <source data-sharp src="https://res.cloudinary.com/dfabtxqiy/video/upload/q_auto,vc_auto,w_2560/v1775586369/12676888_3840_2160_30fps_e3esuh.mp4" type="video/mp4">
-    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/q_auto,vc_auto,w_1600/v1775586369/12676888_3840_2160_30fps_e3esuh.mp4" type="video/mp4">
-  </video>
+  <!-- its sources and poster are added as a visitor nears the section (see __bgVideo) -->
+  <video id="process-video" muted loop playsinline preload="none" aria-hidden="true"
+    data-cld="v1775586369/12676888_3840_2160_30fps_e3esuh"></video>
   <div class="process-video-overlay" aria-hidden="true"></div>
   <div class="process-vig" aria-hidden="true"></div>
   <div class="process-grid" aria-hidden="true"></div>
@@ -1810,10 +1832,9 @@ html{scroll-behavior:smooth}
 
 <!-- ═══════════ CONTACT ═══════════ -->
 <section id="contact">
+  <!-- its sources and poster are added as a visitor nears the section (see __bgVideo) -->
   <video id="ct-bg" muted loop playsinline preload="none" aria-hidden="true"
-    poster="https://res.cloudinary.com/dfabtxqiy/video/upload/so_0,q_auto:eco,f_auto,w_1600/v1772661524/contact-bg_u0a64u.jpg">
-    <source src="https://res.cloudinary.com/dfabtxqiy/video/upload/q_auto,vc_auto,w_1600/v1772661524/contact-bg_u0a64u.mp4" type="video/mp4">
-  </video>
+    data-cld="v1772661524/contact-bg_u0a64u"></video>
   <div class="ct-overlay" aria-hidden="true"></div>
   <div class="ct-vignette" aria-hidden="true"></div>
   <canvas id="cc" aria-hidden="true"></canvas>
@@ -2264,26 +2285,7 @@ if (lpSection) lpObserver.observe(lpSection);
 /* PROCESS + CONTACT VIDEOS — load and play only as they approach the screen */
 (function(){
   const pv = document.getElementById('process-video');
-  let pvNear = null;
   if(pv){
-    /* The section is taller than the 16:9 clip, so the video is drawn much larger
-       than the screen is wide. Fetch a copy that size (up to the 4K original);
-       upright phones get a portrait cut from the middle, which is all they show. */
-    const cld = 'https://res.cloudinary.com/dfabtxqiy/video/upload/', id = 'v1775586369/12676888_3840_2160_30fps_e3esuh';
-    const r = pv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const need = Math.max(r.width, r.height * 16 / 9) * dpr;
-    const size = r.height > r.width ? 'c_fill,ar_9:16,w_1080'
-      : need > 2700 ? 'w_3840' : need > 1700 ? 'w_2560' : 'w_1920';
-    pvNear = reduced => {
-      const img = new Image(), fallback = cld + 'so_0,q_auto:eco,f_auto,w_1600/' + id + '.jpg';
-      img.onload = () => { pv.poster = img.src; };
-      img.onerror = () => { pv.poster = fallback; };
-      img.src = cld + 'so_0,q_auto,f_auto,' + (size === 'w_3840' ? 'w_2560' : size) + '/' + id + '.jpg';
-      if(reduced) return;
-      // if this copy can't be fetched, the browser falls back to the 1600px <source>
-      pv.querySelector('source[data-sharp]').src = cld + 'q_auto,vc_auto,' + size + '/' + id + '.mp4';
-      pv.load();
-    };
     if(pv.readyState >= 3) pv.classList.add('loaded');
     pv.addEventListener('canplaythrough', () => pv.classList.add('loaded'), {once:true});
     setTimeout(() => pv.classList.add('loaded'), 2200);
@@ -2292,7 +2294,8 @@ if (lpSection) lpObserver.observe(lpSection);
   if(!vids.length) return;
   const reduced = window.__prefersReduced;
   const play = v => { const p = v.play(); if(p) p.catch(()=>{}); };
-  const near = v => { if(v === pv && pvNear){ pvNear(reduced); pvNear = null; } if(!reduced) play(v); };
+  // with reduced motion only the still poster loads
+  const near = v => { __bgVideo(v, v.dataset.cld, !reduced); if(!reduced) play(v); };
   if(!('IntersectionObserver' in window)){ vids.forEach(near); return; }
   const vio = new IntersectionObserver(es => es.forEach(e => {
     if(e.isIntersecting){ near(e.target); vio.unobserve(e.target); }
