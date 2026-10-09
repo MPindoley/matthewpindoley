@@ -2515,7 +2515,8 @@ if (lpSection) lpObserver.observe(lpSection);
 </script>
 
 <script>
-/* PROCESS + CONTACT VIDEOS — load and play only as they approach the screen */
+/* PROCESS + CONTACT VIDEOS — fetched as they approach the screen, played while on it
+   (like the hero, they play for every visitor) */
 (function(){
   const pv = document.getElementById('process-video');
   if(pv){
@@ -2525,15 +2526,23 @@ if (lpSection) lpObserver.observe(lpSection);
   }
   const vids = [pv, document.getElementById('ct-bg')].filter(Boolean);
   if(!vids.length) return;
-  const reduced = window.__prefersReduced;
   const play = v => { const p = v.play(); if(p) p.catch(()=>{}); };
-  // with reduced motion only the still poster loads
-  const near = v => { __bgVideo(v, v.dataset.cld, !reduced); if(!reduced) play(v); };
-  if(!('IntersectionObserver' in window)){ vids.forEach(near); return; }
-  const vio = new IntersectionObserver(es => es.forEach(e => {
-    if(e.isIntersecting){ near(e.target); vio.unobserve(e.target); }
+  const ready = v => { if(v.dataset.on) return; v.dataset.on = '1'; v.preload = 'auto'; __bgVideo(v, v.dataset.cld, true); };
+  if(!('IntersectionObserver' in window)){ vids.forEach(v => { ready(v); play(v); }); return; }
+  // start fetching well before the section arrives...
+  const near = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){ ready(e.target); near.unobserve(e.target); }
   }), {rootMargin:'600px 0px'});
-  vids.forEach(v => vio.observe(v));
+  // ...and play while any of it is on screen (some phones won't start a video that isn't)
+  const seen = new IntersectionObserver(es => es.forEach(e => {
+    const v = e.target; v.dataset.seen = e.isIntersecting ? '1' : '';
+    if(e.isIntersecting){ ready(v); play(v); } else v.pause();
+  }));
+  vids.forEach(v => {
+    near.observe(v); seen.observe(v);
+    // if play was asked for before there was anything to show, ask again once there is
+    v.addEventListener('canplay', () => { if(v.dataset.seen && v.paused) play(v); });
+  });
 })();
 </script>
 

@@ -1930,9 +1930,8 @@ document.querySelectorAll('.fq-item').forEach(item=>{
 /* ─── MAP VIDEO — the 4K clip loads on larger screens only; phones keep the still map ─── */
 (function(){
   const v=document.getElementById('map-video'); if(!v||!v.dataset.src) return;
-  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const saveData=navigator.connection&&navigator.connection.saveData;
-  if(reduce||saveData||!window.matchMedia('(min-width: 769px)').matches) return;
+  if(saveData||!window.matchMedia('(min-width: 769px)').matches) return;
   v.src=v.dataset.src;
   const p=v.play(); if(p) p.catch(()=>{});
 })();
