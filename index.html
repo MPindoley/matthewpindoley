@@ -2106,9 +2106,16 @@ function revealHeadline(){document.querySelectorAll('.h1 .wd').forEach(el=>el.cl
 function dismissLoader(){if(ld)ld.style.display='none';revealHeadline();}
 /* Failsafe — the headline must appear even if anything below stalls */
 setTimeout(revealHeadline,4200);
-let alreadyVisited=false;try{alreadyVisited=sessionStorage.getItem('mp_seen')==='1';}catch(e){}
-if(prefersReduced||alreadyVisited){
-  /* Returning in the same session, or motion-reduced: skip straight to content */
+/* The counting intro plays whenever someone arrives at the site or reloads the page
+   (with Reduce Motion too: it is a count, and its exit becomes a plain cut). It is
+   skipped when a visitor comes here from another page of the site, or with Back. */
+let skipIntro=false;
+try{
+  const nav=performance.getEntriesByType('navigation')[0],how=nav&&nav.type;
+  const fromSite=!!document.referrer&&new URL(document.referrer).origin===location.origin;
+  skipIntro=how==='back_forward'||(fromSite&&how!=='reload');
+}catch(e){}
+if(skipIntro){
   dismissLoader();
 }else{
   const subs=['Loading experience','Crafting your plan','Almost ready','Welcome'];
@@ -2121,7 +2128,6 @@ if(prefersReduced||alreadyVisited){
     if(p>85&&si===2){si=3;if(ldSub)ldSub.textContent=subs[3]}
     if(p>=100){
       clearInterval(ldT);
-      try{sessionStorage.setItem('mp_seen','1');}catch(e){}
       setTimeout(()=>{
         if(ld)ld.classList.add('out');
         setTimeout(dismissLoader,950);
