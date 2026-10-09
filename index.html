@@ -660,7 +660,7 @@ footer{
     display: none !important;
   }
 
-  /* By the Numbers and the guides have their own phone layouts (see PHONE: BY THE NUMBERS / GUIDE SHELF) */
+  /* By the Numbers and the guide library have their own phone layouts (see BY THE NUMBERS / GUIDE LIBRARY) */
 
   /* ── MOBILE DIAL — REBUILT TO MATCH DESKTOP ── */
   .pr-mob-dial{
@@ -1260,14 +1260,33 @@ html{scroll-behavior:smooth}
 }
 
 /* ══════════════════════════════════════════════════════════
-   PHONE: BY THE NUMBERS — the three figures in one row; the
-   chosen figure's line reads below. It moves on every 6 s
-   until the visitor taps a figure.
-   PHONE: GUIDE SHELF — the six guides stand as spines in their
-   own palettes; the chosen guide opens below the shelf.
-   Desktop and tablet layouts are unchanged.
+   BY THE NUMBERS — editorial columns: open columns on hairline
+   rules, large counting figures, a gold label and a serif line.
+   On phones the same figures fold into one tappable row and the
+   chosen figure's line reads below (moves on every 6 s until the
+   visitor taps a figure).
+   GUIDE LIBRARY — the six guides stand as spines on a shelf, each
+   in its guide page's palette; the chosen guide opens beside the
+   shelf on desktop and below it on tablets and phones.
 ══════════════════════════════════════════════════════════ */
-.s-tabs,.s-prog,.rs-shelf,.rs-eb,.rs-tag{display:none}
+#stats .s-ey{margin-bottom:4rem}
+#stats .s-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:0;border-top:1px solid rgba(200,164,106,.28);border-radius:0;overflow:visible}
+#stats .stat{padding:2rem 0 0 3rem;border:0;border-left:1px solid rgba(200,164,106,.16);background:none}
+#stats .stat:first-child{padding-left:0;border-left:0}
+#stats .stat:hover{background:none}
+#stats .stat::after{left:3rem}
+#stats .stat:first-child::after{left:0}
+#stats .stat-i{position:static;display:flex;align-items:center;gap:.75rem;font-size:1.05rem;color:rgba(200,164,106,.85)}
+#stats .stat-i::after{content:'';width:32px;height:1px;background:rgba(200,164,106,.5)}
+#stats .stat-n{margin-top:1.6rem;font-size:clamp(4.25rem,8.6vw,7.75rem);line-height:.9}
+#stats .stat-n .suf{font-size:.47em;margin-top:.12em}
+#stats .stat-l{margin-top:1.75rem;max-width:none}
+#stats .stat-k{display:block;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:.75rem}
+#stats .stat-sep{display:none}
+#stats .stat-t{display:block;max-width:15em;font-family:var(--ff);font-weight:300;font-size:clamp(1.2rem,1.75vw,1.56rem);line-height:1.32;color:var(--paper)}
+#stats .stat-t::first-letter{text-transform:uppercase}
+.s-tabs,.s-prog{display:none}
+
 /* each guide's palette, shared by its spine and its card */
 #resources [aria-controls="rs-1"],#rs-1{--gbg:#f2ece0;--gfg:#09090c;--gac:#85601e;--gmu:rgba(9,9,12,.74)}
 #resources [aria-controls="rs-2"],#rs-2{--gbg:#e3d8bd;--gfg:#09090c;--gac:#7a561a;--gmu:rgba(9,9,12,.74)}
@@ -1275,9 +1294,63 @@ html{scroll-behavior:smooth}
 #resources [aria-controls="rs-4"],#rs-4{--gbg:#141d16;--gfg:#f0ede6;--gac:#95c099;--gmu:rgba(240,237,230,.76)}
 #resources [aria-controls="rs-5"],#rs-5{--gbg:#1c1a17;--gfg:#faf8f4;--gac:#b8966a;--gmu:rgba(250,248,244,.76)}
 #resources [aria-controls="rs-6"],#rs-6{--gbg:#3d4a3e;--gfg:#faf8f4;--gac:#d4b87a;--gmu:rgba(250,248,244,.8)}
+#resources .rs-hd{margin-bottom:4.5rem}
+#resources .rs-lib{display:grid;grid-template-columns:minmax(0,470px) minmax(0,1fr);column-gap:3.5rem;align-items:end}
+#resources .rs-shelf{display:flex;align-items:flex-end;gap:10px;height:420px;position:relative}
+#resources .rs-shelf::after{content:'';position:absolute;left:-12px;right:-12px;bottom:-2px;height:2px;
+  background:rgba(200,164,106,.5);box-shadow:0 8px 18px rgba(0,0,0,.45)}
+#resources .rs-spine{flex:1;min-width:0;height:100%;margin:0;padding:0;border:0;border-radius:2px 2px 0 0;cursor:pointer;
+  background:var(--gbg);color:var(--gfg);display:flex;flex-direction:column;align-items:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.25);transition:transform .55s var(--e1),box-shadow .55s}
+#resources .rs-spine[aria-current="true"]{transform:translateY(-22px);box-shadow:0 22px 34px rgba(0,0,0,.5)}
+#resources .rs-spine:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
+#resources .rs-sp-band{width:64%;height:4px;margin-top:18px;border-top:1px solid var(--gac);border-bottom:1px solid var(--gac);opacity:.7}
+#resources .rs-sp-band:last-child{margin:0 0 16px}
+#resources .rs-sp-n{margin-top:14px;font-size:.7rem;letter-spacing:.14em;font-weight:600;color:var(--gac)}
+#resources .rs-sp-t{flex:1;display:flex;align-items:center;writing-mode:vertical-rl;margin-top:.6rem;
+  font-family:var(--ff);font-size:1.56rem;letter-spacing:.03em;white-space:nowrap}
+#resources .rs-spine svg{width:19px;height:19px;margin-bottom:14px;color:var(--gac)}
+#resources .rs-grid{display:grid;grid-template-columns:1fr;gap:0;background:none;border:0;border-radius:0;overflow:visible;margin-bottom:2px}
+#resources .rs-card{grid-area:1/1;min-height:442px;padding:3.25rem 3.5rem 2.5rem;border-radius:2px;
+  background:var(--gbg);color:var(--gfg);display:flex;flex-direction:column;align-items:flex-start;position:relative;overflow:hidden;
+  opacity:0;visibility:hidden;pointer-events:none;transition:opacity .45s ease,transform .6s var(--e1),visibility 0s linear .45s}
+#resources .rs-card.is-on.vis{opacity:1;visibility:visible;pointer-events:auto;z-index:1;transition-delay:0s}
+#resources .rs-card:hover{background:var(--gbg)}
+#resources .rs-card::before,#resources .rs-chev{display:none}
+#resources .rs-ic{position:absolute;right:-40px;bottom:-50px;width:300px;height:300px;margin:0;border:0;background:none;opacity:.14;pointer-events:none}
+#resources .rs-card:hover .rs-ic{border:0;background:none}
+#resources .rs-ic svg{width:100%;height:100%;color:var(--gac);stroke-width:.6}
+#resources .rs-eb{position:relative;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--gac)}
+#resources .rs-t{position:relative;margin:1.1rem 0 0;font-size:clamp(2.6rem,4.4vw,4rem);line-height:1;letter-spacing:-.02em;color:inherit}
+#resources .rs-tag{position:relative;margin-top:.6rem;font-family:var(--ff);font-style:italic;font-weight:300;font-size:clamp(1.5rem,2.4vw,2.1rem);line-height:1.15;color:var(--gac)}
+#resources .rs-b{position:relative;margin:1.4rem 0 0;max-width:30em;font-size:1.06rem;line-height:1.65;color:var(--gmu)}
+#resources .rs-lk{position:relative;margin-top:auto;padding-top:1.5rem;min-height:44px;font-size:.72rem;letter-spacing:.22em;color:var(--gac)}
+.rs-eb,.rs-tag{display:block}
+
+/* where a label would wrap, every label keeps two lines so the columns line up */
+@media(min-width:769px) and (max-width:1240px){
+  #stats .stat-k{min-height:2.7em}
+}
+/* smaller laptops and tablets in landscape: a slightly smaller shelf */
+@media(max-width:1100px){
+  #stats .stat{padding-left:2rem}
+  #stats .stat::after{left:2rem}
+  #resources .rs-lib{grid-template-columns:minmax(0,400px) minmax(0,1fr);column-gap:2.5rem}
+  #resources .rs-shelf{height:380px;gap:8px}
+  #resources .rs-sp-t{font-size:1.4rem}
+  #resources .rs-card{min-height:402px;padding:2.75rem 2.75rem 2.25rem}
+}
+/* tablets upright and narrow windows: the guide opens below the shelf */
+@media(max-width:960px){
+  #resources .rs-lib{grid-template-columns:1fr;row-gap:2.25rem}
+  #resources .rs-shelf{height:320px}
+  #resources .rs-spine{flex:0 1 76px}
+  #resources .rs-card{min-height:0;padding:2.5rem 2.75rem 2rem}
+}
 @keyframes sprog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* phones */
 @media(max-width:768px){
-  /* ── By the Numbers ── */
+  /* ── By the Numbers: the figures fold into one tappable row ── */
   #stats .s-ey{margin-bottom:2.75rem}
   #stats .s-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));position:relative;
     border-bottom:1px solid rgba(200,164,106,.2);margin-bottom:2.1rem}
@@ -1292,17 +1365,15 @@ html{scroll-behavior:smooth}
     transition:transform .55s var(--e1)}
   #stats .s-tabs[data-i="1"] .s-tab-bar{transform:translateX(100%)}
   #stats .s-tabs[data-i="2"] .s-tab-bar{transform:translateX(200%)}
-  #stats .s-row{display:grid;grid-template-columns:1fr;border:0;border-radius:0;overflow:visible}
-  #stats .stat{grid-area:1/1;padding:0;border:0;background:none;
+  #stats .s-row{grid-template-columns:1fr;border-top:0}
+  #stats .stat,#stats .stat:first-child{grid-area:1/1;padding:0;border:0;
     opacity:0;visibility:hidden;transform:translateY(10px);
     transition:opacity .45s ease,transform .6s var(--e1),visibility 0s linear .45s}
   #stats .stat.is-on.vis{opacity:1;visibility:visible;transform:none;transition-delay:0s}
   #stats .stat::after,#stats .stat-mob-hd{display:none !important}
   #stats .stat-l{margin:0;max-width:none}
-  #stats .stat-k{display:block;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:.7rem}
-  #stats .stat-sep{display:none}
-  #stats .stat-t{display:block;font-family:var(--ff);font-weight:300;font-size:1.55rem;line-height:1.3;color:var(--paper)}
-  #stats .stat-t::first-letter{text-transform:uppercase}
+  #stats .stat-k{font-size:.68rem;letter-spacing:.2em;margin-bottom:.7rem}
+  #stats .stat-t{font-size:1.55rem;line-height:1.3}
   #stats .s-prog{display:flex;align-items:center;gap:1rem;margin-top:1.6rem}
   #stats .s-prog-track{flex:1;height:1px;background:rgba(200,164,106,.18);position:relative;overflow:hidden}
   #stats .s-prog-fill{position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:left center}
@@ -1310,35 +1381,28 @@ html{scroll-behavior:smooth}
   #stats .s-prog.still .s-prog-track{visibility:hidden}
   #stats .s-prog-n{font-family:var(--ff);font-size:1rem;letter-spacing:.06em;color:rgba(200,164,106,.85)}
 
-  /* ── Guide shelf ── */
-  #resources .rs-shelf{display:flex;align-items:flex-end;gap:6px;height:220px;position:relative;margin:0 0 1.6rem}
-  #resources .rs-shelf::after{content:'';position:absolute;left:-8px;right:-8px;bottom:-2px;height:2px;
-    background:rgba(200,164,106,.5);box-shadow:0 6px 14px rgba(0,0,0,.45)}
-  #resources .rs-spine{flex:1;min-width:0;height:100%;margin:0;padding:0;border:0;border-radius:2px 2px 0 0;cursor:pointer;
-    background:var(--gbg);color:var(--gfg);display:flex;flex-direction:column;align-items:center;
-    box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .55s var(--e1),box-shadow .55s}
-  #resources .rs-spine[aria-pressed="true"]{transform:translateY(-18px);box-shadow:0 18px 28px rgba(0,0,0,.5)}
-  #resources .rs-spine:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
-  #resources .rs-sp-band{width:70%;height:3px;margin-top:14px;border-top:1px solid var(--gac);border-bottom:1px solid var(--gac);opacity:.7}
+  /* ── Guide library: a smaller shelf, the guide opens below ── */
+  #resources .rs-hd{margin-bottom:3rem}
+  #resources .rs-lib{row-gap:1.6rem}
+  #resources .rs-shelf{height:220px;gap:6px}
+  #resources .rs-spine{flex:1 1 0}
+  #resources .rs-shelf::after{left:-8px;right:-8px;box-shadow:0 6px 14px rgba(0,0,0,.45)}
+  #resources .rs-spine{box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  #resources .rs-spine[aria-current="true"]{transform:translateY(-18px);box-shadow:0 18px 28px rgba(0,0,0,.5)}
+  #resources .rs-sp-band{width:70%;height:3px;margin-top:14px}
   #resources .rs-sp-band:last-child{margin:0 0 12px}
-  #resources .rs-sp-n{margin-top:10px;font-size:.6rem;letter-spacing:.14em;font-weight:600;color:var(--gac)}
-  #resources .rs-sp-t{flex:1;display:flex;align-items:center;writing-mode:vertical-rl;
-    font-family:var(--ff);font-size:1.12rem;letter-spacing:.03em;white-space:nowrap}
-  #resources .rs-spine svg{width:15px;height:15px;margin-bottom:10px;color:var(--gac)}
-  #resources .rs-grid{display:grid;grid-template-columns:1fr;gap:0;background:none;border:0;border-radius:0;overflow:visible}
-  #resources .rs-card{grid-area:1/1;background:var(--gbg);color:var(--gfg);padding:1.5rem 1.5rem 1.1rem;border-radius:2px;
-    opacity:0;visibility:hidden;transition:opacity .45s ease,transform .6s var(--e1),visibility 0s linear .45s}
-  #resources .rs-card.is-on.vis{opacity:1;visibility:visible;transition-delay:0s}
-  #resources .rs-card:hover{background:var(--gbg)}
-  #resources .rs-card::before,#resources .rs-ic,#resources .rs-chev{display:none}
-  #resources .rs-mob-hd{display:block}
-  #resources .rs-eb{display:block;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--gac)}
-  #resources .rs-t{margin:.6rem 0 0;font-size:2rem;line-height:1.05;color:inherit}
-  #resources .rs-tag{display:block;margin-top:.25rem;font-family:var(--ff);font-style:italic;font-weight:300;font-size:1.3rem;color:var(--gac)}
-  #resources .rs-b{margin:.6rem 0 0;font-size:.9rem;line-height:1.6;color:var(--gmu)}
-  #resources .rs-lk{margin-top:.3rem;min-height:44px;color:var(--gac)}
+  #resources .rs-sp-n{margin-top:10px;font-size:.6rem}
+  #resources .rs-sp-t{font-size:1.12rem;margin-top:.35rem}
+  #resources .rs-spine svg{width:15px;height:15px;margin-bottom:10px}
+  #resources .rs-card{padding:1.5rem 1.5rem 1.1rem}
+  #resources .rs-ic{width:170px;height:170px;right:-30px;bottom:-34px;opacity:.1}
+  #resources .rs-eb{font-size:.66rem;letter-spacing:.22em}
+  #resources .rs-t{margin-top:.6rem;font-size:2rem;line-height:1.05}
+  #resources .rs-tag{margin-top:.25rem;font-size:1.3rem}
+  #resources .rs-b{margin-top:.6rem;font-size:.9rem;line-height:1.6}
+  #resources .rs-lk{margin-top:.3rem;padding-top:0;font-size:.65rem;letter-spacing:.15em}
 }
-@media(max-width:768px) and (prefers-reduced-motion:reduce){
+@media(prefers-reduced-motion:reduce){
   #stats .stat,#resources .rs-card,#resources .rs-spine,#stats .s-tab-bar{transition:none}
 }
 </style>
@@ -1865,58 +1929,60 @@ html{scroll-behavior:smooth}
     </div>
     <p class="rs-de rv-r">Curated articles, guides, and tools across every dimension of financial planning — from income modeling to estate frameworks and tax efficiency.</p>
   </div>
-  <!-- phones: the six guides stand as spines on a shelf; tap one to open it below -->
-  <div class="rs-shelf" role="group" aria-label="Choose a guide">
-    <button type="button" class="rs-spine" aria-pressed="true" aria-controls="rs-1"><span class="rs-sp-band"></span><span class="rs-sp-n">01</span><span class="rs-sp-t">Retirement</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg><span class="rs-sp-band"></span></button>
-    <button type="button" class="rs-spine" aria-pressed="false" aria-controls="rs-2"><span class="rs-sp-band"></span><span class="rs-sp-n">02</span><span class="rs-sp-t">Estate Planning</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="rs-sp-band"></span></button>
-    <button type="button" class="rs-spine" aria-pressed="false" aria-controls="rs-3"><span class="rs-sp-band"></span><span class="rs-sp-n">03</span><span class="rs-sp-t">Investment</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="rs-sp-band"></span></button>
-    <button type="button" class="rs-spine" aria-pressed="false" aria-controls="rs-4"><span class="rs-sp-band"></span><span class="rs-sp-n">04</span><span class="rs-sp-t">Insurance</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="rs-sp-band"></span></button>
-    <button type="button" class="rs-spine" aria-pressed="false" aria-controls="rs-5"><span class="rs-sp-band"></span><span class="rs-sp-n">05</span><span class="rs-sp-t">Tax Strategy</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg><span class="rs-sp-band"></span></button>
-    <button type="button" class="rs-spine" aria-pressed="false" aria-controls="rs-6"><span class="rs-sp-band"></span><span class="rs-sp-n">06</span><span class="rs-sp-t">Money &amp; Lifestyle</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span class="rs-sp-band"></span></button>
+  <!-- the six guides stand as spines on a shelf; the chosen guide opens beside it (below on smaller screens) -->
+  <div class="rs-lib">
+  <div class="rs-shelf" role="group" aria-label="Guides">
+    <a class="rs-spine" href="resource-retirement.html" aria-current="true" aria-controls="rs-1"><span class="rs-sp-band"></span><span class="rs-sp-n">01</span><span class="rs-sp-t">Retirement</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg><span class="rs-sp-band"></span></a>
+    <a class="rs-spine" href="resource-estate.html" aria-controls="rs-2"><span class="rs-sp-band"></span><span class="rs-sp-n">02</span><span class="rs-sp-t">Estate Planning</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="rs-sp-band"></span></a>
+    <a class="rs-spine" href="resource-investment.html" aria-controls="rs-3"><span class="rs-sp-band"></span><span class="rs-sp-n">03</span><span class="rs-sp-t">Investment</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="rs-sp-band"></span></a>
+    <a class="rs-spine" href="resource-insurance.html" aria-controls="rs-4"><span class="rs-sp-band"></span><span class="rs-sp-n">04</span><span class="rs-sp-t">Insurance</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="rs-sp-band"></span></a>
+    <a class="rs-spine" href="resource-tax.html" aria-controls="rs-5"><span class="rs-sp-band"></span><span class="rs-sp-n">05</span><span class="rs-sp-t">Tax Strategy</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg><span class="rs-sp-band"></span></a>
+    <a class="rs-spine" href="resource-money.html" aria-controls="rs-6"><span class="rs-sp-band"></span><span class="rs-sp-n">06</span><span class="rs-sp-t">Money &amp; Lifestyle</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span class="rs-sp-band"></span></a>
   </div>
   <div class="rs-grid">
-    <div class="rs-card rv is-on" id="rs-1" onclick="location.href='resource-retirement.html'">
+    <div class="rs-card rv is-on" id="rs-1" onclick="if(!event.target.closest('a'))location.href='resource-retirement.html'">
       <div class="rs-eb">01 · Guide</div>
       <div class="rs-mob-hd"><div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18M8 17V9m4 8V5m4 12v-4"/></svg></div><div class="rs-t">Retirement</div><svg class="rs-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div>
       <div class="rs-tag">Retire on your terms.</div>
       <div class="rs-b">Income modeling, distribution strategies, and retirement readiness frameworks for a secure financial future.</div>
       <a class="rs-lk" href="resource-retirement.html">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></a>
     </div>
-    <div class="rs-card rv d1" id="rs-2" onclick="location.href='resource-estate.html'">
+    <div class="rs-card rv d1" id="rs-2" onclick="if(!event.target.closest('a'))location.href='resource-estate.html'">
       <div class="rs-eb">02 · Guide</div>
       <div class="rs-mob-hd"><div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="rs-t">Estate Planning</div><svg class="rs-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div>
       <div class="rs-tag">Your Legacy, Protected.</div>
       <div class="rs-b">Guides on trusts, beneficiary designations, and ensuring your wealth transfers on your terms.</div>
       <a class="rs-lk" href="resource-estate.html">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></a>
     </div>
-    <div class="rs-card rv d2" id="rs-3" onclick="location.href='resource-investment.html'">
+    <div class="rs-card rv d2" id="rs-3" onclick="if(!event.target.closest('a'))location.href='resource-investment.html'">
       <div class="rs-eb">03 · Guide</div>
       <div class="rs-mob-hd"><div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="rs-t">Investment</div><svg class="rs-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div>
       <div class="rs-tag">Build wealth with conviction.</div>
       <div class="rs-b">Portfolio construction and evidence-based approaches to long-term investment growth.</div>
       <a class="rs-lk" href="resource-investment.html">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></a>
     </div>
-    <div class="rs-card rv d1" id="rs-4" onclick="location.href='resource-insurance.html'">
+    <div class="rs-card rv d1" id="rs-4" onclick="if(!event.target.closest('a'))location.href='resource-insurance.html'">
       <div class="rs-eb">04 · Guide</div>
       <div class="rs-mob-hd"><div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="rs-t">Insurance</div><svg class="rs-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div>
       <div class="rs-tag">Protect what matters.</div>
       <div class="rs-b">Protection strategies for individuals and business owners — life, disability, and long-term care.</div>
       <a class="rs-lk" href="resource-insurance.html">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></a>
     </div>
-    <div class="rs-card rv d2" id="rs-5" onclick="location.href='resource-tax.html'">
+    <div class="rs-card rv d2" id="rs-5" onclick="if(!event.target.closest('a'))location.href='resource-tax.html'">
       <div class="rs-eb">05 · Guide</div>
       <div class="rs-mob-hd"><div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3M18 2l4 4-10 10H8v-4L18 2z"/></svg></div><div class="rs-t">Tax Strategy</div><svg class="rs-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div>
       <div class="rs-tag">Keep more of what you earn.</div>
       <div class="rs-b">Tax-efficient investing and planning strategies to reduce burden across your wealth lifecycle.</div>
       <a class="rs-lk" href="resource-tax.html">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></a>
     </div>
-    <div class="rs-card rv d3" id="rs-6" onclick="location.href='resource-money.html'">
+    <div class="rs-card rv d3" id="rs-6" onclick="if(!event.target.closest('a'))location.href='resource-money.html'">
       <div class="rs-eb">06 · Guide</div>
       <div class="rs-mob-hd"><div class="rs-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="rs-t">Money &amp; Lifestyle</div><svg class="rs-chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></div>
       <div class="rs-tag">Live well, on purpose.</div>
       <div class="rs-b">Financial habits, budgeting frameworks, and lifestyle planning to build lasting confidence.</div>
       <a class="rs-lk" href="resource-money.html">Explore <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M10 4l6 6-6 6"/></svg></a>
     </div>
+  </div>
   </div>
 </section>
 
@@ -2134,7 +2200,8 @@ document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>io.observe(el));
 const carIo=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.querySelectorAll('.rv:not(.vis)').forEach(el=>el.classList.add('vis'));carIo.unobserve(x.target)}})},{threshold:.15});
 document.querySelectorAll('#stats .s-row,#resources .rs-grid').forEach(el=>carIo.observe(el));
 
-/* ── BY THE NUMBERS on phones: one row of figures, one line at a time.
+/* ── BY THE NUMBERS on phones: one row of figures, one line at a time
+   (desktop and tablets show all three columns; the figures count up everywhere).
    Moves on every 6 s while in view, until the visitor taps a figure. ── */
 (function(){
   const wrap=document.querySelector('#stats .s-tabs'),prog=document.querySelector('#stats .s-prog');
@@ -2163,25 +2230,61 @@ document.querySelectorAll('#stats .s-row,#resources .rs-grid').forEach(el=>carIo
   show(0);
 })();
 
-/* ── GUIDES on phones: a shelf of spines; the chosen guide opens below ── */
+/* ── GUIDE LIBRARY: a shelf of spines; the chosen guide opens beside it
+   (below on smaller screens). With a mouse, hovering a spine previews it. ── */
 (function(){
   const spines=[...document.querySelectorAll('#resources .rs-spine')],cards=[...document.querySelectorAll('#resources .rs-card')];
   if(!spines.length||spines.length!==cards.length)return;
+  let tap='mouse',hover=null;
   function open(n){
-    spines.forEach((s,k)=>s.setAttribute('aria-pressed',k===n?'true':'false'));
+    spines.forEach((s,k)=>{if(k===n)s.setAttribute('aria-current','true');else s.removeAttribute('aria-current')});
     cards.forEach((c,k)=>c.classList.toggle('is-on',k===n));
   }
-  spines.forEach((s,k)=>s.addEventListener('click',()=>open(k)));
+  spines.forEach((s,k)=>{
+    /* a book previews once the pointer rests on it, so sweeping across the shelf
+       towards the open guide does not change it on the way */
+    s.addEventListener('pointerenter',e=>{if(e.pointerType!=='mouse')return;clearTimeout(hover);hover=setTimeout(()=>open(k),140)});
+    s.addEventListener('pointerleave',()=>clearTimeout(hover));
+    s.addEventListener('pointerdown',e=>{tap=e.pointerType});
+    s.addEventListener('focus',()=>{if(s.matches(':focus-visible'))open(k)});
+    /* each book is a link to its guide; on touch the first tap takes the book
+       off the shelf and a second tap follows the link */
+    s.addEventListener('click',e=>{
+      clearTimeout(hover);
+      if(e.detail>0&&tap!=='mouse'&&!s.hasAttribute('aria-current')){
+        e.preventDefault();open(k);
+        /* on a short screen the guide can sit just below the fold: bring it up */
+        const c=cards[k];c.classList.add('vis');
+        if(c.getBoundingClientRect().bottom>innerHeight)c.scrollIntoView({block:'nearest',behavior:prefersReduced?'auto':'smooth'});
+      }
+    });
+  });
 })();
 
 /* ── COUNTERS ───────────────────────────────────── */
+/* the count starts as its figure fades in, so the whole climb is seen */
+function countUp(el){
+  const target=+el.dataset.t,host=el.closest('.rv');
+  if(host&&!host.classList.contains('vis')){
+    const mo=new MutationObserver(()=>{if(host.classList.contains('vis')){mo.disconnect();clearTimeout(late);countUp(el)}});
+    const late=setTimeout(()=>{mo.disconnect();host.classList.add('vis');countUp(el)},1500);
+    mo.observe(host,{attributes:true,attributeFilter:['class']});return;
+  }
+  const wait=host?(parseFloat(getComputedStyle(host).transitionDelay)||0)*1000+120:0;
+  setTimeout(()=>{
+    const t0=performance.now(),dur=1400;
+    (function tick(now){
+      const p=Math.min((now-t0)/dur,1);
+      el.textContent=Math.round(target*(1-Math.pow(1-p,3)));
+      if(p<1)requestAnimationFrame(tick);
+    })(t0);
+  },wait);
+}
 const cio=new IntersectionObserver(e=>{e.forEach(x=>{
   if(!x.isIntersecting)return;
-  const el=x.target,target=+el.dataset.t;
-  if(prefersReduced){el.textContent=target;cio.unobserve(el);return;}
-  let v=0;const step=target/65;
-  const t=setInterval(()=>{v=Math.min(v+step,target);el.textContent=Math.floor(v);if(v>=target)clearInterval(t)},16);
-  cio.unobserve(el);
+  const el=x.target;cio.unobserve(el);
+  if(prefersReduced){el.textContent=el.dataset.t;return;}
+  countUp(el);
 })},{threshold:.5});
 document.querySelectorAll('.counter').forEach(c=>cio.observe(c));
 
