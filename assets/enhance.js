@@ -8,9 +8,6 @@
 (function () {
   'use strict';
 
-  var reduce = !!(window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-
   /* ── Mobile drawer: scroll-lock, focus, Esc, focus-trap ─────
      We watch the #mob element's class rather than re-binding the
      hamburger, so this cooperates with each page's own handler. */
@@ -100,17 +97,5 @@
     window.addEventListener('scroll', function () {
       if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
     }, { passive: true });
-  }
-
-  /* ── Reduced motion: calm media the stylesheet can't reach ──
-     Freeze autoplaying background videos on their first frame.  */
-  if (reduce) {
-    Array.prototype.forEach.call(document.querySelectorAll('video'), function (v) {
-      try {
-        v.removeAttribute('autoplay');
-        v.autoplay = false;
-        v.pause();
-      } catch (e) {}
-    });
   }
 }());
