@@ -1531,21 +1531,23 @@ html{scroll-behavior:smooth}
      sections are often taller than the 16:9 clips, which enlarges them. Upright phones
      and tablets get a portrait cut from the middle of the frame, the only part they
      show. Copies are never enlarged past the original, and if a sharp copy can't be
-     fetched the browser falls back to the original 1600px copy. */
+     fetched the browser falls back to the original 1600px copy. Desktop screens get
+     Cloudinary's highest automatic quality; phones keep its standard level to save data. */
   window.__bgVideo = function(v, id, withVideo){
     const cld = 'https://res.cloudinary.com/dfabtxqiy/video/upload/';
     const r = v.getBoundingClientRect(), w = r.width || innerWidth, h = r.height || innerHeight;
     const need = Math.max(w, h * 16 / 9) * Math.min(window.devicePixelRatio || 1, 2) * .9;
     const size = h > w ? 'c_fill,ar_9:16,w_1080'
       : 'c_limit,w_' + (need <= 1920 ? 1920 : need <= 2560 ? 2560 : 3840);
+    const q = h <= w && innerWidth > 1024 ? 'q_auto:best' : 'q_auto';
     const img = new Image();
     img.onload = () => { v.poster = img.src; };
     img.onerror = () => { v.poster = cld + 'so_0,q_auto:eco,f_auto,w_1600/' + id + '.jpg'; };
-    img.src = cld + 'so_0,q_auto,f_auto,' + size.replace('w_3840', 'w_2560') + '/' + id + '.jpg';
+    img.src = cld + 'so_0,' + q + ',f_auto,' + size.replace('w_3840', 'w_2560') + '/' + id + '.jpg';
     if(!withVideo) return;
     [size, 'w_1600'].forEach(s => {
       const el = document.createElement('source');
-      el.src = cld + 'q_auto,vc_auto,' + s + '/' + id + '.mp4';
+      el.src = cld + (s === size ? q : 'q_auto') + ',vc_auto,' + s + '/' + id + '.mp4';
       el.type = 'video/mp4';
       v.appendChild(el);
     });
