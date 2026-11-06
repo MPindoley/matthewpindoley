@@ -1,9 +1,9 @@
-// Fee page: "the architecture of one fee". A stone model of a 1930s tower stands on the page's drafting sheet.
-// Drawn first in pieces, floating apart, it is set in place piece by piece as the visitor scrolls, so every movement
-// adds something: the steps and the podium (financial planning); the glass floor by floor and the stone piers one at
-// a time (investment management); the setbacks course by course, each stage narrower (coordination); and the crown,
-// lowered on stage by stage to its dark stone cap (ongoing strategy). It is complete as the last line arrives; then
-// the steps warm and the windows light, floor by floor from the ground up.
+// Fee page: "the architecture of one fee". A stone tower of the 1930s is built on the page's drafting sheet. It
+// is drawn first as a blueprint in fine lines; then, as the visitor scrolls, its pieces fly in from beyond the edges
+// of the view and are set in place one after another, so every movement adds something: the steps and the podium
+// with its doorway (financial planning); the glass floor by floor, the rooms behind it, then the stone piers
+// (investment management); the setbacks course by course, each narrower (coordination); and the crown, lowered on to
+// its dark cupola (ongoing strategy). It is complete as the last line arrives; then the steps warm, top to bottom.
 // A gold line tracks the way through, and a prompt to scroll appears whenever the visitor stops. One
 // spring-smoothed scroll position drives every movement, and nothing moves unless the page scrolls.
 // Studio light, soft shadows and ambient occlusion give it the look of a photographed model. The lines are
@@ -125,29 +125,28 @@ function start() {
     return c;
   };
 
-  // the stone: a warm cream marble, clouded with grey-beige, crossed by fine wandering veins and lightly
-  // speckled, polished just enough to hold a soft sheen, as on the model in the photographs
-  const marble = (() => {
+  // the stone: travertine, warm and pale, laid in faint bands with darker streaks of sediment, clouded, and pitted
+  // with the small voids of the stone
+  const travertine = (() => {
     const N = small ? 384 : 512, H = new Float32Array(N * N);
     const col = canvasOf(N), cg = col.getContext('2d'), ci = cg.createImageData(N, N), rough = canvasOf(N), rg = rough.getContext('2d'), ri = rg.createImageData(N, N);
     for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
       const u = x / N, v = y / N, i = y * N + x, k = i * 4;
-      const cloud = clamp01((fbm(u * 4, v * 4, 4, 4) - 0.4) * 2.2), fine = noise(u * 96, v * 96, 96);
-      const warp = fbm(u * 3 + 11, v * 3 + 5, 3, 4), fade = clamp01((fbm(u * 2 + 7, v * 2 + 1, 2, 3) - 0.36) * 3.5);
-      // the veins: thin crests of a warped wave (whole waves per tile, so the stone repeats without a seam)
-      const v1 = Math.pow(1 - Math.abs(Math.sin(Math.PI * (2 * u + v + warp * 2.4))), 9) * fade;
-      const v2 = Math.pow(1 - Math.abs(Math.sin(Math.PI * (u - 3 * v + warp * 1.7))), 26) * 0.6;
-      const vein = Math.min(1, v1 + v2), f = (fine - 0.5) * 7;
-      ci.data[k] = 232 - cloud * 40 + f - vein * 58; ci.data[k + 1] = 223 - cloud * 39 + f - vein * 58; ci.data[k + 2] = 204 - cloud * 30 + f - vein * 50; ci.data[k + 3] = 255;
-      ri.data[k] = ri.data[k + 1] = ri.data[k + 2] = 138 + cloud * 40 + vein * 50 + fine * 22; ri.data[k + 3] = 255;
-      H[i] = cloud * 0.12 + fine * 0.06 - vein * 0.25;
+      const cloud = clamp01((fbm(u * 3, v * 3, 3, 4) - 0.35) * 2), fine = noise(u * 96, v * 96, 96), warp = fbm(u * 2 + 9, v * 2 + 4, 2, 4);
+      const band = 0.5 + 0.5 * Math.sin(Math.PI * 2 * (v * 6 + warp * 0.9)); // whole waves per tile, so it repeats without a seam
+      const streak = Math.pow(1 - Math.abs(Math.sin(Math.PI * (v * 9 + warp * 1.4 + fbm(u * 6, v * 6 + 3, 6, 3) * 0.4))), 14) * clamp01((fbm(u * 4 + 2, v * 4, 4, 3) - 0.3) * 3);
+      const f = (fine - 0.5) * 8;
+      ci.data[k] = 233 - cloud * 26 - band * 13 - streak * 64 + f; ci.data[k + 1] = 223 - cloud * 26 - band * 13 - streak * 61 + f; ci.data[k + 2] = 204 - cloud * 21 - band * 11 - streak * 50 + f; ci.data[k + 3] = 255;
+      ri.data[k] = ri.data[k + 1] = ri.data[k + 2] = 165 + cloud * 30 + fine * 25; ri.data[k + 3] = 255;
+      H[i] = band * 0.06 + fine * 0.05 - streak * 0.18;
     }
-    for (let p = 0; p < N * N / 700; p++) { // specks, and the odd small pit
-      const px = Math.floor(rand() * N), py = Math.floor(rand() * N), r = rand() < 0.85 ? 1 : 2, dark = 26 + rand() * 46;
-      for (let yy = -r; yy <= r; yy++) for (let xx = -r; xx <= r; xx++) {
-        if (xx * xx + yy * yy > r * r) continue;
-        const i = ((py + yy + N) % N) * N + ((px + xx + N) % N), k = i * 4;
-        ci.data[k] -= dark; ci.data[k + 1] -= dark; ci.data[k + 2] -= dark * 0.85; H[i] -= 0.25;
+    for (let p = 0; p < N * N / 450; p++) { // the pores: small voids, longer than they are tall
+      const px = rand() * N, py = rand() * N, w = 1.5 + rand() * 5, h = 0.6 + rand() * 1.4, depth = 0.3 + rand() * 0.4;
+      for (let yy = -Math.ceil(h); yy <= h; yy++) for (let xx = -Math.ceil(w); xx <= w; xx++) {
+        const e = (xx * xx) / (w * w) + (yy * yy) / (h * h);
+        if (e > 1) continue;
+        const i = (((Math.round(py + yy) % N) + N) % N) * N + (((Math.round(px + xx) % N) + N) % N), k = i * 4, d = (1 - e) * depth;
+        ci.data[k] -= 60 * d; ci.data[k + 1] -= 58 * d; ci.data[k + 2] -= 50 * d; H[i] -= d;
       }
     }
     cg.putImageData(ci, 0, 0); rg.putImageData(ri, 0, 0);
@@ -155,12 +154,10 @@ function start() {
   })();
 
   // ---------- materials ----------
-  const stone = (extra = {}) => new THREE.MeshStandardMaterial({ color: '#e4ddd3', ...marble, normalScale: new THREE.Vector2(0.6, 0.6), roughness: 1, metalness: 0, emissive: 0x8a6420, emissiveIntensity: 0, ...extra });
+  const stone = (extra = {}) => new THREE.MeshStandardMaterial({ color: '#efe8dc', ...travertine, normalScale: new THREE.Vector2(0.6, 0.6), roughness: 1, metalness: 0, emissive: 0x8a6420, emissiveIntensity: 0, ...extra });
   const stoneMat = stone();
-  const stepMats = [stone(), stone(), stone()]; // each step its own, so they can warm one after another
-  const bronze = new THREE.MeshStandardMaterial({ color: '#5b4a35', roughness: 0.45, metalness: 0.9, envMapIntensity: 1.1 });
+  const stepMats = [stone(), stone(), stone(), stone(), stone()]; // each step its own, so they can warm one after another
   const shade = new THREE.MeshStandardMaterial({ color: '#211c16', roughness: 1 });
-  const doorBronze = new THREE.MeshStandardMaterial({ color: '#4d5f53', roughness: 0.46, metalness: 0.6, envMapIntensity: 1.6 }); // dark, green with age
 
 
   // the stone texture is laid by world size (a block twice as long shows twice the stone), each block offset
@@ -184,9 +181,14 @@ function start() {
     return m;
   };
   const group = (...kids) => { const g = new THREE.Group(); g.add(...kids); return g; };
-  // a course of separate stone blocks, each turned at random and cut from one of three stones, so no two neighbours match
-  const blocks = (spots, w, h, d, r, mat) => group(...[0, 1, 2].map((v) => many(block(w, h, d, r), mat,
-    spots.filter((_, i) => i % 3 === v).map(([x, y, z]) => [x, y, z, rand() < 0.5 ? 0 : Math.PI, 0, rand() < 0.5 ? 0 : Math.PI]))));
+  // a course of separate stone blocks, each turned at random, cut from one of three stones and a shade apart from its
+  // neighbours, so no two match
+  const blocks = (spots, w, h, d, r, mat) => group(...[0, 1, 2].map((v) => {
+    const set = spots.filter((_, i) => i % 3 === v), tint = new THREE.Color();
+    const m = many(block(w, h, d, r), mat, set.map(([x, y, z]) => [x, y, z, rand() < 0.5 ? 0 : Math.PI, 0, rand() < 0.5 ? 0 : Math.PI]));
+    set.forEach((_, i) => { const t = 0.9 + rand() * 0.12; m.setColorAt(i, tint.setRGB(t, t * (0.985 + rand() * 0.02), t * (0.97 + rand() * 0.03))); });
+    return m;
+  }));
 
   // ---------- the ground is the page itself: an invisible floor catches the tower's shadow, and a soft
   //            darkening where it stands sets it down on the drawing ----------
@@ -194,141 +196,256 @@ function start() {
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
-  {
+  const contact = (() => {
     const c = canvasOf(256), g = c.getContext('2d'), grd = g.createRadialGradient(128, 128, 40, 128, 128, 128);
     grd.addColorStop(0, 'rgba(58,42,20,.42)'); grd.addColorStop(1, 'rgba(58,42,20,0)');
     g.fillStyle = grd; g.fillRect(0, 0, 256, 256);
-    const contact = new THREE.Mesh(new THREE.PlaneGeometry(17, 14.5), new THREE.MeshBasicMaterial({ map: texOf(c, true, false), transparent: true, depthWrite: false, toneMapped: false }));
-    contact.rotation.x = -Math.PI / 2;
-    contact.position.y = 0.002;
-    scene.add(contact);
-  }
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(17, 14.5), new THREE.MeshBasicMaterial({ map: texOf(c, true, false), transparent: true, depthWrite: false, toneMapped: false }));
+    m.rotation.x = -Math.PI / 2;
+    m.position.y = 0.002;
+    scene.add(m);
+    return m;
+  })();
 
-  // ---------- the pieces, in the order they are set ----------
+  // ---------- the pieces, in the order they are set. Each waits off screen and flies in to its place ----------
   const model = new THREE.Group();
   scene.add(model);
   const queue = { 1: [], 2: [], 3: [], 4: [] };
-  const LIFT = { 1: 1.0, 2: 2.4, 3: 3.6, 4: 4.6 }; // how far each line's pieces float above their place before they are set
-  const piece = (obj, line) => { model.add(obj); queue[line].push({ obj, home: obj.position.y, lift: LIFT[line], turn: (rand() - 0.5) * 0.06 }); return obj; };
+  const FROM = { above: [0, 34, 0], left: [-46, 3, 8], right: [58, 3, -4] }; // where each comes from, beyond the edge of the view
+  const piece = (obj, line, from = 'above') => {
+    model.add(obj);
+    queue[line].push({ obj, home: obj.position.clone(), from: new THREE.Vector3(...FROM[from]), spin: (rand() - 0.5) * 0.8 });
+    return obj;
+  };
+  const outline = []; // the blueprint: the main volumes, drawn in fine lines before anything is built
+  const plan = (w, h, d, y, round = false) => outline.push([w, h, d, y, round]);
 
-  // ---------- the tower: a stone tower of the 1930s, stepping back as it rises to a dark stone cap. It is set
-  //            piece by piece, the crown lowered on last, and when it is complete its windows light, floor by floor
-  //            from the ground up ----------
-  const carve = stone({ color: '#b6aa98' }); // the stone in shadow, for carved lines
-  const steel = new THREE.MeshStandardMaterial({ color: '#b4b5b1', roughness: 0.38, metalness: 0.6, envMapIntensity: 1.3 }); // silver window frames
-  const slate = new THREE.MeshStandardMaterial({ color: '#4a4c4e', roughness: 0.42, metalness: 0.55, envMapIntensity: 1.1 });
-  const lights = []; // every floor's glass, ground up: each lights in turn at the end
-  const roomGlow = (() => { // the light of a room behind each bay: warm in the middle, falling off to the frames
-    const c = canvasOf(128), g = c.getContext('2d'), r = g.createRadialGradient(64, 76, 6, 64, 70, 78);
-    r.addColorStop(0, '#fff'); r.addColorStop(0.55, '#8a8a8a'); r.addColorStop(1, '#262626');
-    g.fillStyle = r; g.fillRect(0, 0, 128, 128);
-    const t = texOf(c, true);
-    t.repeat.set(6, 1);
-    return t;
+  // ---------- what the tower is made of, besides the stone ----------
+  // the glass: polished, dark and a little green, reflecting a soft sky with clouds and a distant skyline; its panes
+  // are not quite flat, so the reflection ripples a little, as it does in real glass
+  const skyEnv = (() => {
+    const W = 1024, Hh = 512, c = canvasOf(W, Hh), g = c.getContext('2d'), sky = g.createLinearGradient(0, 0, 0, Hh);
+    sky.addColorStop(0, '#4f78ab'); sky.addColorStop(0.3, '#86a9d0'); sky.addColorStop(0.55, '#d9e3ea'); sky.addColorStop(0.6, '#f4efe4'); // the horizon a little low, so glass seen from above still shows sky
+    sky.addColorStop(0.62, '#7d7262'); sky.addColorStop(1, '#2f2a24');
+    g.fillStyle = sky; g.fillRect(0, 0, W, Hh);
+    for (let i = 0; i < 70; i++) { // soft clouds
+      const x = rand() * W, y = 30 + rand() * 200, r = 18 + rand() * 60, cl = g.createRadialGradient(x, y, 0, x, y, r);
+      cl.addColorStop(0, 'rgba(255,255,255,.8)'); cl.addColorStop(1, 'rgba(255,255,255,0)');
+      g.fillStyle = cl; g.fillRect(x - r, y - r * 0.6, 2 * r, 1.2 * r);
+    }
+    g.fillStyle = 'rgba(46,54,50,.9)'; // a skyline of trees and roofs along the horizon
+    for (let x = 0; x < W; x += 5 + rand() * 16) { const h = 3 + rand() * 11; g.fillRect(x, Hh * 0.6 - h, 6 + rand() * 14, h); }
+    const t = new THREE.CanvasTexture(c);
+    t.mapping = THREE.EquirectangularReflectionMapping;
+    t.colorSpace = THREE.SRGBColorSpace;
+    return pmrem.fromEquirectangular(t).texture;
   })();
-  const glassFloor = () => { const m = new THREE.MeshStandardMaterial({ color: '#6c7673', roughness: 0.05, metalness: 0.6, envMapIntensity: 1.6, emissive: 0xffad5c, emissiveMap: roomGlow, emissiveIntensity: 0 }); lights.push(m); return m; };
-  const STEP = 0.34, INSET = 0.38, W = 12.2, D = 10.6, FLOOR = STEP * 3;
+  const ripple = (() => {
+    const N = 256, H = new Float32Array(N * N);
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) H[y * N + x] = fbm((x / N) * 4, (y / N) * 4, 4, 3);
+    return texOf(normalsOf(H, N, N, 0.9), false);
+  })();
+  // the panes are never quite in one plane: each tilts a hair its own way, so each catches its own piece of sky.
+  // Drawn to match a face of `faceW` with its bays (centre and width), split down the middle and in three rows
+  const panesOf = (faceW, bays) => {
+    const W = 1024, Hh = 256, c = canvasOf(W, Hh), g = c.getContext('2d');
+    g.fillStyle = 'rgb(128,128,255)'; g.fillRect(0, 0, W, Hh);
+    for (const [x, bw] of bays) for (const left of [true, false]) for (let r = 0; r < 3; r++) {
+      const nx = (rand() - 0.5) * 0.3, ny = (rand() - 0.5) * 0.22;
+      g.fillStyle = `rgb(${Math.round((nx * 0.5 + 0.5) * 255)},${Math.round((ny * 0.5 + 0.5) * 255)},252)`;
+      g.fillRect(((x - (left ? bw / 2 : 0) + faceW / 2) / faceW) * W, (r * Hh) / 3, (bw / 2 / faceW) * W, Hh / 3);
+    }
+    return texOf(c, false, false);
+  };
+  const glassOf = (panes) => { // and each floor's glass catches the sky at a slightly different angle again
+    const m = new THREE.MeshPhysicalMaterial({ color: '#122019', metalness: 0.6, roughness: 0.04, envMap: skyEnv, envMapIntensity: 1.5, clearcoat: 1, clearcoatRoughness: 0.02,
+      normalMap: panes || ripple, normalScale: panes ? new THREE.Vector2(1, 1) : new THREE.Vector2(0.32, 0.32) });
+    m.envMapRotation.set((rand() - 0.5) * 0.06, (rand() - 0.5) * 0.5, 0);
+    return m;
+  };
+  const glass = glassOf();
+  const steel = new THREE.MeshStandardMaterial({ color: '#25332d', roughness: 0.4, metalness: 0.65, envMapIntensity: 1.2 }); // dark green window frames
+  const doorPaint = new THREE.MeshStandardMaterial({ color: '#2e4a3c', roughness: 0.42, metalness: 0.12 });
+  const brass = new THREE.MeshStandardMaterial({ color: '#a8874f', roughness: 0.3, metalness: 1, envMapIntensity: 1.3 });
+  const cupola = new THREE.MeshStandardMaterial({ color: '#2b2a27', roughness: 0.36, metalness: 0.8, envMapIntensity: 1.2 });
+  // the carved band under the first setback: a double chevron between two fillets, in relief
+  const chevron = (() => {
+    const W = 512, Hh = 64, c = canvasOf(W, Hh), g = c.getContext('2d');
+    g.fillStyle = '#000'; g.fillRect(0, 0, W, Hh);
+    g.filter = 'blur(1px)'; g.strokeStyle = '#fff'; g.lineWidth = 4;
+    g.beginPath(); g.moveTo(0, 6); g.lineTo(W, 6); g.moveTo(0, Hh - 6); g.lineTo(W, Hh - 6); g.stroke();
+    g.lineWidth = 5;
+    for (const y0 of [16, 30]) { g.beginPath(); for (let x = -32; x <= W + 32; x += 32) { g.lineTo(x, y0); g.lineTo(x + 16, y0 + 14); } g.stroke(); }
+    g.filter = 'none';
+    const img = g.getImageData(0, 0, W, Hh), H = new Float32Array(W * Hh);
+    for (let i = 0; i < H.length; i++) H[i] = img.data[i * 4] / 255;
+    return texOf(normalsOf(H, W, Hh, 3), false);
+  })();
+  const bandMat = (len, h) => { // the band's own stone, laid to its length, with the chevron cut into it
+    const m = travertine.map.clone(), n = chevron.clone();
+    m.repeat.set(len / 1.5, h / 1.5); n.repeat.set(len / 0.9, 1);
+    return stone({ map: m, roughnessMap: null, normalMap: n, normalScale: new THREE.Vector2(2.3, 2.3) });
+  };
+  // a bronze plaque by the door, its letters raised
+  const plaque = (() => {
+    const W = 512, Hh = 160, c = canvasOf(W, Hh), g = c.getContext('2d');
+    g.fillStyle = '#000'; g.fillRect(0, 0, W, Hh);
+    g.fillStyle = g.strokeStyle = '#fff'; g.lineWidth = 6; g.strokeRect(12, 12, W - 24, Hh - 24);
+    g.textAlign = 'center'; g.font = '600 40px Georgia, serif'; g.fillText('MATTHEW PINDOLEY', W / 2, 68);
+    g.font = '28px Georgia, serif'; g.fillText('WEALTH MANAGEMENT', W / 2, 108);
+    g.font = '20px Georgia, serif'; g.fillText('TOLEDO · OHIO', W / 2, 138);
+    const img = g.getImageData(0, 0, W, Hh), H = new Float32Array(W * Hh), col = canvasOf(W, Hh), cg = col.getContext('2d'), ci = cg.createImageData(W, Hh);
+    for (let i = 0; i < H.length; i++) { const v = img.data[i * 4] / 255, k = i * 4; H[i] = v; ci.data[k] = 86 + v * 96; ci.data[k + 1] = 68 + v * 76; ci.data[k + 2] = 42 + v * 42; ci.data[k + 3] = 255; }
+    cg.putImageData(ci, 0, 0);
+    return new THREE.MeshStandardMaterial({ map: texOf(col, true, false), normalMap: texOf(normalsOf(H, W, Hh, 2.5), false, false), metalness: 0.85, roughness: 0.42, envMapIntensity: 1.2 });
+  })();
 
-  // 1. the foundation: three steps, the podium course by course, then its bronze doors, fanlight and grille
-  for (let i = 0; i < 3; i++) {
-    const w = W - 2 * INSET * i, d = D - 2 * INSET * i, nx = Math.round(w / 1.6), nz = Math.round(d / 1.3), bw = w / nx, bd = d / nz, spots = [];
+  // 1. the foundation: five shallow steps, the podium course by course, then the arched doorway and the plaque
+  const NS = 5, STEP = 0.22, INSET = 0.26, W = 11.4, D = 10.6, FLOOR = STEP * NS;
+  for (let i = 0; i < NS; i++) {
+    const w = W - 2 * INSET * i, d = D - 2 * INSET * i, nx = Math.round(w / 1.5), nz = Math.round(d / 1.3), bw = w / nx, bd = d / nz, spots = [];
     for (let a = 0; a < nx; a++) for (let b = 0; b < nz; b++) spots.push([-w / 2 + bw * (a + 0.5), 0, -d / 2 + bd * (b + 0.5)]);
-    const step = blocks(spots, bw - 0.012, STEP, bd - 0.012, 0.03, stepMats[i]);
+    const step = blocks(spots, bw - 0.012, STEP, bd - 0.012, 0.022, stepMats[i]);
     step.position.y = STEP * (i + 0.5);
-    piece(step, 1);
+    piece(step, 1, i % 2 ? 'right' : 'left');
+    plan(w, STEP, d, STEP * (i + 0.5));
   }
-  const PW = 10.2, PD = 8.6, PH = 1.8, P0 = FLOOR, ch = PH / 3;
-  for (let c = 0; c < 3; c++) { // rusticated courses, their joints staggered
+  const PW = 9.4, PD = 8.6, PH = 1.45, P0 = FLOOR, NC = 4, ch = PH / NC;
+  for (let c = 0; c < NC; c++) { // smooth ashlar, the joints staggered course to course
     const nx = c % 2 ? 6 : 7, nz = c % 2 ? 5 : 6, bw = PW / nx, bd = PD / nz, spots = [];
     for (let a = 0; a < nx; a++) for (let b = 0; b < nz; b++) spots.push([-PW / 2 + bw * (a + 0.5), 0, -PD / 2 + bd * (b + 0.5)]);
-    const course = blocks(spots, bw - 0.025, ch - 0.025, bd - 0.025, 0.05, stoneMat);
+    const course = blocks(spots, bw - 0.016, ch - 0.016, bd - 0.016, 0.02, stoneMat);
     course.position.y = P0 + ch * (c + 0.5);
-    piece(course, 1);
+    piece(course, 1, c % 2 ? 'right' : 'left');
   }
+  plan(PW, PH, PD, P0 + PH / 2);
   {
-    const DW = 1.5, DH = 1.15, R = DW / 2, portal = new THREE.Group(), f = 0.012;
-    portal.add(mesh(new THREE.BoxGeometry(DW + 0.1, DH + R + 0.05, 0.02), shade, 0, (DH + R) / 2, f)); // the dark of the opening
+    const R = 0.55, DH = 0.68, portal = new THREE.Group();
+    portal.add(mesh(new THREE.BoxGeometry(2 * R + 0.04, DH + R, 0.04), shade, 0, (DH + R) / 2, -0.06)); // the dark beyond the doors
+    for (const s of [-1, 1]) portal.add(mesh(block(0.32, 1.25, 0.34, 0.02), stoneMat, s * (R + 0.16), 0.625, 0.08)); // jambs
+    portal.add(mesh(block(2 * R + 0.84, 0.2, 0.38, 0.02), stoneMat, 0, 1.35, 0.09)); // lintel
+    const sp = new THREE.Shape([new THREE.Vector2(-R, DH), new THREE.Vector2(R, DH), new THREE.Vector2(R, 1.25), new THREE.Vector2(-R, 1.25)]);
+    const hole = new THREE.Path(); hole.absarc(0, DH, R - 0.02, 0, Math.PI, false); sp.holes.push(hole);
+    portal.add(mesh(worldUV(new THREE.ExtrudeGeometry(sp, { depth: 0.22, bevelEnabled: false, curveSegments: 24 })), stoneMat, 0, 0, -0.04)); // the arch
+    // the fanlight: dark glass behind a wheel of bars
+    const bars = [...Array(9).keys()].map((i) => { const a = ((i + 0.5) / 9) * Math.PI; return [Math.cos(a) * R * 0.48, DH + Math.sin(a) * R * 0.48, 0.0, 0, a]; });
+    portal.add(mesh(new THREE.CircleGeometry(R - 0.02, 32, 0, Math.PI), glass, 0, DH, -0.01), many(new THREE.BoxGeometry(R * 0.9, 0.018, 0.02), steel, bars),
+      mesh(new THREE.TorusGeometry(R * 0.2, 0.02, 6, 20, Math.PI), steel, 0, DH, 0), mesh(new THREE.BoxGeometry(2 * R, 0.04, 0.05), steel, 0, DH, 0.01));
+    // the doors: two painted leaves, each with two raised panels and a brass ring
     for (const s of [-1, 1]) {
-      portal.add(mesh(block(0.2, DH + R + 0.12, 0.3, 0.02), stoneMat, s * (DW / 2 + 0.1), (DH + R + 0.12) / 2, 0.05)); // jambs
-      portal.add(mesh(new RoundedBoxGeometry(DW / 2 - 0.03, DH, 0.05, 2, 0.01), doorBronze, s * DW / 4, DH / 2, 0.05));
-      portal.add(many(new THREE.BoxGeometry(0.025, DH - 0.2, 0.025), bronze, [-0.12, 0.12].map((u) => [s * DW / 4 + u, DH / 2, 0.085])));
-      portal.add(mesh(new THREE.TorusGeometry(0.1, 0.018, 8, 24), bronze, s * DW / 4, DH * 0.62, 0.085));
+      portal.add(mesh(new RoundedBoxGeometry(R - 0.02, DH - 0.02, 0.05, 2, 0.008), doorPaint, s * R / 2, DH / 2, 0.0));
+      portal.add(many(new RoundedBoxGeometry(R - 0.16, 0.24, 0.025, 2, 0.006), doorPaint, [[s * R / 2, 0.49, 0.03], [s * R / 2, 0.18, 0.03]]));
+      portal.add(mesh(new THREE.TorusGeometry(0.045, 0.01, 8, 20), brass, s * 0.09, 0.4, 0.05));
     }
-    portal.add(mesh(block(DW + 0.6, 0.18, 0.32, 0.02), stoneMat, 0, DH + R + 0.15, 0.06)); // the lintel
-    // the fanlight: a half wheel of bronze bars over the doors
-    const spokes = [...Array(7).keys()].map((i) => { const a = ((i + 1) / 8) * Math.PI; return [Math.cos(a) * R * 0.5, DH + Math.sin(a) * R * 0.5, 0.04, 0, a]; });
-    portal.add(many(new THREE.BoxGeometry(R, 0.02, 0.02), bronze, spokes), mesh(new THREE.TorusGeometry(R - 0.02, 0.025, 6, 32, Math.PI), bronze, 0, DH, 0.04),
-      mesh(new THREE.BoxGeometry(DW, 0.04, 0.04), bronze, 0, DH + 0.01, 0.05));
-    // a bronze grille in the podium to the right of the doors
-    portal.add(mesh(new THREE.BoxGeometry(1.7, 0.36, 0.02), shade, 2.2, 1.12, f), mesh(block(1.82, 0.48, 0.1, 0.015), stoneMat, 2.2, 1.12, 0.0),
-      many(new THREE.BoxGeometry(1.6, 0.025, 0.04), bronze, [0, 1, 2, 3, 4].map((i) => [2.2, 0.98 + i * 0.07, 0.03])));
-    portal.position.set(0, P0, PD / 2);
-    piece(portal, 1);
+    portal.add(mesh(new THREE.BoxGeometry(1.5, 0.46, 0.04), plaque, 2.6, 0.78, -0.1)); // the plaque, to the right, on the wall
+    portal.position.set(0, P0, PD / 2 + 0.12); // the doorway stands a little proud of the podium
+    piece(portal, 1, 'right');
   }
 
-  // 2. the shaft: the glass floor by floor, its steel frames, then the stone piers one at a time
-  const S0 = P0 + PH, SW = 8.4, SD = 6.8, SH = 6.0, NF = 5, FH = SH / NF;
-  for (let i = 0; i < NF; i++) piece(mesh(new THREE.BoxGeometry(SW - 0.3, FH - 0.01, SD - 0.3), glassFloor(), 0, S0 + FH * (i + 0.5), 0), 2);
-  {
-    const zf = SD / 2 - 0.12, xf = SW / 2 - 0.12, verts = [];
-    for (const x of [-2.95, -1.8, -0.6, 0.6, 1.8, 2.95]) for (const s of [-1, 1]) verts.push([x, S0 + SH / 2, s * zf]);
-    for (const z of [-1.95, -0.6, 0.6, 1.95]) for (const s of [-1, 1]) verts.push([s * xf, S0 + SH / 2, z, Math.PI / 2]);
-    piece(group(many(new THREE.BoxGeometry(SW - 0.22, 0.12, SD - 0.22), steel, [1, 2, 3, 4].map((i) => [0, S0 + FH * i, 0])),
-      many(new THREE.BoxGeometry(0.05, SH, 0.06), steel, verts)), 2);
-  }
-  const pier = (x, z, w, d, cap) => piece(group(mesh(block(w, SH + 0.1, d, 0.03), stoneMat, x, S0 + (SH + 0.1) / 2, z),
-    ...(cap ? [mesh(block(w + 0.14, 0.16, d + 0.12, 0.02), stoneMat, x, S0 + SH + 0.04, z)] : [])), 2);
-  for (const x of [-2.4, -1.2, 0, 1.2, 2.4]) pier(x, -SD / 2, 0.32, 0.4, true); // the back
-  for (const z of [-1.2, 0, 1.2]) for (const s of [-1, 1]) pier(s * SW / 2, z, 0.4, 0.32, true); // the sides
-  for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) pier(sx * (SW / 2 - 0.25), sz * (SD / 2 - 0.25), 0.9, 0.9, false); // the corners
-  for (const x of [-2.4, -1.2, 0, 1.2, 2.4]) pier(x, SD / 2, 0.32, 0.4, true); // the front, last
-
-  // 3. the setbacks, course by course: the cornice and its carved chevron, the second stage, the third, each narrower
-  const C1 = S0 + SH + 0.12;
-  piece(mesh(block(SW + 0.5, 0.42, SD + 0.5, 0.04), stoneMat, 0, C1 + 0.21, 0), 3);
-  {
-    const chev = [], cy = C1 + 0.2;
-    for (const [len, off, alongX] of [[SW + 0.4, SD / 2 + 0.252, true], [SD + 0.4, SW / 2 + 0.252, false]]) {
-      const n = Math.floor(len / 0.2);
-      for (let i = 0; i < n; i++) {
-        const u = -len / 2 + 0.1 + i * 0.2, tilt = (i % 2 ? 1 : -1) * 0.7;
-        for (const s of [-1, 1]) chev.push(alongX ? [u, cy, s * off, 0, tilt] : [s * off, cy, u, Math.PI / 2, tilt]);
-      }
+  // 2. the shaft: the glass floor by floor, then the stone piers
+  // one floor: its glass and the dark frames of its panes
+  const floorOf = (y0, fh, w, d, bays) => {
+    const verts = [], horiz = [], zf = d / 2 - 0.13;
+    for (const [x, bw] of bays) for (const s of [-1, 1]) {
+      verts.push([x, y0 + fh / 2, s * zf]);
+      for (const t of [0, 1 / 3, 2 / 3]) horiz.push([x, y0 + fh * t + 0.02, s * zf, 0, 0, 0, bw]);
     }
-    piece(many(new THREE.BoxGeometry(0.21, 0.028, 0.012), carve, chev), 3);
-  }
-  const T2 = C1 + 0.42, W2 = 6.2, D2 = 5.0, H2 = 2.6;
-  for (let i = 0; i < 2; i++) piece(mesh(new THREE.BoxGeometry(W2 - 0.3, H2 / 2 - 0.01, D2 - 0.3), glassFloor(), 0, T2 + (H2 / 2) * (i + 0.5), 0), 3);
+    return group(mesh(new THREE.BoxGeometry(w - 0.3, fh, d - 0.3), glassOf(panesOf(w - 0.3, bays)), 0, y0 + fh / 2, 0),
+      many(new THREE.BoxGeometry(0.035, fh, 0.05), steel, verts), many(new THREE.BoxGeometry(1, 0.035, 0.05), steel, horiz));
+  };
+  // a set of piers, each a stack of stone blocks, slender ones with a small capital under the cornice
+  const piers = (spots, w, d, y0, h, cap) => {
+    const nb = Math.max(1, Math.round(h / 0.9)), bh = h / nb, stack = [];
+    for (const [x, z, ry = 0] of spots) for (let k = 0; k < nb; k++) stack.push([x, y0 + bh * (k + 0.5), z, ry]);
+    const g = group(...[0, 1, 2].map((v) => many(block(w, bh - 0.012, d, 0.02), stoneMat, stack.filter((_, i) => i % 3 === v))));
+    if (cap) g.add(many(block(w + 0.12, 0.14, d + 0.1, 0.015), stoneMat, spots.map(([x, z, ry = 0]) => [x, y0 + h - 0.07, z, ry])));
+    return g;
+  };
+  const S0 = P0 + PH, SW = 8.4, SD = 7.4, SH = 5.4, NF = 4, FH = SH / NF;
+  const BAYS = [-2.8, -1.68, -0.56, 0.56, 1.68, 2.8].map((x) => [x, 0.82]), SLOTS = [];
+  for (let k = 0; k < 9; k++) SLOTS.push(-3.2 + 0.226 + 0.23 + k * 0.686);
+  for (let f = 0; f < NF; f++) piece(floorOf(S0 + FH * f, FH, SW, SD, BAYS), 2, f % 2 ? 'right' : 'left');
+  plan(SW, SH, SD, S0 + SH / 2);
+  const FRONT = [-2.24, -1.12, 0, 1.12, 2.24];
+  piece(piers(FRONT.map((x) => [x, -SD / 2 + 0.23]), 0.3, 0.38, S0, SH, true), 2); // the back
+  for (const s of [-1, 1]) piece(piers(SLOTS.map((z) => [s * (SW / 2 - 0.23), z, Math.PI / 2]), 0.46, 0.4, S0, SH, false), 2); // the sides, slotted
+  for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) piece(piers([[sx * (SW / 2 - 0.5), sz * (SD / 2 - 0.5)]], 1.0, 1.0, S0, SH, false), 2); // the corners
+  for (const x of FRONT) piece(piers([[x, SD / 2 - 0.23]], 0.3, 0.38, S0, SH, true), 2); // the front, one at a time, last
+
+  // 3. the setbacks, course by course: the cornice and its carved chevron, the second stage with its own glass
+  //    and piers, its cornice, the third stage with its slit windows, and its cornice; each narrower
+  const ledge = (w, h, d, y) => { // a cornice, cut in long blocks
+    const nx = Math.max(2, Math.round(w / 2)), nz = Math.max(2, Math.round(d / 2)), spots = [];
+    for (let a = 0; a < nx; a++) for (let b = 0; b < nz; b++) spots.push([-w / 2 + (w / nx) * (a + 0.5), y, -d / 2 + (d / nz) * (b + 0.5)]);
+    plan(w, h, d, y);
+    return blocks(spots, w / nx - 0.012, h, d / nz - 0.012, 0.025, stoneMat);
+  };
+  const C1 = S0 + SH, CH1 = 0.55;
   {
-    const along = [], corners = [], verts = [];
-    for (const x of [-1.9, -0.95, 0, 0.95, 1.9]) for (const s of [-1, 1]) along.push([x, T2 + H2 / 2, s * D2 / 2]);
-    for (const z of [-0.95, 0, 0.95]) for (const s of [-1, 1]) along.push([s * W2 / 2, T2 + H2 / 2, z, Math.PI / 2]);
-    for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) corners.push([sx * (W2 / 2 - 0.2), T2 + H2 / 2, sz * (D2 / 2 - 0.2)]);
-    for (const x of [-1.42, -0.48, 0.48, 1.42]) for (const s of [-1, 1]) verts.push([x, T2 + H2 / 2, s * (D2 / 2 - 0.12)]);
-    piece(group(many(block(0.3, H2 + 0.05, 0.38, 0.03), stoneMat, along), many(block(0.7, H2 + 0.05, 0.7, 0.03), stoneMat, corners),
-      mesh(new THREE.BoxGeometry(W2 - 0.22, 0.1, D2 - 0.22), steel, 0, T2 + H2 / 2, 0), many(new THREE.BoxGeometry(0.05, H2, 0.06), steel, verts)), 3);
+    const c1 = ledge(SW + 0.5, CH1, SD + 0.5, C1 + CH1 / 2), bh = 0.3, by = C1 + CH1 * 0.45;
+    for (const s of [-1, 1]) {
+      c1.add(mesh(new THREE.BoxGeometry(SW + 0.5, bh, 0.012), bandMat(SW + 0.5, bh), 0, by, s * (SD / 2 + 0.256)));
+      c1.add(mesh(new THREE.BoxGeometry(0.012, bh, SD + 0.5), bandMat(SD + 0.5, bh), s * (SW / 2 + 0.256), by, 0));
+    }
+    piece(c1, 3);
+  }
+  const T2 = C1 + CH1, W2 = 6.3, D2 = 5.4, H2 = 2.0, NF2 = 2;
+  const BAYS2 = [-1.98, -1.19, -0.4, 0.4, 1.19, 1.98].map((x) => [x, 0.57]), SLOTS2 = [-1.5, -0.9, -0.3, 0.3, 0.9, 1.5];
+  for (let f = 0; f < NF2; f++) piece(floorOf(T2 + (H2 / NF2) * f, H2 / NF2, W2, D2, BAYS2), 3, f % 2 ? 'right' : 'left');
+  plan(W2, H2, D2, T2 + H2 / 2);
+  {
+    const front = [-1.585, -0.795, 0, 0.795, 1.585];
+    const g = group(piers([...front.map((x) => [x, D2 / 2 - 0.2]), ...front.map((x) => [x, -D2 / 2 + 0.2])], 0.26, 0.34, T2, H2, true));
+    for (const s of [-1, 1]) g.add(piers(SLOTS2.map((z) => [s * (W2 / 2 - 0.2), z, Math.PI / 2]), 0.4, 0.36, T2, H2, false));
+    g.add(piers([[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([sx, sz]) => [sx * (W2 / 2 - 0.4), sz * (D2 / 2 - 0.4)]), 0.8, 0.8, T2, H2, false));
+    piece(g, 3);
   }
   const C2 = T2 + H2;
-  piece(mesh(block(W2 + 0.4, 0.3, D2 + 0.4, 0.035), stoneMat, 0, C2 + 0.15, 0), 3);
-  const T3 = C2 + 0.3, W3 = 4.4, D3 = 3.6, H3 = 1.8;
+  piece(ledge(W2 + 0.36, 0.32, D2 + 0.36, C2 + 0.16), 3);
+  const T3 = C2 + 0.32, W3 = 4.2, D3 = 3.6, H3 = 1.5;
   {
-    const slits = [], glow = glassFloor();
-    for (const x of [-1.4, -0.7, 0, 0.7, 1.4]) for (const s of [-1, 1]) slits.push([x, T3 + H3 / 2, s * (D3 / 2 + 0.004)]);
-    for (const z of [-0.9, 0, 0.9]) for (const s of [-1, 1]) slits.push([s * (W3 / 2 + 0.004), T3 + H3 / 2, z, Math.PI / 2]);
-    piece(group(mesh(block(W3, H3, D3, 0.03), stoneMat, 0, T3 + H3 / 2, 0), many(new THREE.BoxGeometry(0.15, H3 - 0.55, 0.02), glow, slits)), 3);
+    const nc = 3, chh = H3 / nc, body = new THREE.Group();
+    for (let c = 0; c < nc; c++) { // coursed ashlar, the joints staggered
+      const nx = c % 2 ? 3 : 4, nz = c % 2 ? 2 : 3, spots = [];
+      for (let a = 0; a < nx; a++) for (let b = 0; b < nz; b++) spots.push([-W3 / 2 + (W3 / nx) * (a + 0.5), T3 + chh * (c + 0.5), -D3 / 2 + (D3 / nz) * (b + 0.5)]);
+      body.add(blocks(spots, W3 / nx - 0.014, chh - 0.014, D3 / nz - 0.014, 0.02, stoneMat));
+    }
+    const slit = glassOf();
+    const slits = [];
+    for (const x of [-1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5]) for (const s of [-1, 1]) slits.push([x, T3 + H3 / 2, s * (D3 / 2 + 0.004)]);
+    for (const z of [-1.0, -0.5, 0, 0.5, 1.0]) for (const s of [-1, 1]) slits.push([s * (W3 / 2 + 0.004), T3 + H3 / 2, z, Math.PI / 2]);
+    body.add(many(new THREE.BoxGeometry(0.13, H3 - 0.5, 0.02), slit, slits));
+    piece(body, 3);
+    plan(W3, H3, D3, T3 + H3 / 2);
   }
   const C3 = T3 + H3;
-  piece(mesh(block(W3 + 0.3, 0.25, D3 + 0.3, 0.03), stoneMat, 0, C3 + 0.125, 0), 3);
+  piece(ledge(W3 + 0.3, 0.22, D3 + 0.3, C3 + 0.11), 3);
 
-  // 4. the crown, lowered on stage by stage, the dark stone cap last
-  const K0 = C3 + 0.25;
-  piece(mesh(block(3.3, 0.62, 2.7, 0.03), stoneMat, 0, K0 + 0.31, 0), 4);
-  piece(mesh(block(2.4, 0.52, 1.95, 0.03), stoneMat, 0, K0 + 0.62 + 0.26, 0), 4);
+  // 4. the crown, lowered on stage by stage, the round dark cupola last
+  const K0 = C3 + 0.22;
+  piece(ledge(3.0, 0.5, 2.6, K0 + 0.25), 4);
+  piece(ledge(2.25, 0.42, 1.95, K0 + 0.5 + 0.21), 4);
   {
-    const cap = mesh(new THREE.CylinderGeometry(0.62, 0.92, 0.5, 4, 1), slate, 0, K0 + 1.22 + 0.25, 0);
-    cap.rotation.y = Math.PI / 4;
-    piece(group(mesh(block(1.5, 0.08, 1.5, 0.01), slate, 0, K0 + 1.18, 0), cap), 4);
+    const prof = [[0, 0], [0.86, 0], [0.86, 0.07], [0.78, 0.08], [0.78, 0.3], [0.88, 0.33], [0.86, 0.37], [0.76, 0.38], [0.66, 0.47], [0.48, 0.55], [0.24, 0.6], [0, 0.62]];
+    const cap = mesh(new THREE.LatheGeometry(prof.map(([x, y]) => new THREE.Vector2(x * 1.15, y * 1.15)), 48), cupola, 0, K0 + 0.92, 0);
+    piece(cap, 4);
+    plan(1.98, 0.71, 1.98, K0 + 0.92 + 0.36, true);
   }
+
+  // the blueprint: fine lines of every main volume, there before anything is built and fading as it fills
+  const ghost = (() => {
+    const pts = [];
+    for (const [w, h, d, y, round] of outline) {
+      const e = new THREE.EdgesGeometry(round ? new THREE.CylinderGeometry(w / 2, w / 2, h, 24, 1) : new THREE.BoxGeometry(w, h, d));
+      e.translate(0, y, 0);
+      pts.push(...e.attributes.position.array);
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+    const l = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({ color: 0x7a5820, transparent: true, opacity: 0.4, depthWrite: false }));
+    scene.add(l);
+    return l;
+  })();
 
   // ---------- size: wide screens keep the building to the right of the words, tall ones above them ----------
   const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 }));
@@ -388,31 +505,35 @@ function start() {
     // each line sets its pieces one after another while it rises into place and is read; the last piece of a
     // line lands just as the next line arrives
     let built = 0;
+    const far = camera.aspect < 1.05 ? 2.2 : 1; // a tall screen sees further, so its pieces start further out
     for (const line of [1, 2, 3, 4]) {
       const list = queue[line], n = list.length, [top, bottom] = ws[line];
       const u = reduced ? 1 : clamp01((0.95 - top) / ((bottom - top) * 0.92));
       const dur = Math.min(0.4, 3 / n);
       list.forEach((pc, k) => {
-        const p = settle(clamp01((u - (n > 1 ? (k / (n - 1)) * (1 - dur) : 0)) / dur));
+        const p = settle(clamp01((u - (n > 1 ? (k / (n - 1)) * (1 - dur) : 0)) / dur)), q = 1 - p;
         built += p / n / 4; // each of the four lines counts the same, however many pieces it has
-        pc.obj.position.y = pc.home + pc.lift * (1 - p);
-        pc.obj.rotation.y = pc.turn * (1 - p);
+        pc.obj.visible = p > 0; // not yet started: off screen, and not drawn at all
+        pc.obj.position.copy(pc.home).addScaledVector(pc.from, q * far);
+        pc.obj.position.y += Math.sin(q * Math.PI) * 1.2; // a gentle arc on the way in
+        pc.obj.rotation.set(0, pc.spin * q, pc.spin * 0.25 * q);
       });
     }
-    // the last line: the steps warm, top to bottom, and the windows light, floor by floor from the ground up
+    // the last line: the steps warm one after another, top to bottom, and stay warm
     const [lt, lb] = ws[5];
     const hold = clamp01(-lt / Math.max(0.05, lb - lt - 1));
-    stepMats.forEach((m, i) => { m.emissiveIntensity = reduced ? 0 : 0.16 * ease(clamp01(hold * 2.2 - (2 - i) * 0.5)); });
-    lights.forEach((m, i) => { m.emissiveIntensity = reduced ? 0.55 : 0.55 * ease(clamp01(hold * 2.4 - (i / lights.length) * 1.4)); });
+    stepMats.forEach((m, i) => { m.emissiveIntensity = reduced ? 0 : 0.16 * ease(clamp01(hold * 2.2 - (stepMats.length - 1 - i) / (stepMats.length - 1))); });
+    ghost.material.opacity = 0.4 * Math.pow(1 - built, 1.5);
+    contact.material.opacity = ease(clamp01(built * 4)); // the darkening underfoot arrives with the foundation
 
-    // the camera comes down and in as the building completes, and walks a little way around it
+    // the camera comes in a little as the building completes, and walks a little way around it
     const viewP = clamp01((-sec.getBoundingClientRect().top - (scrollY - sy)) / Math.max(1, sec.offsetHeight - innerHeight));
     const portrait = camera.aspect < 1.05;
     const b = ease(built);
-    const dist = lerp(92, 58, b) * (portrait ? lerp(2.0, 2.2, b) : 1); // tall screens: further back, so the tall tower clears the words
-    const elev = THREE.MathUtils.degToRad(lerp(16, 11, b));
+    const dist = lerp(64, 54, b) * (portrait ? 2.15 : 1); // tall screens: further back, so the tower clears the words
+    const elev = THREE.MathUtils.degToRad(lerp(12, 8, b)); // low, as a person standing before it would see it
     const az = THREE.MathUtils.degToRad(reduced ? -24 : -40 + 22 * viewP); // reduced motion: a still camera
-    const ty = lerp(11.5, 7.7, b) - (portrait ? 1.2 * b : 0);
+    const ty = lerp(7.4, 6.8, b) - (portrait ? 0.8 : 0);
     camera.position.set(Math.sin(az) * Math.cos(elev) * dist, ty + Math.sin(elev) * dist, Math.cos(az) * Math.cos(elev) * dist);
     camera.lookAt(0, ty, 0);
     const key2 = built.toFixed(5);
