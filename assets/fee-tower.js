@@ -475,6 +475,9 @@ function start() {
   // ---------- one smoothed scroll position drives the whole drawing: a critically damped spring, so the motion
   //            carries its momentum between wheel steps and settles without overshoot or a jolt ----------
   const OMEGA = 8.5; // stiffness: most of the way in half a second
+  const HOME = 4.2; // the softer spring that brings a turned tower home: most of the way in about a second
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  let turn = 0, turnV = 0, tilt = 0, tiltV = 0, dragging = false, canTurn = false;
   let sy = scrollY, vel = 0, raf = 0, last = 0, visible = true, shadowKey = '';
   let lite = false; const gaps = [];
   renderer.shadowMap.autoUpdate = false; // shadows are redrawn only when a piece has moved, not for camera moves
@@ -492,6 +495,7 @@ function start() {
       }
     }
     let dt = Math.min(0.12, (now - (last || now)) / 1000); last = now;
+    const step = dt;
     if (reduced) { sy = scrollY; vel = 0; }
     else while (dt > 0) { const h = Math.min(1 / 240, dt); vel += (OMEGA * OMEGA * (scrollY - sy) - 2 * OMEGA * vel) * h; sy += vel * h; dt -= h; }
     // glide on until truly at rest, so even a very slow scroll turns into continuous motion, not small steps
@@ -530,21 +534,80 @@ function start() {
     const viewP = clamp01((-sec.getBoundingClientRect().top - (scrollY - sy)) / Math.max(1, sec.offsetHeight - innerHeight));
     const portrait = camera.aspect < 1.05;
     const b = ease(built);
+    // the visitor's own turn: free while dragging; let go and it coasts a moment, then glides home without overshoot
+    if (!dragging) {
+      if (reduced) turn = tilt = turnV = tiltV = 0; // reduced motion: it simply returns
+      else for (let t = step; t > 0; t -= 1 / 240) {
+        const h = Math.min(1 / 240, t);
+        turnV += (-HOME * HOME * turn - 2 * HOME * turnV) * h; turn += turnV * h;
+        tiltV += (-HOME * HOME * tilt - 2 * HOME * tiltV) * h; tilt += tiltV * h;
+      }
+      if (Math.abs(turn) < 1e-4 && Math.abs(turnV) < 1e-3 && Math.abs(tilt) < 1e-4 && Math.abs(tiltV) < 1e-3) turn = tilt = turnV = tiltV = 0;
+    }
+    canTurn = built > 0.999;
+    sec.classList.toggle('can-turn', canTurn);
     const dist = lerp(56, 46, b) * (portrait ? 2.5 : 1); // tall screens: further back, so the tower clears the words
-    const elev = THREE.MathUtils.degToRad(lerp(12, 8, b)); // low, as a person standing before it would see it
-    const az = THREE.MathUtils.degToRad(reduced ? -24 : -40 + 22 * viewP); // reduced motion: a still camera
+    const elev = THREE.MathUtils.degToRad(lerp(12, 8, b)) + tilt; // low, as a person standing before it would see it
+    const az = THREE.MathUtils.degToRad(reduced ? -24 : -40 + 22 * viewP) + turn; // reduced motion: a still camera
     const ty = lerp(7.4, 6.8, b) - (portrait ? 0.8 : 0);
     camera.position.set(Math.sin(az) * Math.cos(elev) * dist, ty + Math.sin(elev) * dist, Math.cos(az) * Math.cos(elev) * dist);
     camera.lookAt(0, ty, 0);
     const key2 = built.toFixed(5);
     if (key2 !== shadowKey) { shadowKey = key2; renderer.shadowMap.needsUpdate = true; }
     composer.render();
+    if (canTurn) measure();
     if (!sec.classList.contains('is-gl')) sec.classList.add('is-gl');
 
     // nothing moves unless the page scrolls: draw on until the drawing has caught up and settled
-    if (visible && !settled) paint(); else last = 0;
+    if (visible && (!settled || (!dragging && (turn || tilt)))) paint(); else last = 0;
   };
   const paint = () => { if (!raf) raf = requestAnimationFrame(frame); };
+
+  // ---------- once it is built the tower can be turned: drag it (on a phone, swipe sideways; up and down still
+  //            scroll the page), and let go, and it glides back to where it stood ----------
+  const corners = [], hit = { x0: 0, x1: 0, y0: 0, y1: 0 }, pv = new THREE.Vector3();
+  for (const x of [-W / 2, W / 2]) for (const y of [0, K0 + 1.7]) for (const z of [-D / 2, D / 2]) corners.push(new THREE.Vector3(x, y, z));
+  // where the tower is on screen, so only a drag that starts on it turns it, never one on the words or links
+  function measure() {
+    hit.x0 = hit.y0 = Infinity; hit.x1 = hit.y1 = -Infinity;
+    for (const c of corners) {
+      pv.copy(c).project(camera);
+      const x = ((pv.x + 1) / 2) * sizeW, y = ((1 - pv.y) / 2) * sizeH;
+      hit.x0 = Math.min(hit.x0, x); hit.x1 = Math.max(hit.x1, x); hit.y0 = Math.min(hit.y0, y); hit.y1 = Math.max(hit.y1, y);
+    }
+  }
+  const onTower = (e) => {
+    const r = canvas.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    return canTurn && x > hit.x0 && x < hit.x1 && y > hit.y0 && y < hit.y1 && !e.target.closest('a, button, input, textarea, select');
+  };
+  let pid = null, px = 0, py = 0, moved = 0, over = false;
+  const hover = (on) => { if (on !== over) { over = on; document.body.classList.toggle('hov', on); } }; // the site's cursor ring grows, as over a link
+  sec.addEventListener('pointerdown', (e) => {
+    if (e.button > 0 || !onTower(e)) return;
+    if (e.pointerType === 'mouse') e.preventDefault(); // no text selected while turning
+    dragging = true; pid = e.pointerId; px = e.clientX; py = e.clientY; moved = performance.now(); turnV = tiltV = 0;
+    sec.classList.add('turned', 'is-turning');
+    paint();
+  });
+  addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'mouse' && !dragging) hover(onTower(e));
+    if (!dragging || e.pointerId !== pid) return;
+    const now = performance.now(), dts = Math.max(0.008, (now - moved) / 1000), k = 2.4 / Math.max(700, sizeW);
+    const dTurn = -(e.clientX - px) * k, dTilt = (e.clientY - py) * k * 0.35; // the front follows the hand
+    turn = clamp(turn + dTurn, -1.05, 1.05); tilt = clamp(tilt + dTilt, -0.1, 0.22);
+    turnV = clamp(dTurn / dts, -3, 3); tiltV = clamp(dTilt / dts, -1, 1);
+    px = e.clientX; py = e.clientY; moved = now;
+    paint();
+  }, { passive: true });
+  const release = (e) => {
+    if (!dragging || e.pointerId !== pid) return;
+    dragging = false; pid = null;
+    if (performance.now() - moved > 80) turnV = tiltV = 0; // held still before letting go: no throw
+    sec.classList.remove('is-turning');
+    paint();
+  };
+  addEventListener('pointerup', release);
+  addEventListener('pointercancel', release); // a phone that starts scrolling instead takes the gesture back
 
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) paint(); }).observe(sec);
   addEventListener('scroll', paint, { passive: true });
