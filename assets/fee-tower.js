@@ -530,7 +530,7 @@ function start() {
     const viewP = clamp01((-sec.getBoundingClientRect().top - (scrollY - sy)) / Math.max(1, sec.offsetHeight - innerHeight));
     const portrait = camera.aspect < 1.05;
     const b = ease(built);
-    const dist = lerp(64, 54, b) * (portrait ? 2.15 : 1); // tall screens: further back, so the tower clears the words
+    const dist = lerp(56, 46, b) * (portrait ? 2.5 : 1); // tall screens: further back, so the tower clears the words
     const elev = THREE.MathUtils.degToRad(lerp(12, 8, b)); // low, as a person standing before it would see it
     const az = THREE.MathUtils.degToRad(reduced ? -24 : -40 + 22 * viewP); // reduced motion: a still camera
     const ty = lerp(7.4, 6.8, b) - (portrait ? 0.8 : 0);
