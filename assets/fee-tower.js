@@ -1,6 +1,7 @@
 // Fee page: "the architecture of one fee". A stone tower of the 1930s is built on the page's drafting sheet. It
 // is drawn first as a blueprint in fine lines; then, as the visitor scrolls, its pieces fly in from beyond the edges
-// of the view and are set in place one after another, so every movement adds something: the steps and the podium
+// of the view and are set in place one after another (stone by stone, steel member by member, panel by panel), so
+// every movement adds something: the steps and the podium
 // with its doorway (financial planning); the glass floor by floor, the rooms behind it, then the stone piers
 // (investment management); the setbacks course by course, each narrower (coordination); and the crown, lowered on to
 // its dark cupola (ongoing strategy). It is complete as the last line arrives; then the light turns toward
@@ -212,15 +213,55 @@ function start() {
     return m;
   })();
 
-  // ---------- the pieces, in the order they are set. Each waits off screen and flies in to its place ----------
+  // ---------- the parts, in the order a builder would set them. Every stone, steel member and glazing panel is a
+  //            part of its own: it waits off screen, is called in as the visitor scrolls, and takes its place ----------
   const model = new THREE.Group();
   scene.add(model);
-  const queue = { 1: [], 2: [], 3: [], 4: [] };
-  const FROM = { above: [0, 34, 0], high: [40, 24, -16], right: [58, 3, -4] }; // the sun is on the left, so their shadows fall clear of the words // where each comes from, beyond the edge of the view
-  const piece = (obj, line, from = 'above') => {
+  // three ways to build, for comparison (?build=2 or 3): storey by storey; trade by trade (steel, then stone, then
+  // glass); or storey by storey with every part lowered from above
+  const MODE = { 2: 'trades', 3: 'lowered' }[new URLSearchParams(location.search).get('build')] || 'storeys';
+  const WAY = MODE === 'lowered' ? [[0, 32, 0], [0, 32, 0], [0, 32, 0]] // where each trade's parts come from: steel, stone, glass
+    : MODE === 'trades' ? [[0, 30, 0], [54, 5, -5], [38, 22, -14]] : [[54, 5, -5], [54, 5, -5], [54, 5, -5]];
+  const FLY = 0.8; // seconds a part takes to arrive and settle
+  const lines = { 1: [], 2: [], 3: [], 4: [] };
+  const m4 = new THREE.Matrix4(), v3 = new THREE.Vector3(), GONE = new THREE.Matrix4().makeScale(0, 0, 0);
+  // one part: instances of instanced meshes and/or whole objects that travel together
+  const part = (inst, objs, trade) => {
+    const u = { inst: inst.map(([im, i]) => { const home = new THREE.Matrix4(); im.getMatrixAt(i, home); return [im, i, home]; }),
+      objs: objs.map((o) => [o, o.position.clone()]), trade, p: -1, level: 0, jit: rand() - 0.5 };
+    if (u.inst.length) v3.setFromMatrixPosition(u.inst[0][2]).applyMatrix4(u.inst[0][0].matrixWorld); else objs[0].getWorldPosition(v3);
+    u.y = v3.y; u.sweep = v3.x * 0.3 - v3.z; // where it stands: lower courses first, and each course from the back to the front
+    return u;
+  };
+  // every instance of every instanced mesh in `obj` is a part of its own; whatever else is in it travels as one, last
+  const partsOf = (obj, trade = 1, whole = false) => {
     model.add(obj);
-    queue[line].push({ obj, home: obj.position.clone(), from: new THREE.Vector3(...FROM[from]), spin: (rand() - 0.5) * 0.8 });
-    return obj;
+    obj.updateMatrixWorld(true);
+    if (whole) return [part([], [obj], trade)];
+    const out = [], rest = [];
+    obj.traverse((o) => { if (o.isInstancedMesh) for (let i = 0; i < o.count; i++) out.push(part([[o, i]], [], trade)); else if (o.isMesh) rest.push(o); });
+    if (rest.length) { const r = part([], rest, trade); r.y = Math.max(r.y, ...out.map((u) => u.y)) + 0.03; out.push(r); }
+    return out;
+  };
+  const byCourse = (a, b) => Math.round(a.y * 50) - Math.round(b.y * 50) || a.sweep - b.sweep;
+  const add = (line, obj, trade, whole) => lines[line].push(...partsOf(obj, trade, whole).sort(byCourse));
+  // a stage with several trades: built storey by storey, or (trades) all its steel, then all its stone, then its glass
+  const stage = (line, y0, fh, sets) => {
+    const all = sets.flatMap(([o, trade, whole]) => (Array.isArray(o) ? o : partsOf(o, trade, whole)));
+    for (const u of all) u.level = Math.max(0, Math.floor((u.y - y0 - 0.01) / fh));
+    all.sort(MODE === 'trades' ? (a, b) => a.trade - b.trade || byCourse(a, b) : (a, b) => a.level - b.level || a.trade - b.trade || byCourse(a, b));
+    lines[line].push(...all);
+  };
+  // put a part where it is on its way in (p: 0 not yet called, 1 in place)
+  const place = (u, far) => {
+    const q = 1 - settle(u.p), w = WAY[u.trade], k = q * far * (1 + u.jit * 0.25);
+    const ox = w[0] * k, oy = w[1] * k + Math.sin(q * Math.PI) * (1 + u.jit), oz = w[2] * k;
+    for (const [im, i, home] of u.inst) {
+      if (u.p === 0) im.setMatrixAt(i, GONE);
+      else { m4.copy(home); m4.elements[12] += ox; m4.elements[13] += oy; m4.elements[14] += oz; im.setMatrixAt(i, m4); }
+      im.instanceMatrix.needsUpdate = true;
+    }
+    for (const [o, home] of u.objs) { o.visible = u.p > 0; o.position.set(home.x + ox, home.y + oy, home.z + oz); }
   };
   const outline = []; // the blueprint: the main volumes, drawn in fine lines before anything is built
   const plan = (w, h, d, y, round = false) => outline.push([w, h, d, y, round]);
@@ -278,18 +319,15 @@ function start() {
     for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) H[y * N + x] = fbm((x / N) * 4, (y / N) * 4, 4, 3);
     return texOf(normalsOf(H, N, N, 0.9), false);
   })();
-  // the panes are never quite in one plane: each tilts a hair its own way, so each catches its own piece of sky.
-  // Drawn to match a face of `faceW` with its bays (centre and width), split down the middle and in three rows
-  const panesOf = (faceW, bays) => {
-    const W = 1024, Hh = 256, c = canvasOf(W, Hh), g = c.getContext('2d');
-    g.fillStyle = 'rgb(128,128,255)'; g.fillRect(0, 0, W, Hh);
-    for (const [x, bw] of bays) for (const left of [true, false]) for (let r = 0; r < 3; r++) {
-      const nx = (rand() - 0.5) * 0.3, ny = (rand() - 0.5) * 0.22;
-      g.fillStyle = `rgb(${Math.round((nx * 0.5 + 0.5) * 255)},${Math.round((ny * 0.5 + 0.5) * 255)},252)`;
-      g.fillRect(((x - (left ? bw / 2 : 0) + faceW / 2) / faceW) * W, (r * Hh) / 3, (bw / 2 / faceW) * W, Hh / 3);
+  // a glazing panel is six small panes, never quite in one plane: each tilts a hair its own way
+  const paneN = (() => {
+    const c = canvasOf(64, 96), g = c.getContext('2d');
+    for (let a = 0; a < 2; a++) for (let b = 0; b < 3; b++) {
+      g.fillStyle = `rgb(${Math.round(((rand() - 0.5) * 0.15 + 0.5) * 255)},${Math.round(((rand() - 0.5) * 0.11 + 0.5) * 255)},252)`;
+      g.fillRect(a * 32, b * 32, 32, 32);
     }
     return texOf(c, false, false);
-  };
+  })();
   const glassOf = (panes) => { // and each floor's glass catches the sky at a slightly different angle again
     const m = new THREE.MeshPhysicalMaterial({ color: '#5c7068', metalness: 0.88, roughness: 0.03, envMap: skyEnv, envMapIntensity: 0.9, clearcoat: 1, clearcoatRoughness: 0.02,
       normalMap: panes || ripple, normalScale: panes ? new THREE.Vector2(1, 1) : new THREE.Vector2(0.32, 0.32) });
@@ -298,6 +336,7 @@ function start() {
   };
   const glass = glassOf();
   const steel = new THREE.MeshStandardMaterial({ color: '#25332d', roughness: 0.4, metalness: 0.65, envMapIntensity: 1.2 }); // dark green window frames
+  const girder = new THREE.MeshStandardMaterial({ color: '#7d4a39', roughness: 0.62, metalness: 0.3 }); // structural steel, in red-oxide primer
   const doorPaint = new THREE.MeshStandardMaterial({ color: '#2e4a3c', roughness: 0.42, metalness: 0.12 });
   const brass = new THREE.MeshStandardMaterial({ color: '#a8874f', roughness: 0.3, metalness: 1, envMapIntensity: 1.3 });
   const cupola = new THREE.MeshStandardMaterial({ color: '#2b2a27', roughness: 0.36, metalness: 0.8, envMapIntensity: 1.2 });
@@ -333,14 +372,14 @@ function start() {
     return new THREE.MeshStandardMaterial({ map: texOf(col, true, false), normalMap: texOf(normalsOf(H, W, Hh, 2.5), false, false), metalness: 0.85, roughness: 0.42, envMapIntensity: 1.2 });
   })();
 
-  // 1. the foundation: five shallow steps, the podium course by course, then the arched doorway and the plaque
+  // 1. the foundation: five shallow steps and the podium, stone by stone in courses, then the arched doorway and the plaque
   const NS = 5, STEP = 0.22, INSET = 0.26, W = 11.4, D = 10.6, FLOOR = STEP * NS;
   for (let i = 0; i < NS; i++) {
     const w = W - 2 * INSET * i, d = D - 2 * INSET * i, nx = Math.round(w / 1.5), nz = Math.round(d / 1.3), bw = w / nx, bd = d / nz, spots = [];
     for (let a = 0; a < nx; a++) for (let b = 0; b < nz; b++) spots.push([-w / 2 + bw * (a + 0.5), 0, -d / 2 + bd * (b + 0.5)]);
     const step = blocks(spots, bw - 0.008, STEP, bd - 0.008, 0.012, stepMats[i]);
     step.position.y = STEP * (i + 0.5);
-    piece(step, 1, i % 2 ? 'right' : 'high');
+    add(1, step);
     plan(w, STEP, d, STEP * (i + 0.5));
   }
   const PW = 9.4, PD = 8.6, PH = 1.45, P0 = FLOOR, NC = 4, ch = PH / NC;
@@ -349,7 +388,7 @@ function start() {
     for (let a = 0; a < nx; a++) for (let b = 0; b < nz; b++) spots.push([-PW / 2 + bw * (a + 0.5), 0, -PD / 2 + bd * (b + 0.5)]);
     const course = blocks(spots, bw - 0.01, ch - 0.01, bd - 0.01, 0.012, stoneMat);
     course.position.y = P0 + ch * (c + 0.5);
-    piece(course, 1, c % 2 ? 'right' : 'high');
+    add(1, course);
   }
   plan(PW, PH, PD, P0 + PH / 2);
   {
@@ -372,21 +411,10 @@ function start() {
     }
     portal.add(mesh(new THREE.BoxGeometry(1.5, 0.46, 0.04), plaque, 2.6, 0.78, -0.1)); // the plaque, to the right, on the wall
     portal.position.set(0, P0, PD / 2 + 0.12); // the doorway stands a little proud of the podium
-    piece(portal, 1, 'right');
+    add(1, portal, 1, true);
   }
 
-  // 2. the shaft: the glass floor by floor, then the stone piers
-  // one floor: its glass and the dark frames of its panes
-  const floorOf = (y0, fh, w, d, bays) => {
-    const verts = [], horiz = [], zf = d / 2 - 0.13;
-    for (const [x, bw] of bays) for (const s of [-1, 1]) {
-      verts.push([x, y0 + fh / 2, s * zf]);
-      for (const t of [0, 1 / 3, 2 / 3]) horiz.push([x, y0 + fh * t + 0.02, s * zf, 0, 0, 0, bw]);
-    }
-    return group(mesh(new THREE.BoxGeometry(w - 0.3, fh - 0.07, d - 0.3), glassOf(panesOf(w - 0.3, bays)), 0, y0 + (fh - 0.07) / 2, 0),
-      mesh(block(w - 0.3, 0.07, d - 0.3, 0.01), stoneMat, 0, y0 + fh - 0.035, 0), // the floor plate above it
-      many(new THREE.BoxGeometry(0.035, fh, 0.05), steel, verts), many(new THREE.BoxGeometry(1, 0.035, 0.05), steel, horiz));
-  };
+  // 2. the shaft: a steel frame with a floor plate at each storey, stone piers round it, glass fitted between them
   // a set of piers, each a stack of stone blocks, slender ones with a small capital under the cornice
   const piers = (spots, w, d, y0, h, cap) => {
     const nb = Math.max(1, Math.round(h / 0.9)), bh = h / nb, stack = [];
@@ -395,19 +423,47 @@ function start() {
     if (cap) g.add(many(block(w + 0.12, 0.14, d + 0.1, 0.015), stoneMat, spots.map(([x, z, ry = 0]) => [x, y0 + h - 0.07, z, ry])));
     return g;
   };
-  const S0 = P0 + PH, SW = 8.4, SD = 7.4, SH = 5.4, NF = 4, FH = SH / NF;
-  const BAYS = [-2.8, -1.68, -0.56, 0.56, 1.68, 2.8].map((x) => [x, 0.82]), SLOTS = [];
+  // one glazed stage: its steel (columns behind the piers, beams and a floor plate at each storey), the stonework
+  // handed in, and a glazing panel with its bars in every bay of every storey
+  const glazed = (line, y0, w, d, h, nf, fronts, bays, stonework) => {
+    const fh = h / nf, ph = fh - 0.07, zf = d / 2 - 0.13, xi = w / 2 - 0.62, zi = d / 2 - 0.62;
+    const cols = [], xb = [], zb = [], plates = [], panes = [], vb = [], hb = [], sides = [], bay = [];
+    for (let f = 0; f < nf; f++) {
+      const yb = y0 + fh * f, yc = yb + ph / 2;
+      for (const x of [-xi, ...fronts, xi]) for (const s of [-1, 1]) cols.push([x, yb + fh / 2, s * zi]);
+      for (const z of [-zi / 3, zi / 3]) for (const s of [-1, 1]) cols.push([s * xi, yb + fh / 2, z]);
+      for (const s of [-1, 0, 1]) { xb.push([0, yb + fh - 0.19, s * zi]); zb.push([s * xi, yb + fh - 0.19, 0]); }
+      plates.push(mesh(block(w - 0.3, 0.07, d - 0.3, 0.01), stoneMat, 0, yb + fh - 0.035, 0));
+      for (const [x] of bays) for (const s of [-1, 1]) {
+        bay.push([panes.length, vb.length, hb.length]);
+        panes.push([x, yc, s * (zf - 0.045), (s < 0 ? Math.PI : 0) + (rand() - 0.5) * 0.024, 0, (rand() - 0.5) * 0.018]); // each panel a hair out of true
+        vb.push([x, yc, s * zf]);
+        for (const t of [0, 1 / 3, 2 / 3]) hb.push([x, yb + ph * t + 0.02, s * zf, 0, 0, 0, bays[0][1]]);
+      }
+      for (const s of [-1, 1]) sides.push([s * (w / 2 - 0.3), yc, 0]);
+    }
+    const steelwork = group(many(new THREE.BoxGeometry(0.16, fh, 0.16), girder, cols), many(new THREE.BoxGeometry(2 * xi, 0.2, 0.14), girder, xb),
+      many(new THREE.BoxGeometry(0.14, 0.2, 2 * zi), girder, zb));
+    const pm = many(new THREE.BoxGeometry(bays[0][1], ph, 0.03), glassOf(paneN), panes), vm = many(new THREE.BoxGeometry(0.035, ph, 0.05), steel, vb);
+    const hm = many(new THREE.BoxGeometry(1, 0.035, 0.05), steel, hb), sm = many(new THREE.BoxGeometry(0.03, ph, d - 0.7), glassOf(), sides);
+    const glazing = group(pm, vm, hm, sm);
+    model.add(glazing);
+    glazing.updateMatrixWorld(true);
+    const panels = bay.map(([a, b, c]) => part([[pm, a], [vm, b], [hm, c], [hm, c + 1], [hm, c + 2]], [], 2)).concat(sides.map((_, i) => part([[sm, i]], [], 2)));
+    stage(line, y0, fh, [[steelwork, 0], ...plates.map((pl) => [pl, 0, true]), ...stonework.map((o) => [o, 1]), [panels]]);
+  };
+  const S0 = P0 + PH, SW = 8.4, SD = 7.4, SH = 5.4, NF = 4;
+  const BAYS = [-2.8, -1.68, -0.56, 0.56, 1.68, 2.8].map((x) => [x, 0.82]), SLOTS = [], FRONT = [-2.24, -1.12, 0, 1.12, 2.24];
   for (let k = 0; k < 9; k++) SLOTS.push(-3.2 + 0.226 + 0.23 + k * 0.686);
-  for (let f = 0; f < NF; f++) piece(floorOf(S0 + FH * f, FH, SW, SD, BAYS), 2, f % 2 ? 'right' : 'high');
   plan(SW, SH, SD, S0 + SH / 2);
-  const FRONT = [-2.24, -1.12, 0, 1.12, 2.24];
-  piece(piers(FRONT.map((x) => [x, -SD / 2 + 0.23]), 0.3, 0.38, S0, SH, true), 2); // the back
-  for (const s of [-1, 1]) piece(piers(SLOTS.map((z) => [s * (SW / 2 - 0.23), z, Math.PI / 2]), 0.46, 0.4, S0, SH, false), 2); // the sides, slotted
-  for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) piece(piers([[sx * (SW / 2 - 0.5), sz * (SD / 2 - 0.5)]], 1.0, 1.0, S0, SH, false), 2); // the corners
-  for (const x of FRONT) piece(piers([[x, SD / 2 - 0.23]], 0.3, 0.38, S0, SH, true), 2); // the front, one at a time, last
+  glazed(2, S0, SW, SD, SH, NF, FRONT, BAYS, [
+    piers(FRONT.map((x) => [x, -SD / 2 + 0.23]), 0.3, 0.38, S0, SH, true), // the back
+    ...[-1, 1].map((s) => piers(SLOTS.map((z) => [s * (SW / 2 - 0.23), z, Math.PI / 2]), 0.46, 0.4, S0, SH, false)), // the sides, slotted
+    piers([[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([sx, sz]) => [sx * (SW / 2 - 0.5), sz * (SD / 2 - 0.5)]), 1.0, 1.0, S0, SH, false), // the corners
+    piers(FRONT.map((x) => [x, SD / 2 - 0.23]), 0.3, 0.38, S0, SH, true)]); // the front
 
-  // 3. the setbacks, course by course: the cornice and its carved chevron, the second stage with its own glass
-  //    and piers, its cornice, the third stage with its slit windows, and its cornice; each narrower
+  // 3. the setbacks: the cornice and its carved chevron, the second stage (steel, stone and glass again), its
+  //    cornice, the third stage with its slit windows, and its cornice; each narrower
   const ledge = (w, h, d, y) => { // a cornice, cut in long blocks
     const nx = Math.max(2, Math.round(w / 2)), nz = Math.max(2, Math.round(d / 2)), spots = [];
     for (let a = 0; a < nx; a++) for (let b = 0; b < nz; b++) spots.push([-w / 2 + (w / nx) * (a + 0.5), y, -d / 2 + (d / nz) * (b + 0.5)]);
@@ -421,21 +477,20 @@ function start() {
       c1.add(mesh(new THREE.BoxGeometry(SW + 0.5, bh, 0.012), bandMat(SW + 0.5, bh), 0, by, s * (SD / 2 + 0.256)));
       c1.add(mesh(new THREE.BoxGeometry(0.012, bh, SD + 0.5), bandMat(SD + 0.5, bh), s * (SW / 2 + 0.256), by, 0));
     }
-    piece(c1, 3);
+    add(3, c1);
   }
   const T2 = C1 + CH1, W2 = 6.3, D2 = 5.4, H2 = 2.0, NF2 = 2;
   const BAYS2 = [-1.98, -1.19, -0.4, 0.4, 1.19, 1.98].map((x) => [x, 0.57]), SLOTS2 = [-1.5, -0.9, -0.3, 0.3, 0.9, 1.5];
-  for (let f = 0; f < NF2; f++) piece(floorOf(T2 + (H2 / NF2) * f, H2 / NF2, W2, D2, BAYS2), 3, f % 2 ? 'right' : 'high');
   plan(W2, H2, D2, T2 + H2 / 2);
   {
     const front = [-1.585, -0.795, 0, 0.795, 1.585];
     const g = group(piers([...front.map((x) => [x, D2 / 2 - 0.2]), ...front.map((x) => [x, -D2 / 2 + 0.2])], 0.26, 0.34, T2, H2, true));
     for (const s of [-1, 1]) g.add(piers(SLOTS2.map((z) => [s * (W2 / 2 - 0.2), z, Math.PI / 2]), 0.4, 0.36, T2, H2, false));
     g.add(piers([[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([sx, sz]) => [sx * (W2 / 2 - 0.4), sz * (D2 / 2 - 0.4)]), 0.8, 0.8, T2, H2, false));
-    piece(g, 3);
+    glazed(3, T2, W2, D2, H2, NF2, front, BAYS2, [g]);
   }
   const C2 = T2 + H2;
-  piece(ledge(W2 + 0.36, 0.32, D2 + 0.36, C2 + 0.16), 3);
+  add(3, ledge(W2 + 0.36, 0.32, D2 + 0.36, C2 + 0.16));
   const T3 = C2 + 0.32, W3 = 4.2, D3 = 3.6, H3 = 1.5;
   {
     const nc = 3, chh = H3 / nc, body = new THREE.Group();
@@ -449,20 +504,20 @@ function start() {
     for (const x of [-1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5]) for (const s of [-1, 1]) slits.push([x, T3 + H3 / 2, s * (D3 / 2 + 0.004)]);
     for (const z of [-1.0, -0.5, 0, 0.5, 1.0]) for (const s of [-1, 1]) slits.push([s * (W3 / 2 + 0.004), T3 + H3 / 2, z, Math.PI / 2]);
     body.add(many(new THREE.BoxGeometry(0.13, H3 - 0.5, 0.02), slit, slits));
-    piece(body, 3);
+    add(3, body);
     plan(W3, H3, D3, T3 + H3 / 2);
   }
   const C3 = T3 + H3;
-  piece(ledge(W3 + 0.3, 0.22, D3 + 0.3, C3 + 0.11), 3);
+  add(3, ledge(W3 + 0.3, 0.22, D3 + 0.3, C3 + 0.11));
 
   // 4. the crown, lowered on stage by stage, the round dark cupola last
   const K0 = C3 + 0.22;
-  piece(ledge(3.0, 0.5, 2.6, K0 + 0.25), 4);
-  piece(ledge(2.25, 0.42, 1.95, K0 + 0.5 + 0.21), 4);
+  add(4, ledge(3.0, 0.5, 2.6, K0 + 0.25));
+  add(4, ledge(2.25, 0.42, 1.95, K0 + 0.5 + 0.21));
   {
     const prof = [[0, 0], [0.86, 0], [0.86, 0.07], [0.78, 0.08], [0.78, 0.3], [0.88, 0.33], [0.86, 0.37], [0.76, 0.38], [0.66, 0.47], [0.48, 0.55], [0.24, 0.6], [0, 0.62]];
     const cap = mesh(new THREE.LatheGeometry(prof.map(([x, y]) => new THREE.Vector2(x * 1.15, y * 1.15)), 48), cupola, 0, K0 + 0.92, 0);
-    piece(cap, 4);
+    add(4, cap, 1, true);
     plan(1.98, 0.71, 1.98, K0 + 0.92 + 0.36, true);
   }
 
@@ -543,22 +598,25 @@ function start() {
     const lag = (scrollY - sy) / innerHeight; // how far the drawing trails the page, in screens
     const ws = w.map(([t, b]) => [t + lag, b + lag]); // where the lines are at the smoothed scroll
 
-    // each line sets its pieces one after another while it rises into place and is read; the last piece of a
-    // line lands just as the next line arrives
-    let built = 0;
-    const far = camera.aspect < 1.05 ? 2.2 : 1; // a tall screen sees further, so its pieces start further out
+    // each line calls in its parts one after another as it is read. A part takes most of a second to arrive and
+    // settle however fast the page moves, so nothing is left hanging when the visitor stops; scroll back, and it
+    // leaves the way it came
+    let built = 0, moving = false;
+    const far = camera.aspect < 1.05 ? 1.3 : 1; // a tall screen sees further up, so its parts start further out
     for (const line of [1, 2, 3, 4]) {
-      const list = queue[line], n = list.length, [top, bottom] = ws[line];
+      const L = lines[line], n = L.length, [top, bottom] = ws[line];
       const u = reduced ? 1 : clamp01((0.95 - top) / ((bottom - top) * 0.92));
-      const dur = Math.min(0.4, 3 / n);
-      list.forEach((pc, k) => {
-        const p = settle(clamp01((u - (n > 1 ? (k / (n - 1)) * (1 - dur) : 0)) / dur)), q = 1 - p;
-        built += p / n / 4; // each of the four lines counts the same, however many pieces it has
-        pc.obj.visible = p > 0; // not yet started: off screen, and not drawn at all
-        pc.obj.position.copy(pc.home).addScaledVector(pc.from, q * far);
-        pc.obj.position.y += Math.sin(q * Math.PI) * 1.2; // a gentle arc on the way in
-        pc.obj.rotation.set(0, pc.spin * q, pc.spin * 0.25 * q);
-      });
+      let sum = 0;
+      for (let k = 0; k < n; k++) {
+        const pt = L[k], want = u * n > k * 0.94 + 1e-6 ? 1 : 0;
+        if (pt.p !== want) {
+          pt.p = reduced || pt.p < 0 ? want : want ? Math.min(1, pt.p + step / FLY) : Math.max(0, pt.p - step / FLY); // (the first frame shows the page as it stands)
+          place(pt, far);
+          moving = true;
+        }
+        sum += pt.p;
+      }
+      built += sum / n / 4; // each of the four lines counts the same, however many parts it has
     }
     // the last line: the light turns toward evening, and the stone warms
     const [lt, lb] = ws[5];
@@ -596,14 +654,14 @@ function start() {
     const ty = lerp(7.4, 6.8, b) - (portrait ? 0.8 : 0);
     camera.position.set(Math.sin(az) * Math.cos(elev) * dist, ty + Math.sin(elev) * dist, Math.cos(az) * Math.cos(elev) * dist);
     camera.lookAt(0, ty, 0);
-    const key2 = built.toFixed(5) + eve.toFixed(3);
-    if (key2 !== shadowKey) { shadowKey = key2; renderer.shadowMap.needsUpdate = true; }
+    const key2 = eve.toFixed(3);
+    if (moving || key2 !== shadowKey) { shadowKey = key2; renderer.shadowMap.needsUpdate = true; }
     composer.render();
     if (canTurn) measure();
     if (!sec.classList.contains('is-gl')) sec.classList.add('is-gl');
 
     // nothing moves unless the page scrolls: draw on until the drawing has caught up and settled
-    if (visible && (!settled || intro < 1 || (!dragging && (turn || tilt)))) paint(); else last = 0;
+    if (visible && (!settled || moving || intro < 1 || (!dragging && (turn || tilt)))) paint(); else last = 0;
   };
   const paint = () => { if (!raf) raf = requestAnimationFrame(frame); };
 
