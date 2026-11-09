@@ -3,17 +3,18 @@
 // of the view and are set in place one after another, so every movement adds something: the steps and the podium
 // with its doorway (financial planning); the glass floor by floor, the rooms behind it, then the stone piers
 // (investment management); the setbacks course by course, each narrower (coordination); and the crown, lowered on to
-// its dark cupola (ongoing strategy). It is complete as the last line arrives; then the steps warm, top to bottom.
+// its dark cupola (ongoing strategy). It is complete as the last line arrives; then the light turns toward
+// evening and the stone warms.
 // A gold line tracks the way through, and a prompt to scroll appears whenever the visitor stops. One
 // spring-smoothed scroll position drives every movement, and nothing moves unless the page scrolls.
-// Studio light, soft shadows and ambient occlusion give it the look of a photographed model. The lines are
+// A real sky lights it: a low sun rakes across the front, the sky's blue fills the shadows, and the glass
+// reflects clouds and a skyline. Soft shadows and ambient occlusion do the rest. The lines are
 // ordinary HTML and read in order without this script; without WebGL a still stands in.
 import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
 const sec = document.querySelector('.build');
@@ -46,7 +47,11 @@ function start() {
     }, ms);
   };
   const ui = (w) => {
-    beats.forEach((b, i) => { b.firstElementChild.style.opacity = presence(w, i).toFixed(3); });
+    beats.forEach((b, i) => { // each line fades and glides a little: up into place, and on upward as it leaves
+      const p = presence(w, i), el = b.firstElementChild;
+      el.style.opacity = p.toFixed(3);
+      el.style.transform = reduced || p === 1 ? '' : `translate3d(0,${((w[i][0] > 0.32 ? 1 : -1) * (1 - p) * 22).toFixed(1)}px,0)`;
+    });
     sec.style.setProperty('--p', progress().toFixed(4));
     dots.forEach((d, i) => d.classList.toggle('on', w[i + 1] && w[i + 1][0] < 0.45));
   };
@@ -74,27 +79,27 @@ function start() {
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.0;
+  renderer.toneMappingExposure = 0.92;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.VSMShadowMap; // soft-edged shadows, as under a studio light
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(24, 1, 0.5, 400);
 
-  // ---------- light: a soft studio room for the fill and reflections, and a warm key light from the left ----------
+  // ---------- light: a low, warm sun from the left that rakes across the front, so every pier throws its shadow;
+  //            the sky itself (made further down, once the noise it needs exists) fills the shadows with blue ----------
   const pmrem = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.42;
-  const key = new THREE.DirectionalLight(0xffe3c0, 3.1);
-  key.position.set(-30, 34, 26);
+  const SUN = new THREE.Vector3(-40, 26, 12), UP = new THREE.Vector3(0, 1, 0);
+  const DAY = new THREE.Color(0xfff6ea), EVENING = new THREE.Color(0xffe2bd);
+  const key = new THREE.DirectionalLight(DAY, 4.6);
+  key.position.copy(SUN);
   key.castShadow = true;
   key.shadow.mapSize.set(small ? 1024 : 2048, small ? 1024 : 2048);
-  Object.assign(key.shadow.camera, { left: -22, right: 22, top: 30, bottom: -14, near: 5, far: 140 });
-  key.shadow.radius = 7;
+  Object.assign(key.shadow.camera, { left: -26, right: 26, top: 32, bottom: -22, near: 5, far: 160 });
+  key.shadow.radius = 6;
   key.shadow.blurSamples = 16;
   key.shadow.bias = -0.0004;
   scene.add(key);
-  scene.add(new THREE.HemisphereLight(0xfff4e6, 0x8f7a5c, 0.18));
 
   // ---------- textures, drawn once in the page: no image files ----------
   const canvasOf = (n, m = n) => { const c = document.createElement('canvas'); c.width = n; c.height = m; return c; };
@@ -154,7 +159,7 @@ function start() {
   })();
 
   // ---------- materials ----------
-  const stone = (extra = {}) => new THREE.MeshStandardMaterial({ color: '#efe8dc', ...travertine, normalScale: new THREE.Vector2(0.6, 0.6), roughness: 1, metalness: 0, emissive: 0x8a6420, emissiveIntensity: 0, ...extra });
+  const stone = (extra = {}) => new THREE.MeshStandardMaterial({ color: '#f1e7d7', ...travertine, normalScale: new THREE.Vector2(0.9, 0.9), roughness: 1, metalness: 0, emissive: 0x8a6420, emissiveIntensity: 0, ...extra });
   const stoneMat = stone();
   const stepMats = [stone(), stone(), stone(), stone(), stone()]; // each step its own, so they can warm one after another
   const shade = new THREE.MeshStandardMaterial({ color: '#211c16', roughness: 1 });
@@ -192,7 +197,7 @@ function start() {
 
   // ---------- the ground is the page itself: an invisible floor catches the tower's shadow, and a soft
   //            darkening where it stands sets it down on the drawing ----------
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(90, 90), new THREE.ShadowMaterial({ color: 0x3a2a14, opacity: 0.24 }));
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(90, 90), new THREE.ShadowMaterial({ color: 0x2c2620, opacity: 0.3 }));
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
@@ -211,7 +216,7 @@ function start() {
   const model = new THREE.Group();
   scene.add(model);
   const queue = { 1: [], 2: [], 3: [], 4: [] };
-  const FROM = { above: [0, 34, 0], left: [-46, 3, 8], right: [58, 3, -4] }; // where each comes from, beyond the edge of the view
+  const FROM = { above: [0, 34, 0], high: [40, 24, -16], right: [58, 3, -4] }; // the sun is on the left, so their shadows fall clear of the words // where each comes from, beyond the edge of the view
   const piece = (obj, line, from = 'above') => {
     model.add(obj);
     queue[line].push({ obj, home: obj.position.clone(), from: new THREE.Vector3(...FROM[from]), spin: (rand() - 0.5) * 0.8 });
@@ -221,25 +226,53 @@ function start() {
   const plan = (w, h, d, y, round = false) => outline.push([w, h, d, y, round]);
 
   // ---------- what the tower is made of, besides the stone ----------
-  // the glass: polished, dark and a little green, reflecting a soft sky with clouds and a distant skyline; its panes
-  // are not quite flat, so the reflection ripples a little, as it does in real glass
-  const skyEnv = (() => {
-    const W = 1024, Hh = 512, c = canvasOf(W, Hh), g = c.getContext('2d'), sky = g.createLinearGradient(0, 0, 0, Hh);
-    sky.addColorStop(0, '#4f78ab'); sky.addColorStop(0.3, '#86a9d0'); sky.addColorStop(0.55, '#d9e3ea'); sky.addColorStop(0.6, '#f4efe4'); // the horizon a little low, so glass seen from above still shows sky
-    sky.addColorStop(0.62, '#7d7262'); sky.addColorStop(1, '#2f2a24');
-    g.fillStyle = sky; g.fillRect(0, 0, W, Hh);
-    for (let i = 0; i < 70; i++) { // soft clouds
-      const x = rand() * W, y = 30 + rand() * 200, r = 18 + rand() * 60, cl = g.createRadialGradient(x, y, 0, x, y, r);
-      cl.addColorStop(0, 'rgba(255,255,255,.8)'); cl.addColorStop(1, 'rgba(255,255,255,0)');
-      g.fillStyle = cl; g.fillRect(x - r, y - r * 0.6, 2 * r, 1.2 * r);
+  // the sky the tower stands under: deep overhead, pale at the horizon, a low sun with its glow, soft clouds. In
+  // real brightness (the sun's disc is far brighter than white), so it lights the stone as a sky does. For the
+  // glass the same sky is seen with the horizon dropped and a skyline of trees and buildings along it, because
+  // the visitor looks a little down on the tower, as on a model, yet windows should reflect a street and a sky
+  const skyOf = (W, drop, skyline) => {
+    const Hh = W / 2, data = new Uint16Array(W * Hh * 4), hf = THREE.DataUtils.toHalfFloat, sun = SUN.clone().normalize();
+    const line = skyline && [...Array(W).keys()].map((i) => { // the skyline's height at each bearing, and what stands there
+      const u = i / W, built2 = noise(u * 14 + 40, 0.5, 14) > 0.6;
+      return [built2 ? 0.2 + noise(u * 14 + 40, 3.5, 14) * 0.16 : 0.05 + fbm(u * 24, 1.5, 24, 4) * 0.24, built2];
+    });
+    for (let j = 0; j < Hh; j++) {
+      const el = ((j + 0.5) / Hh - 0.5) * Math.PI + drop, ce = Math.cos(el), se = Math.sin(el);
+      for (let i = 0; i < W; i++) {
+        const a = ((i + 0.5) / W - 0.5) * Math.PI * 2, k = (j * W + i) * 4;
+        let r, g, b;
+        if (el < 0) { const t = clamp01(-el / 0.7); r = lerp(0.6, 0.26, t); g = lerp(0.54, 0.22, t); b = lerp(0.44, 0.17, t); } // the ground: warm paper, in bounce
+        else if (line && el < line[i][0]) {
+          if (line[i][1]) { // a stone building across the way, its windows dark
+            const win = ((a * 46) % 1 + 1) % 1 < 0.5 && ((el * 52) % 1 + 1) % 1 < 0.62;
+            r = win ? 0.06 : 1.0; g = win ? 0.08 : 0.82; b = win ? 0.1 : 0.58; // in full sun
+          } else { const leaf = noise((i / W) * 200, el * 90, 200); r = 0.03 + leaf * 0.2; g = 0.05 + leaf * 0.17; b = 0.015 + leaf * 0.035; } // trees, green going gold
+        } else {
+          const h = Math.pow(1 - Math.min(1, el / (Math.PI / 2)), skyline ? 7 : 3); // 1 at the horizon; for the glass the haze hugs it
+          r = lerp(skyline ? 0.1 : 0.14, 0.98, h); g = lerp(skyline ? 0.2 : 0.3, 0.95, h); b = lerp(skyline ? 0.4 : 0.72, 0.93, h);
+          const c = clamp01((fbm((i / W) * 8, el * 5 + 3, 8, 4) - 0.5) * 3.4) * clamp01(el * 6) * 0.85; // clouds
+          r = lerp(r, 1.3, c); g = lerp(g, 1.26, c); b = lerp(b, 1.22, c);
+          const d = Math.max(0, ce * Math.cos(a) * sun.x + se * sun.y + ce * Math.sin(a) * sun.z), glow = Math.pow(d, 40) * 2.4;
+          r += glow; g += glow * 0.8; b += glow * 0.52;
+          if (d > 0.9994) { r = 90; g = 76; b = 56; } // the sun's disc
+        }
+        data[k] = hf(r); data[k + 1] = hf(g); data[k + 2] = hf(b); data[k + 3] = hf(1);
+      }
     }
-    g.fillStyle = 'rgba(46,54,50,.9)'; // a skyline of trees and roofs along the horizon
-    for (let x = 0; x < W; x += 5 + rand() * 16) { const h = 3 + rand() * 11; g.fillRect(x, Hh * 0.6 - h, 6 + rand() * 14, h); }
-    const t = new THREE.CanvasTexture(c);
+    const t = new THREE.DataTexture(data, W, Hh, THREE.RGBAFormat, THREE.HalfFloatType);
     t.mapping = THREE.EquirectangularReflectionMapping;
-    t.colorSpace = THREE.SRGBColorSpace;
-    return pmrem.fromEquirectangular(t).texture;
-  })();
+    t.colorSpace = THREE.LinearSRGBColorSpace;
+    t.minFilter = t.magFilter = THREE.LinearFilter;
+    t.needsUpdate = true;
+    const env = pmrem.fromEquirectangular(t).texture;
+    t.dispose();
+    return env;
+  };
+  scene.environment = skyOf(256, 0, false);
+  scene.environmentIntensity = 0.6;
+  const skyEnv = skyOf(small ? 512 : 1024, 0.42, true);
+  // the glass: polished and a little green. It mirrors about a third of what it faces, as coated glazing does; its
+  // panes are not quite flat, so the reflection breaks a little from pane to pane
   const ripple = (() => {
     const N = 256, H = new Float32Array(N * N);
     for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) H[y * N + x] = fbm((x / N) * 4, (y / N) * 4, 4, 3);
@@ -258,7 +291,7 @@ function start() {
     return texOf(c, false, false);
   };
   const glassOf = (panes) => { // and each floor's glass catches the sky at a slightly different angle again
-    const m = new THREE.MeshPhysicalMaterial({ color: '#122019', metalness: 0.6, roughness: 0.04, envMap: skyEnv, envMapIntensity: 1.5, clearcoat: 1, clearcoatRoughness: 0.02,
+    const m = new THREE.MeshPhysicalMaterial({ color: '#5c7068', metalness: 0.88, roughness: 0.03, envMap: skyEnv, envMapIntensity: 0.9, clearcoat: 1, clearcoatRoughness: 0.02,
       normalMap: panes || ripple, normalScale: panes ? new THREE.Vector2(1, 1) : new THREE.Vector2(0.32, 0.32) });
     m.envMapRotation.set((rand() - 0.5) * 0.06, (rand() - 0.5) * 0.5, 0);
     return m;
@@ -305,18 +338,18 @@ function start() {
   for (let i = 0; i < NS; i++) {
     const w = W - 2 * INSET * i, d = D - 2 * INSET * i, nx = Math.round(w / 1.5), nz = Math.round(d / 1.3), bw = w / nx, bd = d / nz, spots = [];
     for (let a = 0; a < nx; a++) for (let b = 0; b < nz; b++) spots.push([-w / 2 + bw * (a + 0.5), 0, -d / 2 + bd * (b + 0.5)]);
-    const step = blocks(spots, bw - 0.012, STEP, bd - 0.012, 0.022, stepMats[i]);
+    const step = blocks(spots, bw - 0.008, STEP, bd - 0.008, 0.012, stepMats[i]);
     step.position.y = STEP * (i + 0.5);
-    piece(step, 1, i % 2 ? 'right' : 'left');
+    piece(step, 1, i % 2 ? 'right' : 'high');
     plan(w, STEP, d, STEP * (i + 0.5));
   }
   const PW = 9.4, PD = 8.6, PH = 1.45, P0 = FLOOR, NC = 4, ch = PH / NC;
   for (let c = 0; c < NC; c++) { // smooth ashlar, the joints staggered course to course
     const nx = c % 2 ? 6 : 7, nz = c % 2 ? 5 : 6, bw = PW / nx, bd = PD / nz, spots = [];
     for (let a = 0; a < nx; a++) for (let b = 0; b < nz; b++) spots.push([-PW / 2 + bw * (a + 0.5), 0, -PD / 2 + bd * (b + 0.5)]);
-    const course = blocks(spots, bw - 0.016, ch - 0.016, bd - 0.016, 0.02, stoneMat);
+    const course = blocks(spots, bw - 0.01, ch - 0.01, bd - 0.01, 0.012, stoneMat);
     course.position.y = P0 + ch * (c + 0.5);
-    piece(course, 1, c % 2 ? 'right' : 'left');
+    piece(course, 1, c % 2 ? 'right' : 'high');
   }
   plan(PW, PH, PD, P0 + PH / 2);
   {
@@ -350,21 +383,22 @@ function start() {
       verts.push([x, y0 + fh / 2, s * zf]);
       for (const t of [0, 1 / 3, 2 / 3]) horiz.push([x, y0 + fh * t + 0.02, s * zf, 0, 0, 0, bw]);
     }
-    return group(mesh(new THREE.BoxGeometry(w - 0.3, fh, d - 0.3), glassOf(panesOf(w - 0.3, bays)), 0, y0 + fh / 2, 0),
+    return group(mesh(new THREE.BoxGeometry(w - 0.3, fh - 0.07, d - 0.3), glassOf(panesOf(w - 0.3, bays)), 0, y0 + (fh - 0.07) / 2, 0),
+      mesh(block(w - 0.3, 0.07, d - 0.3, 0.01), stoneMat, 0, y0 + fh - 0.035, 0), // the floor plate above it
       many(new THREE.BoxGeometry(0.035, fh, 0.05), steel, verts), many(new THREE.BoxGeometry(1, 0.035, 0.05), steel, horiz));
   };
   // a set of piers, each a stack of stone blocks, slender ones with a small capital under the cornice
   const piers = (spots, w, d, y0, h, cap) => {
     const nb = Math.max(1, Math.round(h / 0.9)), bh = h / nb, stack = [];
     for (const [x, z, ry = 0] of spots) for (let k = 0; k < nb; k++) stack.push([x, y0 + bh * (k + 0.5), z, ry]);
-    const g = group(...[0, 1, 2].map((v) => many(block(w, bh - 0.012, d, 0.02), stoneMat, stack.filter((_, i) => i % 3 === v))));
+    const g = group(...[0, 1, 2].map((v) => many(block(w, bh - 0.008, d, 0.012), stoneMat, stack.filter((_, i) => i % 3 === v))));
     if (cap) g.add(many(block(w + 0.12, 0.14, d + 0.1, 0.015), stoneMat, spots.map(([x, z, ry = 0]) => [x, y0 + h - 0.07, z, ry])));
     return g;
   };
   const S0 = P0 + PH, SW = 8.4, SD = 7.4, SH = 5.4, NF = 4, FH = SH / NF;
   const BAYS = [-2.8, -1.68, -0.56, 0.56, 1.68, 2.8].map((x) => [x, 0.82]), SLOTS = [];
   for (let k = 0; k < 9; k++) SLOTS.push(-3.2 + 0.226 + 0.23 + k * 0.686);
-  for (let f = 0; f < NF; f++) piece(floorOf(S0 + FH * f, FH, SW, SD, BAYS), 2, f % 2 ? 'right' : 'left');
+  for (let f = 0; f < NF; f++) piece(floorOf(S0 + FH * f, FH, SW, SD, BAYS), 2, f % 2 ? 'right' : 'high');
   plan(SW, SH, SD, S0 + SH / 2);
   const FRONT = [-2.24, -1.12, 0, 1.12, 2.24];
   piece(piers(FRONT.map((x) => [x, -SD / 2 + 0.23]), 0.3, 0.38, S0, SH, true), 2); // the back
@@ -378,7 +412,7 @@ function start() {
     const nx = Math.max(2, Math.round(w / 2)), nz = Math.max(2, Math.round(d / 2)), spots = [];
     for (let a = 0; a < nx; a++) for (let b = 0; b < nz; b++) spots.push([-w / 2 + (w / nx) * (a + 0.5), y, -d / 2 + (d / nz) * (b + 0.5)]);
     plan(w, h, d, y);
-    return blocks(spots, w / nx - 0.012, h, d / nz - 0.012, 0.025, stoneMat);
+    return blocks(spots, w / nx - 0.008, h, d / nz - 0.008, 0.014, stoneMat);
   };
   const C1 = S0 + SH, CH1 = 0.55;
   {
@@ -391,7 +425,7 @@ function start() {
   }
   const T2 = C1 + CH1, W2 = 6.3, D2 = 5.4, H2 = 2.0, NF2 = 2;
   const BAYS2 = [-1.98, -1.19, -0.4, 0.4, 1.19, 1.98].map((x) => [x, 0.57]), SLOTS2 = [-1.5, -0.9, -0.3, 0.3, 0.9, 1.5];
-  for (let f = 0; f < NF2; f++) piece(floorOf(T2 + (H2 / NF2) * f, H2 / NF2, W2, D2, BAYS2), 3, f % 2 ? 'right' : 'left');
+  for (let f = 0; f < NF2; f++) piece(floorOf(T2 + (H2 / NF2) * f, H2 / NF2, W2, D2, BAYS2), 3, f % 2 ? 'right' : 'high');
   plan(W2, H2, D2, T2 + H2 / 2);
   {
     const front = [-1.585, -0.795, 0, 0.795, 1.585];
@@ -408,7 +442,7 @@ function start() {
     for (let c = 0; c < nc; c++) { // coursed ashlar, the joints staggered
       const nx = c % 2 ? 3 : 4, nz = c % 2 ? 2 : 3, spots = [];
       for (let a = 0; a < nx; a++) for (let b = 0; b < nz; b++) spots.push([-W3 / 2 + (W3 / nx) * (a + 0.5), T3 + chh * (c + 0.5), -D3 / 2 + (D3 / nz) * (b + 0.5)]);
-      body.add(blocks(spots, W3 / nx - 0.014, chh - 0.014, D3 / nz - 0.014, 0.02, stoneMat));
+      body.add(blocks(spots, W3 / nx - 0.01, chh - 0.01, D3 / nz - 0.01, 0.012, stoneMat));
     }
     const slit = glassOf();
     const slits = [];
@@ -443,9 +477,12 @@ function start() {
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
     const l = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({ color: 0x7a5820, transparent: true, opacity: 0.4, depthWrite: false }));
+    geo.setDrawRange(0, 0);
     scene.add(l);
     return l;
   })();
+  const ghostN = ghost.geometry.attributes.position.count;
+  let intro = 0, born = 0;
 
   // ---------- size: wide screens keep the building to the right of the words, tall ones above them ----------
   const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 }));
@@ -523,10 +560,17 @@ function start() {
         pc.obj.rotation.set(0, pc.spin * q, pc.spin * 0.25 * q);
       });
     }
-    // the last line: the steps warm one after another, top to bottom, and stay warm
+    // the last line: the light turns toward evening, and the stone warms
     const [lt, lb] = ws[5];
     const hold = clamp01(-lt / Math.max(0.05, lb - lt - 1));
-    stepMats.forEach((m, i) => { m.emissiveIntensity = reduced ? 0 : 0.16 * ease(clamp01(hold * 2.2 - (stepMats.length - 1 - i) / (stepMats.length - 1))); });
+    const eve = reduced ? 1 : ease(hold);
+    key.position.copy(SUN).applyAxisAngle(UP, 0.3 * eve).setY(lerp(26, 20, eve)); // the sun comes round to the front and sinks a little
+    key.color.lerpColors(DAY, EVENING, eve);
+    if (intro < 1) { // the blueprint draws itself once, from the ground up
+      born = born || now;
+      intro = reduced ? 1 : clamp01((now - born) / 1700);
+      ghost.geometry.setDrawRange(0, Math.floor((ease(intro) * ghostN) / 2) * 2);
+    }
     ghost.material.opacity = 0.4 * Math.pow(1 - built, 1.5);
     contact.material.opacity = ease(clamp01(built * 4)); // the darkening underfoot arrives with the foundation
 
@@ -548,18 +592,18 @@ function start() {
     sec.classList.toggle('can-turn', canTurn);
     const dist = lerp(56, 46, b) * (portrait ? 2.5 : 1); // tall screens: further back, so the tower clears the words
     const elev = THREE.MathUtils.degToRad(lerp(12, 8, b)) + tilt; // low, as a person standing before it would see it
-    const az = THREE.MathUtils.degToRad(reduced ? -24 : -40 + 22 * viewP) + turn; // reduced motion: a still camera
+    const az = THREE.MathUtils.degToRad(reduced ? -24 : -44 + 26 * viewP) + turn; // reduced motion: a still camera
     const ty = lerp(7.4, 6.8, b) - (portrait ? 0.8 : 0);
     camera.position.set(Math.sin(az) * Math.cos(elev) * dist, ty + Math.sin(elev) * dist, Math.cos(az) * Math.cos(elev) * dist);
     camera.lookAt(0, ty, 0);
-    const key2 = built.toFixed(5);
+    const key2 = built.toFixed(5) + eve.toFixed(3);
     if (key2 !== shadowKey) { shadowKey = key2; renderer.shadowMap.needsUpdate = true; }
     composer.render();
     if (canTurn) measure();
     if (!sec.classList.contains('is-gl')) sec.classList.add('is-gl');
 
     // nothing moves unless the page scrolls: draw on until the drawing has caught up and settled
-    if (visible && (!settled || (!dragging && (turn || tilt)))) paint(); else last = 0;
+    if (visible && (!settled || intro < 1 || (!dragging && (turn || tilt)))) paint(); else last = 0;
   };
   const paint = () => { if (!raf) raf = requestAnimationFrame(frame); };
 
