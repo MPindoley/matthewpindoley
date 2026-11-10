@@ -426,7 +426,7 @@ function start() {
   // one glazed stage: its steel (columns behind the piers, beams and a floor plate at each storey), the stonework
   // handed in, and a glazing panel with its bars in every bay of every storey
   const glazed = (line, y0, w, d, h, nf, fronts, bays, stonework) => {
-    const fh = h / nf, ph = fh - 0.07, zf = d / 2 - 0.13, xi = w / 2 - 0.62, zi = d / 2 - 0.62;
+    const fh = h / nf, ph = fh - 0.07, zf = d / 2 - 0.13, xi = w / 2 - 0.62, zi = d / 2 - 0.62, sl = d - 0.7, ns = Math.round(sl / 1.7); // the side glass, in panels too
     const cols = [], xb = [], zb = [], plates = [], panes = [], vb = [], hb = [], sides = [], bay = [];
     for (let f = 0; f < nf; f++) {
       const yb = y0 + fh * f, yc = yb + ph / 2;
@@ -440,12 +440,12 @@ function start() {
         vb.push([x, yc, s * zf]);
         for (const t of [0, 1 / 3, 2 / 3]) hb.push([x, yb + ph * t + 0.02, s * zf, 0, 0, 0, bays[0][1]]);
       }
-      for (const s of [-1, 1]) sides.push([s * (w / 2 - 0.3), yc, 0]);
+      for (const s of [-1, 1]) for (let k = 0; k < ns; k++) sides.push([s * (w / 2 - 0.3), yc, -sl / 2 + (sl / ns) * (k + 0.5)]);
     }
     const steelwork = group(many(new THREE.BoxGeometry(0.16, fh, 0.16), girder, cols), many(new THREE.BoxGeometry(2 * xi, 0.2, 0.14), girder, xb),
       many(new THREE.BoxGeometry(0.14, 0.2, 2 * zi), girder, zb));
     const pm = many(new THREE.BoxGeometry(bays[0][1], ph, 0.03), glassOf(paneN), panes), vm = many(new THREE.BoxGeometry(0.035, ph, 0.05), steel, vb);
-    const hm = many(new THREE.BoxGeometry(1, 0.035, 0.05), steel, hb), sm = many(new THREE.BoxGeometry(0.03, ph, d - 0.7), glassOf(), sides);
+    const hm = many(new THREE.BoxGeometry(1, 0.035, 0.05), steel, hb), sm = many(new THREE.BoxGeometry(0.03, ph, sl / ns - 0.01), glassOf(), sides);
     const glazing = group(pm, vm, hm, sm);
     model.add(glazing);
     glazing.updateMatrixWorld(true);
