@@ -217,18 +217,16 @@ function start() {
   //            part of its own: it waits off screen, is called in as the visitor scrolls, and takes its place ----------
   const model = new THREE.Group();
   scene.add(model);
-  // three ways to build, for comparison (?build=2 or 3): storey by storey; trade by trade (steel, then stone, then
-  // glass); or storey by storey with every part lowered from above
-  const MODE = { 2: 'trades', 3: 'lowered' }[new URLSearchParams(location.search).get('build')] || 'storeys';
-  const WAY = MODE === 'lowered' ? [[0, 32, 0], [0, 32, 0], [0, 32, 0]] // where each trade's parts come from: steel, stone, glass
-    : MODE === 'trades' ? [[0, 30, 0], [54, 5, -5], [38, 22, -14]] : [[54, 5, -5], [54, 5, -5], [54, 5, -5]];
+  // the trades work in turn, as on a real site: steel (0), then stone (1), then glass (2). Where each one's parts
+  // come from: the steel is lowered from above, the stone streams in from the right, the glass from high on the right
+  const WAY = [[0, 30, 0], [54, 5, -5], [38, 22, -14]];
   const FLY = 0.8; // seconds a part takes to arrive and settle
   const lines = { 1: [], 2: [], 3: [], 4: [] };
   const m4 = new THREE.Matrix4(), v3 = new THREE.Vector3(), GONE = new THREE.Matrix4().makeScale(0, 0, 0);
   // one part: instances of instanced meshes and/or whole objects that travel together
   const part = (inst, objs, trade) => {
     const u = { inst: inst.map(([im, i]) => { const home = new THREE.Matrix4(); im.getMatrixAt(i, home); return [im, i, home]; }),
-      objs: objs.map((o) => [o, o.position.clone()]), trade, p: -1, level: 0, jit: rand() - 0.5 };
+      objs: objs.map((o) => [o, o.position.clone()]), trade, p: -1, jit: rand() - 0.5 };
     if (u.inst.length) v3.setFromMatrixPosition(u.inst[0][2]).applyMatrix4(u.inst[0][0].matrixWorld); else objs[0].getWorldPosition(v3);
     u.y = v3.y; u.sweep = v3.x * 0.3 - v3.z; // where it stands: lower courses first, and each course from the back to the front
     return u;
@@ -245,13 +243,9 @@ function start() {
   };
   const byCourse = (a, b) => Math.round(a.y * 50) - Math.round(b.y * 50) || a.sweep - b.sweep;
   const add = (line, obj, trade, whole) => lines[line].push(...partsOf(obj, trade, whole).sort(byCourse));
-  // a stage with several trades: built storey by storey, or (trades) all its steel, then all its stone, then its glass
-  const stage = (line, y0, fh, sets) => {
-    const all = sets.flatMap(([o, trade, whole]) => (Array.isArray(o) ? o : partsOf(o, trade, whole)));
-    for (const u of all) u.level = Math.max(0, Math.floor((u.y - y0 - 0.01) / fh));
-    all.sort(MODE === 'trades' ? (a, b) => a.trade - b.trade || byCourse(a, b) : (a, b) => a.level - b.level || a.trade - b.trade || byCourse(a, b));
-    lines[line].push(...all);
-  };
+  // a stage with several trades: all its steel goes up first, then its stone course by course, then its glass
+  const stage = (line, sets) => lines[line].push(...sets.flatMap(([o, trade, whole]) => (Array.isArray(o) ? o : partsOf(o, trade, whole)))
+    .sort((a, b) => a.trade - b.trade || byCourse(a, b)));
   // put a part where it is on its way in (p: 0 not yet called, 1 in place)
   const place = (u, far) => {
     const q = 1 - settle(u.p), w = WAY[u.trade], k = q * far * (1 + u.jit * 0.25);
@@ -450,7 +444,7 @@ function start() {
     model.add(glazing);
     glazing.updateMatrixWorld(true);
     const panels = bay.map(([a, b, c]) => part([[pm, a], [vm, b], [hm, c], [hm, c + 1], [hm, c + 2]], [], 2)).concat(sides.map((_, i) => part([[sm, i]], [], 2)));
-    stage(line, y0, fh, [[steelwork, 0], ...plates.map((pl) => [pl, 0, true]), ...stonework.map((o) => [o, 1]), [panels]]);
+    stage(line, [[steelwork, 0], ...plates.map((pl) => [pl, 0, true]), ...stonework.map((o) => [o, 1]), [panels]]);
   };
   const S0 = P0 + PH, SW = 8.4, SD = 7.4, SH = 5.4, NF = 4;
   const BAYS = [-2.8, -1.68, -0.56, 0.56, 1.68, 2.8].map((x) => [x, 0.82]), SLOTS = [], FRONT = [-2.24, -1.12, 0, 1.12, 2.24];
