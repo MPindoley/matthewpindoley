@@ -350,6 +350,7 @@ footer{
 .build__drag svg{width:30px;height:12px;color:var(--g);animation:sway 2.4s var(--e1) infinite}
 @keyframes sway{0%,100%{transform:translateX(-3px)}50%{transform:translateX(3px)}}
 .build.can-turn:not(.turned) .build__drag{opacity:1;transform:translate(-50%,0)}
+.build.can-turn:not(.turned) .build__cue{opacity:0} /* one hint at a time */
 .build__drag .t{display:none}
 @media (hover:none){.build__drag .m{display:none}.build__drag .t{display:inline}} /* phones swipe, mice drag */
 .build.can-turn{touch-action:pan-y pinch-zoom} /* a sideways swipe turns the tower; up and down still scroll */
@@ -364,6 +365,8 @@ footer{
 .beat__in{position:sticky;top:0;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:7rem 4rem 5rem 4.5rem;max-width:min(40rem,44vw)}
 .bk{font-size:.57rem;letter-spacing:.26em;text-transform:uppercase;font-weight:600;color:rgba(10,9,8,.58);margin-bottom:1.6rem;display:inline-flex;align-items:center;gap:.75rem}
 .bk::before{content:'';width:18px;height:1px;background:var(--g)}
+.bk i{font-style:normal;font-weight:500;letter-spacing:.2em;color:rgba(10,9,8,.38);margin-left:.4rem}
+.beat__in{will-change:opacity,transform}
 .bh{font-family:var(--ff);font-weight:300;font-size:clamp(3.2rem,6.6vw,7.4rem);line-height:.9;letter-spacing:-.045em;color:var(--ink)}
 .bt{font-family:var(--ff);font-weight:300;font-size:clamp(2.6rem,4.8vw,5.2rem);line-height:.94;letter-spacing:-.04em;color:var(--ink);margin-bottom:1.5rem}
 .bh em,.bt em{font-style:italic;color:#7a5820}
@@ -496,28 +499,28 @@ footer{
     </div>
     <div class="beat">
       <div class="beat__in">
-        <div class="bk">The foundation</div>
+        <div class="bk">The foundation<i>01 / 04</i></div>
         <h2 class="bt">Financial planning</h2>
         <p class="bp">Your income, assets, debts, goals and timeline, mapped into one written plan that everything else stands on.</p>
       </div>
     </div>
     <div class="beat">
       <div class="beat__in">
-        <div class="bk">The columns</div>
+        <div class="bk">The columns<i>02 / 04</i></div>
         <h2 class="bt">Investment management</h2>
         <p class="bp">Portfolios built around your plan and kept in line with it, with low-cost funds a priority in every one.</p>
       </div>
     </div>
     <div class="beat">
       <div class="beat__in">
-        <div class="bk">The setbacks</div>
+        <div class="bk">The setbacks<i>03 / 04</i></div>
         <h2 class="bt">Coordination</h2>
         <p class="bp">Tax, insurance, retirement income and estate decisions tied together, so no single choice works against the rest.</p>
       </div>
     </div>
     <div class="beat">
       <div class="beat__in">
-        <div class="bk">The crown</div>
+        <div class="bk">The crown<i>04 / 04</i></div>
         <h2 class="bt">Ongoing strategy</h2>
         <p class="bp">Regular reviews, and changes as your life, the markets and the law move. The plan is kept, not handed over once.</p>
       </div>
